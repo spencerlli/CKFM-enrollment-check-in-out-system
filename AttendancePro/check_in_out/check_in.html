@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- 下列1行：注意替换页面对应名称 -->
+  <title>CHECK IN</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <!-- 下列3行：需要注意填写对应href路径 -->
+  <link rel="stylesheet" href="../sdk/sdk.css" />
+  <link rel="stylesheet" href="../sdk/helper.css" />
+  <link rel="stylesheet" href="../sdk/iconfont.css" />
+  <style>
+    html,
+    body,
+    .app-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root" class="app-wrapper"></div>
+  <!-- 下列1行：需要注意填写对应路径 -->
+  <script src=" ../sdk/sdk.js"></script>
+  <script type="text/javascript">
+    (function() {
+      let amis = amisRequire('amis/embed');
+      // 通过替换amisJSON中的内容来生成不同页面
+      let amisJSON = {
+        "type": "page",
+        "title": "CHECK IN",
+        "body": [{
+            "type": "select",
+            "label": "Verify Mode:",
+            "name": "select",
+            "options": [{
+                "label": "Face",
+                "value": "A"
+              },
+              {
+                "label": "Barcode",
+                "value": "B"
+              }
+            ],
+            "id": "u:c2b9fd162a70",
+            "selectFirst": false,
+            "required": true
+          },
+          {
+            "type": "form",
+            "id": "u:d8d6cfb4b9d8",
+            "title": "",
+            "body": [{
+              "type": "grid",
+              "columns": [{
+                  "body": [{
+                      "type": "input-text",
+                      "label": "Barcode:",
+                      "name": "barcode",
+                      "id": "u:44c859ed2d97",
+                      "mode": "inline"
+                    },
+                    {
+                      "label": "First Name:",
+                      "type": "input-text",
+                      "name": "first_name",
+                      "required": false,
+                      "mode": "inline"
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Last Name:",
+                      "name": "last_name",
+                      "mode": "inline",
+                      "required": false
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Birthday:",
+                      "name": "birthday",
+                      "mode": "inline",
+                      "required": false
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Class Name:",
+                      "name": "class_name",
+                      "mode": "inline",
+                      "required": false
+                    }
+                  ],
+                  "valign": "middle",
+                  "md": 4
+                },
+                {
+                  "md": 3,
+                  "body": [{
+                    "type": "avatar",
+                    "icon": "fa fa-user",
+                    "id": "u:7c5cbb96185d",
+                    "shape": "square",
+                    "size": 200,
+                    "style": {},
+                    "text": "Camera"
+                  }],
+                  "valign": "top"
+                },
+                {
+                  "body": [{
+                    "type": "avatar",
+                    "icon": "fa fa-user",
+                    "id": "u:1f18c6222da9",
+                    "shape": "square",
+                    "size": 200,
+                    "style": {},
+                    "text": "profile photo from the database"
+                  }],
+                  "aspectRatio": "auto",
+                  "md": 3
+                },
+                {
+                  "body": [{
+                    "type": "submit",
+                    "label": "Verified",
+                    "actionType": "confirm",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:c0753a11c679",
+                    "className": "b-success bg-success text-white m-sm",
+                    "size": "",
+                    "confirmText": "Are you sure the left and right pictures are from the same student?"
+                  }],
+                  "md": 2
+                }
+              ],
+              "id": "u:1aac2f6fde08"
+            }],
+            "submitText": "Check In"
+          }
+        ],
+        "messages": {},
+        "style": {}
+      };
+      let amisScoped = amis.embed('#root', amisJSON);
+    })();
+  </script>
+</body>
+
+</html>
