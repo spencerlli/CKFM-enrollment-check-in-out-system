@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> Enroll </title>
+	</head>
+	<body></br></br></br></br></br>
+		<div align="center">
+			<div class="header">
+				<h1 class="word">Enrollment</h1>
+			</div></br></br></br>
+			<h2 class="word">
+				<form action="{{ url_for('enrollment') }}" method="post">
+					<div class="msg">{{ msg }}</div>
+					<input id="firstName" name="firstName" type="text" placeholder="First Name" class="textbox"/></br></br>
+                    <input id="lastName" name="lastName" type="text" placeholder="Last Name" class="textbox"/></br></br>
+					<input id="password" name="password" type="text" placeholder="Password" class="textbox"/></br></br>
+					<input type="submit" class="btn" value="Enroll"></br>
+				</form>
+			</h2>
+			<p><a href="{{ url_for('index') }}"> Back to homepage </a></p> 
+		</div>
+	</body>
+</html>

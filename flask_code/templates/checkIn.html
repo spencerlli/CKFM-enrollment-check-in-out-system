@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> Check In </title>
+	</head>
+	<body></br></br></br></br></br>
+		<div align="center">
+
+			<div class="header">
+				<h1 class="word">CheckIn</h1>
+			</div></br></br></br>
+			<h2 class="word">
+				<form action="{{ url_for('checkIn') }}" method="post">
+				<div class="msg">{{ msg }}</div>
+					<input id="password" name="password" type="text" placeholder="Password" class="textbox"/></br></br>
+					<input type="submit" class="btn" value="Check in"></br></br>
+				</form>
+			</h2>
+        <p><a href="{{ url_for('index') }}"> Back to homepage </a></p> 
+
+		</div>
+	</body>
+</html>
