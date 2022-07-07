@@ -35,120 +35,96 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-        "title": "CHECK IN",
-        "body": [{
-            "type": "select",
-            "label": "Verify Mode:",
-            "name": "select",
-            "options": [{
-                "label": "Face",
-                "value": "A"
-              },
-              {
-                "label": "Barcode",
-                "value": "B"
-              }
-            ],
-            "id": "u:c2b9fd162a70",
-            "selectFirst": false,
-            "required": true
-          },
-          {
-            "type": "form",
-            "id": "u:d8d6cfb4b9d8",
-            "title": "",
-            "body": [{
-              "type": "grid",
-              "columns": [{
-                  "body": [{
-                      "type": "input-text",
-                      "label": "Barcode:",
-                      "name": "barcode",
-                      "id": "u:44c859ed2d97",
-                      "mode": "inline"
-                    },
-                    {
-                      "label": "First Name:",
-                      "type": "input-text",
-                      "name": "first_name",
-                      "required": false,
-                      "mode": "inline"
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Last Name:",
-                      "name": "last_name",
-                      "mode": "inline",
-                      "required": false
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Birthday:",
-                      "name": "birthday",
-                      "mode": "inline",
-                      "required": false
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Class Name:",
-                      "name": "class_name",
-                      "mode": "inline",
-                      "required": false
-                    }
-                  ],
-                  "valign": "middle",
-                  "md": 4
-                },
+  "title": "CHECK IN",
+  "body": [
+    {
+      "type": "select",
+      "label": "Verify Mode:",
+      "name": "select",
+      "options": [
+        {
+          "label": "Face",
+          "value": "A"
+        },
+        {
+          "label": "Phone number",
+          "value": "B"
+        }
+      ],
+      "id": "u:c2b9fd162a70",
+      "selectFirst": false,
+      "required": true,
+      "checkAll": false
+    },
+    {
+      "type": "form",
+      "id": "u:d8d6cfb4b9d8",
+      "title": "",
+      "body": [
+        {
+          "type": "grid",
+          "columns": [
+            {
+              "md": 3,
+              "valign": "middle",
+              "body": [
                 {
-                  "md": 3,
-                  "body": [{
-                    "type": "avatar",
-                    "icon": "fa fa-user",
-                    "id": "u:7c5cbb96185d",
-                    "shape": "square",
-                    "size": 200,
-                    "style": {},
-                    "text": "Camera"
-                  }],
-                  "valign": "top"
-                },
+                  "type": "input-text",
+                  "label": "Phone number: ",
+                  "name": "pnumber",
+                  "id": "u:44c859ed2d97",
+                  "mode": "inline",
+                  "size": "sm"
+                }
+              ]
+            },
+            {
+              "body": [
                 {
-                  "body": [{
-                    "type": "avatar",
-                    "icon": "fa fa-user",
-                    "id": "u:1f18c6222da9",
-                    "shape": "square",
-                    "size": 200,
-                    "style": {},
-                    "text": "profile photo from the database"
-                  }],
-                  "aspectRatio": "auto",
-                  "md": 3
-                },
-                {
-                  "body": [{
-                    "type": "submit",
-                    "label": "Verified",
-                    "actionType": "confirm",
-                    "dialog": {
-                      "title": "系统提示",
-                      "body": "对你点击了"
-                    },
-                    "id": "u:c0753a11c679",
-                    "className": "b-success bg-success text-white m-sm",
-                    "size": "",
-                    "confirmText": "Are you sure the left and right pictures are from the same student?"
-                  }],
-                  "md": 2
+                  "type": "avatar",
+                  "icon": "fa fa-user",
+                  "id": "u:ad29e1bc8a10",
+                  "shape": "square",
+                  "size": 200,
+                  "style": {
+                  },
+                  "text": "Camera"
                 }
               ],
-              "id": "u:1aac2f6fde08"
-            }],
-            "submitText": "Check In"
-          }
-        ],
-        "messages": {},
-        "style": {}
+              "aspectRatio": "auto",
+              "md": 3
+            },
+            {
+              "body": [
+                {
+                  "type": "avatar",
+                  "icon": "fa fa-user",
+                  "id": "u:7c5cbb96185d",
+                  "shape": "square",
+                  "size": 200,
+                  "style": {
+                  },
+                  "text": "Photo Matched"
+                }
+              ],
+              "aspectRatio": "auto",
+              "md": 3
+            }
+          ],
+          "id": "u:1aac2f6fde08",
+          "align": "center",
+          "valign": "middle"
+        }
+      ],
+      "submitText": "Submit",
+      "redirect": "check_in2.html",
+      "checkAll": false
+    }
+  ],
+  "messages": {
+  },
+  "style": {
+  }
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();

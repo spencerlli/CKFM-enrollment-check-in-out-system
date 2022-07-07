@@ -35,59 +35,81 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-        "title": "CHECK IN/OUT",
-        "body": [{
-            "type": "button",
-            "label": "EXPRESS CHECK IN",
-            "actionType": "link",
-            "dialog": {
-              "title": "系统提示",
-              "body": "对你点击了"
+  "title": "CHECK IN/OUT",
+  "body": [
+    {
+      "type": "grid",
+      "columns": [
+        {
+          "body": [
+          ]
+        },
+        {
+          "body": [
+            {
+              "type": "button",
+              "label": "EXPRESS CHECK IN",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:d89ea7895e33",
+              "size": "lg",
+              "link": "exp_check_in.html"
             },
-            "id": "u:61c1aacc2584",
-            "size": "lg",
-            "level": "default",
-            "link": "exp_check_in.html"
-          },
-          {
-            "type": "button",
-            "label": "CHECK IN",
-            "actionType": "link",
-            "dialog": {
-              "title": "系统提示",
-              "body": "对你点击了"
+            {
+              "type": "button",
+              "label": "CHECK IN",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:15f4cedc236a",
+              "link": "check_in.html",
+              "size": "lg"
             },
-            "id": "u:cfc4042670cc",
-            "size": "lg",
-            "link": "check_in.html"
-          },
-          {
-            "type": "button",
-            "label": "EXPRESS CHECK OUT",
-            "actionType": "link",
-            "dialog": {
-              "title": "系统提示",
-              "body": "对你点击了"
+            {
+              "type": "button",
+              "label": "EXPRESS CHECK OUT",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:40b55052cd02",
+              "size": "lg",
+              "link": "exp_check_out.html"
             },
-            "id": "u:59b2193686b6",
-            "size": "lg",
-            "link": "exp_check_out.html"
-          },
-          {
-            "type": "button",
-            "label": "CHECK OUT",
-            "actionType": "link",
-            "dialog": {
-              "title": "系统提示",
-              "body": "对你点击了"
-            },
-            "id": "u:038d1cec6fc5",
-            "size": "lg",
-            "link": "check_out.html"
-          }
-        ],
-        "messages": {},
-        "style": {}
+            {
+              "type": "button",
+              "label": "CHECK OUT",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:11df25266b31",
+              "size": "lg",
+              "link": "check_out.html"
+            }
+          ],
+          "valign": "",
+          "md": "auto"
+        },
+        {
+          "body": [
+          ]
+        }
+      ],
+      "id": "u:b4fc350162ed"
+    }
+  ],
+  "messages": {
+  },
+  "style": {
+  }
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();

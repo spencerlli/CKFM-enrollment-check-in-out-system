@@ -47,13 +47,14 @@
           "value": "A"
         },
         {
-          "label": "Barcode",
+          "label": "Phone number",
           "value": "B"
         }
       ],
       "id": "u:c2b9fd162a70",
       "selectFirst": false,
-      "required": true
+      "required": true,
+      "checkAll": false
     },
     {
       "type": "form",
@@ -64,34 +65,20 @@
           "type": "grid",
           "columns": [
             {
+              "md": 3,
+              "valign": "middle",
               "body": [
                 {
                   "type": "input-text",
-                  "label": "Barcode:",
-                  "name": "barcode",
+                  "label": "Phone number: ",
+                  "name": "pnumber",
                   "id": "u:44c859ed2d97",
-                  "mode": "inline"
-                },
-                {
-                  "label": "Guardian's First Name:",
-                  "type": "input-text",
-                  "name": "first_name",
-                  "required": false,
-                  "mode": "inline"
-                },
-                {
-                  "type": "input-text",
-                  "label": "Guardian's Last Name:",
-                  "name": "last_name",
                   "mode": "inline",
-                  "required": false
+                  "size": "sm"
                 }
-              ],
-              "valign": "middle",
-              "md": 4
+              ]
             },
             {
-              "md": 3,
               "body": [
                 {
                   "type": "avatar",
@@ -104,104 +91,18 @@
                   "text": "Camera"
                 }
               ],
-              "valign": "top"
-            },
-            {
-              "body": [
-                {
-                  "type": "avatar",
-                  "icon": "fa fa-user",
-                  "id": "u:1f18c6222da9",
-                  "shape": "square",
-                  "size": 200,
-                  "style": {
-                  },
-                  "text": "profile photo from the database"
-                }
-              ],
               "aspectRatio": "auto",
               "md": 3
-            },
-            {
-              "body": [
-                {
-                  "type": "submit",
-                  "label": "Verified",
-                  "actionType": "confirm",
-                  "dialog": {
-                    "title": "系统提示",
-                    "body": "对你点击了"
-                  },
-                  "id": "u:c0753a11c679",
-                  "className": "b-success bg-success text-white m-sm",
-                  "size": "",
-                  "confirmText": "Are you sure the left and right pictures are from the same student?"
-                }
-              ],
-              "md": 2
             }
           ],
-          "id": "u:1aac2f6fde08"
-        },
-        {
-          "type": "grid",
-          "columns": [
-            {
-              "body": [
-                {
-                  "type": "input-text",
-                  "label": "Temporary Guardian's First Name: ",
-                  "name": "tem_first",
-                  "id": "u:871abc1544d2",
-                  "mode": "inline"
-                },
-                {
-                  "type": "input-text",
-                  "label": "Temporary Guardian's Last Name: ",
-                  "name": "tem_last",
-                  "id": "u:73b47e4653c3",
-                  "mode": "inline"
-                },
-                {
-                  "type": "input-text",
-                  "label": "Student's First Name: ",
-                  "name": "stu_first",
-                  "id": "u:6fb3017617ad",
-                  "mode": "inline"
-                },
-                {
-                  "type": "input-text",
-                  "label": "Student's Last Name: ",
-                  "name": "stu_last",
-                  "id": "u:71e08edaa53f",
-                  "mode": "inline"
-                }
-              ],
-              "md": 4
-            },
-            {
-              "body": [
-                {
-                  "type": "submit",
-                  "label": "Verified Temporary Guardian",
-                  "actionType": "confirm",
-                  "dialog": {
-                    "title": "系统提示",
-                    "body": "对你点击了"
-                  },
-                  "id": "u:738e3fa61f37",
-                  "size": "lg",
-                  "confirmText": "Are you sure you want to verify the temporary guardian",
-                  "level": "success"
-                }
-              ],
-              "md": 4,
-              "valign": "middle"
-            }
-          ]
+          "id": "u:1aac2f6fde08",
+          "align": "center",
+          "valign": "middle"
         }
       ],
-      "submitText": "Check Out"
+      "submitText": "Submit",
+      "redirect": "check_out2.html",
+      "checkAll": false
     }
   ],
   "messages": {
