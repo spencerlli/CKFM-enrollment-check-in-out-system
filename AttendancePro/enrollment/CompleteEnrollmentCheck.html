@@ -40,6 +40,7 @@
           "body": [
             {
               "type": "grid",
+              "id": "u:8d224dc36f04",
               "columns": [
                 {
                   "body": [
@@ -73,13 +74,25 @@
                                   }
                                 },
                                 {
-                                  "type": "input-text",
-                                  "label": "First Guardian Barcode:",
-                                  "name": "g1_barcode",
+                                  "type": "select",
+                                  "label": "Special instructions:",
+                                  "name": "g1_instruction",
+                                  "options": [
+                                    {
+                                      "label": "No",
+                                      "value": "no"
+                                    },
+                                    {
+                                      "label": "Yes",
+                                      "value": "yes"
+                                    }
+                                  ],
+                                  "id": "u:7d3fbfa39e7e",
                                   "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
-                                  }
+                                  },
+                                  "selectFirst": true
                                 }
                               ],
                               "valign": "top",
@@ -87,6 +100,41 @@
                             },
                             {
                               "body": [
+                                {
+                                  "type": "select",
+                                  "label": "Volunteer:",
+                                  "name": "g1_volunteer",
+                                  "options": [
+                                    {
+                                      "label": "Full Time",
+                                      "value": "full time"
+                                    },
+                                    {
+                                      "label": "Part Time",
+                                      "value": "part time"
+                                    },
+                                    {
+                                      "label": "No",
+                                      "value": "no"
+                                    }
+                                  ],
+                                  "id": "u:1d7558a5896d",
+                                  "mode": "horizontal",
+                                  "checkAll": false,
+                                  "selectFirst": true,
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Phone Number:",
+                                  "name": "g1_phone",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
                                 {
                                   "type": "input-text",
                                   "label": "Email Address:",
@@ -98,8 +146,9 @@
                                 },
                                 {
                                   "type": "input-text",
-                                  "label": "Phone Number:",
-                                  "name": "g1_phone",
+                                  "label": "Home Address:",
+                                  "name": "g1_home",
+                                  "id": "u:c4bc2c3d6b1e",
                                   "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
@@ -238,15 +287,6 @@
                                   "horizontal": {
                                     "justify": true
                                   }
-                                },
-                                {
-                                  "type": "input-text",
-                                  "label": "Second Guardian Barcode:",
-                                  "name": "g2_barcode",
-                                  "mode": "horizontal",
-                                  "horizontal": {
-                                    "justify": true
-                                  }
                                 }
                               ],
                               "valign": "top",
@@ -376,15 +416,6 @@
                                   "name": "g3_relationship",
                                   "mode": "horizontal",
                                   "required": false,
-                                  "horizontal": {
-                                    "justify": true
-                                  }
-                                },
-                                {
-                                  "type": "input-text",
-                                  "label": "Third Guardian Barcode:",
-                                  "name": "g3_barcode",
-                                  "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
                                   }
@@ -526,8 +557,19 @@
                                 },
                                 {
                                   "type": "input-text",
-                                  "label": "Barcode:",
-                                  "name": "s1_barcode",
+                                  "label": "First Student Class:",
+                                  "name": "s1_class",
+                                  "id": "u:8769577feebf",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "textarea",
+                                  "label": "Notes:",
+                                  "name": "s1_note",
+                                  "id": "u:fcbfc9ccab4e",
                                   "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
@@ -667,8 +709,19 @@
                                 },
                                 {
                                   "type": "input-text",
-                                  "label": "Barcode:",
-                                  "name": "s2_barcode",
+                                  "label": "Second Student Class",
+                                  "name": "s2_class",
+                                  "id": "u:9443514f430e",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "textarea",
+                                  "label": "Notes",
+                                  "name": "s2_note",
+                                  "id": "u:4c2f3f76343a",
                                   "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
@@ -809,8 +862,19 @@
                                 },
                                 {
                                   "type": "input-text",
-                                  "label": "Barcode:",
-                                  "name": "s3_barcode",
+                                  "label": "Third Student Class",
+                                  "name": "s3_class",
+                                  "id": "u:3fd8d627c15f",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "textarea",
+                                  "label": "Notes",
+                                  "name": "s3_note",
+                                  "id": "u:b4d5dec713bd",
                                   "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
@@ -951,8 +1015,19 @@
                                 },
                                 {
                                   "type": "input-text",
-                                  "label": "Barcode:",
-                                  "name": "s4_barcode",
+                                  "label": "Fourth Student Class",
+                                  "name": "s4_class",
+                                  "id": "u:c1b51808a52b",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "textarea",
+                                  "label": "Notes",
+                                  "name": "s4_note",
+                                  "id": "u:2e7fe7ae4b24",
                                   "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
@@ -1059,8 +1134,7 @@
                   ],
                   "md": 3
                 }
-              ],
-              "id": "u:8d224dc36f04"
+              ]
             }
           ],
           "id": "u:6cffeab1a9ae",
@@ -1103,6 +1177,18 @@
               },
               "id": "u:e8a0fe732ffd",
               "level": "info"
+            },
+            {
+              "type": "button",
+              "label": "Cancel",
+              "actionType": "cancel",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:129ce28e2f6b",
+              "level": "danger",
+              "size": "md"
             }
           ],
           "wrapWithPanel": true

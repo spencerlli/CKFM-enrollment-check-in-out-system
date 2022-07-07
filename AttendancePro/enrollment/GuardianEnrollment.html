@@ -72,9 +72,21 @@
                       }
                     },
                     {
-                      "type": "input-text",
-                      "label": "Barcode:",
-                      "name": "g1_barcode",
+                      "type": "select",
+                      "label": "Contact me for special instructions:",
+                      "name": "select",
+                      "options": [
+                        {
+                          "label": "No",
+                          "value": "no"
+                        },
+                        {
+                          "label": "Yes",
+                          "value": "yes"
+                        }
+                      ],
+                      "id": "u:da3ed38a4f94",
+                      "selectFirst": true,
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
@@ -88,6 +100,32 @@
                   "md": 3,
                   "body": [
                     {
+                      "type": "select",
+                      "label": "Volunteer",
+                      "name": "g1_volunteer",
+                      "options": [
+                        {
+                          "label": "Full Time",
+                          "value": "full time"
+                        },
+                        {
+                          "label": "Part Time",
+                          "value": "part time"
+                        },
+                        {
+                          "label": "No",
+                          "value": "no"
+                        }
+                      ],
+                      "id": "u:27f1ea2f5c81",
+                      "checkAll": false,
+                      "selectFirst": true,
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
                       "type": "input-text",
                       "label": "Phone Number:",
                       "name": "g1_phone",
@@ -97,9 +135,60 @@
                       }
                     },
                     {
-                      "type": "input-text",
+                      "type": "input-email",
                       "label": "Email Address:",
                       "name": "g1_email",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      },
+                      "validations": {
+                        "isEmail": true
+                      },
+                      "validationErrors": {
+                        "isEmail": "Invalid email address"
+                      }
+                    },
+                    {
+                      "type": "tpl",
+                      "tpl": "<p>Home Address:</p>",
+                      "inline": false,
+                      "id": "u:ba57c2962303",
+                      "style": {
+                      },
+                      "wrapperComponent": "div"
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Street:",
+                      "name": "g1_street",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "City:",
+                      "name": "g1_city",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "State:",
+                      "name": "g1_state",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Zip Code:",
+                      "name": "g1_zip",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
