@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> First-time Enrollment </title>
+	</head>
+	<body></br></br></br></br></br>
+		<div align="center">
+			<div class="header">
+				<h1 class="word">First-time Enrollment</h1>
+			</div></br></br></br>
+			<h2 class="word">
+				<form action="{{ url_for('firstTimeEnroll') }}" method="post">
+					<div class="msg">{{ msg }}</div>
+					<input id="guardianFirstName" name="guardianFirstName" type="text" placeholder="Guardian's First Name" class="textbox"/></br></br>
+                    <input id="guardianLastName" name="guardianLastName" type="text" placeholder="Guardian's Last Name" class="textbox"/></br></br>
+					<input id="phoneNumber" name="phoneNumber" type="tel" placeholder="Guardian's phone number"/></br></br>
+
+                    </br></br>
+                    <input id="studentFirstName" name="studentFirstName" type="text" placeholder="Student's First Name" class="textbox"/></br></br>
+                    <input id="studentLastName" name="studentLastName" type="text" placeholder="Student's Last Name" class="textbox"/></br></br>
+					<input type="submit" class="btn" value="Enroll"></br>
+				</form>
+			</h2>
+			<p><a href="{{ url_for('index') }}"> Back to homepage </a></p> 
+		</div>
+	</body>
+</html>
