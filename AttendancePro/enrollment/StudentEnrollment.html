@@ -73,16 +73,6 @@
                       },
                       "id": "u:e0b6768db73a",
                       "placeholder": ""
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "To be enrolled class:",
-                      "name": "s1_class",
-                      "id": "u:26826946595f",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
                     }
                   ],
                   "valign": "top",
@@ -198,13 +188,13 @@
                   "body": [
                     {
                       "type": "video",
-                      "aspectRatio": "auto",
                       "className": "",
+                      "aspectRatio": "auto",
                       "splitPoster": false
                     }
                   ],
-                  "aspectRatio": "auto",
-                  "md": ""
+                  "md": "",
+                  "aspectRatio": "auto"
                 },
                 {
                   "body": [
@@ -288,6 +278,8 @@
             {
               "type": "submit",
               "label": "Save Enrollment",
+              "id": "u:d0679bc12181",
+              "level": "info",
               "actionType": "dialog",
               "dialog": {
                 "title": "Enroll Another Student?",
@@ -326,13 +318,11 @@
                   }
                 ]
               },
-              "id": "u:d0679bc12181",
-              "level": "info",
               "size": ""
             }
           ]
         };
-        let amisScoped = amis.embed('#root', amisJSON);
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();
     </script>
   </body>

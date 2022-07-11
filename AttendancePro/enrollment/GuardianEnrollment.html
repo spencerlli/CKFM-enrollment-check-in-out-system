@@ -100,32 +100,6 @@
                   "md": 3,
                   "body": [
                     {
-                      "type": "select",
-                      "label": "Volunteer",
-                      "name": "g1_volunteer",
-                      "options": [
-                        {
-                          "label": "Full Time",
-                          "value": "full time"
-                        },
-                        {
-                          "label": "Part Time",
-                          "value": "part time"
-                        },
-                        {
-                          "label": "No",
-                          "value": "no"
-                        }
-                      ],
-                      "id": "u:27f1ea2f5c81",
-                      "checkAll": false,
-                      "selectFirst": true,
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
                       "type": "input-text",
                       "label": "Phone Number:",
                       "name": "g1_phone",
@@ -328,12 +302,11 @@
                 ]
               },
               "id": "u:d0679bc12181",
-              "level": "info",
-              "size": ""
+              "level": "info"
             }
           ]
         };
-        let amisScoped = amis.embed('#root', amisJSON);
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();
     </script>
   </body>

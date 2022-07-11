@@ -72,12 +72,23 @@
                       "horizontal": {
                         "justify": true
                       }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Phone Number:",
+                      "name": "g2_phone",
+                      "id": "u:19bf08eb9fea",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
                     }
                   ],
                   "valign": "top",
                   "md": 5
                 },
                 {
+                  "md": "",
                   "body": [
                     {
                       "type": "video",
@@ -86,21 +97,20 @@
                       "splitPoster": false
                     }
                   ],
-                  "aspectRatio": "auto",
-                  "md": ""
+                  "aspectRatio": "auto"
                 },
                 {
                   "body": [
                     {
                       "type": "button",
+                      "className": "m-sm",
                       "label": "Capture1",
                       "actionType": "dialog",
                       "dialog": {
                         "title": "系统提示",
                         "body": "对你点击了"
                       },
-                      "id": "u:35c1177af93a",
-                      "className": "m-sm"
+                      "id": "u:35c1177af93a"
                     },
                     {
                       "type": "button",
@@ -213,7 +223,7 @@
             }
           ]
         };
-        let amisScoped = amis.embed('#root', amisJSON);
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();
     </script>
   </body>

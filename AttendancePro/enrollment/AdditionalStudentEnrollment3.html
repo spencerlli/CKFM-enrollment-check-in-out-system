@@ -74,16 +74,6 @@
                       "id": "u:e0b6768db73a",
                       "placeholder": ""
                     },
-                    {
-                      "type": "input-text",
-                      "label": "To be enrolled class:",
-                      "name": "s4_class",
-                      "id": "u:26826946595f",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    }
                   ],
                   "valign": "top",
                   "md": 3
@@ -294,7 +284,7 @@
           ],
           "redirect": "CompleteEnrollmentCheck.html"
         };
-        let amisScoped = amis.embed('#root', amisJSON);
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();
     </script>
   </body>

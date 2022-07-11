@@ -40,7 +40,6 @@
           "body": [
             {
               "type": "grid",
-              "id": "u:8d224dc36f04",
               "columns": [
                 {
                   "body": [
@@ -100,32 +99,6 @@
                             },
                             {
                               "body": [
-                                {
-                                  "type": "select",
-                                  "label": "Volunteer:",
-                                  "name": "g1_volunteer",
-                                  "options": [
-                                    {
-                                      "label": "Full Time",
-                                      "value": "full time"
-                                    },
-                                    {
-                                      "label": "Part Time",
-                                      "value": "part time"
-                                    },
-                                    {
-                                      "label": "No",
-                                      "value": "no"
-                                    }
-                                  ],
-                                  "id": "u:1d7558a5896d",
-                                  "mode": "horizontal",
-                                  "checkAll": false,
-                                  "selectFirst": true,
-                                  "horizontal": {
-                                    "justify": true
-                                  }
-                                },
                                 {
                                   "type": "input-text",
                                   "label": "Phone Number:",
@@ -261,6 +234,7 @@
                   "body": [
                     {
                       "type": "form",
+                      "id": "u:d8d6cfb4b9d8",
                       "title": "Second Guardian Enrollment",
                       "body": [
                         {
@@ -286,6 +260,16 @@
                                   "required": false,
                                   "horizontal": {
                                     "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Phone Number:",
+                                  "name": "g2_phone",
+                                  "id": "u:bc7784254b31",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "adjust": true
                                   }
                                 }
                               ],
@@ -383,7 +367,6 @@
                           "id": "u:1aac2f6fde08"
                         }
                       ],
-                      "id": "u:d8d6cfb4b9d8",
                       "actions": [
                       ]
                     }
@@ -418,6 +401,16 @@
                                   "required": false,
                                   "horizontal": {
                                     "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Phone Number:",
+                                  "name": "g3_phone",
+                                  "id": "u:438e9bfb68b2",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "adjust": true
                                   }
                                 }
                               ],
@@ -554,16 +547,6 @@
                                   },
                                   "id": "u:e0b6768db73a",
                                   "placeholder": ""
-                                },
-                                {
-                                  "type": "input-text",
-                                  "label": "First Student Class:",
-                                  "name": "s1_class",
-                                  "id": "u:8769577feebf",
-                                  "mode": "horizontal",
-                                  "horizontal": {
-                                    "justify": true
-                                  }
                                 },
                                 {
                                   "type": "textarea",
@@ -706,16 +689,6 @@
                                   },
                                   "id": "u:03c270bb9941",
                                   "placeholder": ""
-                                },
-                                {
-                                  "type": "input-text",
-                                  "label": "Second Student Class",
-                                  "name": "s2_class",
-                                  "id": "u:9443514f430e",
-                                  "mode": "horizontal",
-                                  "horizontal": {
-                                    "justify": true
-                                  }
                                 },
                                 {
                                   "type": "textarea",
@@ -861,16 +834,6 @@
                                   "placeholder": ""
                                 },
                                 {
-                                  "type": "input-text",
-                                  "label": "Third Student Class",
-                                  "name": "s3_class",
-                                  "id": "u:3fd8d627c15f",
-                                  "mode": "horizontal",
-                                  "horizontal": {
-                                    "justify": true
-                                  }
-                                },
-                                {
                                   "type": "textarea",
                                   "label": "Notes",
                                   "name": "s3_note",
@@ -1014,16 +977,6 @@
                                   "placeholder": ""
                                 },
                                 {
-                                  "type": "input-text",
-                                  "label": "Fourth Student Class",
-                                  "name": "s4_class",
-                                  "id": "u:c1b51808a52b",
-                                  "mode": "horizontal",
-                                  "horizontal": {
-                                    "justify": true
-                                  }
-                                },
-                                {
                                   "type": "textarea",
                                   "label": "Notes",
                                   "name": "s4_note",
@@ -1134,7 +1087,8 @@
                   ],
                   "md": 3
                 }
-              ]
+              ],
+              "id": "u:8d224dc36f04"
             }
           ],
           "id": "u:6cffeab1a9ae",
@@ -1142,6 +1096,8 @@
             {
               "type": "submit",
               "label": "Complete Enrollment",
+              "id": "u:e8a0fe732ffd",
+              "level": "info",
               "actionType": "dialog",
               "dialog": {
                 "title": "AttendancePro",
@@ -1174,9 +1130,7 @@
                     "level": "success"
                   }
                 ]
-              },
-              "id": "u:e8a0fe732ffd",
-              "level": "info"
+              }
             },
             {
               "type": "button",
@@ -1193,7 +1147,7 @@
           ],
           "wrapWithPanel": true
         };
-        let amisScoped = amis.embed('#root', amisJSON);
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();
     </script>
   </body>
