@@ -7,10 +7,9 @@
 	</head>
 	<body></br></br></br></br></br>
 		<div align="center">
-            <p><a href="{{ url_for('firstTimeEnroll') }}"> First-time Enroll </a></p> 
-			<p><a href="{{ url_for('checkIn') }}"> Check In </a></p> 
-            <p><a href="{{ url_for('checkOut') }}"> Check Out </a></p> 
-            
+			<div class="msg">{{ msg }}</div>
+			<p><a href="{{ url_for('firstTimeEnroll') }}"> First-time Enroll </a></p> 
+			<p><a href="{{ url_for('checkInOut') }}"> Check In/Out </a></p> 
 		</div>
 	</body>
 </html>

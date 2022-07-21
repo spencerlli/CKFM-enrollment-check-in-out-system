@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <!-- 下列1行：注意替换页面对应名称 -->
-  <title>CHECK IN/OUT</title>
+  <title>CHECK OUT SUCCESS</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
@@ -35,59 +35,46 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "title": "CHECK IN/OUT",
-  "body": [
-    {
-      "type": "grid",
-      "columns": [
-        {
-          "body": [
-          ]
-        },
-        {
-          "body": [
-
-            {
-              "type": "button",
-              "label": "PRE CHECK IN",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:15f4cedc236a",
-              "link": "check_in.html",
-              "size": "lg"
-            },
-
-            {
-              "type": "button",
-              "label": "CHECK OUT",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:11df25266b31",
-              "size": "lg",
-              "link": "check_out.html"
-            }
-          ],
-          "valign": "",
-          "md": "auto"
-        },
-        {
-          "body": [
-          ]
-        }
-      ],
-      "id": "u:b4fc350162ed"
-    }
-  ],
-  "messages": {
-  },
-  "style": {
-  }
+ "title": "",
+ "body": [
+   {
+     "type": "tpl",
+     "tpl": "Checked out successfully!",
+     "inline": true,
+     "wrapperComponent": "h1",
+     "id": "u:cd124cb178b7",
+     "style": {
+       "fontFamily": "",
+       "fontSize": 29,
+       "color": "#000000"
+     }
+   },
+   {
+     "type": "button",
+     "label": "Home",
+     "onEvent": {
+       "click": {
+         "actions": [
+           {
+             "componentId": "",
+             "args": {
+               "blank": false,
+               "url": "{{ url_for('checkInOut') }}"
+             },
+             "actionType": "url"
+           }
+         ]
+       }
+     },
+     "id": "u:7b9cb53dfb3c",
+     "level": "primary"
+   }
+ ],
+ "id": "u:09a0d7b95520",
+ "messages": {
+ },
+ "pullRefresh": {
+ }
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
