@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <!-- 下列1行：注意替换页面对应名称 -->
-  <title>CHECK IN</title>
+  <title>CHECK OUT</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
@@ -35,7 +35,7 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "title": "CHECK IN",
+  "title": "CHECK OUT",
   "body": [
     {
       "type": "select",
@@ -83,28 +83,12 @@
                 {
                   "type": "avatar",
                   "icon": "fa fa-user",
-                  "id": "u:ad29e1bc8a10",
-                  "shape": "square",
-                  "size": 200,
-                  "style": {
-                  },
-                  "text": "Camera"
-                }
-              ],
-              "aspectRatio": "auto",
-              "md": 3
-            },
-            {
-              "body": [
-                {
-                  "type": "avatar",
-                  "icon": "fa fa-user",
                   "id": "u:7c5cbb96185d",
                   "shape": "square",
                   "size": 200,
                   "style": {
                   },
-                  "text": "Photo Matched"
+                  "text": "Camera"
                 }
               ],
               "aspectRatio": "auto",
@@ -117,7 +101,7 @@
         }
       ],
       "submitText": "Submit",
-      "redirect": "check_in2.html",
+      "redirect": "{{ url_for('checkOut2') }}",
       "checkAll": false
     }
   ],

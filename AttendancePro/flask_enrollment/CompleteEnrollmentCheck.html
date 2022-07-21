@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 下列1行：注意替换页面对应名称 -->
+    <title>Step 4 Complete Enrollment Check</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <!-- 下列3行：需要注意填写对应href路径 -->
+    <link rel="stylesheet" href="../sdk/sdk.css" />
+    <link rel="stylesheet" href="../sdk/helper.css" />
+    <link rel="stylesheet" href="../sdk/iconfont.css" />
+    <style>
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <!-- 下列1行：需要注意填写对应路径 -->
+    <script src=" ../sdk/sdk.js"></script>
+    <script type="text/javascript">
+      (function () {
+        let amis = amisRequire('amis/embed');
+        // 通过替换amisJSON中的内容来生成不同页面
+        let amisJSON = {
+          "type": "form",
+          "title": "Complete Enrollment Check ",
+          "body": [
+            {
+              "type": "grid",
+              "columns": [
+                {
+                  "body": [
+                    {
+                      "type": "form",
+                      "title": "First Guardian Enrollment",
+                      "body": [
+                        {
+                          "type": "grid",
+                          "columns": [
+                            {
+                              "body": [
+                                {
+                                  "label": "First Guardian Name:",
+                                  "type": "input-text",
+                                  "name": "g1_name",
+                                  "required": false,
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Relationship to Student:",
+                                  "name": "g1_relationship",
+                                  "mode": "horizontal",
+                                  "required": false,
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "select",
+                                  "label": "Special instructions:",
+                                  "name": "g1_instruction",
+                                  "options": [
+                                    {
+                                      "label": "No",
+                                      "value": "no"
+                                    },
+                                    {
+                                      "label": "Yes",
+                                      "value": "yes"
+                                    }
+                                  ],
+                                  "id": "u:7d3fbfa39e7e",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  },
+                                  "selectFirst": true
+                                }
+                              ],
+                              "valign": "top",
+                              "md": 5
+                            },
+                            {
+                              "body": [
+                                {
+                                  "type": "input-text",
+                                  "label": "Phone Number:",
+                                  "name": "g1_phone",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Email Address:",
+                                  "name": "g1_email",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Home Address:",
+                                  "name": "g1_home",
+                                  "id": "u:c4bc2c3d6b1e",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                }
+                              ],
+                              "md": 5
+                            },
+                            {
+                              "body": [
+                                {
+                                  "type": "tabs",
+                                  "tabs": [
+                                    {
+                                      "title": "Image1",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:93ada787961d"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image2",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:422f3e650d7e"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image3",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:c08faea49cec"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image4",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:c150b6813ae5"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image5",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:cc30cbb48824"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "id": "u:b38e9ac937df",
+                                  "mode": "vertical"
+                                },
+                                {
+                                  "type": "button-group",
+                                  "buttons": [
+                                    {
+                                      "type": "button",
+                                      "label": "Capture",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Upload",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Save"
+                                    }
+                                  ],
+                                  "id": "u:66ac2b753b39"
+                                }
+                              ],
+                              "aspectRatio": "auto",
+                              "md": "auto",
+                              "columnClassName": "m-t"
+                            }
+                          ],
+                          "id": "u:1aac2f6fde08"
+                        }
+                      ],
+                      "id": "u:d8d6cfb4b9d8",
+                      "actions": [
+                      ]
+                    }
+                  ],
+                  "valign": "",
+                  "md": 6
+                },
+                {
+                  "md": 3,
+                  "body": [
+                    {
+                      "type": "form",
+                      "id": "u:d8d6cfb4b9d8",
+                      "title": "Second Guardian Enrollment",
+                      "body": [
+                        {
+                          "type": "grid",
+                          "columns": [
+                            {
+                              "body": [
+                                {
+                                  "label": "Second Guardian Name:",
+                                  "type": "input-text",
+                                  "name": "g2_name",
+                                  "required": false,
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Relationship to Student:",
+                                  "name": "g2_relationship",
+                                  "mode": "horizontal",
+                                  "required": false,
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Phone Number:",
+                                  "name": "g2_phone",
+                                  "id": "u:bc7784254b31",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "adjust": true
+                                  }
+                                }
+                              ],
+                              "valign": "top",
+                              "md": ""
+                            },
+                            {
+                              "body": [
+                                {
+                                  "type": "tabs",
+                                  "tabs": [
+                                    {
+                                      "title": "Image1",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:93ada787961d"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image2",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:422f3e650d7e"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image3",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:c08faea49cec"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image4",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:c150b6813ae5"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image5",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:cc30cbb48824"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "id": "u:b38e9ac937df",
+                                  "mode": "vertical"
+                                },
+                                {
+                                  "type": "button-group",
+                                  "buttons": [
+                                    {
+                                      "type": "button",
+                                      "label": "Capture",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Upload",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Save"
+                                    }
+                                  ],
+                                  "id": "u:66ac2b753b39"
+                                }
+                              ],
+                              "aspectRatio": "auto",
+                              "md": "auto",
+                              "columnClassName": "m-t"
+                            }
+                          ],
+                          "id": "u:1aac2f6fde08"
+                        }
+                      ],
+                      "actions": [
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "body": [
+                    {
+                      "type": "form",
+                      "title": "Third Guardian Enrollment",
+                      "body": [
+                        {
+                          "type": "grid",
+                          "columns": [
+                            {
+                              "body": [
+                                {
+                                  "label": "Third Guardian Name:",
+                                  "type": "input-text",
+                                  "name": "g3_name",
+                                  "required": false,
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Relationship to Student:",
+                                  "name": "g3_relationship",
+                                  "mode": "horizontal",
+                                  "required": false,
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Phone Number:",
+                                  "name": "g3_phone",
+                                  "id": "u:438e9bfb68b2",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "adjust": true
+                                  }
+                                }
+                              ],
+                              "valign": "top",
+                              "md": ""
+                            },
+                            {
+                              "body": [
+                                {
+                                  "type": "tabs",
+                                  "tabs": [
+                                    {
+                                      "title": "Image1",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:93ada787961d"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image2",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:422f3e650d7e"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image3",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:c08faea49cec"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image4",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:c150b6813ae5"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image5",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:cc30cbb48824"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "id": "u:b38e9ac937df",
+                                  "mode": "vertical"
+                                },
+                                {
+                                  "type": "button-group",
+                                  "buttons": [
+                                    {
+                                      "type": "button",
+                                      "label": "Capture",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Upload",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Save"
+                                    }
+                                  ],
+                                  "id": "u:66ac2b753b39"
+                                }
+                              ],
+                              "aspectRatio": "auto",
+                              "md": "auto",
+                              "columnClassName": "m-t"
+                            }
+                          ],
+                          "id": "u:1aac2f6fde08"
+                        }
+                      ],
+                      "id": "u:d8d6cfb4b9d8",
+                      "actions": [
+                      ]
+                    }
+                  ],
+                  "md": 3
+                },
+                {
+                  "body": [
+                    {
+                      "type": "form",
+                      "id": "u:d8d6cfb4b9d8",
+                      "title": "First Student Enrollment",
+                      "body": [
+                        {
+                          "type": "grid",
+                          "columns": [
+                            {
+                              "body": [
+                                {
+                                  "label": "First Student Name:",
+                                  "type": "input-text",
+                                  "name": "s1_name",
+                                  "required": false,
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-date",
+                                  "label": "Birth Date:",
+                                  "name": "s1_date",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  },
+                                  "id": "u:e0b6768db73a",
+                                  "placeholder": ""
+                                },
+                                {
+                                  "type": "textarea",
+                                  "label": "Notes:",
+                                  "name": "s1_note",
+                                  "id": "u:fcbfc9ccab4e",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                }
+                              ],
+                              "valign": "top"
+                            },
+                            {
+                              "md": "auto",
+                              "body": [
+                                {
+                                  "type": "tabs",
+                                  "mode": "vertical",
+                                  "tabs": [
+                                    {
+                                      "title": "Image1",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:93ada787961d"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image2",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:422f3e650d7e"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image3",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:c08faea49cec"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image4",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:c150b6813ae5"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image5",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:cc30cbb48824"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "id": "u:b38e9ac937df"
+                                },
+                                {
+                                  "type": "button-group",
+                                  "buttons": [
+                                    {
+                                      "type": "button",
+                                      "label": "Capture",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Upload",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Save"
+                                    }
+                                  ],
+                                  "id": "u:66ac2b753b39"
+                                }
+                              ],
+                              "aspectRatio": "auto",
+                              "columnClassName": "m-t"
+                            }
+                          ],
+                          "id": "u:1aac2f6fde08"
+                        }
+                      ],
+                      "actions": [
+                      ]
+                    }
+                  ],
+                  "md": 3
+                },
+                {
+                  "body": [
+                    {
+                      "type": "form",
+                      "title": "Second Student Enrollment",
+                      "body": [
+                        {
+                          "type": "grid",
+                          "columns": [
+                            {
+                              "body": [
+                                {
+                                  "label": "Second Student Name:",
+                                  "type": "input-text",
+                                  "name": "s2_name",
+                                  "required": false,
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-date",
+                                  "label": "Birth Date:",
+                                  "name": "s2_date",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  },
+                                  "id": "u:03c270bb9941",
+                                  "placeholder": ""
+                                },
+                                {
+                                  "type": "textarea",
+                                  "label": "Notes",
+                                  "name": "s2_note",
+                                  "id": "u:4c2f3f76343a",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                }
+                              ],
+                              "valign": "top"
+                            },
+                            {
+                              "md": "auto",
+                              "body": [
+                                {
+                                  "type": "tabs",
+                                  "mode": "vertical",
+                                  "tabs": [
+                                    {
+                                      "title": "Image1",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:5842c4780857"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image2",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:395aad8ff519"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image3",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:3f6100018797"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image4",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:f47872a0a264"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image5",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:b3c3e9ad3261"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "id": "u:5003eb568788"
+                                },
+                                {
+                                  "type": "button-group",
+                                  "buttons": [
+                                    {
+                                      "type": "button",
+                                      "label": "Capture",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Upload",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Save"
+                                    }
+                                  ],
+                                  "id": "u:1eda98627096"
+                                }
+                              ],
+                              "aspectRatio": "auto",
+                              "columnClassName": "m-t"
+                            }
+                          ],
+                          "id": "u:10a808d9f1c5"
+                        }
+                      ],
+                      "id": "u:88d83385e45d",
+                      "actions": [
+                      ]
+                    }
+                  ],
+                  "md": 3
+                },
+                {
+                  "body": [
+                    {
+                      "type": "form",
+                      "title": "Third Student Enrollment",
+                      "body": [
+                        {
+                          "type": "grid",
+                          "columns": [
+                            {
+                              "body": [
+                                {
+                                  "label": "Third Student Name:",
+                                  "type": "input-text",
+                                  "name": "s3_name",
+                                  "required": false,
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-date",
+                                  "label": "Birth Date:",
+                                  "name": "s3_date",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  },
+                                  "id": "u:74b3794edd46",
+                                  "placeholder": ""
+                                },
+                                {
+                                  "type": "textarea",
+                                  "label": "Notes",
+                                  "name": "s3_note",
+                                  "id": "u:b4d5dec713bd",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                }
+                              ],
+                              "valign": "top"
+                            },
+                            {
+                              "md": "auto",
+                              "body": [
+                                {
+                                  "type": "tabs",
+                                  "mode": "vertical",
+                                  "tabs": [
+                                    {
+                                      "title": "Image1",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:51a29ecc822f"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image2",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:076191e9a111"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image3",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:1b58a060a591"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image4",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:faa736ec04fd"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image5",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:9ece22cf972f"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "id": "u:9f7e4bd3c5c3"
+                                },
+                                {
+                                  "type": "button-group",
+                                  "buttons": [
+                                    {
+                                      "type": "button",
+                                      "label": "Capture",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Upload",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Save"
+                                    }
+                                  ],
+                                  "id": "u:e8e990b6e2e1"
+                                }
+                              ],
+                              "aspectRatio": "auto",
+                              "columnClassName": "m-t"
+                            }
+                          ],
+                          "id": "u:b0f2b5f49030"
+                        }
+                      ],
+                      "id": "u:35bc79912e29",
+                      "actions": [
+                      ]
+                    }
+                  ],
+                  "md": 3
+                },
+                {
+                  "body": [
+                    {
+                      "type": "form",
+                      "title": "Fourth Student Enrollment",
+                      "body": [
+                        {
+                          "type": "grid",
+                          "columns": [
+                            {
+                              "body": [
+                                {
+                                  "label": "Fourth Student Name:",
+                                  "type": "input-text",
+                                  "name": "s4_name",
+                                  "required": false,
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                },
+                                {
+                                  "type": "input-date",
+                                  "label": "Birth Date:",
+                                  "name": "s4_date",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  },
+                                  "id": "u:168298bba874",
+                                  "placeholder": ""
+                                },
+                                {
+                                  "type": "textarea",
+                                  "label": "Notes",
+                                  "name": "s4_note",
+                                  "id": "u:2e7fe7ae4b24",
+                                  "mode": "horizontal",
+                                  "horizontal": {
+                                    "justify": true
+                                  }
+                                }
+                              ],
+                              "valign": "top"
+                            },
+                            {
+                              "md": "auto",
+                              "body": [
+                                {
+                                  "type": "tabs",
+                                  "mode": "vertical",
+                                  "tabs": [
+                                    {
+                                      "title": "Image1",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:5b951123d044"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image2",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:1171404dc2c8"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image3",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:3fc8ab547107"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image4",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:67917ad41682"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "title": "Image5",
+                                      "body": [
+                                        {
+                                          "type": "image",
+                                          "id": "u:309e5f50e594"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "id": "u:26161bd92f42"
+                                },
+                                {
+                                  "type": "button-group",
+                                  "buttons": [
+                                    {
+                                      "type": "button",
+                                      "label": "Capture",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Upload",
+                                      "actionType": "dialog",
+                                      "dialog": {
+                                        "title": "系统提示",
+                                        "body": "对你点击了"
+                                      }
+                                    },
+                                    {
+                                      "type": "button",
+                                      "label": "Save"
+                                    }
+                                  ],
+                                  "id": "u:3dc560332583"
+                                }
+                              ],
+                              "aspectRatio": "auto",
+                              "columnClassName": "m-t"
+                            }
+                          ],
+                          "id": "u:f526bd5d9746"
+                        }
+                      ],
+                      "id": "u:b2203aefb153",
+                      "actions": [
+                      ]
+                    }
+                  ],
+                  "md": 3
+                }
+              ],
+              "id": "u:8d224dc36f04"
+            }
+          ],
+          "id": "u:6cffeab1a9ae",
+          "actions": [
+            {
+              "type": "submit",
+              "label": "Complete Enrollment",
+              "id": "u:e8a0fe732ffd",
+              "level": "info",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "AttendancePro",
+                "body": [
+                  {
+                    "type": "tpl",
+                    "tpl": "<p>Enrollment is successful.</p>",
+                    "inline": false,
+                    "closeOnEsc": false,
+                    "closeOnOutside": false,
+                    "showCloseButton": true,
+                    "style": {
+                    }
+                  }
+                ],
+                "type": "dialog",
+                "closeOnEsc": false,
+                "closeOnOutside": false,
+                "showCloseButton": true,
+                "actions": [
+                  {
+                    "type": "button",
+                    "label": "OK",
+                    "actionType": "confirm",
+                    "id": "u:e9749104af3b",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "level": "success"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "button",
+              "label": "Cancel",
+              "actionType": "cancel",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:129ce28e2f6b",
+              "level": "danger",
+              "size": "md"
+            }
+          ],
+          "wrapWithPanel": true
+        };
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
+      })();
+    </script>
+  </body>
+</html>

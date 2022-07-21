@@ -2,14 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Step 1 Guardian Enrollment Dialog</title>
-    <!-- 注意替换页面对应名称 -->
+    <!-- 下列1行：注意替换页面对应名称 -->
+    <title>Step 3 Additional Student Enrollment Dialog</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <!-- 下列3行：需要注意填写对应href路径 -->
     <link rel="stylesheet" href="../sdk/sdk.css" />
     <link rel="stylesheet" href="../sdk/helper.css" />
     <link rel="stylesheet" href="../sdk/iconfont.css" />
@@ -27,14 +28,15 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script src="../sdk/sdk.js"></script>
+    <!-- 下列1行：需要注意填写对应路径 -->
+    <script src=" ../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function () {
         let amis = amisRequire('amis/embed');
         // 通过替换amisJSON中的内容来生成不同页面
         let amisJSON = {
           "type": "form",
-          "title": "Guardian Enrollment",
+          "title": "The first/second/third/fourth Student Enrollment",
           "body": [
             {
               "type": "grid",
@@ -44,7 +46,7 @@
                     {
                       "label": "First Name:",
                       "type": "input-text",
-                      "name": "g1_fname",
+                      "name": "s3_fname",
                       "required": false,
                       "mode": "horizontal",
                       "horizontal": {
@@ -54,7 +56,7 @@
                     {
                       "type": "input-text",
                       "label": "Last Name:",
-                      "name": "g1_lname",
+                      "name": "s3_lname",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
@@ -62,114 +64,125 @@
                       "required": false
                     },
                     {
-                      "type": "input-text",
-                      "label": "Relationship to Student:",
-                      "name": "g1_relationship",
-                      "mode": "horizontal",
-                      "required": false,
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "select",
-                      "label": "Contact me for special instructions:",
-                      "name": "select",
-                      "options": [
-                        {
-                          "label": "No",
-                          "value": "no"
-                        },
-                        {
-                          "label": "Yes",
-                          "value": "yes"
-                        }
-                      ],
-                      "id": "u:da3ed38a4f94",
-                      "selectFirst": true,
+                      "type": "input-date",
+                      "label": "Birth Date:",
+                      "name": "s3_date",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
-                      }
+                      },
+                      "id": "u:e0b6768db73a",
+                      "placeholder": ""
                     }
                   ],
                   "valign": "top",
-                  "md": "auto"
+                  "md": 3
                 },
                 {
                   "md": 3,
                   "body": [
                     {
-                      "type": "input-text",
-                      "label": "Phone Number:",
-                      "name": "g1_phone",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-email",
-                      "label": "Email Address:",
-                      "name": "g1_email",
+                      "type": "select",
+                      "label": "Sex:",
+                      "name": "s3_sex",
+                      "options": [
+                        {
+                          "label": "Male",
+                          "value": "male"
+                        },
+                        {
+                          "label": "Female",
+                          "value": "female"
+                        }
+                      ],
+                      "id": "u:8d8f07688b81",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
                       },
-                      "validations": {
-                        "isEmail": true
+                      "placeholder": ""
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "School Name:",
+                      "name": "s3_school",
+                      "id": "u:5e75ba430802",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Grade:",
+                      "name": "s3_grade",
+                      "id": "u:acad9355c232",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Allergies",
+                      "name": "s3_allergy",
+                      "id": "u:ea1d08b74fa1",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Allergies to any medications:",
+                      "name": "s3_medication_allergy",
+                      "id": "u:ccf8c8e5ec51",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Current medications",
+                      "name": "s3_medication",
+                      "id": "u:8350668c43bd",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Emergency contact name:",
+                      "name": "s3_ename",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
                       },
-                      "validationErrors": {
-                        "isEmail": "Invalid email address"
-                      }
+                      "id": "u:6f0e49d43fdb"
                     },
                     {
-                      "type": "tpl",
-                      "tpl": "<p>Home Address:</p>",
-                      "inline": false,
-                      "id": "u:ba57c2962303",
-                      "style": {
+                      "type": "input-text",
+                      "label": "Emergency phone number:",
+                      "name": "s3_ephone",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
                       },
-                      "wrapperComponent": "div"
+                      "id": "u:8a03960adc5b"
                     },
                     {
                       "type": "input-text",
-                      "label": "Street:",
-                      "name": "g1_street",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "City:",
-                      "name": "g1_city",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "State:",
-                      "name": "g1_state",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Zip Code:",
-                      "name": "g1_zip",
+                      "id": "u:f7d7a910991d",
+                      "label": "Health insurance:",
+                      "name": "s3_insurance",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
                       }
                     }
-                  ],
-                  "valign": "top"
+                  ]
                 },
                 {
                   "body": [
@@ -265,20 +278,24 @@
             {
               "type": "submit",
               "label": "Save Enrollment",
+              "id": "u:d0679bc12181",
+              "level": "info",
               "actionType": "dialog",
               "dialog": {
-                "title": "Enroll Another Guardian?",
+                "type": "dialog",
+                "title": "Enroll Another Student?",
                 "body": [
                   {
                     "type": "tpl",
-                    "tpl": "<p>Do you want to enroll another guardian?</p>\n<p>Is the person here?</p>",
+                    "tpl": "<p>Do you want to enroll another student?</p>\n<p>Is the person here?</p>",
                     "inline": false,
                     "closeOnEsc": false,
                     "closeOnOutside": false,
-                    "showCloseButton": true
+                    "showCloseButton": true,
+                    "style": {
+                    }
                   }
                 ],
-                "type": "dialog",
                 "closeOnEsc": false,
                 "closeOnOutside": false,
                 "showCloseButton": true,
@@ -289,7 +306,7 @@
                     "actionType": "link",
                     "id": "u:6689630d8ea7",
                     "className": "bg-success text-white",
-                    "link": "AdditionalGuardianEnrollment1.html"
+                    "link": "AdditionalStudentEnrollment3.html"
                   },
                   {
                     "type": "button",
@@ -297,12 +314,11 @@
                     "actionType": "link",
                     "id": "u:f2aa7ebba4fc",
                     "className": "bg-danger",
-                    "link": "StudentEnrollment.html"
+                    "link": "CompleteEnrollmentCheck.html"
                   }
                 ]
               },
-              "id": "u:d0679bc12181",
-              "level": "info"
+              "size": ""
             }
           ]
         };
