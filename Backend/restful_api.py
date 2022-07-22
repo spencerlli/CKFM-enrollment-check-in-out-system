@@ -14,13 +14,9 @@ api = Api(app)
 
 
 ''' Family '''
-class Family(db.Table):
-    id = db.Column(db.Integer, primary_key=True)
-    guardian_id = db.Column(db.Integer)
-    student_id = db.Column(db.Integer)
-
-    def __repr__(self):
-        return '<Family: %s>' % self.id
+family = db.Table('family',
+                  db.Column('guardian_id', db.Integer, db.ForeignKey('guardian.id')),
+                  db.Column('student_id', db.Integer, db.ForeignKey('student.id')))
 
 
 class FamilySchema(ma.Schema):
@@ -34,11 +30,11 @@ familys_schema = FamilySchema(many=True)
 
 class FamilyListResource(Resource):
     def get(self):
-        familys = Family.query.all()
+        familys = family.query.all()
         return familys_schema.dump(familys)
 
     def post(self):
-        new_family = Family(
+        new_family = family(
             guardian_id=request.json['guardian_id'],
             student_id=request.json['student_id'],
         )
@@ -49,29 +45,33 @@ class FamilyListResource(Resource):
 
 class FamilyResource(Resource):
     def get(self, id):
-        family = Family.query.filter_by(id=id).first_or_404()
-        return family_schema.dump(family)
+        family_got = family.query.filter_by(id=id).first_or_404()
+        return family_schema.dump(family_got)
 
     def patch(self, id):
-        family = Family.query.filter_by(id=id).first_or_404()
+        family_got = family.query.filter_by(id=id).first_or_404()
 
         if 'guardian_id' in request.json:
-            family.guardian_id = request.json['guardian_id']
+            family_got.guardian_id = request.json['guardian_id']
         if 'guardian_id' in request.json:
-            family.guardian_id = request.json['guardian_id']
+            family_got.guardian_id = request.json['guardian_id']
 
         db.session.commit()
-        return family_schema.dump(family)
+        return family_schema.dump(family_got)
 
     def delete(self, id):
-        family = Family.query.filter_by(id=id).first_or_404()
-        db.session.delete(family)
+        family_got = family.query.filter_by(id=id).first_or_404()
+        db.session.delete(family_got)
         db.session.commit()
         return '', 204
+
+
 ''' Family '''
 
 
 ''' Guardian '''
+
+
 class Guardian(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(255))
@@ -111,11 +111,13 @@ class GuardianListResource(Resource):
 
 class GuardianResource(Resource):
     def get(self, phone_number):
-        guardian = Guardian.query.filter_by(phone_number=phone_number).first_or_404()
+        guardian = Guardian.query.filter_by(
+            phone_number=phone_number).first_or_404()
         return guardian_schema.dump(guardian)
 
     def patch(self, phone_number):
-        guardian = Guardian.query.filter_by(phone_number=phone_number).first_or_404()
+        guardian = Guardian.query.filter_by(
+            phone_number=phone_number).first_or_404()
 
         if 'first_name' in request.json:
             guardian.first_name = request.json['first_name']
@@ -130,14 +132,19 @@ class GuardianResource(Resource):
         return guardian_schema.dump(guardian)
 
     def delete(self, phone_number):
-        guardian = Guardian.query.filter_by(phone_number=phone_number).first_or_404()
+        guardian = Guardian.query.filter_by(
+            phone_number=phone_number).first_or_404()
         db.session.delete(guardian)
         db.session.commit()
         return '', 204
+
+
 ''' Guardian '''
 
 
 ''' Student '''
+
+
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(256))
@@ -146,14 +153,14 @@ class Student(db.Model):
     barcode = db.Column(db.String(255))
     checked_out = db.Column(db.Integer)
 
-
     def __repr__(self):
         return '<Student: %s %s>' % (self.first_name, self.last_name)
 
 
 class StudentSchema(ma.Schema):
     class Meta:
-        fields = ("id", "first_name", "last_name", "checked_in", 'barcode', 'checked_out')
+        fields = ("id", "first_name", "last_name",
+                  "checked_in", 'barcode', 'checked_out')
 
 
 student_schema = StudentSchema()
@@ -199,6 +206,8 @@ class StudentResource(Resource):
         db.session.delete(student)
         db.session.commit()
         return '', 204
+
+
 ''' Student '''
 
 api.add_resource(FamilyListResource, '/family')
