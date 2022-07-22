@@ -1,12 +1,12 @@
 import random
 from ast import literal_eval as make_tuple
-import MySQLdb.cursors
-from flask_mysqldb import MySQL
+# import MySQLdb.cursors
+# from flask_mysqldb import MySQL
 from flask import Flask, render_template, request, redirect, url_for, session
-import pymysql
+# import pymysql
 import os
 
-pymysql.install_as_MySQLdb()
+# pymysql.install_as_MySQLdb()
 
 template_dir = os.path.abspath('../AttendancePro')
 static_dir = os.path.abspath('../AttendancePro/sdk')
