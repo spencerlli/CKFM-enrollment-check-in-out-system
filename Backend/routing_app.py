@@ -50,54 +50,54 @@ def register():
 def firstTimeEnroll():
     msg = ''
     if request.method == 'GET':
-        return render_template('enrollment/GuardianEnrollment.html', msg=msg)
+        return render_template('flask_enrollment/GuardianEnrollment.html', msg=msg)
     else:
-        return render_template('enrollment/StudentEnrollment.html', msg=msg)
+        return render_template('flask_enrollment/StudentEnrollment.html', msg=msg)
 
 
 @app.route('/studentEnrollment', methods=['GET', 'POST'])
 def studentEnrollment():
-    return render_template('enrollment/StudentEnrollment.html')
+    return render_template('flask_enrollment/StudentEnrollment.html')
 
 
 @app.route('/enrollmentCheck', methods=['GET', 'POST'])
 def enrollmentCheck():
-    return render_template('enrollment/CompleteEnrollmentCheck.html')
+    return render_template('flask_enrollment/CompleteEnrollmentCheck.html')
 
 
 @app.route('/checkInOut', methods=['GET', 'POST'])
 def checkInOut():
-    return render_template('check_in_out/main.html')
+    return render_template('flask_check_in_out/main.html')
 
 
 @app.route('/checkIn', methods=['GET', 'POST'])
 def checkIn():
-    return render_template('check_in_out/check_in.html')
+    return render_template('flask_check_in_out/check_in.html')
 
 
 @app.route('/checkIn2', methods=['GET', 'POST'])
 def checkIn2():
-    return render_template('check_in_out/check_in2.html')
+    return render_template('flask_check_in_out/check_in2.html')
 
 
 @app.route('/checkInSuccess', methods=['GET', 'POST'])
 def checkInSuccess():
-    return render_template('check_in_out/s_check_in.html')
+    return render_template('flask_check_in_out/s_check_in.html')
 
 
 @app.route('/checkOut', methods=['GET', 'POST'])
 def checkOut():
-    return render_template('check_in_out/check_out.html')
+    return render_template('flask_check_in_out/check_out.html')
 
 
 @app.route('/checkOut2', methods=['GET', 'POST'])
 def checkOut2():
-    return render_template('check_in_out/check_out2.html')
+    return render_template('flask_check_in_out/check_out2.html')
 
 
 @app.route('/checkOutSuccess', methods=['GET', 'POST'])
 def checkOutSuccess():
-    return render_template('check_in_out/s_check_out.html')
+    return render_template('flask_check_in_out/s_check_out.html')
 
 
 def generate_random_str(randomLength=8):
