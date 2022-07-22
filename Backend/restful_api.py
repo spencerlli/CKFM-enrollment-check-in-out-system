@@ -6,7 +6,7 @@ from flask_restful import Resource, Api
 
 app = Flask(__name__)
 app.secret_key = '654321'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://ubuntu:123456@34.221.217.34:3306/Users'
+app.config['SQLALCHEMY_DATABASE_URI'] = ''
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
