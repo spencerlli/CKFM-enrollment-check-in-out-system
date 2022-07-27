@@ -7,7 +7,7 @@ app = Flask(__name__)
 def root():
     t = {
         "status": 0,
-        "msg": "",
+        "msg": "I'm test message",
         "data": {
             'a': 1,
             'b': 2,
