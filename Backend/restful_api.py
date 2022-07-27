@@ -6,7 +6,7 @@ from flask_restful import Resource, Api
 
 app = Flask(__name__)
 app.secret_key = '654321'
-app.config['SQLALCHEMY_DATABASE_URI'] = ''
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://ubuntu:123456@34.221.217.34:3306/Users'
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -14,9 +14,15 @@ api = Api(app)
 
 
 ''' Family '''
-family = db.Table('family',
-                  db.Column('guardian_id', db.Integer, db.ForeignKey('guardian.id')),
-                  db.Column('student_id', db.Integer, db.ForeignKey('student.id')))
+
+
+class Family(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    guardian_id = db.Column(db.Integer, db.ForeignKey('guardian.id'))
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+
+    def __repr__(self):
+        return '<Family with guardian_id and student_id: %s, %s>' % (self.guardian_id, self.student_id)
 
 
 class FamilySchema(ma.Schema):
@@ -30,11 +36,11 @@ familys_schema = FamilySchema(many=True)
 
 class FamilyListResource(Resource):
     def get(self):
-        familys = family.query.all()
+        familys = Family.query.all()
         return familys_schema.dump(familys)
 
     def post(self):
-        new_family = family(
+        new_family = Family(
             guardian_id=request.json['guardian_id'],
             student_id=request.json['student_id'],
         )
@@ -45,11 +51,11 @@ class FamilyListResource(Resource):
 
 class FamilyResource(Resource):
     def get(self, id):
-        family_got = family.query.filter_by(id=id).first_or_404()
+        family_got = Family.query.filter_by(id=id).first_or_404()
         return family_schema.dump(family_got)
 
-    def patch(self, id):
-        family_got = family.query.filter_by(id=id).first_or_404()
+    def put(self, id):
+        family_got = Family.query.filter_by(id=id).first_or_404()
 
         if 'guardian_id' in request.json:
             family_got.guardian_id = request.json['guardian_id']
@@ -60,7 +66,7 @@ class FamilyResource(Resource):
         return family_schema.dump(family_got)
 
     def delete(self, id):
-        family_got = family.query.filter_by(id=id).first_or_404()
+        family_got = Family.query.filter_by(id=id).first_or_404()
         db.session.delete(family_got)
         db.session.commit()
         return '', 204
@@ -115,7 +121,7 @@ class GuardianResource(Resource):
             phone_number=phone_number).first_or_404()
         return guardian_schema.dump(guardian)
 
-    def patch(self, phone_number):
+    def put(self, phone_number):
         guardian = Guardian.query.filter_by(
             phone_number=phone_number).first_or_404()
 
@@ -190,7 +196,7 @@ class StudentResource(Resource):
         student = Student.query.filter_by(id=id).first_or_404()
         return student_schema.dump(student)
 
-    def patch(self, id):
+    def put(self, id):
         student = Student.query.filter_by(id=id).first_or_404()
 
         if 'first_name' in request.json:
