@@ -35,75 +35,102 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "form",
-        "title": "",
-        "body": [{
-            "type": "grid",
-            "columns": [{
-                "body": [{
-                  "type": "input-text",
-                  "label": "Phonenumber:",
-                  "name": "phumber",
-                  "id": "u:5c3a1c6b57d6",
-                  "autoComplete": "",
-                  "hint": "",
-                  "required": true,
-                  "mode": "horizontal",
-                  "size": "",
-                  "horizontal": null
-                }]
-              },
-              {
-                "body": [{
-                  "type": "input-text",
-                  "label": "Class:",
-                  "name": "class",
-                  "id": "u:5c3a1c6b57d6",
-                  "autoComplete": "",
-                  "hint": "",
-                  "required": false,
-                  "mode": "horizontal",
-                  "size": "",
-                  "horizontal": null
-                }]
-              }
-            ],
-            "id": "u:0d2ca9e0b5a9"
-          },
-          {
-            "type": "grid",
-            "columns": [{
-                "body": [{
-                  "type": "input-text",
-                  "label": "First Name:",
-                  "name": "first_name",
-                  "id": "u:5c3a1c6b57d6",
-                  "autoComplete": "",
-                  "hint": "",
-                  "required": true,
-                  "mode": "horizontal",
-                  "size": "",
-                  "horizontal": null
-                }]
-              },
-              {
-                "body": [{
-                  "type": "input-text",
-                  "label": "Last Name:",
-                  "name": "last_name",
-                  "id": "u:5c3a1c6b57d6",
-                  "autoComplete": "",
-                  "hint": "",
-                  "required": true,
-                  "mode": "horizontal",
-                  "size": "",
-                  "horizontal": null
-                }]
-              }
-            ]
-          }
-        ],
-        "id": "u:d8d6cfb4b9d8",
-        "submitText": "Submit"
+  "title": "",
+  "body": [
+    {
+      "type": "grid",
+      "id": "u:0d2ca9e0b5a9",
+      "columns": [
+        {
+          "body": [
+            {
+              "type": "input-text",
+              "label": "Phonenumber:",
+              "name": "phumber",
+              "id": "u:5c3a1c6b57d6",
+              "autoComplete": "",
+              "hint": "",
+              "required": true,
+              "mode": "horizontal",
+              "size": "",
+              "horizontal": null
+            }
+          ],
+          "id": "u:95e3b5b92fdb"
+        },
+        {
+          "body": [
+            {
+              "type": "input-text",
+              "label": "Class:",
+              "name": "class",
+              "id": "u:5c3a1c6b57d6",
+              "autoComplete": "",
+              "hint": "",
+              "required": false,
+              "mode": "horizontal",
+              "size": "",
+              "horizontal": null
+            }
+          ],
+          "id": "u:bcb26f276a65"
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "columns": [
+        {
+          "body": [
+            {
+              "type": "input-text",
+              "label": "First Name:",
+              "name": "first_name",
+              "id": "u:5c3a1c6b57d6",
+              "autoComplete": "",
+              "hint": "",
+              "required": true,
+              "mode": "horizontal",
+              "size": "",
+              "horizontal": null
+            }
+          ],
+          "id": "u:13c0a63fdf79"
+        },
+        {
+          "body": [
+            {
+              "type": "input-text",
+              "label": "Last Name:",
+              "name": "last_name",
+              "id": "u:5c3a1c6b57d6",
+              "autoComplete": "",
+              "hint": "",
+              "required": true,
+              "mode": "horizontal",
+              "size": "",
+              "horizontal": null
+            }
+          ],
+          "id": "u:f743dd2c43a8"
+        }
+      ],
+      "id": "u:31e7ab16c8f9"
+    }
+  ],
+  "id": "u:d8d6cfb4b9d8",
+  "submitText": "Submit",
+  "api": {
+    "method": "post",
+    "url": "http://54.245.168.231:5002/"
+  },
+  "redirect": "s_check_in.html",
+  "messages": {
+    "fetchFailed": "",
+    "saveSuccess": "",
+    "saveFailed": "",
+    "fetchSuccess": ""
+  }
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
