@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources=r'/*')
+CORS(app, resources=r'/*', supports_credentials=True)
 
 
 @app.route('/', methods=['GET', 'POST', 'OPTIONS'])
