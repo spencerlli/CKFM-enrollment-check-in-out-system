@@ -19,5 +19,98 @@ def root():
     
     return jsonify(t)
 
+@app.route('/student', methods=['GET', 'POST', 'OPTIONS'])
+def student():
+    t = {
+        "status": 0,
+        "msg": "Successfully get students!",
+        "data": {
+            "student_list": [
+                {
+                    "first_name": "Yuan JR",
+                    "last_name": "Zhang",
+                    "birth_date": "2022-07-27",
+                    "gender": "M",
+                    "school": "UC",
+                    "grade": "A",
+                    "allergies": None,
+                    "allergies_medications": None,
+                    "medications": None,
+                    "emergency": "Yuan Zhang",
+                    "emergency_phone": "001",
+                    "insurance": "UC SHIP"
+                },
+                {
+                    "first_name": "Lingxin JR",
+                    "last_name": "Li",
+                    "birth_date": "2022-07-27",
+                    "gender": "F",
+                    "school": "UC",
+                    "grade": "A",
+                    "allergies": None,
+                    "allergies_medications": None,
+                    "medications": None,
+                    "emergency": "Lingxin Li",
+                    "emergency_phone": "002",
+                    "insurance": "UC SHIP"
+                },
+                {
+                    "first_name": "Chang JR",
+                    "last_name": "Liu",
+                    "birth_date": "2022-07-27",
+                    "gender": "M",
+                    "school": "UC",
+                    "grade": "A",
+                    "allergies": None,
+                    "allergies_medications": None,
+                    "medications": None,
+                    "emergency": "Yuan Zhang",
+                    "emergency_phone": "001",
+                    "insurance": "UC SHIP"
+                },
+            ]
+        }
+    }
+    
+    return jsonify(t)
+
+@app.route('/guardian', methods=['GET', 'POST', 'OPTIONS'])
+def guardian():
+    t = {
+        "status": 0,
+        "msg": "Successfully get guardians!",
+        "data": {
+            "guardian_list": [
+                {
+                    "first_name": "Yuan",
+                    "last_name": "Zhang",
+                    "relationship": "Father",
+                    "special": True,
+                    "phone_number": "001",
+                    "email": "yuanzhang@ckfm.com",
+                    "street": "16808 Armstrong Ave",
+                    "city": "Irvine",
+                    "state": "CA",
+                    "zip_code": "92606",
+                },
+                {
+                    "first_name": "Lingxin",
+                    "last_name": "Li",
+                    "relationship": "Mother",
+                    "special": True,
+                    "phone_number": "002",
+                    "email": "lingxinli@ckfm.com",
+                    "street": "16808 Armstrong Ave",
+                    "city": "Irvine",
+                    "state": "CA",
+                    "zip_code": "92606",
+                },
+            ]
+        }
+    }
+    
+    return jsonify(t)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
