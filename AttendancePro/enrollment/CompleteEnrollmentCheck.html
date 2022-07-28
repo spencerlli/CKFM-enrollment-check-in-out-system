@@ -44,7 +44,7 @@
                 {
                   "body": [
                     {
-                      "type": "form",
+                      "type": "panel",
                       "title": "First Guardian Enrollment",
                       "body": [
                         {
@@ -56,6 +56,7 @@
                                   "label": "First Guardian Name:",
                                   "type": "input-text",
                                   "name": "g1_name",
+                                  "value": "${g1.first_name} ${g1.last_name}",
                                   "required": false,
                                   "mode": "horizontal",
                                   "horizontal": {
@@ -66,6 +67,7 @@
                                   "type": "input-text",
                                   "label": "Relationship to Student:",
                                   "name": "g1_relationship",
+                                  "value": "${g1.relationship}",
                                   "mode": "horizontal",
                                   "required": false,
                                   "horizontal": {
@@ -76,14 +78,15 @@
                                   "type": "select",
                                   "label": "Special instructions:",
                                   "name": "g1_instruction",
+                                  "value": "${g1.special}",
                                   "options": [
-                                    {
-                                      "label": "No",
-                                      "value": "no"
+                                  {
+                                      "label": "Yes",
+                                      "value": true
                                     },
                                     {
-                                      "label": "Yes",
-                                      "value": "yes"
+                                      "label": "No",
+                                      "value": false
                                     }
                                   ],
                                   "id": "u:7d3fbfa39e7e",
@@ -91,11 +94,10 @@
                                   "horizontal": {
                                     "justify": true
                                   },
-                                  "selectFirst": true
+                                  
                                 }
                               ],
-                              "valign": "top",
-                              "md": 5
+                              //"md": 5
                             },
                             {
                               "body": [
@@ -103,6 +105,7 @@
                                   "type": "input-text",
                                   "label": "Phone Number:",
                                   "name": "g1_phone",
+                                  "value": "${g1.phone_number}",
                                   "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
@@ -112,15 +115,17 @@
                                   "type": "input-text",
                                   "label": "Email Address:",
                                   "name": "g1_email",
+                                  "value": "${g1.email}",
                                   "mode": "horizontal",
                                   "horizontal": {
                                     "justify": true
                                   }
                                 },
                                 {
-                                  "type": "input-text",
+                                  "type": "textarea",
                                   "label": "Home Address:",
                                   "name": "g1_home",
+                                  "value": "${IF(g1.street, ${address}, '')}",
                                   "id": "u:c4bc2c3d6b1e",
                                   "mode": "horizontal",
                                   "horizontal": {
@@ -128,7 +133,7 @@
                                   }
                                 }
                               ],
-                              "md": 5
+                              //"md": 5
                             },
                             {
                               "body": [
@@ -181,7 +186,6 @@
                                       ]
                                     }
                                   ],
-                                  "id": "u:b38e9ac937df",
                                   "mode": "vertical"
                                 },
                                 {
@@ -214,16 +218,12 @@
                                 }
                               ],
                               "aspectRatio": "auto",
-                              "md": "auto",
+                              "md": 8,
                               "columnClassName": "m-t"
                             }
                           ],
-                          "id": "u:1aac2f6fde08"
                         }
                       ],
-                      "id": "u:d8d6cfb4b9d8",
-                      "actions": [
-                      ]
                     }
                   ],
                   "valign": "",
@@ -233,7 +233,7 @@
                   "md": 3,
                   "body": [
                     {
-                      "type": "form",
+                      "type": "panel",
                       "id": "u:d8d6cfb4b9d8",
                       "title": "Second Guardian Enrollment",
                       "body": [
@@ -246,6 +246,7 @@
                                   "label": "Second Guardian Name:",
                                   "type": "input-text",
                                   "name": "g2_name",
+                                  "value": "${g2.first_name} ${g2.last_name}",
                                   "required": false,
                                   "mode": "horizontal",
                                   "horizontal": {
@@ -256,6 +257,7 @@
                                   "type": "input-text",
                                   "label": "Relationship to Student:",
                                   "name": "g2_relationship",
+                                  "value": "${g2.relationship}",
                                   "mode": "horizontal",
                                   "required": false,
                                   "horizontal": {
@@ -266,6 +268,7 @@
                                   "type": "input-text",
                                   "label": "Phone Number:",
                                   "name": "g2_phone",
+                                  "value": "${g2.phone_number}",
                                   "id": "u:bc7784254b31",
                                   "mode": "horizontal",
                                   "horizontal": {
@@ -375,7 +378,7 @@
                 {
                   "body": [
                     {
-                      "type": "form",
+                      "type": "panel",
                       "title": "Third Guardian Enrollment",
                       "body": [
                         {
@@ -518,7 +521,7 @@
                 {
                   "body": [
                     {
-                      "type": "form",
+                      "type": "panel",
                       "id": "u:d8d6cfb4b9d8",
                       "title": "First Student Enrollment",
                       "body": [
@@ -661,7 +664,7 @@
                 {
                   "body": [
                     {
-                      "type": "form",
+                      "type": "panel",
                       "title": "Second Student Enrollment",
                       "body": [
                         {
@@ -804,7 +807,7 @@
                 {
                   "body": [
                     {
-                      "type": "form",
+                      "type": "panel",
                       "title": "Third Student Enrollment",
                       "body": [
                         {
@@ -947,7 +950,7 @@
                 {
                   "body": [
                     {
-                      "type": "form",
+                      "type": "panel",
                       "title": "Fourth Student Enrollment",
                       "body": [
                         {
@@ -1145,7 +1148,19 @@
               "size": "md"
             }
           ],
-          "wrapWithPanel": true
+          "wrapWithPanel": true,
+          "initApi": {
+            "method": "get",
+            "url": "http://54.245.168.231:5002/guardian",
+            "responseData": {
+              "g1": "${guardian_list|first}",
+              "address": "${${guardian_list|first}.street}, ${${guardian_list|first}.city}, ${${guardian_list|first}.state} ${${guardian_list|first}.zip_code}",
+              "g2": "${guardian_list|nth:1}"
+            }
+          },
+          "messages": {
+            "fetchSuccess": " "
+          }
         };
         let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();
