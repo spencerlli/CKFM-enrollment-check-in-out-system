@@ -40,15 +40,15 @@
     {
       "type": "form",
       "id": "u:d8d6cfb4b9d8",
-      "title": "SELECT PICK UP PARENT",
+      "title": "SELECT PICK UP CHILD",
       "body": [
-        {
+        /*{
           "type": "grid",
           "columns": [
             {
               "body": [
                 {
-                  "type": "panel",
+                  "type": "form",
                   "title": "First Guardian",
                   "body": [
                     {
@@ -61,20 +61,18 @@
                               "label": "Name:",
                               "name": "g1_name",
                               "id": "u:b97d30a22f28",
-                              "mode": "",
-                              "size": "",
-                              "value": "${yuan.first_name} ${yuan.last_name}"
+                              "mode": "inline",
+                              "size": "xs"
                             },
                             {
                               "type": "input-text",
                               "label": "Relationship to Student:",
                               "name": "relationship1",
                               "id": "u:796b0917c44a",
-                              "mode": "",
-                              "value": "${yuan.relationship}"
+                              "mode": ""
                             }
                           ],
-                          "md": 6
+                          "md": 4
                         },
                         {
                           "body": [
@@ -83,13 +81,13 @@
                               "icon": "fa fa-user",
                               "id": "u:89f82847e5e6",
                               "shape": "square",
-                              "size": 150,
+                              "size": 200,
                               "style": {
                               },
                               "text": "First Guardian"
                             }
                           ],
-                          "md": 4
+                          "md": 6
                         }
                       ],
                       "id": "u:d8c42ac69f4e"
@@ -113,7 +111,7 @@
               "valign": "",
               "body": [
                 {
-                  "type": "panel",
+                  "type": "form",
                   "title": "Second Guardian",
                   "body": [
                     {
@@ -126,21 +124,18 @@
                               "label": "Name:",
                               "name": "g2_name",
                               "id": "u:d4b0e78ff055",
-                              "mode": "",
-                              "size": "",
-                              "value": "${lingxin.first_name} ${lingxin.last_name}"
+                              "mode": "inline",
+                              "size": "xs"
                             },
                             {
                               "type": "input-text",
                               "label": "Relationship to Student:",
                               "name": "relationship2",
                               "id": "u:5ee917a4cfb3",
-                              "mode": "",
-                              "value": "${lingxin.relationship}"
-
+                              "mode": ""
                             }
                           ],
-                          "md": 6
+                          "md": 4
                         },
                         {
                           "body": [
@@ -149,13 +144,13 @@
                               "icon": "fa fa-user",
                               "id": "u:2aa5dc8cc797",
                               "shape": "square",
-                              "size": 150,
+                              "size": 200,
                               "style": {
                               },
                               "text": "Second Guardian"
                             }
                           ],
-                          "md": 4
+                          "md": 6
                         }
                       ],
                       "id": "u:2d1d64a5af9b"
@@ -176,7 +171,7 @@
             {
               "body": [
                 {
-                  "type": "panel",
+                  "type": "form",
                   "title": "Third Guardian",
                   "body": [
                     {
@@ -189,8 +184,8 @@
                               "label": "Name:",
                               "name": "g3_name",
                               "id": "u:e447f441da26",
-                              "mode": "",
-                              "size": ""
+                              "mode": "inline",
+                              "size": "xs"
                             },
                             {
                               "type": "input-text",
@@ -200,7 +195,7 @@
                               "mode": ""
                             }
                           ],
-                          "md": 6
+                          "md": 4
                         },
                         {
                           "body": [
@@ -209,13 +204,13 @@
                               "icon": "fa fa-user",
                               "id": "u:238186aebecd",
                               "shape": "square",
-                              "size": 150,
+                              "size": 200,
                               "style": {
                               },
                               "text": "Third Guardian"
                             }
                           ],
-                          "md": 4
+                          "md": 6
                         }
                       ],
                       "id": "u:dce97c98d377"
@@ -237,7 +232,7 @@
             {
               "body": [
                 {
-                  "type": "panel",
+                  "type": "form",
                   "title": "Temporary Guardian",
                   "body": [
                     {
@@ -247,34 +242,34 @@
                           "body": [
                             {
                               "type": "input-text",
-                              "label": "Name:",
+                              "label": "First Name:",
                               "name": "t_fname",
                               "id": "u:60389e52a621",
-                              "mode": "",
-                              "size": ""
-                            }
-                            
-                          ],
-                          "md": 5
-                        },
-                        {
-                          "body": [
+                              "mode": "inline",
+                              "size": "sm"
+                            },
                             {
                               "type": "input-text",
-                              "label": "Relationship:",
+                              "label": "Last Name",
+                              "name": "t_lname",
+                              "id": "u:ffb85918b31b",
+                              "mode": "inline",
+                              "size": "sm"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
                               "name": "relationship3",
                               "id": "u:132969055bf1",
-                              "mode": "",
-                              "size": ""
-
+                              "mode": "inline",
+                              "size": "sm"
                             }
-
                           ],
-                          "md": 5
+                          "md": 4
                         }
                       ],
                       "id": "u:e4ab3b58f86b",
-                      "align": "between",
+                      "align": "left",
                       "valign": "top"
                     },
                     {
@@ -300,14 +295,14 @@
             }
           ],
           "id": "u:1aac2f6fde08"
-        }/*,
+        },*/
         {
           "type": "grid",
           "columns": [
             {
               "body": [
                 {
-                  "type": "form",
+                  "type": "panel",
                   "title": "First Student",
                   "body": [
                     {
@@ -320,11 +315,12 @@
                               "label": "Name:",
                               "name": "s1_name",
                               "id": "u:53927bf1ff65",
-                              "mode": "inline",
-                              "size": "xs"
+                              "mode": "",
+                              "size": "",
+                              "value": "${s1.first_name} ${s1.last_name}"
                             }
                           ],
-                          "md": 4
+                          "md": 6
                         },
                         {
                           "body": [
@@ -333,13 +329,13 @@
                               "icon": "fa fa-user",
                               "id": "u:1e14c8c1acbb",
                               "shape": "square",
-                              "size": 200,
+                              "size": 150,
                               "style": {
                               },
                               "text": "First Student"
                             }
                           ],
-                          "md": 6
+                          "md": 4
                         }
                       ],
                       "id": "u:15217e95cd13"
@@ -361,7 +357,7 @@
             {
               "body": [
                 {
-                  "type": "form",
+                  "type": "panel",
                   "title": "Second Student",
                   "body": [
                     {
@@ -374,11 +370,12 @@
                               "label": "Name:",
                               "name": "s2_name",
                               "id": "u:b1502cf28aae",
-                              "mode": "inline",
-                              "size": "xs"
+                              "mode": "",
+                              "size": "",
+                              "value": "${s2.first_name} ${s2.last_name}"
                             }
                           ],
-                          "md": 4
+                          "md": 6
                         },
                         {
                           "body": [
@@ -387,13 +384,13 @@
                               "icon": "fa fa-user",
                               "id": "u:bf1523b4035e",
                               "shape": "square",
-                              "size": 200,
+                              "size": 150,
                               "style": {
                               },
                               "text": "Second Student"
                             }
                           ],
-                          "md": 6
+                          "md": 4
                         }
                       ],
                       "id": "u:dfcddabf1dd5"
@@ -415,7 +412,7 @@
             {
               "body": [
                 {
-                  "type": "form",
+                  "type": "panel",
                   "title": "Third Student",
                   "body": [
                     {
@@ -428,11 +425,11 @@
                               "label": "Name:",
                               "name": "s3_name",
                               "id": "u:2ea6f585fe85",
-                              "mode": "inline",
-                              "size": "xs"
+                              "mode": "",
+                              "size": ""
                             }
                           ],
-                          "md": 4
+                          "md": 6
                         },
                         {
                           "body": [
@@ -441,13 +438,13 @@
                               "icon": "fa fa-user",
                               "id": "u:0cb6a084d9f9",
                               "shape": "square",
-                              "size": 200,
+                              "size": 150,
                               "style": {
                               },
                               "text": "Third Student"
                             }
                           ],
-                          "md": 6
+                          "md": 4
                         }
                       ],
                       "id": "u:d80790acc6ca"
@@ -469,7 +466,7 @@
             {
               "body": [
                 {
-                  "type": "form",
+                  "type": "panel",
                   "title": "Fourth Student",
                   "body": [
                     {
@@ -482,11 +479,11 @@
                               "label": "Name:",
                               "name": "s4_name",
                               "id": "u:f19bcbdbbeaf",
-                              "mode": "inline",
-                              "size": "xs"
+                              "mode": "",
+                              "size": ""
                             }
                           ],
-                          "md": 4
+                          "md": 6
                         },
                         {
                           "body": [
@@ -495,13 +492,13 @@
                               "icon": "fa fa-user",
                               "id": "u:9f3c1ed64fad",
                               "shape": "square",
-                              "size": 200,
+                              "size": 150,
                               "style": {
                               },
                               "text": "Fourth Student"
                             }
                           ],
-                          "md": 6
+                          "md": 4
                         }
                       ],
                       "id": "u:2b03f9839ff0"
@@ -521,16 +518,17 @@
               "md": ""
             }
           ]
-        }*/
+        }
       ],
-      "submitText": "NEXT",
-      "redirect": "check_out3.html",
+      "submitText": "CHECK OUT",
+      "redirect": "s_check_out.html",
       "initApi": {
     "method": "get",
-    "url": "http://54.245.168.231:5002/guardian",
+    "url": "http://54.245.168.231:5002/student",
     "responseData": {
-      "yuan": "${guardian_list|first}",
-      "lingxin": "${guardian_list|last}"
+      "s1": "${student_list|first}",
+      "s2": "${student_list|nth:1}",
+      "s3": "${student_list|nth:2}"
     }
   }
     }
