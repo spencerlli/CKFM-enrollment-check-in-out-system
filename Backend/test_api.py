@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-from sqlalchemy import true
 
 app = Flask(__name__)
 CORS(app, resources=r'/*', supports_credentials=True)
@@ -166,9 +165,9 @@ def crud():
                     "emergency": "Yuan Zhang",
                     "emergency_phone": "001",
                     "insurance": "UC SHIP"
-                },
+                }
             ],
-            "hasNext": true
+            "hasNext": True
         }
     }
 
