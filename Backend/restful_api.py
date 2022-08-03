@@ -35,7 +35,8 @@ class Family(db.Model):
 
 class FamilySchema(ma.Schema):
     class Meta:
-        fields = ('id', 'guardian_id', 'student_id')
+        fields = ('id', 'guardian_id', 'student_id', 'physician', 'physician_phone', 'insurance',
+                  'insurance_phone', 'insurance_policy', 'group_num', 'sunday_school', 'friday_night', 'special_events')
 
 
 family_schema = FamilySchema()
@@ -51,6 +52,14 @@ class FamilyListResource(Resource):
         new_family = Family(
             guardian_id=request.json['guardian_id'],
             student_id=request.json['student_id'],
+            physician=request.json['physician'],
+            physician_phone=request.json['physician_phone'],
+            insurance=request.json['insurance'],
+            insurance_phone=request.json['insurance_phone'],
+            group_num=request.json['group_num'],
+            sunday_school=request.json['sunday_school'],
+            friday_night=request.json['friday_night'],
+            special_events=request.json['special_events']
         )
         db.session.add(new_family)
         db.session.commit()
@@ -67,8 +76,24 @@ class FamilyResource(Resource):
 
         if 'guardian_id' in request.json:
             family_got.guardian_id = request.json['guardian_id']
-        if 'guardian_id' in request.json:
-            family_got.guardian_id = request.json['guardian_id']
+        if 'student_id' in request.json:
+            family_got.student_id = request.json['student_id']
+        if 'physician' in request.json:
+            family_got.physician = request.json['physician']
+        if 'physician_phone' in request.json:
+            family_got.physician_phone = request.json['physician_phone']
+        if 'insurance' in request.json:
+            family_got.insurance = request.json['insurance']
+        if 'insurance_phone' in request.json:
+            family_got.insurance_phone = request.json['insurance_phone']
+        if 'group_num' in request.json:
+            family_got.group_num = request.json['group_num']
+        if 'sunday_school' in request.json:
+            family_got.sunday_school = request.json['sunday_school']
+        if 'friday_night' in request.json:
+            family_got.friday_night = request.json['friday_night']
+        if 'special_events' in request.json:
+            family_got.special_events = request.json['special_events']
 
         db.session.commit()
         return family_schema.dump(family_got)
