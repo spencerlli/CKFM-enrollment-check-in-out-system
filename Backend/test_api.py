@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+from sqlalchemy import true
 
 app = Flask(__name__)
 CORS(app, resources=r'/*', supports_credentials=True)
@@ -16,8 +17,9 @@ def root():
             'c': [3, 4, 5]
         }
     }
-    
+
     return jsonify(t)
+
 
 @app.route('/student', methods=['GET', 'POST', 'OPTIONS'])
 def student():
@@ -71,8 +73,9 @@ def student():
             ]
         }
     }
-    
+
     return jsonify(t)
+
 
 @app.route('/guardian', methods=['GET', 'POST', 'OPTIONS'])
 def guardian():
@@ -108,7 +111,67 @@ def guardian():
             ]
         }
     }
-    
+
+    return jsonify(t)
+
+
+@app.route('/crud', methods=['GET', 'POST', 'OPTIONS'])
+def crud():
+    t = {
+        "status": 0,
+        "msg": "Successfully get crud items!",
+        "data": {
+            "items": [
+                {
+                    "id": 1,
+                    "first_name": "Yuan JR",
+                    "last_name": "Zhang",
+                    "birth_date": "2022-07-27",
+                    "gender": "M",
+                    "school": "UC",
+                    "grade": "A",
+                    "allergies": None,
+                    "allergies_medications": None,
+                    "medications": None,
+                    "emergency": "Yuan Zhang",
+                    "emergency_phone": "001",
+                    "insurance": "UC SHIP"
+                },
+                {
+                    "id": 2,
+                    "first_name": "Lingxin JR",
+                    "last_name": "Li",
+                    "birth_date": "2022-07-27",
+                    "gender": "F",
+                    "school": "UC",
+                    "grade": "A",
+                    "allergies": None,
+                    "allergies_medications": None,
+                    "medications": None,
+                    "emergency": "Lingxin Li",
+                    "emergency_phone": "002",
+                    "insurance": "UC SHIP"
+                },
+                {
+                    "id": 3,
+                    "first_name": "Chang JR",
+                    "last_name": "Liu",
+                    "birth_date": "2022-07-27",
+                    "gender": "M",
+                    "school": "UC",
+                    "grade": "A",
+                    "allergies": None,
+                    "allergies_medications": None,
+                    "medications": None,
+                    "emergency": "Yuan Zhang",
+                    "emergency_phone": "001",
+                    "insurance": "UC SHIP"
+                },
+            ],
+            "hasNext": true
+        }
+    }
+
     return jsonify(t)
 
 
