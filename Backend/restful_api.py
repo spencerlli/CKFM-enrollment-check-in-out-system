@@ -2,24 +2,32 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_restful import Resource, Api
+import config
 
 
 app = Flask(__name__)
 app.secret_key = '654321'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://ubuntu:123456@34.221.217.34:3306/Users'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s:%s/%s' % (
+    config.MYSQL_USER, config.MYSQL_PASSWORD, config.MYSQL_HOST, config.MYSQL_PORT, config.MYSQL_DB)
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 api = Api(app)
 
 
-''' Family '''
-
-
+###### Family ######
 class Family(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     guardian_id = db.Column(db.Integer, db.ForeignKey('guardian.id'))
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
+    physician = db.Column(db.String(256))
+    physician_phone = db.Column(db.String(256))
+    insurance = db.Column(db.String(256))
+    insurance_phone = db.Column(db.String(256))
+    group_num = db.Column(db.Integer)
+    sunday_school = db.Column(db.String(256))
+    friday_night = db.Column(db.String(256))
+    special_events = db.Column(db.String(256))
 
     def __repr__(self):
         return '<Family with guardian_id and student_id: %s, %s>' % (self.guardian_id, self.student_id)
@@ -27,7 +35,7 @@ class Family(db.Model):
 
 class FamilySchema(ma.Schema):
     class Meta:
-        fields = ("id", "guardian_id", "student_id")
+        fields = ('id', 'guardian_id', 'student_id')
 
 
 family_schema = FamilySchema()
@@ -70,20 +78,23 @@ class FamilyResource(Resource):
         db.session.delete(family_got)
         db.session.commit()
         return '', 204
+###### Family ######
 
 
-''' Family '''
-
-
-''' Guardian '''
-
-
+###### Guardian ######
 class Guardian(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(255))
-    last_name = db.Column(db.String(255))
-    phone_number = db.Column(db.String(255))
-    password = db.Column(db.String(255))
+    first_name = db.Column(db.String(256))
+    last_name = db.Column(db.String(256))
+    phone_number = db.Column(db.String(256))
+    password = db.Column(db.String(256))
+    email = db.Column(db.String(256))
+    relationship = db.Column(db.String(256))
+    is_special = db.Column(db.String(256))
+    street = db.Column(db.String(256))
+    city = db.Column(db.String(256))
+    state = db.Column(db.String(256))
+    zip = db.Column(db.Integer)
 
     def __repr__(self):
         return '<Guardian with phone number: %s>' % self.phone_number
@@ -91,7 +102,8 @@ class Guardian(db.Model):
 
 class GuardianSchema(ma.Schema):
     class Meta:
-        fields = ("id", "first_name", "last_name", "phone_number", 'password')
+        fields = ('id', 'first_name', 'last_name', 'phone_number', 'password',
+                  'email', 'relationship', 'is_special', 'street', 'city', 'state', 'zip')
 
 
 guardian_schema = GuardianSchema()
@@ -109,6 +121,13 @@ class GuardianListResource(Resource):
             last_name=request.json['last_name'],
             phone_number=request.json['phone_number'],
             password=request.json['password'],
+            email=request.json['email'],
+            relationship=request.json['relationship'],
+            is_special=request.json['is_special'],
+            street=request.json['street'],
+            city=request.json['city'],
+            state=request.json['state'],
+            zip=request.json['zip']
         )
         db.session.add(new_guardian)
         db.session.commit()
@@ -124,7 +143,6 @@ class GuardianResource(Resource):
     def put(self, phone_number):
         guardian = Guardian.query.filter_by(
             phone_number=phone_number).first_or_404()
-
         if 'first_name' in request.json:
             guardian.first_name = request.json['first_name']
         if 'last_name' in request.json:
@@ -133,7 +151,20 @@ class GuardianResource(Resource):
             guardian.phone_number = request.json['phone_number']
         if 'password' in request.json:
             guardian.password = request.json['password']
-
+        if 'email' in request.json:
+            guardian.email = request.json['email']
+        if 'relationship' in request.json:
+            guardian.relationship = request.json['relationship']
+        if 'is_special' in request.json:
+            guardian.is_special = request.json['is_special']
+        if 'street' in request.json:
+            guardian.street = request.json['street']
+        if 'city' in request.json:
+            guardian.city = request.json['city']
+        if 'state' in request.json:
+            guardian.state = request.json['state']
+        if 'zip' in request.json:
+            guardian.zip = request.json['zip']
         db.session.commit()
         return guardian_schema.dump(guardian)
 
@@ -143,21 +174,25 @@ class GuardianResource(Resource):
         db.session.delete(guardian)
         db.session.commit()
         return '', 204
+###### Guardian ######
 
 
-''' Guardian '''
-
-
-''' Student '''
-
-
+###### Student ######
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(256))
-    last_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(256))
     checked_in = db.Column(db.Integer)
-    barcode = db.Column(db.String(255))
+    barcode = db.Column(db.String(256))
     checked_out = db.Column(db.Integer)
+    school = db.Column(db.String(256))
+    birth_date = db.Column(db.String(256))
+    allergies = db.Column(db.String(256))
+    allergies_medication = db.Column(db.String(256))
+    medication = db.Column(db.String(256))
+    emergency_name = db.Column(db.String(256))
+    emergency_phone = db.Column(db.String(256))
+    health_insurance = db.Column(db.String(256))
 
     def __repr__(self):
         return '<Student: %s %s>' % (self.first_name, self.last_name)
@@ -165,8 +200,8 @@ class Student(db.Model):
 
 class StudentSchema(ma.Schema):
     class Meta:
-        fields = ("id", "first_name", "last_name",
-                  "checked_in", 'barcode', 'checked_out')
+        fields = ('id', 'first_name', 'last_name', 'checked_in', 'barcode', 'checked_out', 'school', 'birth_date',
+                  'allergies', 'allergies_medication', 'medication', 'emergency_name', 'emergency_phone', 'health_insurance')
 
 
 student_schema = StudentSchema()
@@ -182,9 +217,17 @@ class StudentListResource(Resource):
         new_student = Student(
             first_name=request.json['first_name'],
             last_name=request.json['last_name'],
-            checked_in=request.json['checked_in'],
-            barcode=request.json['barcode'],
-            password=request.json['password'],
+            checked_in=0,
+            barcode=None,
+            checked_out=0,
+            school=request.json['school'],
+            birth_date=request.json['birth_date'],
+            allergies=request.json['allergies'],
+            allergies_medication=request.json['allergies_medication'],
+            medication=request.json['medication'],
+            emergency_name=request.json['emergency_name'],
+            emergency_phone=request.json['emergency_phone'],
+            health_insurance=request.json['health_insurance'],
         )
         db.session.add(new_student)
         db.session.commit()
@@ -198,11 +241,32 @@ class StudentResource(Resource):
 
     def put(self, id):
         student = Student.query.filter_by(id=id).first_or_404()
-
         if 'first_name' in request.json:
             student.first_name = request.json['first_name']
         if 'last_name' in request.json:
             student.last_name = request.json['last_name']
+        if 'checked_in' in request.json:
+            student.checked_in = request.json['checked_in']
+        if 'barcode' in request.json:
+            student.barcode = request.json['barcode']
+        if 'checked_out' in request.json:
+            student.checked_out = request.json['checked_out']
+        if 'school' in request.json:
+            student.school = request.json['school']
+        if 'birth_date' in request.json:
+            student.birth_date = request.json['birth_date']
+        if 'allergies' in request.json:
+            student.allergies = request.json['allergies']
+        if 'allergies_medication' in request.json:
+            student.allergies_medication = request.json['allergies_medication']
+        if 'medication' in request.json:
+            student.medication = request.json['medication']
+        if 'emergency_name' in request.json:
+            student.emergency_name = request.json['emergency_name']
+        if 'emergency_phone' in request.json:
+            student.emergency_phone = request.json['emergency_phone']
+        if 'health_insurance' in request.json:
+            student.health_insurance = request.json['health_insurance']
 
         db.session.commit()
         return student_schema.dump(student)
@@ -212,9 +276,8 @@ class StudentResource(Resource):
         db.session.delete(student)
         db.session.commit()
         return '', 204
+###### Student ######
 
-
-''' Student '''
 
 api.add_resource(FamilyListResource, '/family')
 api.add_resource(FamilyResource, '/family/<int:id>')

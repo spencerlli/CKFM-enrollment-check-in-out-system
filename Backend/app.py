@@ -5,18 +5,21 @@ from flask_mysqldb import MySQL
 from flask import Flask, render_template, request, redirect, url_for, session
 import pymysql
 import os
+import config
+
 # pymysql.install_as_MySQLdb()
 
 
 template_dir = os.path.abspath('../AttendancePro')
-app = Flask(__name__, template_folder=template_dir)
+static_dir = os.path.abspath('../AttendancePro/sdk')
+app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 app.secret_key = '123456'
 
-app.config['MYSQL_HOST'] = '34.221.217.34'
-app.config['MYSQL_USER'] = 'ubuntu'
-app.config['MYSQL_PASSWORD'] = '123456'
-app.config['MYSQL_DB'] = 'Users'
+app.config['MYSQL_HOST'] = config.MYSQL_HOST
+app.config['MYSQL_USER'] = config.MYSQL_USER
+app.config['MYSQL_PASSWORD'] = config.MYSQL_PASSWORD
+app.config['MYSQL_DB'] = config.MYSQL_DB
 
 mysql = MySQL(app)
 
@@ -26,7 +29,60 @@ def index():
     if ('loggedin' in session.keys() and session['loggedin'] == True):
         return render_template('flask_templates/index.html')
     else:
-        return redirect('login')    
+        return redirect('login')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    msg = ''
+    if request.method == 'POST' and 'phoneNumber' in request.form and 'password' in request.form:
+        phoneNumber = request.form['phoneNumber']
+        password = request.form['password']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'SELECT * FROM guardian WHERE phone_number = %s AND password = %s;', (phoneNumber, password, ))
+        account = cursor.fetchone()
+        if account:
+            session['loggedin'] = True
+            session['id'] = account['id']
+            session['phoneNumber'] = account['phone_number']
+            msg = 'Logged in successfully!'
+            return render_template('flask_templates/index.html', msg=msg)
+        else:
+            msg = 'Incorrect phone number / password !'
+    return render_template('flask_templates/login.html', msg=msg)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    return redirect(url_for('login'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    msg = ''
+    if request.method == 'POST' and 'firstName' in request.form and 'lastName' in request.form \
+                                and 'phoneNumber' in request.form and 'password' in request.form:
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        phoneNumber = request.form['phoneNumber']
+        password = request.form['password']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'SELECT * FROM guardian WHERE phone_number = %s AND password = %s;', (phoneNumber, password, ))
+        account = cursor.fetchone()
+        if account:
+            msg = 'Account already exist! Please login with your phone number.'
+            return render_template('flask_templates/register.html', msg=msg)
+        else:
+            cursor.execute(
+                'INSERT INTO guardian (first_name, last_name, phone_number) VALUES (%s, %s, %s);',
+                (firstName, lastName, phoneNumber, ))
+            msg = 'Successfully signed up! Please go back to homepage and login.'
+    return render_template('flask_templates/register.html', msg=msg)
 
 
 @app.route('/firstTimeEnroll', methods=['GET', 'POST'])
@@ -78,6 +134,11 @@ def firstTimeEnroll():
     return render_template('flask_templates/firstTimeEnroll.html', msg=msg)
 
 
+@app.route('/checkInOut', methods=['GET', 'POST'])
+def checkInOut():
+    return render_template('check_in_out/main.html')
+
+
 @app.route('/checkIn', methods=['GET', 'POST'])
 def checkIn():
     msg = 'Input guardian\'s phone number to identify the family:'
@@ -98,6 +159,28 @@ def checkIn():
     elif request.method == 'POST':
         msg = 'Please input guardian\'s phone number!'
     return render_template('flask_templates/checkIn.html', msg=msg)
+
+
+# @app.route('/checkIn', methods=['GET', 'POST'])
+# def checkIn():
+#     msg = 'Input guardian\'s phone number to identify the family:'
+#     if request.method == 'POST' and 'phoneNumber' in request.form:
+#         phoneNumber = request.form['phoneNumber']
+#         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#         cursor.execute(
+#             'SELECT * FROM guardian WHERE phone_number = %s;', (phoneNumber, ))
+#         guardian = cursor.fetchone()
+#         if guardian:
+#             guardianId = guardian['id']
+#             cursor.execute(
+#                 'SELECT * FROM family WHERE guardian_id = %s;', (guardianId, ))
+#             familyId = cursor.fetchone()['id']
+#             return redirect(url_for('checkInSelect', familyId=familyId))
+#         else:
+#             msg = 'Incorrect phone number!'
+#     elif request.method == 'POST':
+#         msg = 'Please input guardian\'s phone number!'
+#     return render_template('flask_templates/checkIn.html', msg=msg)
 
 
 @app.route('/checkInSelect?<int:familyId>', methods=['GET', 'POST'])
@@ -215,35 +298,6 @@ def checkOutSuccess(guardian, student):
     mysql.connection.commit()
 
     return render_template('flask_templates/checkOutSuccess.html', guardianName=guardianName, studentName=studentName)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    msg = ''
-    if request.method == 'POST' and 'phoneNumber' in request.form and 'password' in request.form:
-        phoneNumber = request.form['phoneNumber']
-        password = request.form['password']
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM guardian WHERE phone_number = %s AND password = %s;', (phoneNumber, password, ))
-        account = cursor.fetchone()
-        if account:
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['phoneNumber'] = account['phone_number']
-            msg = 'Logged in successfully !'
-            return render_template('flask_templates/index.html', msg=msg)
-        else:
-            msg = 'Incorrect phone number / password !'
-    return render_template('flask_templates/login.html', msg=msg)
-
-
-@app.route('/logout')
-def logout():
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('username', None)
-    return redirect(url_for('login'))
 
 
 def generate_random_str(randomLength=8):
