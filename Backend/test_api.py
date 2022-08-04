@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -114,8 +114,10 @@ def guardian():
     return jsonify(t)
 
 
-@app.route('/crud', methods=['GET', 'POST', 'OPTIONS'])
+@app.route('/crud', methods=['GET', 'POST', 'OPTIONS', 'DELETE'])
 def crud():
+    if (request.method == 'DELETE'):
+        return 'Successfully delete!', 200
     t = {
         "status": 0,
         "msg": "Successfully get crud items!",
@@ -172,6 +174,12 @@ def crud():
     }
 
     return jsonify(t)
+
+
+
+@app.route('/requestForm', methods=['GET', 'POST', 'OPTIONS'])
+def requestForm():
+    print(request.json)
 
 
 if __name__ == '__main__':
