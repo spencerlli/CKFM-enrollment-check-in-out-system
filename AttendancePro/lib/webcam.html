@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@16.3.1/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-transform-in-browser@6.4.6/dist/btib.min.js"></script>
+  <script src="react-webcam.js"></script>
+  <script type="text/es2015">
+
+    class App extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          screenshot: null,
+          tab: 0
+        };
+      }
+
+      handleClick = () => {
+        const screenshot = this.webcam.getScreenshot();
+        this.setState({ screenshot });
+      }
+
+      render() {
+        const videoConstraints = {
+          facingMode: "user"
+        };
+
+        return (
+          <div>
+              <Webcam
+                videoConstraints={videoConstraints}
+              >
+                {({ getScreenshot }) => (
+                  <button
+                    onClick={() => {
+                      const screenshot = getScreenshot()
+                      this.setState({ screenshot });
+                    }}
+                  >
+                    Capture photo
+                  </button>
+                )}
+              </Webcam>
+
+              <h2>----</h2>
+                {this.state.screenshot ? <img src={this.state.screenshot} /> : null}
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
