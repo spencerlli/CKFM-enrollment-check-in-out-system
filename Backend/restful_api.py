@@ -17,6 +17,7 @@ api = Api(app)
 
 ###### Family ######
 class Family(db.Model):
+    # table model
     id = db.Column(db.Integer, primary_key=True)
     guardian_id = db.Column(db.Integer, db.ForeignKey('guardian.id'))
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
@@ -45,10 +46,12 @@ familys_schema = FamilySchema(many=True)
 
 class FamilyListResource(Resource):
     def get(self):
+        # get all
         familys = Family.query.all()
         return familys_schema.dump(familys)
 
     def post(self):
+        # create a new one
         new_family = Family(
             guardian_id=request.json['guardian_id'],
             student_id=request.json['student_id'],
@@ -68,10 +71,12 @@ class FamilyListResource(Resource):
 
 class FamilyResource(Resource):
     def get(self, id):
+        # get one by id
         family_got = Family.query.filter_by(id=id).first_or_404()
         return family_schema.dump(family_got)
 
     def put(self, id):
+        # update one by id
         family_got = Family.query.filter_by(id=id).first_or_404()
 
         if 'guardian_id' in request.json:
@@ -99,6 +104,7 @@ class FamilyResource(Resource):
         return family_schema.dump(family_got)
 
     def delete(self, id):
+        # delete one by id
         family_got = Family.query.filter_by(id=id).first_or_404()
         db.session.delete(family_got)
         db.session.commit()
@@ -108,6 +114,7 @@ class FamilyResource(Resource):
 
 ###### Guardian ######
 class Guardian(db.Model):
+    # table model
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(256))
     last_name = db.Column(db.String(256))
@@ -137,10 +144,12 @@ guardians_schema = GuardianSchema(many=True)
 
 class GuardianListResource(Resource):
     def get(self):
+        # get all
         guardians = Guardian.query.all()
         return guardians_schema.dump(guardians)
 
     def post(self):
+        # create a new one
         new_guardian = Guardian(
             first_name=request.json['first_name'],
             last_name=request.json['last_name'],
@@ -161,11 +170,13 @@ class GuardianListResource(Resource):
 
 class GuardianResource(Resource):
     def get(self, phone_number):
+        # get one by phone_number
         guardian = Guardian.query.filter_by(
             phone_number=phone_number).first_or_404()
         return guardian_schema.dump(guardian)
 
     def put(self, phone_number):
+        # update one by phone_number
         guardian = Guardian.query.filter_by(
             phone_number=phone_number).first_or_404()
         if 'first_name' in request.json:
@@ -194,6 +205,7 @@ class GuardianResource(Resource):
         return guardian_schema.dump(guardian)
 
     def delete(self, phone_number):
+        # delete one by phone_number
         guardian = Guardian.query.filter_by(
             phone_number=phone_number).first_or_404()
         db.session.delete(guardian)
@@ -204,6 +216,7 @@ class GuardianResource(Resource):
 
 ###### Student ######
 class Student(db.Model):
+    # table model
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(256))
     last_name = db.Column(db.String(256))
@@ -235,10 +248,12 @@ students_schema = StudentSchema(many=True)
 
 class StudentListResource(Resource):
     def get(self):
+        # get all
         students = Student.query.all()
         return students_schema.dump(students)
 
     def post(self):
+        # create a new one
         new_student = Student(
             first_name=request.json['first_name'],
             last_name=request.json['last_name'],
@@ -261,10 +276,12 @@ class StudentListResource(Resource):
 
 class StudentResource(Resource):
     def get(self, id):
+        # get one by id
         student = Student.query.filter_by(id=id).first_or_404()
         return student_schema.dump(student)
 
     def put(self, id):
+        # update by id
         student = Student.query.filter_by(id=id).first_or_404()
         if 'first_name' in request.json:
             student.first_name = request.json['first_name']
@@ -297,6 +314,7 @@ class StudentResource(Resource):
         return student_schema.dump(student)
 
     def delete(self, id):
+        # delete by id
         student = Student.query.filter_by(id=id).first_or_404()
         db.session.delete(student)
         db.session.commit()
