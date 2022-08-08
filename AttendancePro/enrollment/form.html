@@ -32,10 +32,15 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "tpl",
+              "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 13pt;\"><strong><u>IRVINE CANAAN CHRISTIAN COMMUNITY CHURCH - CKFM REGISTRATION - JULY, 2022 ~ JUNE, 2023</u></strong></span></p>\n<p style=\"text-align: center;\"><strong><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><u>FAMILIES MUST REREGISTER ANNUALLY * ENGLISH PREVAILS, MANDARIN IS ADVISORY</u></span></strong></p>"
+            }
+          ],
           "body": [
             {
               "type": "wizard",
-              "id": "u:3353c740070a",
               "steps": [
                 {
                   "title": "Step 1 Guardian Enrollment",
@@ -55,7 +60,8 @@
                             {
                               "type": "collapse-group",
                               "activeKey": [
-                                "1"
+                                "1",
+                                "2"
                               ],
                               "body": [
                                 {
@@ -63,7 +69,6 @@
                                   "key": "1",
                                   "active": true,
                                   "header": "Basic information",
-                                  "id": "u:3c6aca3d43c1",
                                   "body": [
                                     {
                                       "type": "grid",
@@ -72,10 +77,8 @@
                                           "body": [
                                             {
                                               "type": "input-text",
-                                              "id": "u:46369b04a622",
                                               "label": "First Name:",
                                               "name": "g1_fname",
-                                              "required": false,
                                               "mode": "horizontal"
                                             },
                                             {
@@ -83,15 +86,12 @@
                                               "label": "Last Name:",
                                               "name": "g1_lname",
                                               "mode": "horizontal",
-                                              "required": false,
-                                              "id": "u:baed76186575"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "Phone Number:",
                                               "name": "g1_phone",
                                               "mode": "horizontal",
-                                              "id": "u:7c736ebcccb5"
                                             },
                                             {
                                               "type": "input-email",
@@ -103,19 +103,16 @@
                                               },
                                               "validationErrors": {
                                                 "isEmail": "Invalid email address"
-                                              },
-                                              "id": "u:3343567e220c"
+                                              }
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "Relationship to Student:",
                                               "name": "g1_relationship",
-                                              "mode": "horizontal",
-                                              "required": false,
-                                              "id": "u:b745ac7ac0b1"
+                                              "mode": "horizontal"
                                             }
                                           ],
-                                          "id": "u:0473b6d6a787",
+                                          
                                           "valign": "top",
                                           "horizontal": {
                                             "justify": true
@@ -128,7 +125,6 @@
                                               "type": "tpl",
                                               "tpl": "<p><span style=\"font-size: 10pt;\">Home Address:</span></p>",
                                               "inline": true,
-                                              "id": "u:4970cbfea5dd",
                                               "style": {
                                               },
                                               "className": "m-b-sm"
@@ -137,33 +133,28 @@
                                               "type": "input-text",
                                               "label": "Street:",
                                               "name": "g1_street",
-                                              "mode": "horizontal",
-                                              "id": "u:b8d40f51b7c3"
+                                              "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "City:",
                                               "name": "g1_city",
-                                              "mode": "horizontal",
-                                              "id": "u:9ad51313a7e8"
+                                              "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "State:",
                                               "name": "g1_state",
-                                              "mode": "horizontal",
-                                              "id": "u:82ac73e0e8c1"
+                                              "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "Zip Code:",
                                               "name": "g1_zip",
-                                              "mode": "horizontal",
-                                              "id": "u:9f029b9d3c8d"
+                                              "mode": "horizontal"
                                             }
                                           ],
                                           "valign": "top",
-                                          "id": "u:f29be33f9e8a",
                                           "horizontal": {
                                             "justify": true
                                           }
@@ -184,35 +175,60 @@
                                                   "value": "barcode"
                                                 }
                                               ],
-                                              "id": "u:e57c27d5a5ef",
+                                              
                                               "multiple": false,
                                               "mode": "horizontal"
                                             }
                                           ],
-                                          "id": "u:b1d17068b8fd",
                                           "horizontal": {
                                             "justify": true
                                           }
                                         }
-                                      ],
-                                      "id": "u:1aac2f6fde08"
+                                      ] 
                                     }
                                   ],
                                   "headingClassName": "text-lg"
                                 },
                                 {
                                   "type": "collapse",
-                                  "key": "3",
+                                  "key": "2",
                                   "header": "Face ID",
                                   "body": [
                                     {
                                       "type": "iframe",
                                       "src": "../lib/webcam.html",
-                                      "height": 1000
+                                      "height": 550,
+                                      "events": {
+                                        "snap": {
+                                          "actionType": "dialog",
+                                          "dialog": {
+                                            "title": "Do you want to keep this photo for your Face ID?",
+                                            "body": {
+                                              "type": "image",
+                                              "height": "400px",
+                                              "width": "400px",
+                                              "name": "img"
+                                            },
+                                            "onEvent": {
+                                              "confirm": {
+                                                "weight": 0,
+                                                "actions": [
+                                                  {
+                                                    "actionType": "add",
+                                                    "target": "guardian_images",
+                                                    "payload": {
+                                                      "img": "${img}"
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
                                     }
                                   ],
-                                  "id": "u:850e75e753be",
-                                  "visibleOn": "select == 'face'",
+                                  "visibleOn": "this.select == 'face'",
                                   "headingClassName": "text-lg"
                                 },
                                 {
@@ -221,7 +237,6 @@
                                   "body": [
                                     {
                                       "type": "grid",
-                                      "id": "u:d4d27d784422",
                                       "columns": [
                                         {
                                           "body": [
@@ -229,25 +244,21 @@
                                               "type": "input-text",
                                               "label": "PRIMARY FAMILY PHYSICIAN 家庭醫生名字",
                                               "name": "physician",
-                                              "id": "u:e6a7a58cc1d7",
                                               "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "NAME OF MEDICAL INSURANCE 醫療保險公司",
                                               "name": "medical_insurance",
-                                              "id": "u:42d0037b6809",
                                               "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "MEDICAL INSURANCE POLICY 保單號碼 #",
                                               "name": "insurance_number",
-                                              "id": "u:89789c33cbdd",
                                               "mode": "horizontal"
                                             }
                                           ],
-                                          "id": "u:f9e6b38ea6ec",
                                           "columnClassName": "m-l-lg",
                                           "horizontal": {
                                             "adjust": true
@@ -259,25 +270,21 @@
                                               "type": "input-text",
                                               "label": "PHYSICIAN PHONE 醫生電話",
                                               "name": "physician_phone",
-                                              "id": "u:fb07583e5fed",
                                               "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "INSURANCE PHONE 保險公司電話",
                                               "name": "insurance_phone",
-                                              "id": "u:624e82596897",
                                               "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "GROUP #",
                                               "name": "group",
-                                              "id": "u:8b1152e8a395",
                                               "mode": "horizontal"
                                             }
                                           ],
-                                          "id": "u:cbd7e82cf115",
                                           "horizontal": {
                                             "adjust": true
                                           }
@@ -285,8 +292,7 @@
                                       ]
                                     }
                                   ],
-                                  "key": "2",
-                                  "id": "u:f00a99aa01c5",
+                                  "key": "3",
                                   "headingClassName": "text-lg"
                                 },
                                 {
@@ -297,30 +303,26 @@
                                       "type": "tpl",
                                       "tpl": "<p style=\"text-align: center;\"><span style=\"font-size: 14pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\">2022-2023 PARENT VOLUMTEERING POSTS</span> </strong>家长义工岗位</span></p>\n<p><span style=\"background-color: #ecf0f1; font-size: 10pt;\"><strong><em>*Mandatory 3 months per family per year / </em></strong>每家庭每年有义务作义工服务三个月&nbsp;</span></p>\n<p><span style=\"background-color: #ecf0f1; font-size: 10pt;\"><strong><em>*Parents, be sure to add yourselves in &ldquo;ICCCC Parents&rdquo; WeChat Group for further communication / &nbsp;</em></strong>家长们，请务必加入&ldquo;<strong><em>ICCCC </em></strong>家长&rdquo;微信群以便沟通&nbsp;&nbsp;</span></p>",
                                       "inline": false,
-                                      "id": "u:9e80d62ff7fe",
                                       "style": {
                                       },
                                       "className": "m-l-lg"
                                     },
                                     {
-                                      "type": "divider",
-                                      "id": "u:f255b9761bf7"
+                                      "type": "divider"
                                     },
                                     {
                                       "type": "grid",
-                                      "id": "u:a2304012d6ce",
                                       "columns": [
                                         {
                                           "body": [
                                             {
                                               "type": "tpl",
                                               "tpl": "<p style=\"text-align: center;\"><span style=\"font-size: 10pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\"><span style=\"color: #e03e2d;\">*</span>SUNDAY SCHOOL</span> </strong><strong>主日学</strong></span></p>",
-                                              "inline": false,
-                                              "id": "u:f5107a625e5c"
+                                              "inline": false
                                             },
                                             {
                                               "type": "checkboxes",
-                                              "label": "",
+                                              "required": true,
                                               "name": "sunday",
                                               "options": [
                                                 {
@@ -340,15 +342,12 @@
                                                   "value": "supervisor"
                                                 }
                                               ],
-                                              "id": "u:be1e9d971660",
                                               "inline": false,
                                               "joinValues": true,
                                               "editable": true,
-                                              "required": true,
                                               "mode": "normal"
                                             }
                                           ],
-                                          "id": "u:16c4c28b97df",
                                           "columnClassName": "m-l-lg"
                                         },
                                         {
@@ -357,13 +356,12 @@
                                               "type": "tpl",
                                               "tpl": "<p style=\"text-align: center;\"><span style=\"font-size: 10pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\"><span style=\"color: #e03e2d;\">*</span>Friday Night</span>&nbsp;&nbsp;</strong><strong>周五晚</strong></span></p>",
                                               "inline": false,
-                                              "id": "u:b493dde859b7",
                                               "style": {
                                               }
                                             },
                                             {
                                               "type": "checkboxes",
-                                              "label": "",
+                                              "required": true,
                                               "name": "friday",
                                               "options": [
                                                 {
@@ -391,15 +389,12 @@
                                                   "value": "store"
                                                 }
                                               ],
-                                              "id": "u:497a2be00d2e",
                                               "inline": false,
                                               "joinValues": true,
                                               "editable": true,
-                                              "required": true,
                                               "mode": "normal"
                                             }
-                                          ],
-                                          "id": "u:4afda12cbb75"
+                                          ]
                                         },
                                         {
                                           "body": [
@@ -407,13 +402,11 @@
                                               "type": "tpl",
                                               "tpl": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 10pt;\"><span style=\"font-family: 'times new roman', times, serif;\">Special Events</span> 特别活动&nbsp;</span></strong></p>\n<p style=\"text-align: left;\"><span style=\"font-size: 10pt;\">(<strong><span style=\"font-size: 10pt; font-family: 'times new roman', times, serif;\">4 days count as one month of service/ 4</span> </strong>天计为一个月的服务）</span></p>",
                                               "inline": false,
-                                              "id": "u:a3accd463a12",
                                               "style": {
                                               }
                                             },
                                             {
                                               "type": "checkboxes",
-                                              "label": "",
                                               "name": "special",
                                               "options": [
                                                 {
@@ -449,57 +442,63 @@
                                                   "value": "H"
                                                 }
                                               ],
-                                              "id": "u:93cf67929f38",
                                               "inline": false,
                                               "joinValues": true,
                                               "editable": true,
                                               "mode": "normal"
                                             }
-                                          ],
-                                          "id": "u:4cbfb67efa57"
+                                          ]
                                         }
                                       ]
                                     }
                                   ],
                                   "key": "4",
-                                  "id": "u:0a6fb6e8cd44",
                                   "headingClassName": "text-lg"
+                                },
+                                {
+                                  "type": "collapse",
+                                  "key": "5",
+                                  "body": [
+                                    {
+                                      "type": "input-table",
+                                      "name": "guardian_images",
+                                      "columns": {
+                                        "name": "img"
+                                      }
+                                    }
+                                  ],
+                                  "disabled": true,
+                                  "className": "w-xxs"
                                 }
                               ],
-                              "id": "u:757425374ac3",
                               "className": "m-l"
                             }
                           ],
-                          "id": "u:72d427494814",
                           "headingClassName": "text-lg"
                         }
-                      ],
-                      "id": "u:cccc0f955adc"
+                      ]
                     },
                     {
                       "type": "combo",
                       "label": "",
-                      "name": "combo",
+                      "name": "guardians",
                       "multiple": true,
                       "items": [
                         {
                           "type": "container",
-                          "id": "u:c766f0b07728",
                           "body": [
                             {
-                              "type": "divider",
-                              "id": "u:27603cd60868"
+                              "type": "divider"
                             },
                             {
                               "type": "collapse",
                               "body": [
                                 {
                                   "type": "collapse-group",
-                                  "id": "u:757425374ac3",
                                   "body": [
                                     {
                                       "type": "collapse",
-                                      "id": "u:3c6aca3d43c1",
+                                      
                                       "key": "1",
                                       "active": true,
                                       "header": "Basic information",
@@ -511,7 +510,7 @@
                                               "body": [
                                                 {
                                                   "type": "input-text",
-                                                  "id": "u:46369b04a622",
+                                                  
                                                   "label": "First Name:",
                                                   "name": "g1_fname",
                                                   "required": false,
@@ -523,14 +522,14 @@
                                                   "name": "g1_lname",
                                                   "mode": "horizontal",
                                                   "required": false,
-                                                  "id": "u:baed76186575"
+                                                  
                                                 },
                                                 {
                                                   "type": "input-text",
                                                   "label": "Phone Number:",
                                                   "name": "g1_phone",
                                                   "mode": "horizontal",
-                                                  "id": "u:7c736ebcccb5"
+                                                  
                                                 },
                                                 {
                                                   "type": "input-email",
@@ -542,20 +541,17 @@
                                                   },
                                                   "validationErrors": {
                                                     "isEmail": "Invalid email address"
-                                                  },
-                                                  "id": "u:3343567e220c"
+                                                  }
                                                 },
                                                 {
                                                   "type": "input-text",
                                                   "label": "Relationship to Student:",
                                                   "name": "g1_relationship",
                                                   "mode": "horizontal",
-                                                  "required": false,
-                                                  "id": "u:b745ac7ac0b1"
+                                                  "required": false
                                                 }
                                               ],
                                               "valign": "middle",
-                                              "id": "u:0473b6d6a787",
                                               "horizontal": {
                                                 "justify": true
                                               },
@@ -565,7 +561,6 @@
                                               "body": [
                                                 {
                                                   "type": "select",
-                                                  "id": "u:e57c27d5a5ef",
                                                   "label": "Preferred Check-in Method",
                                                   "name": "select2",
                                                   "options": [
@@ -582,35 +577,37 @@
                                                   "mode": "horizontal"
                                                 }
                                               ],
-                                              "id": "u:b1d17068b8fd",
                                               "horizontal": {
                                                 "justify": true
                                               }
                                             }
-                                          ],
-                                          "id": "u:1aac2f6fde08"
+                                          ]
                                         }
                                       ],
                                       "headingClassName": "text-lg"
                                     },
                                     {
                                       "type": "collapse",
-                                      "key": "3",
+                                      "key": "2",
                                       "header": "Face ID",
                                       "body": [
+                                        {
+                                          "type": "iframe",
+                                          "src": "../lib/webcam.html",
+                                          "height": 550
+                                        }
                                       ],
-                                      "id": "u:850e75e753be",
-                                      "visibleOn": "select2 == 'face'",
+                                      "visibleOn": "this.select2 == 'face'",
                                       "headingClassName": "text-lg"
                                     }
                                   ],
                                   "activeKey": [
-                                    "1"
+                                    "1",
+                                    "2"
                                   ],
                                   "className": "m-l"
                                 }
                               ],
-                              "id": "u:72d427494814",
                               "key": "1",
                               "active": true,
                               "header": "Guardian",
@@ -619,7 +616,6 @@
                           ]
                         }
                       ],
-                      "id": "u:16a08d253495",
                       "placeholder": "",
                       "joinValues": true,
                       "addButtonText": "Enroll Another Guardian",
@@ -635,8 +631,7 @@
                       "multiLine": false
                     }
                   ],
-                  "mode": "horizontal",
-                  "id": "u:ec59d33cff67"
+                  "mode": "horizontal"
                 },
                 {
                   "title": "Step 2 Student Enrollment",
@@ -656,7 +651,8 @@
                             {
                               "type": "collapse-group",
                               "activeKey": [
-                                "1"
+                                "1",
+                                "2"
                               ],
                               "body": [
                                 {
@@ -664,7 +660,6 @@
                                   "key": "1",
                                   "active": true,
                                   "header": "Basic information",
-                                  "id": "u:3c6aca3d43c1",
                                   "body": [
                                     {
                                       "type": "grid",
@@ -673,7 +668,6 @@
                                           "body": [
                                             {
                                               "type": "input-text",
-                                              "id": "u:4f7e4ab48fd2",
                                               "label": "First Name:",
                                               "name": "s1_fname",
                                               "required": false,
@@ -685,20 +679,18 @@
                                               "name": "s1_lname",
                                               "mode": "horizontal",
                                               "required": false,
-                                              "id": "u:05a6252cfe32"
+                                              
                                             },
                                             {
                                               "type": "input-date",
                                               "label": "Date of Birth:",
                                               "name": "date",
                                               "mode": "horizontal",
-                                              "id": "u:e0b6768db73a",
                                               "placeholder": "",
                                               "embed": false
                                             },
                                             {
                                               "type": "select",
-                                              "id": "u:8d8f07688b81",
                                               "label": "Gender:",
                                               "name": "gender",
                                               "options": [
@@ -715,7 +707,7 @@
                                               "placeholder": ""
                                             }
                                           ],
-                                          "id": "u:8e254a9c71ab",
+                                          
                                           "valign": "top",
                                           "md": "",
                                           "columnClassName": "m-l-lg",
@@ -729,18 +721,15 @@
                                               "type": "input-text",
                                               "label": "Grade:",
                                               "name": "s1_grade",
-                                              "mode": "horizontal",
-                                              "id": "u:acad9355c232"
+                                              "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "Allergies",
                                               "name": "s1_allergy",
-                                              "mode": "horizontal",
-                                              "id": "u:ea1d08b74fa1"
+                                              "mode": "horizontal"
                                             }
                                           ],
-                                          "id": "u:4272be6752a3",
                                           "horizontal": {
                                             "justify": true
                                           }
@@ -761,30 +750,59 @@
                                                   "value": "barcode"
                                                 }
                                               ],
-                                              "id": "u:e57c27d5a5ef",
                                               "multiple": false,
                                               "mode": "horizontal"
                                             }
                                           ],
-                                          "id": "u:b1d17068b8fd",
                                           "horizontal": {
                                             "justify": true
                                           }
                                         }
-                                      ],
-                                      "id": "u:1aac2f6fde08"
+                                      ]
                                     }
                                   ],
                                   "headingClassName": "text-lg"
                                 },
                                 {
                                   "type": "collapse",
-                                  "key": "3",
+                                  "key": "2",
                                   "header": "Face ID",
                                   "body": [
+                                    {
+                                      "type": "iframe",
+                                      "src": "../lib/webcam.html",
+                                      "height": 550,
+                                      "events": {
+                                        "snap": {
+                                          "actionType": "dialog",
+                                          "dialog": {
+                                            "title": "Do you want to keep this photo for your Face ID?",
+                                            "body": {
+                                              "type": "image",
+                                              "height": "400px",
+                                              "width": "400px",
+                                              "name": "img"
+                                            },
+                                            "onEvent": {
+                                              "confirm": {
+                                                "weight": 0,
+                                                "actions": [
+                                                  {
+                                                    "actionType": "add",
+                                                    "target": "student_images",
+                                                    "payload": {
+                                                      "img": "${img}"
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
                                   ],
-                                  "id": "u:850e75e753be",
-                                  "visibleOn": "student_select == 'face'",
+                                  "visibleOn": "this.student_select == 'face'",
                                   "headingClassName": "text-lg"
                                 },
                                 {
@@ -821,30 +839,41 @@
                                           "label": "Friday Night   周五晚 (Preschool – 6th grades) July 2022 – June 2023  Friday 7:30 PM – 9:30 PM  Fee Required Program/需繳费活動  □ Early Bird / 1st Time Registration  $90  (June 2022) / 於6月份時註冊 □ Regular Registration $120.00 (July 2022 – Dec. 2022) 於7月至12月間註冊 □ Late Registration $60.00 (Jan. 2023 – June 2023) 於2023年1月至6月間註冊"
                                         }
                                       ],
-                                      "id": "u:9a37b5313df2",
+                                      
                                       "multiple": true,
                                       "className": "m-l-lg"
                                     }
                                   ],
-                                  "key": "4",
-                                  "id": "u:0a6fb6e8cd44",
+                                  "key": "3",
                                   "headingClassName": "text-lg"
+                                },
+                                {
+                                  "type": "collapse",
+                                  "key": "4",
+                                  "body": [
+                                    {
+                                      "type": "input-table",
+                                      "name": "student_images",
+                                      "columns": {
+                                        "name": "img"
+                                      }
+                                    }
+                                  ],
+                                  "disabled": true,
+                                  "className": "w-xxs"
                                 }
                               ],
-                              "id": "u:757425374ac3",
                               "className": "m-l"
                             }
                           ],
-                          "id": "u:72d427494814",
                           "headingClassName": "text-lg"
                         }
-                      ],
-                      "id": "u:cccc0f955adc"
+                      ]
                     },
                     {
                       "type": "combo",
                       "label": "",
-                      "name": "combo2",
+                      "name": "students",
                       "multiple": true,
                       "items": [
                         {
@@ -855,13 +884,12 @@
                             },
                             {
                               "type": "collapse",
-                              "id": "u:72d427494814",
                               "body": [
                                 {
                                   "type": "collapse-group",
-                                  "id": "u:757425374ac3",
                                   "activeKey": [
-                                    "1"
+                                    "1",
+                                    "2"
                                   ],
                                   "body": [
                                     {
@@ -869,7 +897,7 @@
                                       "key": "1",
                                       "active": true,
                                       "header": "Basic information",
-                                      "id": "u:3c6aca3d43c1",
+                                      "": "u:3c6aca3d43c1",
                                       "body": [
                                         {
                                           "type": "grid",
@@ -878,7 +906,6 @@
                                               "body": [
                                                 {
                                                   "type": "input-text",
-                                                  "id": "u:4f7e4ab48fd2",
                                                   "label": "First Name:",
                                                   "name": "s1_fname",
                                                   "required": false,
@@ -889,21 +916,18 @@
                                                   "label": "Last Name:",
                                                   "name": "s1_lname",
                                                   "mode": "horizontal",
-                                                  "required": false,
-                                                  "id": "u:05a6252cfe32"
+                                                  "required": false
                                                 },
                                                 {
                                                   "type": "input-date",
                                                   "label": "Date of Birth:",
                                                   "name": "date",
                                                   "mode": "horizontal",
-                                                  "id": "u:e0b6768db73a",
                                                   "placeholder": "",
                                                   "embed": false
                                                 },
                                                 {
                                                   "type": "select",
-                                                  "id": "u:8d8f07688b81",
                                                   "label": "Gender:",
                                                   "name": "gender",
                                                   "options": [
@@ -920,7 +944,6 @@
                                                   "placeholder": ""
                                                 }
                                               ],
-                                              "id": "u:8e254a9c71ab",
                                               "valign": "top",
                                               "md": "",
                                               "columnClassName": "m-l-lg",
@@ -935,17 +958,16 @@
                                                   "label": "Grade:",
                                                   "name": "s1_grade",
                                                   "mode": "horizontal",
-                                                  "id": "u:acad9355c232"
+                                                  
                                                 },
                                                 {
                                                   "type": "input-text",
                                                   "label": "Allergies",
                                                   "name": "s1_allergy",
                                                   "mode": "horizontal",
-                                                  "id": "u:ea1d08b74fa1"
+                                                  
                                                 }
                                               ],
-                                              "id": "u:4272be6752a3",
                                               "horizontal": {
                                                 "justify": true
                                               }
@@ -966,30 +988,33 @@
                                                       "value": "barcode"
                                                     }
                                                   ],
-                                                  "id": "u:e57c27d5a5ef",
+                                                  
                                                   "multiple": false,
                                                   "mode": "horizontal"
                                                 }
                                               ],
-                                              "id": "u:b1d17068b8fd",
                                               "horizontal": {
                                                 "justify": true
                                               }
                                             }
-                                          ],
-                                          "id": "u:1aac2f6fde08"
+                                          ]
                                         }
                                       ],
                                       "headingClassName": "text-lg"
                                     },
                                     {
                                       "type": "collapse",
-                                      "key": "3",
+                                      "key": "2",
                                       "header": "Face ID",
                                       "body": [
+                                        {
+                                          "type": "iframe",
+                                          "src": "../lib/webcam.html",
+                                          "height": 550
+                                        }
                                       ],
-                                      "id": "u:850e75e753be",
-                                      "visibleOn": "student_select2 == 'face'",
+                                      
+                                      "visibleOn": "this.student_select2 == 'face'",
                                       "headingClassName": "text-lg"
                                     },
                                     {
@@ -1026,13 +1051,11 @@
                                               "label": "Friday Night   周五晚 (Preschool – 6th grades) July 2022 – June 2023  Friday 7:30 PM – 9:30 PM  Fee Required Program/需繳费活動  □ Early Bird / 1st Time Registration  $90  (June 2022) / 於6月份時註冊 □ Regular Registration $120.00 (July 2022 – Dec. 2022) 於7月至12月間註冊 □ Late Registration $60.00 (Jan. 2023 – June 2023) 於2023年1月至6月間註冊"
                                             }
                                           ],
-                                          "id": "u:9a37b5313df2",
                                           "multiple": true,
                                           "className": "m-l-lg"
                                         }
                                       ],
-                                      "key": "4",
-                                      "id": "u:0a6fb6e8cd44",
+                                      "key": "3",
                                       "headingClassName": "text-lg"
                                     }
                                   ],
@@ -1059,12 +1082,10 @@
                         "className": "m-t-lg"
                       },
                       "mode": "normal",
-                      "id": "u:bba834216295",
                       "multiLine": false
                     }
                   ],
-                  "mode": "normal",
-                  "id": "u:974772fb4bed"
+                  "mode": "normal" 
                 },
                 {
                   "title": "Step 3 Acknowledgment",
@@ -1073,16 +1094,13 @@
                       "type": "tpl",
                       "tpl": "<p style=\"text-align: center;\"><span style=\"font-size: 14pt; font-family: 'times new roman', times, serif;\"><strong>Terms</strong></span></p>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong><u>PERMISSION TO PARTICIPATE:</u></strong><strong> </strong>I, the parent/guardian of the child(ren) named on this form, do hereby give my consent for my child(ren)/ward(s) to participate in this ministry activity of ICCCC.</span></p>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong><u>WAIVER:</u></strong> In consideration of the benefits to be derived from this ministry activity, I hereby waive any claim against ICCCC, the church staff, any volunteers, and any agents of the church.</span></p>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong><u>PHOTOGRAPHIC AUTHORIZATION:</u></strong><strong> </strong>I, the parent/guardian of the child(ren) named on this form, do hereby acknowledge that pictures of my child(ren)/ward(s) may be taken during this ministry event. I understand this and give my permission for ICCCC to use any images taken on their website, in print media, in a display, or by electronic projection.</span></p>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong><u>ADVISORY NOTICE:</u></strong><strong> </strong>Please be advised that the bearer of this form has full and complete authority to approve any emergency medical or dental care deemed necessary for any child(ren) named on this form. This authorization includes x-ray examination, anesthetic, medical, dental, or surgical diagnosis or treatment and hospital care. Such diagnosis or treatment is to be rendered under the general supervision of any dentist, physician, or surgeon licensed under the law, whether at the office of said dentist or physician or at a hospital. I do further authorize said agent to select transportation to chosen dentist, physician, or hospital. This authorization will remain in effect while said minor is enroute to or from involved or participating in any program or activity authorized by ICCCC, unless revoked by the undersigned in writing and delivered to the aforesaid agent. I hereby authorize any hospital which has provided treatment to the minor(s) named on this form to surrender physical custody of such person to said agent upon completion of treatment. This form remains valid in perpetuity, may be used for other events, unless revoked by the undersigned in writing and delivered to the aforesaid agent.&nbsp; Parents are responsible to inform the church of any changes in health conditions, primary care physicians, or medical insurance information.</span></p>\n<p><span style=\"font-size: 10pt;\"><strong><u>參加者之許可公告通知</u></strong>：本人，此表格中孩童的家長/監護人，在此允許我的孩子參加爾灣迦南基督教會兒童事工的活動。</span></p>\n<p><span style=\"font-size: 10pt;\"><strong><u>棄權聲明</u></strong>：由此兒童事工的活動所帶給孩子的福利，本人願意放棄對爾灣迦南基督教會、教會同工、義工和所有與教會有關人員追訴法律責任的權利。</span></p>\n<p><span style=\"font-size: 10pt;\"><strong><u>影像權利</u></strong><strong><u>:</u></strong> 本人，此表格中孩童的家長/監護人，在此同意ICCCC有權使用在事工所拍攝的任和影像錄影，並用在網路印刷及其他電子媒介中。</span></p>\n<p><span style=\"font-size: 10pt;\"><strong><u>注意事項</u></strong>：簽署此表格之人授權：讓此表格中所列之孩童得到必要時之緊急醫療牙齒護理措施：包括X光檢查、麻醉、醫療，牙齒或外科等之診斷、醫護及住院。此類診斷或治療，不論是在牙醫診所、醫師診所或醫院內，由牙醫、醫師、由牙科及外科醫生或醫院的一般觀察，我在此授權給任何給予此表格中孩童完整治療的醫院。並在此授權給教會有關人士，由他們選擇適當的交通工具。此授權書在孩童參與爾灣迦南基督教會主辦的任何活動中一直有效，除非簽署此文件者以書面通知取消。再者，家長要負責通知教會任何有關孩童健康情況的變化，並提供主治醫生和醫療保險資料。<span style=\"font-family: 'times new roman', times, serif;\"><strong>(Note: English Legally Prevails)</strong></span></span></p>",
                       "inline": false,
-                      "id": "u:2656d5b9bcc4",
                       "className": "m-lg p-lg"
                     },
                     {
                       "type": "divider",
-                      "id": "u:7fe8a666814b"
                     },
                     {
                       "type": "tpl",
-                      "id": "u:e64c71702b33",
                       "tpl": "<p style=\"text-align: center;\"><span style=\"font-size: 14pt; font-family: 'times new roman', times, serif;\"><strong>Alternate Drop Off &amp; Pick Up Authorization</strong></span></p>\n<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 12pt;\">Authorized Person(s) to act as &ldquo;Custodian of&rdquo; my child (ren) / ward(s)</span></p>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 11pt;\">&nbsp;<span style=\"font-size: 10pt;\">I / We authorize any of the following adults over 18 years of age to acts as Custodians of my/our child (ren). I understand that these individuals must present a government issued photo identification in order to check my child in to or check my child out of any ICCCC ministry or program. I have informed by designee(s) of this requirement of all security protocols of the church.</span></span></p>\n<p><span style=\"font-size: 10pt;\">本人授權列於以下超過18歲的成年人，作為本人子女的監護人。我能了解並同意老師及同工檢查接送我孩子的人之證件。&nbsp;</span></p>",
                       "inline": false,
                       "mode": "horizontal",
@@ -1092,11 +1110,9 @@
                     },
                     {
                       "type": "divider",
-                      "id": "u:55ebd9e94a09"
                     },
                     {
                       "type": "tpl",
-                      "id": "u:ac44ab28ec1d",
                       "mode": "horizontal",
                       "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 14pt;\"><strong>Student and Parent Agreement</strong></span></p>\n<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 12pt;\"><strong>(Preschool Age &ndash; Only Parents Sign)</strong></span></p>\n<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 12pt;\"><strong>(Elementary Age &ndash; Children &amp; Parents Sign)</strong>&nbsp;</span></p>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">I ______________________________, together with my parents, agree to fulfill our spiritual, participation, financial, and safety responsibilities as follows:</span></p>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>Spiritually </strong><strong>- we agree to: </strong></span></p>\n<ul>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Learn our Bible verses and handbook sections</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Pray together regularly for our family, church family, church leaders, and workers</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Try and live a life that is pleasing to God</span></li>\n</ul>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>Participation </strong><strong>- we agree to: </strong></span></p>\n<ul>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Read the emails, WeChat, and notices sent home to remain aware of what is happening in the various CKM ministry programs</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Provide a nutritious snack and juice as scheduled for the programs my child(ren) / ward&nbsp; is / are enrolled in</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Work in the classroom / ministry area as scheduled on assigned days. In case of emergency, notify director and &nbsp;to exchange dates with another enrolled parent</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Work in each ministry program our child is involved in, understanding that CKM is a Parent Cooperative ministry</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Help my child(ren) / Ward(s) to fully prepare for and participate in all enrolled programs</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Dress in appropriate clothing as required for a public performance (choir) and Awana (uniform)</span></li>\n</ul>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>Financial Responsibilities &ndash; we agree to: </strong></span></p>\n<ul>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Pay the registration fee upon completion / submittal of the registration form</span></li>\n</ul>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Or communicate our financial need</span></p>\n<ul>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>Request for a partial or full scholarship for my child if needed</strong></span></li>\n<ul>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>Single Parent / Widow / Widower with no secondary support</strong></span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>Unemployed with genuine financial need</strong></span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>We here by request a full or partial scholarship based on the reasons above </strong></span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>please pay what you are able, if anything, indicate what you can pay at the bottom of the page</strong></span></li>\n</ul>\n</ul>\n<p><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><strong>Safety &ndash; we agree to:</strong></span></p>\n<ul>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Keep my child home if there are signs of a cold, flu, or any other communicable disease</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Alert Teacher, Pastor, Deacon, or church office if I see any unsafe school conditions or your child or family has any signs of disease that may affect those who were recently around your child</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Follow the security protocols of checking my child in and out of all CKM programs</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Will take my child home or keep my child with me at all time while at church and not placed in a church ministry program</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Wear the appropriate closed toes shoes for games and recreation (no Crocs, flip flops, sandals, or slick bottomed shoes)</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">Follow &ldquo;The Three R&rsquo;s Standards&rdquo; of Respecting God, Respecting Others, and Respecting Property</span></li>\n<li><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\">To have my cell phone with me and set to receive texts during service or program in case my child needs me</span></li>\n</ul>\n<p><span style=\"font-size: 10pt;\"><span style=\"font-family: 'times new roman', times, serif;\"><strong>English Prevails, Mandarin is Provided AS Advisory</strong></span><strong><span style=\"font-family: 'times new roman', times, serif;\">&nbsp;</span>&nbsp; </strong><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</strong><strong>此文件以英文為準，中文僅供參考之用</strong></span></p>\n<p style=\"text-align: center;\"><span style=\"font-size: 10pt;\"><strong>學生和家長協議</strong></span></p>\n<p style=\"text-align: center;\"><span style=\"font-size: 10pt;\">（學齡前兒童- 只需父母簽名）</span></p>\n<p style=\"text-align: center;\"><span style=\"font-size: 10pt;\">（小學年齡- 兒童及家長簽名）</span></p>\n<p><span style=\"font-size: 10pt;\">我______________________________，和我的父母一起，同意履行我們的屬靈，參與，財務和安全責任如下：</span></p>\n<p><span style=\"font-size: 10pt;\"><strong>屬靈方面</strong> - 我們同意：</span></p>\n<ul>\n<li><span style=\"font-size: 10pt;\">學習我們的聖經經文和手冊章節</span></li>\n<li><span style=\"font-size: 10pt;\">經常一起禱告為我們的家庭，教會家庭，教會領導和員工禱告</span></li>\n<li><span style=\"font-size: 10pt;\">嘗試和過討神喜悅的生活</span></li>\n</ul>\n<p><span style=\"font-size: 10pt;\"><strong>參與</strong> - 我們同意：</span></p>\n<ul>\n<li><span style=\"font-size: 10pt;\">閱讀電子郵件，微信，並送回家的通知信等, 保持對迦南兒童部各項目的時事做 以關注和了解</span></li>\n<li><span style=\"font-size: 10pt;\">按計劃分配, 如期提供富有營養的點心和果汁於我孩子所參加的項目</span></li>\n<li><span style=\"font-size: 10pt;\">按計劃分配, 如期在教室/部門輪做益工，如有緊急情況不能參與, 通知主任並與其他報名的家長交換日期</span></li>\n<li><span style=\"font-size: 10pt;\">參與我們的孩子所參加的各兒童部項目，並理解迦南兒童部是一個父母必須同工的事工</span></li>\n<li><span style=\"font-size: 10pt;\">幫助我的孩子充分準備和參與所有報名項目</span></li>\n<li><span style=\"font-size: 10pt;\">幫助我的孩子著裝於公開表演（合唱）和神國童軍（制服）所要求的服飾</span></li>\n</ul>\n<p><span style=\"font-size: 10pt;\"><strong>財務責任</strong> - 我們同意：</span></p>\n<ul>\n<li><span style=\"font-size: 10pt;\">在提交完成的報名表時, 支付報名費</span></li>\n</ul>\n<p><span style=\"font-size: 10pt;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 或溝通我們的經濟需要</span></p>\n<ul>\n<li><span style=\"font-size: 10pt;\">申請給我的孩子一個部分或全額獎學金</span></li>\n</ul>\n<p><span style=\"font-size: 10pt;\"><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;□</strong><strong> </strong>單親/寡婦/鰥夫，無其他財源輔助</span></p>\n<p><span style=\"font-size: 10pt;\"><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;□</strong><strong> </strong>失業與真正的經濟需要</span></p>\n<p><span style=\"font-size: 10pt;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;我們在此申求全部或部分獎學金基於上述原因</span></p>\n<p><span style=\"font-size: 10pt;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;請在此页面底部填寫上你可以支付的部分</span></p>\n<p><span style=\"font-size: 10pt;\"><strong>安全</strong> - 我們同意：</span></p>\n<ul>\n<li><span style=\"font-size: 10pt;\">如果我的孩子有感冒，流感的跡象，或任何其他傳染病, 我會帶的孩子回家</span></li>\n<li><span style=\"font-size: 10pt;\">警報老師，牧師，執事或教會辦公室，如果我看到兒童部或教會有任何不安全的情況，或您發現您的孩子或家人最近有疾病跡象, 可能會影響到近來照顧您孩子的工作人員</span></li>\n<li><span style=\"font-size: 10pt;\">尊守迦南兒童部的簽到與接領孩童的安全協議</span></li>\n<li><span style=\"font-size: 10pt;\">當迦南兒童部的節目結束後, 我會帶我的孩子回家，或看好我的孩子所有在教堂裡的時間，而不是讓孩子流放在教會的任合事工部門</span></li>\n</ul>\n<ul>\n<li><span style=\"font-size: 10pt;\">穿適當的封閉腳趾的鞋子以免遊戲及休閒娛樂時受傷（不要穿拖鞋，涼鞋，或光滑底的鞋子）</span></li>\n<li><span style=\"font-size: 10pt;\">遵循&ldquo;三個R的標準&rdquo;- 尊重上帝，尊重他人，和尊重物業</span></li>\n<li><span style=\"font-size: 10pt;\">當孩童送迦南兒童部後, 在進入教堂作崇拜或節目前, 我會把我的手機設置為靜聲</span></li>\n<li><span style=\"font-size: 10pt;\">和能接收文字短訊，萬一兒童部通知我的孩子需要我</span></li>\n</ul>",
                       "inline": false,
@@ -1105,12 +1121,10 @@
                       "className": "m-lg p-lg"
                     },
                     {
-                      "type": "divider",
-                      "id": "u:ee11b3ccf492"
+                      "type": "divider"
                     },
                     {
                       "type": "input-text",
-                      "id": "u:e5a7aaffa9da",
                       "label": "Indicate what you can pay 填寫你可支付的部分$",
                       "name": "pay",
                       "mode": "horizontal",
@@ -1123,13 +1137,11 @@
                     },
                     {
                       "type": "checkbox",
+                      "required": true,
                       "option": "I/We have read and fully understand the contents of this  document. I/We agree to the terms and conditions stated above",
-                      "name": "checkbox",
-                      "id": "u:a2f0c991014e",
-                      "required": true
+                      "name": "checkbox"
                     }
                   ],
-                  "id": "u:f80e49bc6960",
                   "mode": "normal"
                 }
               ],
@@ -1150,33 +1162,15 @@
                         "body": [
                           {
                             "type": "tpl",
-                            "tpl": "<p>Thanks for your submission!</p>",
-                            "inline": false,
-                            "id": "u:8b16b5825b5f"
+                            "tpl": "Thanks for your submission!"
                           }
                         ],
-                        "id": "u:ab4e2a309c07",
-                        "closeOnEsc": false,
-                        "closeOnOutside": false,
-                        "showCloseButton": true,
                         "actions": [
                           {
                             "type": "button",
-                            "label": "Close",
-                            "onEvent": {
-                              "click": {
-                                "actions": [
-                                  {
-                                    "componentId": "",
-                                    "args": {
-                                    },
-                                    "actionType": "closeDialog"
-                                  }
-                                ]
-                              }
-                            },
-                            "id": "u:c8dc30604157",
-                            "level": "default"
+                            "actionType": "confirm",
+                            "label": "OK",
+                            "primary": true
                           }
                         ]
                       }
@@ -1186,15 +1180,7 @@
               },
               "className": "m-r m-l"
             }
-          ],
-          "id": "u:844b5ab7091c",
-          "toolbar": [
-            {
-              "type": "tpl",
-              "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 13pt;\"><strong><u>IRVINE CANAAN CHRISTIAN COMMUNITY CHURCH - CKFM REGISTRATION - JULY, 2022 ~ JUNE, 2023</u></strong></span></p>\n<p style=\"text-align: center;\"><strong><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><u>FAMILIES MUST REREGISTER ANNUALLY * ENGLISH PREVAILS, MANDARIN IS ADVISORY</u></span></strong></p>",
-              "id": "u:3870b916e6c3"
-            }
-          ]
+          ] 
         };
         let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();

@@ -1,7 +1,11 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
 </head>
 <body>
   <div id="root"></div>
@@ -14,42 +18,39 @@
     class App extends React.Component {
       constructor(props) {
         super(props);
-        this.state = {
-          screenshot: null,
-          tab: 0
-        };
-      }
-
-      handleClick = () => {
-        const screenshot = this.webcam.getScreenshot();
-        this.setState({ screenshot });
       }
 
       render() {
         const videoConstraints = {
+          aspectRatio: 0.7,
           facingMode: "user"
         };
 
         return (
-          <div>
-              <Webcam
-                videoConstraints={videoConstraints}
-              >
-                {({ getScreenshot }) => (
-                  <button
-                    onClick={() => {
-                      const screenshot = getScreenshot()
-                      this.setState({ screenshot });
-                    }}
-                  >
-                    Capture photo
-                  </button>
-                )}
-              </Webcam>
+          <Webcam
+            videoConstraints={videoConstraints}
+          >
 
-              <h2>----</h2>
-                {this.state.screenshot ? <img src={this.state.screenshot} /> : null}
-          </div>
+            {({ getScreenshot }) => (
+              <button
+                onClick={() => {
+                  const screenshot = getScreenshot()
+
+                  window.parent.postMessage(
+                    {
+                      type: 'amis:snap',
+                      data: {
+                        img: screenshot
+                      }
+                    },
+                    '*'
+                  );
+                }}
+              >
+                Capture photo
+              </button>
+            )}
+          </Webcam>
         );
       }
     }
