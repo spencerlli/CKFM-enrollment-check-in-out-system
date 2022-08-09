@@ -263,11 +263,14 @@ class StudentListResource(Resource):
             school=request.json['school'],
             birth_date=request.json['birth_date'],
             allergies=request.json['allergies'],
-            allergies_medication=request.json['allergies_medication'],
-            medication=request.json['medication'],
-            emergency_name=request.json['emergency_name'],
-            emergency_phone=request.json['emergency_phone'],
-            health_insurance=request.json['health_insurance'],
+            allergies_medication='',
+            medication='',
+            emergency_name='',
+            emergency_phone='',
+            health_insurance='',
+            gender='',
+            grade=''
+
         )
         db.session.add(new_student)
         db.session.commit()

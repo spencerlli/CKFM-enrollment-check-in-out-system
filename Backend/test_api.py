@@ -176,10 +176,15 @@ def crud():
     return jsonify(t)
 
 
-
 @app.route('/requestForm', methods=['GET', 'POST', 'OPTIONS'])
 def requestForm():
-    print(request.json)
+    print(type(request.json))
+    t = {
+        "status": 0,
+        "msg": "I am the response!",
+        "data": {}
+    }
+    return jsonify(t)
 
 
 if __name__ == '__main__':

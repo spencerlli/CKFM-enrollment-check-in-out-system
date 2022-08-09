@@ -1,10 +1,10 @@
 import random
-from ast import literal_eval as make_tuple
 # import MySQLdb.cursors
 # from flask_mysqldb import MySQL
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 # import pymysql
 import os
+from flask_cors import CORS
 
 # pymysql.install_as_MySQLdb()
 
@@ -13,6 +13,7 @@ static_dir = os.path.abspath('../AttendancePro/sdk')
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 app.secret_key = '123456'
 
+CORS(app, resources=r'/*', supports_credentials=True)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -44,6 +45,48 @@ def logout():
 def register():
     msg = ''
     return render_template('flask_templates/register.html', msg=msg)
+
+
+@app.route('/enrollFamily', methods=['GET', 'POST', 'OPTIONS'])
+def enrollFamily():
+    request_json = request.json
+
+    # guardian
+    guardian_json = {}
+    guardian_json['first_name'] = request_json['g1_fname']
+    guardian_json['last_name'] = request_json['g1_lname']
+    guardian_json['phone_number'] = request_json['g1_phone']
+    guardian_json['password'] = '123456'
+    guardian_json['email'] = request_json['g1_email']
+    guardian_json['relationship'] = request_json['g1_relationship']
+    guardian_json['is_special'] = False
+    guardian_json['street'] = request_json['g1_street']
+    guardian_json['city'] = request_json['g1_city']
+    guardian_json['state'] = request_json['g1_state']
+    guardian_json['zip'] = request_json['g1_zip']
+
+    # student
+    student_json = {}
+    student_json['first_name'] = request_json['s1_fname']
+    student_json['last_name'] = request_json['s1_lname']
+    student_json['phone_number'] = request_json['g1_phone']
+    student_json['password'] = '123456'
+    student_json['email'] = request_json['g1_email']
+    student_json['relationship'] = request_json['g1_relationship']
+    student_json['is_special'] = False
+    student_json['street'] = request_json['g1_street']
+    student_json['city'] = request_json['g1_city']
+    student_json['state'] = request_json['g1_state']
+    student_json['zip'] = request_json['g1_zip']
+
+
+
+    ans = {
+        "status": 0,
+        "msg": "Successfully enrolled!",
+        "data": {}
+    }
+    return jsonify(ans)
 
 
 @app.route('/firstTimeEnroll', methods=['GET', 'POST'])
