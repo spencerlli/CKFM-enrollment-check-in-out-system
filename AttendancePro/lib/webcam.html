@@ -1,11 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
+  <meta charset="utf-8"/>
 </head>
 <body>
   <div id="root"></div>
@@ -22,12 +18,13 @@
 
       render() {
         const videoConstraints = {
-          aspectRatio: 0.7,
+          aspectRatio: 0.5,
           facingMode: "user"
         };
 
         return (
           <Webcam
+            mirrored={true}
             videoConstraints={videoConstraints}
           >
 
