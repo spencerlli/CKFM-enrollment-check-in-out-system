@@ -1,5 +1,6 @@
 slick-crud-app-master
 Backend/__pycache__
 Backend/app.py
+AttendancePro/dev/
+AttendancePro/sdk/
 *config.py
-Backend/a.json
