@@ -68,23 +68,30 @@
                                   "type": "collapse",
                                   "key": "1",
                                   "active": true,
-                                  "header": "Basic information",
+                                  "header": "*Basic information",
+                                  "headingClassName": "text-lg",
                                   "body": [
                                     {
                                       "type": "grid",
                                       "columns": [
                                         {
                                           "body": [
-                                          {
+                                            {
+                                              "type": "uuid",
+                                              "name": "uuid"
+                                            },
+                                            {
                                               "type": "input-text",
                                               "label": "First Name:",
                                               "name": "fname",
+                                              "required": true,
                                               "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-text",
                                               "label": "Last Name:",
                                               "name": "lname",
+                                              "required": true,
                                               "mode": "horizontal",
                                             },
                                             {
@@ -164,20 +171,20 @@
                                               "type": "select",
                                               "label": "Preferred Check-in Method",
                                               "name": "select",
+                                              "value": "barcode",
                                               "required": true,
+                                              "multiple": false,
+                                              "mode": "horizontal",
                                               "options": [
-                                                {
-                                                  "label": "Face ID",
-                                                  "value": "face"
-                                                },
+                                                // {
+                                                //   "label": "Face ID",
+                                                //   "value": "face"
+                                                // },
                                                 {
                                                   "label": "Barcode",
                                                   "value": "barcode"
                                                 }
-                                              ],
-                                              
-                                              "multiple": false,
-                                              "mode": "horizontal"
+                                              ]
                                             }
                                           ],
                                           "horizontal": {
@@ -186,8 +193,7 @@
                                         }
                                       ] 
                                     }
-                                  ],
-                                  "headingClassName": "text-lg"
+                                  ]
                                 },
                                 {
                                   "type": "collapse",
@@ -297,7 +303,7 @@
                                 },
                                 {
                                   "type": "collapse",
-                                  "header": "Volunteer",
+                                  "header": "*Volunteer",
                                   "body": [
                                     {
                                       "type": "tpl",
@@ -409,35 +415,35 @@
                                               "options": [
                                                 {
                                                   "label": "Sat. – Church Picnic 野餐",
-                                                  "value": "A"
+                                                  "value": "picnic"
                                                 },
                                                 {
                                                   "label": "Sat. – Evangelical Weekend 布道会-周六",
-                                                  "value": "B"
+                                                  "value": "evangelical"
                                                 },
                                                 {
                                                   "label": "10/31/22 Mon. – Harvest 丰收节",
-                                                  "value": "C"
+                                                  "value": "harvest"
                                                 },
                                                 {
                                                   "label": "Fri. – Christmas Musical 圣诞音乐剧",
-                                                  "value": "D"
+                                                  "value": "christmas"
                                                 },
                                                 {
                                                   "label": "Fri.-- Chinese New Year 春节特别 节目",
-                                                  "value": "E"
+                                                  "value": "chinese"
                                                 },
                                                 {
                                                   "label": "Sat. --  Mission Week 宣教周- 周六",
-                                                  "value": "F"
+                                                  "value": "mission"
                                                 },
                                                 {
                                                   "label": "Sat. – Pray and Plan",
-                                                  "value": "G"
+                                                  "value": "pray"
                                                 },
                                                 {
                                                   "label": "Summer, Fri. – Sun. Church Retreat 退休会",
-                                                  "value": "H"
+                                                  "value": "retreat"
                                                 }
                                               ],
                                               "inline": false,
@@ -455,6 +461,8 @@
                                 {
                                   "type": "collapse",
                                   "key": "5",
+                                  "disabled": true,
+                                  "className": "w-xxs",
                                   "body": [
                                     {
                                       "type": "input-table",
@@ -463,9 +471,7 @@
                                         "name": "img"
                                       }
                                     }
-                                  ],
-                                  "disabled": true,
-                                  "className": "w-xxs"
+                                  ]
                                 }
                               ],
                               "className": "m-l"
@@ -477,7 +483,6 @@
                     },
                     {
                       "type": "combo",
-                      "label": "",
                       "name": "guardians",
                       "multiple": true,
                       "items": [
@@ -495,10 +500,9 @@
                                   "body": [
                                     {
                                       "type": "collapse",
-                                      
                                       "key": "1",
                                       "active": true,
-                                      "header": "Basic information",
+                                      "header": "*Basic information",
                                       "body": [
                                         {
                                           "type": "grid",
@@ -509,23 +513,21 @@
                                                   "type": "input-text",
                                                   "label": "First Name:",
                                                   "name": "fname",
-                                                  "required": false,
+                                                  "required": true,
                                                   "mode": "horizontal"
                                                 },
                                                 {
                                                   "type": "input-text",
                                                   "label": "Last Name:",
                                                   "name": "lname",
-                                                  "mode": "horizontal",
-                                                  "required": false,
-                                                  
+                                                  "required": true,
+                                                  "mode": "horizontal"
                                                 },
                                                 {
                                                   "type": "input-text",
                                                   "label": "Phone Number:",
                                                   "name": "phone",
-                                                  "mode": "horizontal",
-                                                  
+                                                  "mode": "horizontal"
                                                 },
                                                 {
                                                   "type": "input-email",
@@ -559,19 +561,20 @@
                                                   "type": "select",
                                                   "label": "Preferred Check-in Method",
                                                   "name": "method",
+                                                  "value": "barcode",
                                                   "required": true,
+                                                  "multiple": false,
+                                                  "mode": "horizontal",
                                                   "options": [
-                                                    {
-                                                      "label": "Face ID",
-                                                      "value": "face"
-                                                    },
+                                                    // {
+                                                    //   "label": "Face ID",
+                                                    //   "value": "face"
+                                                    // },
                                                     {
                                                       "label": "Barcode",
                                                       "value": "barcode"
                                                     }
-                                                  ],
-                                                  "multiple": false,
-                                                  "mode": "horizontal"
+                                                  ]
                                                 }
                                               ],
                                               "horizontal": {
@@ -656,7 +659,7 @@
                                   "type": "collapse",
                                   "key": "1",
                                   "active": true,
-                                  "header": "Basic information",
+                                  "header": "*Basic information",
                                   "body": [
                                     {
                                       "type": "grid",
@@ -674,9 +677,8 @@
                                               "type": "input-text",
                                               "label": "Last Name:",
                                               "name": "s_lname",
-                                              "mode": "horizontal",
-                                              "required": false,
-                                              
+                                              "required": true,
+                                              "mode": "horizontal"
                                             },
                                             {
                                               "type": "input-date",
@@ -737,19 +739,20 @@
                                               "type": "select",
                                               "label": "Preferred Check-in Method",
                                               "name": "select2",
+                                              "value": "barcode",
                                               "required": true,
+                                              "multiple": false,
+                                              "mode": "horizontal",
                                               "options": [
-                                                {
-                                                  "label": "Face ID",
-                                                  "value": "face"
-                                                },
+                                                // {
+                                                //   "label": "Face ID",
+                                                //   "value": "face"
+                                                // },
                                                 {
                                                   "label": "Barcode",
                                                   "value": "barcode"
                                                 }
-                                              ],
-                                              "multiple": false,
-                                              "mode": "horizontal"
+                                              ]  
                                             }
                                           ],
                                           "horizontal": {
@@ -810,11 +813,9 @@
                                     {
                                       "type": "matrix-checkboxes",
                                       "name": "program",
-                                      "label": "",
-                                      "rowLabel": "I wish to register my child for the following programs of ICCCC / 我要為我的孩子報名於迦南兒童部各別節目登記如下:",
                                       "columns": [
                                         {
-                                          "label": "Program(s)"
+                                          "label": "check"
                                         }
                                       ],
                                       "rows": [
@@ -837,9 +838,7 @@
                                           "label": "Friday Night   周五晚 (Preschool – 6th grades) July 2022 – June 2023  Friday 7:30 PM – 9:30 PM  Fee Required Program/需繳费活動  □ Early Bird / 1st Time Registration  $90  (June 2022) / 於6月份時註冊 □ Regular Registration $120.00 (July 2022 – Dec. 2022) 於7月至12月間註冊 □ Late Registration $60.00 (Jan. 2023 – June 2023) 於2023年1月至6月間註冊"
                                         }
                                       ],
-                                      
-                                      "multiple": true,
-                                      "className": "m-l-lg"
+                                      "multiple": true
                                     }
                                   ],
                                   "key": "3",
@@ -848,6 +847,8 @@
                                 {
                                   "type": "collapse",
                                   "key": "4",
+                                  "disabled": true,
+                                  "className": "w-xxs",
                                   "body": [
                                     {
                                       "type": "input-table",
@@ -856,9 +857,7 @@
                                         "name": "img"
                                       }
                                     }
-                                  ],
-                                  "disabled": true,
-                                  "className": "w-xxs"
+                                  ]
                                 }
                               ],
                               "className": "m-l"
@@ -894,7 +893,7 @@
                                       "type": "collapse",
                                       "key": "1",
                                       "active": true,
-                                      "header": "Basic information",
+                                      "header": "*Basic information",
                                       "": "u:3c6aca3d43c1",
                                       "body": [
                                         {
@@ -906,15 +905,15 @@
                                                   "type": "input-text",
                                                   "label": "First Name:",
                                                   "name": "fname",
-                                                  "required": false,
+                                                  "required": true,
                                                   "mode": "horizontal"
                                                 },
                                                 {
                                                   "type": "input-text",
                                                   "label": "Last Name:",
                                                   "name": "lname",
-                                                  "mode": "horizontal",
-                                                  "required": false
+                                                  "required": true,
+                                                  "mode": "horizontal"
                                                 },
                                                 {
                                                   "type": "input-date",
@@ -943,7 +942,6 @@
                                                 }
                                               ],
                                               "valign": "top",
-                                              "md": "",
                                               "columnClassName": "m-l-lg",
                                               "horizontal": {
                                                 "justify": true
@@ -974,20 +972,20 @@
                                                   "type": "select",
                                                   "label": "Preferred Check-in Method",
                                                   "name": "method",
+                                                  "value": "barcode",
                                                   "required": true,
+                                                  "multiple": false,
+                                                  "mode": "horizontal",
                                                   "options": [
-                                                    {
-                                                      "label": "Face ID",
-                                                      "value": "face"
-                                                    },
+                                                    // {
+                                                    //   "label": "Face ID",
+                                                    //   "value": "face"
+                                                    // },
                                                     {
                                                       "label": "Barcode",
                                                       "value": "barcode"
                                                     }
-                                                  ],
-                                                  
-                                                  "multiple": false,
-                                                  "mode": "horizontal"
+                                                  ]
                                                 }
                                               ],
                                               "horizontal": {
@@ -1135,7 +1133,7 @@
                     {
                       "type": "checkbox",
                       "required": true,
-                      "option": "I/We have read and fully understand the contents of this  document. I/We agree to the terms and conditions stated above",
+                      "option": "* I/We agree to the terms and conditions stated above.",
                       "name": "checkbox"
                     }
                   ],
@@ -1143,6 +1141,35 @@
                 }
               ],
               "mode": "horizontal",
+              "onEvent": {
+                "submitSucc": {
+                  "weight": 0,
+                  "actions": [
+                    {
+                      "actionType": "dialog",
+                      "dialog": {
+                        "type": "dialog",
+                        "title": "",
+                        "body": [
+                          {
+                            "type": "tpl",
+                            "tpl": "Thanks for your submission!"
+                          }
+                        ],
+                        "actions": [
+                          {
+                            "type": "button",
+                            "label": "OK",
+                            "actionType": "link",
+                            "link": "",     // to index menu
+                            "primary": true
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
               "api": {
                 "method": "post",
                 "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
@@ -1157,15 +1184,11 @@
                   let primary = {merged: true};
                   let student = {merged: true};
 
-                  if (exist(api.data.fname)) {
-                    primary.fname = api.data.fname;
-                    delete api.data.fname;
-                  };
+                  primary.fname = api.data.fname;
+                  delete api.data.fname;
 
-                  if (exist(api.data.lname)) {
-                    primary.lname = api.data.lname;
-                    delete api.data.lname;
-                  };
+                  primary.lname = api.data.lname;
+                  delete api.data.lname;
 
                   if (exist(api.data.phone)) {
                     primary.phone = api.data.phone;
@@ -1202,10 +1225,8 @@
                     delete api.data.zip;
                   };
 
-                  if (exist(api.data.select)) {
-                    primary.method = api.data.select;
-                    delete api.data.select;
-                  };
+                  primary.method = api.data.select;
+                  delete api.data.select;
 
                   if (exist(api.data.insurance)) {
                     primary.insurance = api.data.insurance;
@@ -1313,34 +1334,6 @@
                   };
 
                   return {...api};
-                }
-              },
-              "onEvent": {
-                "finished": {
-                  "weight": 0,
-                  "actions": [
-                    {
-                      "actionType": "dialog",
-                      "dialog": {
-                        "type": "dialog",
-                        "title": "",
-                        "body": [
-                          {
-                            "type": "tpl",
-                            "tpl": "Thanks for your submission!"
-                          }
-                        ],
-                        "actions": [
-                          {
-                            "type": "button",
-                            "actionType": "confirm",
-                            "label": "OK",
-                            "primary": true
-                          }
-                        ]
-                      }
-                    }
-                  ]
                 }
               },
               "className": "m-r m-l"

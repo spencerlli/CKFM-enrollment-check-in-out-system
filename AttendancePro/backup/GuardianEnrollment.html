@@ -2,15 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- 下列1行：注意替换页面对应名称 -->
-    <title>Step 3 Additional Student Enrollment Dialog</title>
+    <title>Step 1 Guardian Enrollment Dialog</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <!-- 下列3行：需要注意填写对应href路径 -->
     <link rel="stylesheet" href="../sdk/sdk.css" />
     <link rel="stylesheet" href="../sdk/helper.css" />
     <link rel="stylesheet" href="../sdk/iconfont.css" />
@@ -28,15 +26,13 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <!-- 下列1行：需要注意填写对应路径 -->
-    <script src=" ../sdk/sdk.js"></script>
+    <script src="../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function () {
         let amis = amisRequire('amis/embed');
-        // 通过替换amisJSON中的内容来生成不同页面
         let amisJSON = {
           "type": "form",
-          "title": "The first/second/third/fourth Student Enrollment",
+          "title": "Guardian Enrollment",
           "body": [
             {
               "type": "grid",
@@ -46,7 +42,7 @@
                     {
                       "label": "First Name:",
                       "type": "input-text",
-                      "name": "s2_fname",
+                      "name": "g1_fname",
                       "required": false,
                       "mode": "horizontal",
                       "horizontal": {
@@ -56,7 +52,7 @@
                     {
                       "type": "input-text",
                       "label": "Last Name:",
-                      "name": "s2_lname",
+                      "name": "g1_lname",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
@@ -64,137 +60,125 @@
                       "required": false
                     },
                     {
-                      "type": "input-date",
-                      "label": "Birth Date:",
-                      "name": "s2_date",
+                      "type": "input-text",
+                      "label": "Relationship to Student:",
+                      "name": "g1_relationship",
+                      "mode": "horizontal",
+                      "required": false,
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "select",
+                      "label": "Contact me for special instructions:",
+                      "name": "select",
+                      "options": [
+                        {
+                          "label": "No",
+                          "value": "no"
+                        },
+                        {
+                          "label": "Yes",
+                          "value": "yes"
+                        }
+                      ],
+                      "id": "u:da3ed38a4f94",
+                      "selectFirst": true,
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
-                      },
-                      "id": "u:e0b6768db73a",
-                      "placeholder": ""
+                      }
                     }
                   ],
                   "valign": "top",
-                  "md": 3
+                  "md": "auto"
                 },
                 {
                   "md": 3,
                   "body": [
                     {
-                      "type": "select",
-                      "label": "Sex:",
-                      "name": "s2_sex",
-                      "options": [
-                        {
-                          "label": "Male",
-                          "value": "male"
-                        },
-                        {
-                          "label": "Female",
-                          "value": "female"
-                        }
-                      ],
-                      "id": "u:8d8f07688b81",
+                      "type": "input-text",
+                      "label": "Phone Number:",
+                      "name": "g1_phone",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-email",
+                      "label": "Email Address:",
+                      "name": "g1_email",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
                       },
-                      "placeholder": ""
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "School Name:",
-                      "name": "s2_school",
-                      "id": "u:5e75ba430802",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Grade:",
-                      "name": "s2_grade",
-                      "id": "u:acad9355c232",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Allergies",
-                      "name": "s2_allergy",
-                      "id": "u:ea1d08b74fa1",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Allergies to any medications:",
-                      "name": "s2_medication_allergy",
-                      "id": "u:ccf8c8e5ec51",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Current medications",
-                      "name": "s2_medication",
-                      "id": "u:8350668c43bd",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
-                      }
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Emergency contact name:",
-                      "name": "s2_ename",
-                      "mode": "horizontal",
-                      "horizontal": {
-                        "justify": true
+                      "validations": {
+                        "isEmail": true
                       },
-                      "id": "u:6f0e49d43fdb"
+                      "validationErrors": {
+                        "isEmail": "Invalid email address"
+                      }
+                    },
+                    {
+                      "type": "tpl",
+                      "tpl": "<p>Home Address:</p>",
+                      "inline": false,
+                      "id": "u:ba57c2962303",
+                      "style": {
+                      },
+                      "wrapperComponent": "div"
                     },
                     {
                       "type": "input-text",
-                      "label": "Emergency phone number:",
-                      "name": "s2_ephone",
+                      "label": "Street:",
+                      "name": "g1_street",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
-                      },
-                      "id": "u:8a03960adc5b"
+                      }
                     },
                     {
                       "type": "input-text",
-                      "id": "u:f7d7a910991d",
-                      "label": "Health insurance:",
-                      "name": "s2_insurance",
+                      "label": "City:",
+                      "name": "g1_city",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "State:",
+                      "name": "g1_state",
+                      "mode": "horizontal",
+                      "horizontal": {
+                        "justify": true
+                      }
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Zip Code:",
+                      "name": "g1_zip",
                       "mode": "horizontal",
                       "horizontal": {
                         "justify": true
                       }
                     }
-                  ]
+                  ],
+                  "valign": "top"
                 },
                 {
                   "body": [
                     {
-                      "type": "video",
-                      "aspectRatio": "auto",
-                      "className": "",
-                      "splitPoster": false
+                      "type": "iFrame",
+                      "src": "http://127.0.0.1:5500/AttendancePro/camera/index.html",
+                      "height": 550
+                      //"type": "tpl",
+                      //"tpl": "<video autoplay id='videoElement'></video> <% let video = document.querySelector('#videoElement'); navigator.mediaDevices.getUserMedia({video: true}).then(function (stream) {video.srcObject = stream;}) %>"
                     }
-                  ],
-                  "aspectRatio": "auto",
-                  "md": ""
+                  ]
                 },
                 {
                   "body": [
@@ -278,24 +262,20 @@
             {
               "type": "submit",
               "label": "Save Enrollment",
-              "id": "u:d0679bc12181",
-              "level": "info",
               "actionType": "dialog",
               "dialog": {
-                "type": "dialog",
-                "title": "Enroll Another Student?",
+                "title": "Enroll Another Guardian?",
                 "body": [
                   {
                     "type": "tpl",
-                    "tpl": "<p>Do you want to enroll another student?</p>\n<p>Is the person here?</p>",
+                    "tpl": "<p>Do you want to enroll another guardian?</p>\n<p>Is the person here?</p>",
                     "inline": false,
                     "closeOnEsc": false,
                     "closeOnOutside": false,
-                    "showCloseButton": true,
-                    "style": {
-                    }
+                    "showCloseButton": true
                   }
                 ],
+                "type": "dialog",
                 "closeOnEsc": false,
                 "closeOnOutside": false,
                 "showCloseButton": true,
@@ -306,7 +286,7 @@
                     "actionType": "link",
                     "id": "u:6689630d8ea7",
                     "className": "bg-success text-white",
-                    "link": "AdditionalStudentEnrollment2.html"
+                    "link": "AdditionalGuardianEnrollment1.html"
                   },
                   {
                     "type": "button",
@@ -314,11 +294,12 @@
                     "actionType": "link",
                     "id": "u:f2aa7ebba4fc",
                     "className": "bg-danger",
-                    "link": "CompleteEnrollmentCheck.html"
+                    "link": "StudentEnrollment.html"
                   }
                 ]
               },
-              "size": ""
+              "id": "u:d0679bc12181",
+              "level": "info"
             }
           ]
         };
