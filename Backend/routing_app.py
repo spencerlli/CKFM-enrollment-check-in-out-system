@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 # import pymysql
 import os
 from flask_cors import CORS
+import requests
 
 # pymysql.install_as_MySQLdb()
 
@@ -49,37 +50,74 @@ def register():
 
 @app.route('/enrollFamily', methods=['GET', 'POST', 'OPTIONS'])
 def enrollFamily():
-    request_json = request.json
+    if request.method == 'POST':
+        # guardian
+        guardian_list = []
+        for guardian in request.json['guardians']:
+            guardian_json = {}
+            guardian_json['first_name'] = guardian['fname']
+            guardian_json['last_name'] = guardian['lname']
+            guardian_json['phone_number'] = guardian['phone']
+            guardian_json['email'] = guardian['email']
+            guardian_json['relationship'] = guardian['relationship']
+            guardian_json['check_in_method'] = guardian['method']
 
-    # guardian
-    guardian_json = {}
-    guardian_json['first_name'] = request_json['g1_fname']
-    guardian_json['last_name'] = request_json['g1_lname']
-    guardian_json['phone_number'] = request_json['g1_phone']
-    guardian_json['password'] = '123456'
-    guardian_json['email'] = request_json['g1_email']
-    guardian_json['relationship'] = request_json['g1_relationship']
-    guardian_json['is_special'] = False
-    guardian_json['street'] = request_json['g1_street']
-    guardian_json['city'] = request_json['g1_city']
-    guardian_json['state'] = request_json['g1_state']
-    guardian_json['zip'] = request_json['g1_zip']
+            guardian_res = requests.post('http://localhost:5001/guardian', json=guardian_json)
+            guardian_list.append(guardian_res.json())
 
-    # student
-    student_json = {}
-    student_json['first_name'] = request_json['s1_fname']
-    student_json['last_name'] = request_json['s1_lname']
-    student_json['phone_number'] = request_json['g1_phone']
-    student_json['password'] = '123456'
-    student_json['email'] = request_json['g1_email']
-    student_json['relationship'] = request_json['g1_relationship']
-    student_json['is_special'] = False
-    student_json['street'] = request_json['g1_street']
-    student_json['city'] = request_json['g1_city']
-    student_json['state'] = request_json['g1_state']
-    student_json['zip'] = request_json['g1_zip']
+        # student
+        student_list = []
+        for student in request.json['students']:
+            student_json = {}
+            student_json['first_name'] = student['fname']
+            student_json['last_name'] = student['lname']
+            student_json['birth_date'] = student['date']
+            student_json['gender'] = student['gender']
+            student_json['grade'] = student['grade']
+            student_json['allergies'] = student['allergy']
+            student_json['check_in_method'] = student['method']
 
+            programs = ['sunday_school', 'CM_lounge', 'kid_choir', 'U3_friday', 'friday_lounge', 'friday_night']
+            for i, program in enumerate(programs):
+                student_json[program] = student['program'][0][i]['checked']
 
+            student_res = requests.post('http://localhost:5001/student', json=student_json)
+            student_list.append(student_res.json())
+
+        # familyInfo
+        familyInfo_json = {}
+        familyInfo_json['street'] = request.json['guardians'][0]['street']
+        familyInfo_json['city'] = request.json['guardians'][0]['city']
+        familyInfo_json['state'] = request.json['guardians'][0]['state']
+        familyInfo_json['zip'] = request.json['guardians'][0]['zip']
+
+        familyInfo_json['physician'] = request.json['guardians'][0]['physician']
+        familyInfo_json['physician_phone'] = request.json['guardians'][0]['physician_phone']
+        familyInfo_json['insurance'] = request.json['guardians'][0]['insurance']
+        familyInfo_json['insurance_phone'] = request.json['guardians'][0]['insurance_number']
+        familyInfo_json['insurance_policy'] = request.json['guardians'][0]['insurance_phone']
+        familyInfo_json['group'] = request.json['guardians'][0]['group']
+        familyInfo_json['sunday_school'] = request.json['guardians'][0]['sunday']
+        familyInfo_json['friday_night'] = request.json['guardians'][0]['friday']
+        familyInfo_json['special_events'] = request.json['guardians'][0]['special']
+
+        familyInfo_json['pay'] = request.json['pay']
+        familyInfo_json['checkbox'] = request.json['checkbox']
+
+        familyInfo_res = requests.post('http://localhost:5001/familyInfo', json=familyInfo_json)
+        familyInfo_json = familyInfo_res.json()
+
+        # family
+        family_json = {}
+        family_json['id'] = familyInfo_json['id']
+        for guardian in guardian_list:
+            for student in student_list:
+                
+                family_json['guardian_id'] = guardian['id']
+                family_json['student_id'] = student['id']
+        
+                family_res = requests.post('http://localhost:5001/family', json=family_json)
+                family_json = family_res.json()
 
     ans = {
         "status": 0,

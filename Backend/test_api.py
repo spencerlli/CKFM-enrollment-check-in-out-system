@@ -1,3 +1,4 @@
+import json
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -178,12 +179,14 @@ def crud():
 
 @app.route('/requestForm', methods=['GET', 'POST', 'OPTIONS'])
 def requestForm():
-    print(type(request.json))
     t = {
         "status": 0,
         "msg": "I am the response!",
         "data": {}
     }
+    with open("c.json", "w+") as f:
+        f.write(json.dumps(request.json))
+    # print(type(json.loads(request.json)))
     return jsonify(t)
 
 
