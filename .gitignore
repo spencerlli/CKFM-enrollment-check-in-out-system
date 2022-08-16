@@ -3,4 +3,7 @@ Backend/__pycache__
 Backend/app.py
 AttendancePro/dev/
 AttendancePro/sdk/
-*config.py
+
+# Files
+.DS_Store
+AttendancePro/.DS_Store
