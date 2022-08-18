@@ -115,7 +115,7 @@ def guardian():
     return jsonify(t)
 
 
-@app.route('/crud', methods=['GET', 'POST', 'OPTIONS', 'DELETE', 'PUT'])
+@app.route('/crud', methods=['GET', 'PUT', 'POST', 'DELETE'])
 def crud():
     if (request.method == 'DELETE'):
         return {"status": 0,
