@@ -176,7 +176,7 @@ def crud():
         }
     }
 
-    print(request.json)
+    # print(request.json)
 
     return jsonify(t)
 
