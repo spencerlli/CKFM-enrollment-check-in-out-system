@@ -307,30 +307,86 @@ def userManage(object=None, id=None):
         "status": 0,
         "msg": None,
         "data": {
-            "items": [],
+            "items": [
+                {
+                    "checkbox": True,
+                    "city": "cityTest1",
+                    "friday_night": "table",
+                    "group": 1,
+                    "id": 1,
+                    "insurance": "insuranceTest1",
+                    "insurance_phone": "policyTest1",
+                    "insurance_policy": "insPhoneTest1",
+                    "object": "familyInfo",
+                    "pay": 1,
+                    "physician": "physicianTest1",
+                    "physician_phone": "phyPhoneTest1",
+                    "special_events": "A",
+                    "state": "stateTest1",
+                    "street": "streetTest1",
+                    "sunday_school": "table",
+                    "zip": "00001"
+                },
+                {
+                    "check_in_method": "barcode",
+                    "email": "chang1@test.com",
+                    "first_name": "changTest1",
+                    "id": 1,
+                    "last_name": "liuTest1",
+                    "object": "guardian",
+                    "password": "123456",
+                    "phone_number": "0000000001",
+                    "relationship": "Father"
+                },
+                {
+                    "check_in_method": "barcode",
+                    "email": "chang2@test.com",
+                    "first_name": "changTest2",
+                    "id": 2,
+                    "last_name": "liuTest2",
+                    "object": "guardian",
+                    "password": "123456",
+                    "phone_number": "0000000002",
+                    "relationship": "Mother"
+                },
+                {
+                    "CM_lounge": False,
+                    "U3_friday": False,
+                    "allergies": "ibuprofen",
+                    "birth_date": "1659337200",
+                    "check_in_method": "barcode",
+                    "first_name": "changJRTest1",
+                    "friday_lounge": False,
+                    "friday_night": False,
+                    "gender": "male",
+                    "grade": "1",
+                    "id": 1,
+                    "kid_choir": False,
+                    "last_name": "liuTest1",
+                    "object": "student",
+                    "sunday_school": True
+                },
+                {
+                    "CM_lounge": True,
+                    "U3_friday": False,
+                    "allergies": "none",
+                    "birth_date": "1659423600",
+                    "check_in_method": "barcode",
+                    "first_name": "changJRTest2",
+                    "friday_lounge": False,
+                    "friday_night": False,
+                    "gender": "female",
+                    "grade": "2",
+                    "id": 2,
+                    "kid_choir": False,
+                    "last_name": "liuTest2",
+                    "object": "student",
+                    "sunday_school": False
+                }
+            ],
             "hasNext": False
         }
     }
-
-    # family_id = session['family_id']
-    family_id = 1
-    family_json = requests.get('http://localhost:5001' + '/family/%d' % family_id).json()
-    guardian_ids, student_ids = set(), set()
-    for family in family_json:
-        guardian_ids.add(family['guardian_id'])
-        student_ids.add(family['student_id'])
-
-    familyInfo_json = requests.get('http://localhost:5001' + '/familyInfo/%d' % family_id).json()
-    familyInfo_json['object'] = 'familyInfo'
-    res['data']['items'].append(familyInfo_json)
-    for guardian_id in guardian_ids:
-        guardian_json = requests.get('http://localhost:5001' + '/guardian/%d' % guardian_id).json()
-        guardian_json['object'] = 'guardian'
-        res['data']['items'].append(guardian_json)
-    for student_id in student_ids:
-        student_json = requests.get('http://localhost:5001' + '/student/%d' % student_id).json()
-        student_json['object'] = 'student'
-        res['data']['items'].append(student_json)
     
     return jsonify(res)
 
