@@ -21,164 +21,345 @@ def root():
     return jsonify(t)
 
 
-@app.route('/student', methods=['GET', 'POST', 'OPTIONS'])
-def student():
-    t = {
-        "status": 0,
-        "msg": "Successfully get students!",
-        "data": {
-            "student_list": [
-                {
-                    "first_name": "Yuan JR",
-                    "last_name": "Zhang",
-                    "birth_date": "2022-07-27",
-                    "gender": "M",
-                    "school": "UC",
-                    "grade": "A",
-                    "allergies": None,
-                    "allergies_medications": None,
-                    "medications": None,
-                    "emergency": "Yuan Zhang",
-                    "emergency_phone": "001",
-                    "insurance": "UC SHIP"
-                },
-                {
-                    "first_name": "Lingxin JR",
-                    "last_name": "Li",
-                    "birth_date": "2022-07-27",
-                    "gender": "F",
-                    "school": "UC",
-                    "grade": "A",
-                    "allergies": None,
-                    "allergies_medications": None,
-                    "medications": None,
-                    "emergency": "Lingxin Li",
-                    "emergency_phone": "002",
-                    "insurance": "UC SHIP"
-                },
-                {
-                    "first_name": "Chang JR",
-                    "last_name": "Liu",
-                    "birth_date": "2022-07-27",
-                    "gender": "M",
-                    "school": "UC",
-                    "grade": "A",
-                    "allergies": None,
-                    "allergies_medications": None,
-                    "medications": None,
-                    "emergency": "Yuan Zhang",
-                    "emergency_phone": "001",
-                    "insurance": "UC SHIP"
-                },
-            ]
-        }
-    }
-
-    return jsonify(t)
-
-
-@app.route('/guardian', methods=['GET', 'POST', 'OPTIONS'])
-def guardian():
+@app.route('/guardian', methods=['GET', 'POST', 'DELETE'])
+@app.route('/guardian/<id>', methods=['PUT', 'DELETE'])
+def guardian(id=None):
+    if request.method == 'DELETE':
+        return {"status": 0,
+                "msg": "Successfully get crud items!",
+                "data": {}}, 200
     t = {
         "status": 0,
         "msg": "Successfully get guardians!",
         "data": {
-            "guardian_list": [
+            "items": [
                 {
-                    "first_name": "Yuan",
-                    "last_name": "Zhang",
+                    "password": "123456",
                     "relationship": "Father",
-                    "special": True,
-                    "phone_number": "001",
-                    "email": "yuanzhang@ckfm.com",
-                    "street": "16808 Armstrong Ave",
-                    "city": "Irvine",
-                    "state": "CA",
-                    "zip_code": "92606",
+                    "check_in_method": "barcode",
+                    "last_name": "liuTest1",
+                    "phone_number": "0000000001",
+                    "id": 1,
+                    "email": "chang1@test.com",
+                    "first_name": "changTest1"
                 },
                 {
-                    "first_name": "Lingxin",
-                    "last_name": "Li",
+                    "password": "123456",
                     "relationship": "Mother",
-                    "special": True,
-                    "phone_number": "002",
-                    "email": "lingxinli@ckfm.com",
-                    "street": "16808 Armstrong Ave",
-                    "city": "Irvine",
-                    "state": "CA",
-                    "zip_code": "92606",
+                    "check_in_method": "barcode",
+                    "last_name": "liuTest2",
+                    "phone_number": "0000000002",
+                    "id": 2,
+                    "email": "chang2@test.com",
+                    "first_name": "changTest2"
                 },
-            ]
+                {
+                    "password": "123456",
+                    "relationship": "Father",
+                    "check_in_method": "barcode",
+                    "last_name": "liuTest3",
+                    "phone_number": "0000000003",
+                    "id": 3,
+                    "email": "chang3@test.com",
+                    "first_name": "changTest3"
+                },
+                {
+                    "password": "123456",
+                    "relationship": "Mother",
+                    "check_in_method": "barcode",
+                    "last_name": "liuTest4",
+                    "phone_number": "0000000004",
+                    "id": 4,
+                    "email": "chang4@test.com",
+                    "first_name": "changTest4"
+                }
+            ],
+            "hasNext": False
         }
     }
 
     return jsonify(t)
 
 
-@app.route('/crud', methods=['GET', 'PUT', 'POST', 'DELETE'])
-def crud():
+@app.route('/student', methods=['GET', 'POST', 'DELETE'])
+@app.route('/student/<id>', methods=['PUT', 'DELETE'])
+def student(id=None):
     if (request.method == 'DELETE'):
         return {"status": 0,
                 "msg": "Successfully get crud items!",
                 "data": {}}, 200
     t = {
         "status": 0,
-        "msg": "Successfully get crud items!",
+        "msg": "Successfully get students!",
         "data": {
             "items": [
                 {
+                    "sunday_school": True,
+                    "kid_choir": False,
+                    "birth_date": "1659337200",
+                    "CM_lounge": False,
+                    "U3_friday": False,
                     "id": 1,
-                    "first_name": "Yuan JR",
-                    "last_name": "Zhang",
-                    "birth_date": "2022-07-27",
-                    "gender": "M",
-                    "school": "UC",
-                    "grade": "A",
-                    "allergies": None,
-                    "allergies_medications": None,
-                    "medications": None,
-                    "emergency": "Yuan Zhang",
-                    "emergency_phone": "001",
-                    "insurance": "UC SHIP"
+                    "friday_lounge": False,
+                    "allergies": "ibuprofen",
+                    "gender": "male",
+                    "first_name": "changJRTest1",
+                    "grade": "1",
+                    "check_in_method": "barcode",
+                    "friday_night": False,
+                    "last_name": "liuTest1"
                 },
                 {
+                    "sunday_school": False,
+                    "kid_choir": False,
+                    "birth_date": "1659423600",
+                    "CM_lounge": True,
+                    "U3_friday": False,
                     "id": 2,
-                    "first_name": "Lingxin JR",
-                    "last_name": "Li",
-                    "birth_date": "2022-07-27",
-                    "gender": "F",
-                    "school": "UC",
-                    "grade": "A",
-                    "allergies": None,
-                    "allergies_medications": None,
-                    "medications": None,
-                    "emergency": "Lingxin Li",
-                    "emergency_phone": "002",
-                    "insurance": "UC SHIP"
+                    "friday_lounge": False,
+                    "allergies": "none",
+                    "gender": "female",
+                    "first_name": "changJRTest2",
+                    "grade": "2",
+                    "check_in_method": "barcode",
+                    "friday_night": False,
+                    "last_name": "liuTest2"
                 },
                 {
+                    "sunday_school": False,
+                    "kid_choir": True,
+                    "birth_date": "1659510000",
+                    "CM_lounge": False,
+                    "U3_friday": False,
                     "id": 3,
-                    "first_name": "Chang JR",
-                    "last_name": "Liu",
-                    "birth_date": "2022-07-27",
+                    "friday_lounge": False,
+                    "allergies": "ibuprofen",
+                    "gender": "male",
+                    "first_name": "changJRTest3",
+                    "grade": "3",
+                    "check_in_method": "barcode",
+                    "friday_night": False,
+                    "last_name": "liuTest3"
+                },
+                {
+                    "sunday_school": False,
+                    "kid_choir": False,
+                    "birth_date": "1659596400",
+                    "CM_lounge": False,
+                    "U3_friday": True,
+                    "id": 4,
+                    "friday_lounge": False,
+                    "allergies": "none",
+                    "gender": "female",
+                    "first_name": "changJRTest4",
+                    "grade": "4",
+                    "check_in_method": "barcode",
+                    "friday_night": False,
+                    "last_name": "liuTest4"
+                },
+                {
+                    "sunday_school": False,
+                    "kid_choir": False,
+                    "birth_date": "1998",
+                    "CM_lounge": False,
+                    "U3_friday": False,
+                    "id": 5,
+                    "friday_lounge": False,
+                    "allergies": "0",
                     "gender": "M",
-                    "school": "UC",
-                    "grade": "A",
-                    "allergies": None,
-                    "allergies_medications": None,
-                    "medications": None,
-                    "emergency": "Yuan Zhang",
-                    "emergency_phone": "001",
-                    "insurance": "UC SHIP"
+                    "first_name": "changJRTest5",
+                    "grade": "2",
+                    "check_in_method": "barcode",
+                    "friday_night": False,
+                    "last_name": "liuJRTest5"
                 }
             ],
-            "hasNext": True
+            "hasNext": False
         }
     }
 
-    # print(request.json)
+    return jsonify(t)
+
+
+@app.route('/familyInfo', methods=['GET', 'POST', 'DELETE'])
+@app.route('/familyInfo/<id>', methods=['PUT', 'DELETE'])
+def familyInfo(id=None):
+    if (request.method == 'DELETE'):
+        return {"status": 0,
+                "msg": "Successfully get crud items!",
+                "data": {}}, 200
+    t = {
+        "status": 0,
+        "msg": "Successfully get students!",
+        "data": {
+            "items": [
+                {
+                    "friday_night": "table",
+                    "city": "cityTest1",
+                    "zip": "00001",
+                    "state": "stateTest1",
+                    "pay": 1,
+                    "id": 1,
+                    "street": "streetTest1",
+                    "insurance": "insuranceTest1",
+                    "group": 1,
+                    "checkbox": True,
+                    "special_events": "A",
+                    "sunday_school": "table",
+                    "insurance_policy": "insPhoneTest1",
+                    "physician": "physicianTest1",
+                    "insurance_phone": "policyTest1",
+                    "physician_phone": "phyPhoneTest1"
+                },
+                {
+                    "friday_night": "snack",
+                    "city": "cityTest3",
+                    "zip": "00003",
+                    "state": "stateTest3",
+                    "pay": 4,
+                    "id": 2,
+                    "street": "streetTest3",
+                    "insurance": "insuranceTest3",
+                    "group": 3,
+                    "checkbox": True,
+                    "special_events": "B",
+                    "sunday_school": "teacher",
+                    "insurance_policy": "insPhoneTest3",
+                    "physician": "physicianTest3",
+                    "insurance_phone": "policyTest3",
+                    "physician_phone": "phyPhoneTest3"
+                }
+            ],
+            "hasNext": False
+        }
+    }
 
     return jsonify(t)
+
+
+
+@app.route('/family', methods=['GET', 'POST', 'DELETE'])
+@app.route('/family/<id>', methods=['PUT', 'DELETE'])
+def family(id=None):
+    if (request.method == 'DELETE'):
+        return {"status": 0,
+                "msg": "Successfully get crud items!",
+                "data": {}}, 200
+    t = {
+        "status": 0,
+        "msg": "Successfully get students!",
+        "data": {
+            "items": [
+                {
+                    "student_id": 1,
+                    "id": 1,
+                    "guardian_id": 1
+                },
+                {
+                    "student_id": 2,
+                    "id": 1,
+                    "guardian_id": 1
+                },
+                {
+                    "student_id": 1,
+                    "id": 1,
+                    "guardian_id": 2
+                },
+                {
+                    "student_id": 2,
+                    "id": 1,
+                    "guardian_id": 2
+                },
+                {
+                    "student_id": 3,
+                    "id": 2,
+                    "guardian_id": 3
+                },
+                {
+                    "student_id": 4,
+                    "id": 2,
+                    "guardian_id": 3
+                },
+                {
+                    "student_id": 3,
+                    "id": 2,
+                    "guardian_id": 4
+                },
+                {
+                    "student_id": 4,
+                    "id": 2,
+                    "guardian_id": 4
+                }
+            ],
+            "hasNext": False
+        }
+    }
+
+    return jsonify(t)
+
+
+# @app.route('/crud', methods=['GET', 'PUT', 'POST', 'DELETE'])
+# def crud():
+#     if (request.method == 'DELETE'):
+#         return {"status": 0,
+#                 "msg": "Successfully get crud items!",
+#                 "data": {}}, 200
+#     t = {
+#         "status": 0,
+#         "msg": "Successfully get crud items!",
+#         "data": {
+#             "items": [
+#                 {
+#                     "id": 1,
+#                     "first_name": "Yuan JR",
+#                     "last_name": "Zhang",
+#                     "birth_date": "2022-07-27",
+#                     "gender": "M",
+#                     "school": "UC",
+#                     "grade": "A",
+#                     "allergies": None,
+#                     "allergies_medications": None,
+#                     "medications": None,
+#                     "emergency": "Yuan Zhang",
+#                     "emergency_phone": "001",
+#                     "insurance": "UC SHIP"
+#                 },
+#                 {
+#                     "id": 2,
+#                     "first_name": "Lingxin JR",
+#                     "last_name": "Li",
+#                     "birth_date": "2022-07-27",
+#                     "gender": "F",
+#                     "school": "UC",
+#                     "grade": "A",
+#                     "allergies": None,
+#                     "allergies_medications": None,
+#                     "medications": None,
+#                     "emergency": "Lingxin Li",
+#                     "emergency_phone": "002",
+#                     "insurance": "UC SHIP"
+#                 },
+#                 {
+#                     "id": 3,
+#                     "first_name": "Chang JR",
+#                     "last_name": "Liu",
+#                     "birth_date": "2022-07-27",
+#                     "gender": "M",
+#                     "school": "UC",
+#                     "grade": "A",
+#                     "allergies": None,
+#                     "allergies_medications": None,
+#                     "medications": None,
+#                     "emergency": "Yuan Zhang",
+#                     "emergency_phone": "001",
+#                     "insurance": "UC SHIP"
+#                 }
+#             ],
+#             "hasNext": True
+#         }
+#     }
+
+#     return jsonify(t)
 
 
 @app.route('/requestForm', methods=['GET', 'POST', 'OPTIONS'])
