@@ -1,6 +1,8 @@
 import json
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import requests
+from config import REST_API
 
 app = Flask(__name__)
 CORS(app, resources=r'/*', supports_credentials=True)
@@ -296,6 +298,42 @@ def family(id=None):
     }
 
     return jsonify(t)
+
+
+@app.route('/userManage', methods=['GET'])
+@app.route('/userManage/<object>', methods=['POST', 'DELETE'])
+@app.route('/userManage/<object>/<id>', methods=['PUT', 'DELETE'])
+def userManage(object=None, id=None):
+    res = {
+        "status": 0,
+        "msg": None,
+        "data": {
+            "items": [],
+            "hasNext": False
+        }
+    }
+
+    # family_id = session['family_id']
+    family_id = 1
+    family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+    guardian_ids, student_ids = set(), set()
+    for family in family_json:
+        guardian_ids.add(family['guardian_id'])
+        student_ids.add(family['student_id'])
+
+    familyInfo_json = requests.get(REST_API + '/familyInfo/%d' % family_id).json()
+    familyInfo_json['object'] = 'familyInfo'
+    res['data']['items'].append(familyInfo_json)
+    for guardian_id in guardian_ids:
+        guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
+        guardian_json['object'] = 'guardian'
+        res['data']['items'].append(guardian_json)
+    for student_id in student_ids:
+        student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+        student_json['object'] = 'student'
+        res['data']['items'].append(student_json)
+    
+    return jsonify(res)
 
 
 # @app.route('/crud', methods=['GET', 'PUT', 'POST', 'DELETE'])

@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 import os
 from flask_cors import CORS
 import requests
+from config import REST_API
 
 # pymysql.install_as_MySQLdb()
 
@@ -15,6 +16,7 @@ app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 app.secret_key = '123456'
 
 CORS(app, resources=r'/*', supports_credentials=True)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -26,12 +28,12 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-	if request.method == 'POST':
-		session['loggedin'] = True
-		msg = 'Logged in successfully!'
-		return render_template('flask_templates/index.html', msg=msg)
-    
-	return render_template('flask_templates/login.html')
+    if request.method == 'POST':
+        session['loggedin'] = True
+        msg = 'Logged in successfully!'
+        return render_template('flask_templates/index.html', msg=msg)
+
+    return render_template('flask_templates/login.html')
 
 
 @app.route('/logout')
@@ -62,7 +64,8 @@ def enrollFamily():
             guardian_json['relationship'] = guardian['relationship']
             guardian_json['check_in_method'] = guardian['method']
 
-            guardian_res = requests.post('http://localhost:5001/guardian', json=guardian_json)
+            guardian_res = requests.post(
+                REST_API + '/guardian', json=guardian_json)
             guardian_list.append(guardian_res.json())
 
         # student
@@ -77,11 +80,13 @@ def enrollFamily():
             student_json['allergies'] = student['allergy']
             student_json['check_in_method'] = student['method']
 
-            programs = ['sunday_school', 'CM_lounge', 'kid_choir', 'U3_friday', 'friday_lounge', 'friday_night']
+            programs = ['sunday_school', 'CM_lounge', 'kid_choir',
+                        'U3_friday', 'friday_lounge', 'friday_night']
             for i, program in enumerate(programs):
                 student_json[program] = student['program'][0][i]['checked']
 
-            student_res = requests.post('http://localhost:5001/student', json=student_json)
+            student_res = requests.post(
+                REST_API + '/student', json=student_json)
             student_list.append(student_res.json())
 
         # familyInfo
@@ -104,7 +109,8 @@ def enrollFamily():
         familyInfo_json['pay'] = request.json['pay']
         familyInfo_json['checkbox'] = request.json['checkbox']
 
-        familyInfo_res = requests.post('http://localhost:5001/familyInfo', json=familyInfo_json)
+        familyInfo_res = requests.post(
+            REST_API + '/familyInfo', json=familyInfo_json)
         familyInfo_json = familyInfo_res.json()
 
         # family
@@ -112,11 +118,12 @@ def enrollFamily():
         family_json['id'] = familyInfo_json['id']
         for guardian in guardian_list:
             for student in student_list:
-                
+
                 family_json['guardian_id'] = guardian['id']
                 family_json['student_id'] = student['id']
-        
-                family_res = requests.post('http://localhost:5001/family', json=family_json)
+
+                family_res = requests.post(
+                    REST_API + '/family', json=family_json)
                 family_json = family_res.json()
 
     ans = {
@@ -125,6 +132,93 @@ def enrollFamily():
         "data": {}
     }
     return jsonify(ans)
+
+
+@app.route('/admin', methods=['GET'])
+@app.route('/admin/<object>', methods=['POST', 'DELETE'])
+@app.route('/admin/<object>/<id>', methods=['PUT', 'DELETE'])
+def admin(object=None, id=None):
+    res = {
+        "status": 0,
+        "msg": None,
+        "data": {
+            "items": [],
+            "hasNext": False
+        }
+    }
+
+    if request.method == 'GET':
+        guardian_json = requests.get(REST_API + '/guardian').json()
+        student_json = requests.get(REST_API + '/student').json()
+        familyInfo_json = requests.get(REST_API + '/familyInfo').json()
+        family_json = requests.get(REST_API + '/family').json()
+
+        get_json = {}
+        get_json['guardian'] = guardian_json
+        get_json['student'] = student_json
+        get_json['familyInfo'] = familyInfo_json
+        get_json['family'] = family_json
+
+        res['data']['items'] = get_json
+        res['msg'] = 'Successfully get data!'
+    elif request.method == 'PUT' or 'POST':
+        object_json = dict(request.json)
+        print(object_json)
+        if request.method == 'PUT':
+            # requests.put(REST_API + '/' + object + '/' + id, json=object_json)
+            res['msg'] = 'Successfully update!'
+        else:
+            # requests.post(REST_API + '/' + object, json=object_json)
+            res['msg'] = 'Successfully add!'
+    else:
+        if id:
+            # requests.delete(REST_API + '/' + object + '/' + id)
+            res['msg'] = 'Successfully delete!'
+        else:
+            pass
+            # requests.delete(REST_API + '/' + object)
+
+    if not res['msg']:
+        res['msg'] = 'Error happened.'
+        res['status'] = 400
+
+    return jsonify(res)
+
+
+@app.route('/userManage', methods=['GET'])
+@app.route('/userManage/<object>', methods=['POST', 'DELETE'])
+@app.route('/userManage/<object>/<id>', methods=['PUT', 'DELETE'])
+def userManage(object=None, id=None):
+    res = {
+        "status": 0,
+        "msg": None,
+        "data": {
+            "items": [],
+            "hasNext": False
+        }
+    }
+
+    # family_id = session['family_id']
+    family_id = 1
+    family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+    guardian_ids, student_ids = set(), set()
+    for family in family_json:
+        guardian_ids.add(family['guardian_id'])
+        student_ids.add(family['student_id'])
+
+    familyInfo_json = requests.get(REST_API + '/familyInfo/%d' % family_id).json()
+    familyInfo_json['object'] = 'familyInfo'
+    res['data']['items'].append(familyInfo_json)
+    for guardian_id in guardian_ids:
+        guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
+        guardian_json['object'] = 'guardian'
+        res['data']['items'].append(guardian_json)
+    for student_id in student_ids:
+        student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+        student_json['object'] = 'student'
+        res['data']['items'].append(student_json)
+    
+    return jsonify(res)
 
 
 @app.route('/firstTimeEnroll', methods=['GET', 'POST'])

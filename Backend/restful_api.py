@@ -292,7 +292,7 @@ class FamilySchema(ma.Schema):
         fields = ('id', 'guardian_id', 'student_id')
 
 
-family_schema = FamilySchema()
+family_schema = FamilySchema(many=True)
 familys_schema = FamilySchema(many=True)
 
 
@@ -317,7 +317,7 @@ class FamilyListResource(Resource):
 class FamilyResource(Resource):
     def get(self, id):
         # get one by id
-        family_got = Family.query.filter_by(id=id).first_or_404()
+        family_got = Family.query.filter_by(id=id).all()
         return family_schema.dump(family_got)
 
     def put(self, id):

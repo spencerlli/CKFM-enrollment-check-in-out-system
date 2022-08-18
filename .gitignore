@@ -7,3 +7,7 @@ AttendancePro/sdk/
 # Files
 .DS_Store
 AttendancePro/.DS_Store
+
+Backend/config.py
+flask-crud-application-with-mysql-master/config.py
+Backend/*.json
