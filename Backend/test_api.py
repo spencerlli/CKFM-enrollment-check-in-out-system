@@ -115,10 +115,12 @@ def guardian():
     return jsonify(t)
 
 
-@app.route('/crud', methods=['GET', 'POST', 'OPTIONS', 'DELETE'])
+@app.route('/crud', methods=['GET', 'POST', 'OPTIONS', 'DELETE', 'PUT'])
 def crud():
     if (request.method == 'DELETE'):
-        return 'Successfully delete!', 200
+        return {"status": 0,
+                "msg": "Successfully get crud items!",
+                "data": {}}, 200
     t = {
         "status": 0,
         "msg": "Successfully get crud items!",
@@ -173,6 +175,8 @@ def crud():
             "hasNext": True
         }
     }
+
+    print(request.json)
 
     return jsonify(t)
 
