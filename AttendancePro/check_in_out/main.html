@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <!-- 下列1行：注意替换页面对应名称 -->
-  <title>CHECK IN/OUT</title>
+  <title>Main Menu</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
@@ -35,18 +35,44 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "title": "CHECK IN/OUT",
   "body": [
     {
       "type": "grid",
+      "id": "u:b4fc350162ed",
       "columns": [
         {
           "body": [
-          ]
+            {
+              "type": "button",
+              "label": "ENROLLMENT",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:15f4cedc236a",
+              "link": "",
+              "size": "lg"
+            },
+            {
+              "type": "button",
+              "label": "ENROLLMENT UPDATE",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:11df25266b31",
+              "size": "lg",
+              "link": ""
+            }
+          ],
+          "valign": "",
+          "md": "",
+          "id": "u:45038712df46"
         },
         {
           "body": [
-
             {
               "type": "button",
               "label": "PRE CHECK IN",
@@ -55,11 +81,10 @@
                 "title": "系统提示",
                 "body": "对你点击了"
               },
-              "id": "u:15f4cedc236a",
+              "id": "u:868591dfb544",
               "link": "check_in.html",
               "size": "lg"
             },
-
             {
               "type": "button",
               "label": "PRE CHECK OUT",
@@ -68,26 +93,55 @@
                 "title": "系统提示",
                 "body": "对你点击了"
               },
-              "id": "u:11df25266b31",
+              "id": "u:ff866581f574",
               "size": "lg",
               "link": "check_out.html"
             }
           ],
           "valign": "",
-          "md": "auto"
+          "md": "",
+          "id": "u:88f13f0a87ed"
         },
         {
           "body": [
-          ]
+            {
+              "type": "button",
+              "label": "GET ATTENDANCE REPORT",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:139b261805b8",
+              "link": "",
+              "size": "lg"
+            },
+            {
+              "type": "button",
+              "label": "SIGN OFF",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:aa73806531c3",
+              "size": "lg",
+              "link": ""
+            }
+          ],
+          "valign": "",
+          "md": "",
+          "id": "u:a3d029f347b4"
         }
-      ],
-      "id": "u:b4fc350162ed"
+      ]
     }
   ],
+  "title": "MAIN MENU",
   "messages": {
   },
   "style": {
-  }
+  },
+  "id": "u:56223b15a761"
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
