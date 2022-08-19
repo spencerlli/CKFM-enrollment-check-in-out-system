@@ -35,6 +35,7 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
+  "title": "MAIN MENU",
   "body": [
     {
       "type": "grid",
@@ -134,14 +135,112 @@
           "id": "u:a3d029f347b4"
         }
       ]
+    },
+    {
+      "type": "grid",
+      "columns": [
+        {
+          "body": [
+            {
+              "type": "button",
+              "label": "VIEW LOG FILE",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:5b5eb909196b",
+              "link": "",
+              "size": "lg"
+            },
+            {
+              "type": "button",
+              "label": "INPUT DAILY PROGRESS",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:60e318427c32",
+              "size": "lg",
+              "link": ""
+            }
+          ],
+          "valign": "",
+          "md": "",
+          "id": "u:f2b6f0d507ef"
+        },
+        {
+          "body": [
+            {
+              "type": "button",
+              "label": "COMMUNICATION",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:9af5fa121549",
+              "link": "",
+              "size": "lg"
+            },
+            {
+              "type": "button",
+              "label": "CUSTOMIZE",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:76b3b7ba5378",
+              "size": "lg",
+              "link": ""
+            }
+          ],
+          "valign": "",
+          "md": "",
+          "id": "u:15fdba23fa94"
+        },
+        {
+          "body": [
+            {
+              "type": "button",
+              "label": "EXPORT",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:458e42a6f5e5",
+              "link": "",
+              "size": "lg"
+            },
+            {
+              "type": "button",
+              "label": "IMPORT",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:f146b2be79dc",
+              "size": "lg",
+              "link": ""
+            }
+          ],
+          "valign": "",
+          "md": "",
+          "id": "u:5fb47255f977"
+        }
+      ],
+      "id": "u:105ecd10061a"
     }
   ],
-  "title": "MAIN MENU",
+  "id": "u:56223b15a761",
   "messages": {
   },
   "style": {
-  },
-  "id": "u:56223b15a761"
+  }
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
