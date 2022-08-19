@@ -141,7 +141,7 @@
                                   },
                                   {
                                     "type": "select",
-                                    "label": "Preferred Check-in Method",
+                                    "label": "Preferred Check-in/out Method",
                                     "name": "select",
                                     "value": "barcode",
                                     "required": true,
@@ -456,7 +456,7 @@
                                       },
                                       {
                                         "type": "select",
-                                        "label": "Preferred Check-in Method",
+                                        "label": "Preferred Check-in/out Method",
                                         "name": "method",
                                         "value": "barcode",
                                         "required": true,
@@ -567,7 +567,7 @@
                                   },
                                   {
                                     "type": "select",
-                                    "label": "Preferred Check-in Method",
+                                    "label": "Preferred Check-in/out Method",
                                     "name": "select2",
                                     "value": "barcode",
                                     "required": true,
@@ -768,7 +768,7 @@
                                       },
                                       {
                                         "type": "select",
-                                        "label": "Preferred Check-in Method",
+                                        "label": "Preferred Check-in/out Method",
                                         "name": "method",
                                         "value": "barcode",
                                         "required": true,
@@ -1099,6 +1099,7 @@
           "body": [
             {
               "type": "wizard",
+              "className": "m-r m-l",
               "steps": [
                 {
                   "title": "Step 1 Guardian Enrollment",
@@ -1223,7 +1224,7 @@
                                           "body": [
                                             {
                                               "type": "select",
-                                              "label": "Preferred Check-in Method",
+                                              "label": "Preferred Check-in/out Method",
                                               "name": "select",
                                               "value": "barcode",
                                               "required": true,
@@ -1622,7 +1623,7 @@
                                               "body": [
                                                 {
                                                   "type": "select",
-                                                  "label": "Preferred Check-in Method",
+                                                  "label": "Preferred Check-in/out Method",
                                                   "name": "method",
                                                   "value": "barcode",
                                                   "required": true,
@@ -1785,7 +1786,7 @@
                                           "body": [
                                             {
                                               "type": "select",
-                                              "label": "Preferred Check-in Method",
+                                              "label": "Preferred Check-in/out Method",
                                               "name": "select2",
                                               "value": "barcode",
                                               "required": true,
@@ -2028,7 +2029,7 @@
                                               "body": [
                                                 {
                                                   "type": "select",
-                                                  "label": "Preferred Check-in Method",
+                                                  "label": "Preferred Check-in/out Method",
                                                   "name": "method",
                                                   "value": "barcode",
                                                   "required": true,
@@ -2381,8 +2382,7 @@
 
                   return {...api};
                 }
-              },
-              "className": "m-r m-l"
+              }
             }
           ] 
         };
