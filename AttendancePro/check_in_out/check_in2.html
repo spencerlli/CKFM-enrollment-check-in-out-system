@@ -310,15 +310,8 @@
         "method": "get",
         "url": "http://54.245.168.231:5002/guardian",
         "responseData": {
-          "yuan": "${guardian_list|first}",
-          "lingxin": "${guardian_list|last}"
-        }
-      },
-      "api": {
-        "method": "get",
-        "url": "http://54.245.168.231:5002/student",
-        "responseData": {
-          "s1": "${student_list|first}"
+          "yuan": "${items|first}",
+          "lingxin": "${items|last}"
         }
       }
     },
@@ -571,9 +564,9 @@
         "method": "get",
         "url": "http://54.245.168.231:5002/student",
         "responseData": {
-          "s1": "${student_list|first}",
-          "s2": "${student_list|nth:1}",
-          "s3": "${student_list|nth:2}"
+          "s1": "${items|first}",
+          "s2": "${items|nth:1}",
+          "s3": "${items|nth:2}"
         }
       }
     }
