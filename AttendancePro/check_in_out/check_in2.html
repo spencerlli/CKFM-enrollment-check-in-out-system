@@ -83,9 +83,13 @@
                       "actionType": "ajax",
                       "api": {
                           "method": "post",
-                          "url": "http://54.245.168.231:5002/checkIn/guardian/${g1.guardian_id}"
-              }
-            }
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkIn",
+                          "data": {
+                            "guardian_id": "${g1.guardian_id}"
+                          }
+                        }
+                      }
                   ]
                 }
               ],
@@ -131,8 +135,12 @@
                       "name": "checkbox2",
                       "actionType": "ajax",
                       "api": {
-                          "method": "post",
-                          "url": "http://54.245.168.231:5002/checkIn/guardian/${g2.guardian_id}"
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkIn",
+                          "data": {
+                            "guardian_id": "${g2.guardian_id}"
+                          }
               }
                     }
                   ]
@@ -178,8 +186,12 @@
                       "name": "checkbox3",
                       "actionType": "ajax",
                       "api": {
-                          "method": "post",
-                          "url": "http://54.245.168.231:5002/checkIn/guardian/${g3.guardian_id}"
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkIn",
+                          "data": {
+                            "guardian_id": "${g3.guardian_id}"
+                          }
               }
                     }
                   ]
@@ -241,8 +253,12 @@
                       "name": "checkbox1",
                       "actionType": "ajax",
                       "api": {
-                          "method": "post",
-                          "url": "http://54.245.168.231:5002/checkIn/student/${s1.student_id}"
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkIn",
+                          "data": {
+                            "student_id": "${s1.student_id}"
+                          }
               }
                     }
                   ]
@@ -282,8 +298,12 @@
                       "name": "checkbox2",
                       "actionType": "ajax",
                       "api": {
-                          "method": "post",
-                          "url": "http://54.245.168.231:5002/checkIn/student/${s2.student_id}"
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkIn",
+                          "data": {
+                            "student_id": "${s2.student_id}"
+                          }
               }
                     }
                   ]
@@ -323,8 +343,12 @@
                       "name": "checkbox3",
                       "actionType": "ajax",
                       "api": {
-                          "method": "post",
-                          "url": "http://54.245.168.231:5002/checkIn/student/${s3.student_id}"
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkIn",
+                          "data": {
+                            "student_id": "${s3.student_id}"
+                          }
               }
                     }
                   ]
@@ -364,8 +388,12 @@
                       "name": "checkbox4",
                       "actionType": "ajax",
                       "api": {
-                          "method": "post",
-                          "url": "http://54.245.168.231:5002/checkIn/student/${s4.student_id}"
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkIn",
+                          "data": {
+                            "student_id": "${s4.student_id}"
+                          }
               }
                     }
                   ]
