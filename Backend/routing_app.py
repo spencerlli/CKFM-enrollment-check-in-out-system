@@ -134,10 +134,9 @@ def enrollFamily():
     return jsonify(ans)
 
 
-@app.route('/admin', methods=['GET'])
-@app.route('/admin/<object>', methods=['POST', 'DELETE'])
+@app.route('/admin/<object>', methods=['GET', 'POST', 'DELETE'])
 @app.route('/admin/<object>/<id>', methods=['PUT', 'DELETE'])
-def admin(object=None, id=None):
+def admin(object, id=None):
     res = {
         "status": 0,
         "msg": None,
@@ -148,31 +147,31 @@ def admin(object=None, id=None):
     }
 
     if request.method == 'GET':
-        guardian_json = requests.get(REST_API + '/guardian').json()
-        student_json = requests.get(REST_API + '/student').json()
-        familyInfo_json = requests.get(REST_API + '/familyInfo').json()
-        family_json = requests.get(REST_API + '/family').json()
+        # guardian_json = requests.get(REST_API + '/guardian').json()
+        # student_json = requests.get(REST_API + '/student').json()
+        # familyInfo_json = requests.get(REST_API + '/familyInfo').json()
+        # family_json = requests.get(REST_API + '/family').json()
+        object_json = requests.get(REST_API + '/' + object).json()
 
-        get_json = {}
-        get_json['guardian'] = guardian_json
-        get_json['student'] = student_json
-        get_json['familyInfo'] = familyInfo_json
-        get_json['family'] = family_json
 
-        res['data']['items'] = get_json
+        # get_json['guardian'] = guardian_json
+        # get_json['student'] = student_json
+        # get_json['familyInfo'] = familyInfo_json
+        # get_json['family'] = family_json
+
+        res['data']['items'] = object_json
         res['msg'] = 'Successfully get data!'
     elif request.method == 'PUT' or 'POST':
         object_json = dict(request.json)
-        print(object_json)
         if request.method == 'PUT':
-            # requests.put(REST_API + '/' + object + '/' + id, json=object_json)
+            requests.put(REST_API + '/' + object + '/' + id, json=object_json)
             res['msg'] = 'Successfully update!'
         else:
-            # requests.post(REST_API + '/' + object, json=object_json)
+            requests.post(REST_API + '/' + object, json=object_json)
             res['msg'] = 'Successfully add!'
     else:
         if id:
-            # requests.delete(REST_API + '/' + object + '/' + id)
+            requests.delete(REST_API + '/' + object + '/' + id)
             res['msg'] = 'Successfully delete!'
         else:
             pass
