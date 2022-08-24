@@ -34,7 +34,551 @@
       let amis = amisRequire('amis/embed');
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
-        "type": "form",
+        "type": "page",
+  "title": "PRE CHECK IN",
+  "body": [
+    {
+      "type": "form",
+      "title": "SELECT DROP OFF PARENT",
+      "body": [
+        {
+          "type": "grid",
+          "id": "u:1aac2f6fde08",
+          "columns": [
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "First Guardian",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "g1_name",
+                              "id": "u:b97d30a22f28",
+                              "size": "",
+                              "value": "${yuan.first_name} ${yuan.last_name}"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
+                              "name": "relationship1",
+                              "id": "u:796b0917c44a",
+                              "mode": "",
+                              "value": "${yuan.relationship}"
+                            }
+                          ],
+                          "md": 5,
+                          "id": "u:dc7e3eba7404"
+                        },
+                        {
+                          "body": [
+                            {
+                              "type": "avatar",
+                              "icon": "fa fa-user",
+                              "id": "u:475647491fbe",
+                              "shape": "square",
+                              "size": 150,
+                              "text": "First Guardian"
+                            }
+                          ],
+                          "md": 5,
+                          "id": "u:724c815ae668",
+                          "valign": "middle"
+                        }
+                      ],
+                      "id": "u:d8c42ac69f4e"
+                    }
+                  ],
+                  "id": "u:b09fa1d3288c",
+                  "actions": [
+                    {
+                      "type": "checkbox",
+                      "option": "Drop Off",
+                      "name": "checkbox1",
+                      "id": "u:bb1f222e9bcb"
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+              "id": "u:294535e64e40"
+            },
+            {
+              "md": 3,
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Second Guardian",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "g2_name",
+                              "id": "u:d4b0e78ff055",
+                              "mode": "",
+                              "size": "",
+                              "value": "${lingxin.first_name} ${lingxin.last_name}"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
+                              "name": "relationship2",
+                              "id": "u:5ee917a4cfb3",
+                              "mode": "",
+                              "value": "${lingxin.relationship}"
+                            }
+                          ],
+                          "md": 4,
+                          "id": "u:a1f1a6bcc259"
+                        },
+                        {
+                          "body": [
+                            {
+                              "type": "avatar",
+                              "icon": "fa fa-user",
+                              "id": "u:475647491fbe",
+                              "shape": "square",
+                              "size": 150,
+                              "text": "First Guardian"
+                            }
+                          ],
+                          "md": 5,
+                          "id": "u:724c815ae668",
+                          "valign": "middle"
+                        }
+                      ],
+                      "id": "u:2d1d64a5af9b"
+                    }
+                  ],
+                  "id": "u:06998fb5994c",
+                  "actions": [
+                    {
+                      "type": "checkbox",
+                      "option": "Drop Off",
+                      "name": "checkbox2",
+                      "id": "u:8d33749e4708"
+                    }
+                  ]
+                }
+              ],
+              "id": "u:3820b722c8d5"
+            },
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Third Guardian",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "g3_name",
+                              "id": "u:e447f441da26",
+                              "mode": "",
+                              "size": ""
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
+                              "name": "relationship3",
+                              "id": "u:bfcec43dc1ef",
+                              "mode": ""
+                            }
+                          ],
+                          "md": 4,
+                          "id": "u:f448825dabe3"
+                        },
+                        {
+                          "body": [
+                            {
+                              "type": "avatar",
+                              "icon": "fa fa-user",
+                              "id": "u:238186aebecd",
+                              "shape": "square",
+                              "size": 150,
+                              "style": {
+                              },
+                              "text": "Third Guardian"
+                            }
+                          ],
+                          "md": 5,
+                          "id": "u:cb74f237c1d6"
+                        }
+                      ],
+                      "id": "u:dce97c98d377"
+                    }
+                  ],
+                  "id": "u:af0df0de52f9",
+                  "actions": [
+                    {
+                      "type": "checkbox",
+                      "option": "Drop Off",
+                      "name": "checkbox3",
+                      "id": "u:d09d8fef5b8e"
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+              "id": "u:0df0785a9df9"
+            },
+            {
+              "body": [
+                {
+                  "type": "form",
+                  "title": "Temporary Guardian",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "t_name",
+                              "id": "u:60389e52a621",
+                              "size": ""
+                            }
+                          ],
+                          "md": 5,
+                          "id": "u:b95f992cf58d"
+                        },
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Relationship:",
+                              "name": "relationship3",
+                              "id": "u:132969055bf1",
+                              "size": ""
+                            }
+                          ],
+                          "id": "u:8853feaca390",
+                          "md": 5
+                        }
+                      ],
+                      "id": "u:e4ab3b58f86b",
+                      "align": "between",
+                      "valign": "top"
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Comments:",
+                      "name": "comment",
+                      "id": "u:5160027e32a9",
+                      "mode": ""
+                    }
+                  ],
+                  "id": "u:bb8086b747ff",
+                  "actions": [
+                    {
+                      "type": "checkbox",
+                      "option": "Drop Off",
+                      "name": "checkbox4",
+                      "id": "u:f2f128ce3a31"
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+              "id": "u:e8d6e1e874e3"
+            }
+          ]
+        }
+      ],
+      "id": "u:d8d6cfb4b9d8",
+      "submitText": "SUBMIT DROP OFF PARENT",
+      "redirect": "",
+      "initApi": {
+        "method": "get",
+        "url": "http://54.245.168.231:5002/guardian",
+        "responseData": {
+          "yuan": "${guardian_list|first}",
+          "lingxin": "${guardian_list|last}"
+        }
+      },
+      "api": {
+        "method": "get",
+        "url": "http://54.245.168.231:5002/student",
+        "responseData": {
+          "s1": "${student_list|first}"
+        }
+      }
+    },
+    {
+      "type": "form",
+      "title": "SELECT DROP OFF CHILD",
+      "body": [
+        {
+          "type": "grid",
+          "id": "u:f307a06b8e12",
+          "columns": [
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "First Student",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "s1_name",
+                              "id": "u:53927bf1ff65",
+                              "mode": "",
+                              "size": "",
+                              "value": "${s1.first_name} ${s1.last_name}"
+                            }
+                          ],
+                          "md": 6,
+                          "id": "u:44b47bcf7d03"
+                        },
+                        {
+                          "body": [
+                            {
+                              "type": "avatar",
+                              "icon": "fa fa-user",
+                              "id": "u:1e14c8c1acbb",
+                              "shape": "square",
+                              "size": 150,
+                              "style": {
+                              },
+                              "text": "First Student"
+                            }
+                          ],
+                          "md": 4,
+                          "id": "u:55e3341a6597"
+                        }
+                      ],
+                      "id": "u:15217e95cd13"
+                    }
+                  ],
+                  "id": "u:c4be0517a47a",
+                  "actions": [
+                    {
+                      "type": "checkbox",
+                      "option": "Drop Off",
+                      "name": "checkbox5",
+                      "id": "u:b59245355c5a"
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+              "id": "u:b7563b19c8f2"
+            },
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Second Student",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "s2_name",
+                              "id": "u:b1502cf28aae",
+                              "mode": "",
+                              "size": "",
+                              "value": "${s2.first_name} ${s2.last_name}"
+                            }
+                          ],
+                          "md": 6,
+                          "id": "u:6e75c86f18fd"
+                        },
+                        {
+                          "body": [
+                            {
+                              "type": "avatar",
+                              "icon": "fa fa-user",
+                              "id": "u:bf1523b4035e",
+                              "shape": "square",
+                              "size": 150,
+                              "style": {
+                              },
+                              "text": "Second Student"
+                            }
+                          ],
+                          "md": 4,
+                          "id": "u:f94b6a754418"
+                        }
+                      ],
+                      "id": "u:dfcddabf1dd5"
+                    }
+                  ],
+                  "id": "u:fbd7d4d1b021",
+                  "actions": [
+                    {
+                      "type": "checkbox",
+                      "option": "Drop Off",
+                      "name": "checkbox6",
+                      "id": "u:4654d994431a"
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+              "id": "u:8ab48ad6b014"
+            },
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Third Student",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "s3_name",
+                              "id": "u:2ea6f585fe85",
+                              "mode": "",
+                              "size": "",
+                              "value": "${s3.first_name} ${s3.last_name}"
+                            }
+                          ],
+                          "md": 6,
+                          "id": "u:2635a2b4b5ff"
+                        },
+                        {
+                          "body": [
+                            {
+                              "type": "avatar",
+                              "icon": "fa fa-user",
+                              "id": "u:0cb6a084d9f9",
+                              "shape": "square",
+                              "size": 150,
+                              "style": {
+                              },
+                              "text": "Third Student"
+                            }
+                          ],
+                          "md": 4,
+                          "id": "u:cac9ccf9c233"
+                        }
+                      ],
+                      "id": "u:d80790acc6ca"
+                    }
+                  ],
+                  "id": "u:66d299b74fff",
+                  "actions": [
+                    {
+                      "type": "checkbox",
+                      "option": "Drop Off",
+                      "name": "checkbox7",
+                      "id": "u:d2001d1c3aed"
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+              "id": "u:b9583257e29c"
+            },
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Fourth Student",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "s4_name",
+                              "id": "u:f19bcbdbbeaf",
+                              "mode": "",
+                              "size": ""
+                            }
+                          ],
+                          "md": 6,
+                          "id": "u:9bed29f97ac0"
+                        },
+                        {
+                          "body": [
+                            {
+                              "type": "avatar",
+                              "icon": "fa fa-user",
+                              "id": "u:9f3c1ed64fad",
+                              "shape": "square",
+                              "size": 150,
+                              "style": {
+                              },
+                              "text": "Fourth Student"
+                            }
+                          ],
+                          "md": 4,
+                          "id": "u:8dc125db4b23"
+                        }
+                      ],
+                      "id": "u:2b03f9839ff0"
+                    }
+                  ],
+                  "id": "u:1e99bd36de3b",
+                  "actions": [
+                    {
+                      "type": "checkbox",
+                      "option": "Drop Off",
+                      "name": "checkbox8",
+                      "id": "u:520425bc942b"
+                    }
+                  ]
+                }
+              ],
+              "md": "",
+              "id": "u:04d3bf8a2f82"
+            }
+          ]
+        }
+      ],
+      "id": "u:d8d6cfb4b9d8",
+      "submitText": "SUBMIT DROP OFF STUDENT",
+      "redirect": "s_check_in.html",
+      "initApi": {
+        "method": "get",
+        "url": "http://54.245.168.231:5002/student",
+        "responseData": {
+          "s1": "${student_list|first}",
+          "s2": "${student_list|nth:1}",
+          "s3": "${student_list|nth:2}"
+        }
+      }
+    }
+  ]
+        /*"type": "form",
   "title": "SELECT DROP OFF PARENT",
   "body": [
     {
@@ -297,242 +841,7 @@
           "id": "u:e8d6e1e874e3"
         }
       ]
-    }/*,
-    {
-      "type": "grid",
-      "columns": [
-        {
-          "body": [
-            {
-              "type": "panel",
-              "title": "First Student",
-              "body": [
-                {
-                  "type": "grid",
-                  "columns": [
-                    {
-                      "body": [
-                        {
-                          "type": "input-text",
-                          "label": "Name:",
-                          "name": "s1_name",
-                          "id": "u:53927bf1ff65",
-                          "mode": "",
-                          "size": "",
-                          "value": "${s1.first_name}"
-                        }
-                      ],
-                      "md": 4,
-                      "id": "u:44b47bcf7d03"
-                    },
-                    {
-                      "body": [
-                        {
-                          "type": "avatar",
-                          "icon": "fa fa-user",
-                          "id": "u:1e14c8c1acbb",
-                          "shape": "square",
-                          "size": 150,
-                          "style": {
-                          },
-                          "text": "First Student"
-                        }
-                      ],
-                      "md": 5,
-                      "id": "u:55e3341a6597"
-                    }
-                  ],
-                  "id": "u:15217e95cd13"
-                }
-              ],
-              "id": "u:c4be0517a47a",
-              "actions": [
-                {
-                  "type": "checkbox",
-                  "option": "Drop Off",
-                  "name": "checkbox5",
-                  "id": "u:b59245355c5a"
-                }
-              ]
-            }
-          ],
-          "md": 3,
-          "id": "u:b7563b19c8f2"
-        },
-        {
-          "body": [
-            {
-              "type": "form",
-              "title": "Second Student",
-              "body": [
-                {
-                  "type": "grid",
-                  "columns": [
-                    {
-                      "body": [
-                        {
-                          "type": "input-text",
-                          "label": "Name:",
-                          "name": "s2_name",
-                          "id": "u:b1502cf28aae",
-                          "mode": "inline",
-                          "size": "xs"
-                        }
-                      ],
-                      "md": 4,
-                      "id": "u:6e75c86f18fd"
-                    },
-                    {
-                      "body": [
-                        {
-                          "type": "avatar",
-                          "icon": "fa fa-user",
-                          "id": "u:bf1523b4035e",
-                          "shape": "square",
-                          "size": 230,
-                          "style": {
-                          },
-                          "text": "Second Student"
-                        }
-                      ],
-                      "md": 6,
-                      "id": "u:f94b6a754418"
-                    }
-                  ],
-                  "id": "u:dfcddabf1dd5"
-                }
-              ],
-              "id": "u:fbd7d4d1b021",
-              "actions": [
-                {
-                  "type": "checkbox",
-                  "option": "Drop Off",
-                  "name": "checkbox6",
-                  "id": "u:4654d994431a"
-                }
-              ]
-            }
-          ],
-          "md": 3,
-          "id": "u:8ab48ad6b014"
-        },
-        {
-          "body": [
-            {
-              "type": "form",
-              "title": "Third Student",
-              "body": [
-                {
-                  "type": "grid",
-                  "columns": [
-                    {
-                      "body": [
-                        {
-                          "type": "input-text",
-                          "label": "Name:",
-                          "name": "s3_name",
-                          "id": "u:2ea6f585fe85",
-                          "mode": "inline",
-                          "size": "xs"
-                        }
-                      ],
-                      "md": 4,
-                      "id": "u:2635a2b4b5ff"
-                    },
-                    {
-                      "body": [
-                        {
-                          "type": "avatar",
-                          "icon": "fa fa-user",
-                          "id": "u:0cb6a084d9f9",
-                          "shape": "square",
-                          "size": 230,
-                          "style": {
-                          },
-                          "text": "Third Student"
-                        }
-                      ],
-                      "md": 6,
-                      "id": "u:cac9ccf9c233"
-                    }
-                  ],
-                  "id": "u:d80790acc6ca"
-                }
-              ],
-              "id": "u:66d299b74fff",
-              "actions": [
-                {
-                  "type": "checkbox",
-                  "option": "Drop Off",
-                  "name": "checkbox7",
-                  "id": "u:d2001d1c3aed"
-                }
-              ]
-            }
-          ],
-          "md": 3,
-          "id": "u:b9583257e29c"
-        },
-        {
-          "body": [
-            {
-              "type": "form",
-              "title": "Fourth Student",
-              "body": [
-                {
-                  "type": "grid",
-                  "columns": [
-                    {
-                      "body": [
-                        {
-                          "type": "input-text",
-                          "label": "Name:",
-                          "name": "s4_name",
-                          "id": "u:f19bcbdbbeaf",
-                          "mode": "inline",
-                          "size": "xs"
-                        }
-                      ],
-                      "md": 4,
-                      "id": "u:9bed29f97ac0"
-                    },
-                    {
-                      "body": [
-                        {
-                          "type": "avatar",
-                          "icon": "fa fa-user",
-                          "id": "u:9f3c1ed64fad",
-                          "shape": "square",
-                          "size": 230,
-                          "style": {
-                          },
-                          "text": "Fourth Student"
-                        }
-                      ],
-                      "md": 6,
-                      "id": "u:8dc125db4b23"
-                    }
-                  ],
-                  "id": "u:2b03f9839ff0"
-                }
-              ],
-              "id": "u:1e99bd36de3b",
-              "actions": [
-                {
-                  "type": "checkbox",
-                  "option": "Drop Off",
-                  "name": "checkbox8",
-                  "id": "u:520425bc942b"
-                }
-              ]
-            }
-          ],
-          "md": "",
-          "id": "u:04d3bf8a2f82"
-        }
-      ],
-      "id": "u:f307a06b8e12"
-    }*/
+    }
   ],
   "id": "u:d8d6cfb4b9d8",
   "submitText": "NEXT",
@@ -551,7 +860,7 @@
     "responseData": {
       "s1": "${student_list|first}"
     }
-  }
+  }*/
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
