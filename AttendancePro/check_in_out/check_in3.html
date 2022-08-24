@@ -280,11 +280,11 @@
   "redirect": "s_check_in.html",
   "initApi": {
     "method": "get",
-    "url": "http://54.245.168.231:5002/student",
+    "url": "http://54.245.168.231:5002/checkIn",
     "responseData": {
-      "s1": "${student_list|first}",
-      "s2": "${student_list|nth:1}",
-      "s3": "${student_list|nth:2}"
+      "s1": "${student|first}",
+      "s2": "${student|nth:1}",
+      "s3": "${student|nth:2}"
     }
   }
       };
