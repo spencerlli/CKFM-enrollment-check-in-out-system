@@ -343,6 +343,74 @@ def checkIn():
     return jsonify(t)
 
 
+@app.route('/checkOut', methods=['GET', 'POST'])
+def checkOut():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": None
+    }
+    if request.method == 'GET':
+        t["msg"] = "Successfully get guardians and students!"
+        t["data"] = {
+            "guardian": [
+                {
+                    "guardian_id": 1,
+                    "first_name": "changTest1",
+                    "last_name": "liuTest1",
+                    "relationship": "Father"
+                },
+                {
+                    "guardian_id": 2,
+                    "first_name": "changTest2",
+                    "last_name": "liuTest2",
+                    "relationship": "Mother"
+                }
+            ],
+            "student": [
+                {
+                    "student_id": 1,
+                    "first_name": "changJRTest1",
+                    "last_name": "liuJRTest1",
+                },
+                {
+                    "student_id": 2,
+                    "first_name": "changJRTest2",
+                    "last_name": "liuJRTest2",
+                }
+            ]
+        }
+    else:
+        t["msg"] = "Successfully check out!"
+        t["data"] = []
+
+    return jsonify(t)
+
+
+@app.route('/barcode', methods=['GET'])
+def barcode():
+    t = {
+        "status": 0,
+        "msg": "Successfully get barcode!",
+        "data": {
+            "items": [
+                {
+                    "first_name": "changTest1",
+                    "last_name": "liuTest1",
+                    "barcode": "barcodeTest1"
+                },
+                {
+                    "first_name": "changTest2",
+                    "last_name": "liuTest2",
+                    "barcode": "barcodeTest2"
+                }
+            ]
+        }
+    }
+
+    return jsonify(t)
+
+
 @app.route('/userManage', methods=['GET'])
 @app.route('/userManage/<object>', methods=['POST', 'DELETE'])
 @app.route('/userManage/<object>/<id>', methods=['PUT', 'DELETE'])
