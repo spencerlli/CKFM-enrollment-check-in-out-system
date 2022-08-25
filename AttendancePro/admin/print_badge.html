@@ -1,0 +1,50 @@
+<!-- 
+	Require following items for printing:
+	1. b-PAC component: https://support.brother.com/g/s/es/dev/en/bpac/download/index.html?c=eu_ot&lang=en&navi=offall&comple=on&redirect=on
+	2. Printer driver of target printer: https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=lpql800eus
+	3. label template: ../lib/badge_template.lbx
+	4. web extension: https://chrome.google.com/webstore/detail/brother-b-pac-extension/ilpghlfadkjifilabejhhijpfphfcfhb
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Print Barcode Badge</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script type="module">
+    import * as bpac from '../lib/bpac.js';
+		var myData = JSON.parse(sessionStorage.getItem("myData"));
+		const strPath = new URL("../lib/badge_template.lbx", document.baseURI).href;
+		const objDoc = bpac.IDocument;
+
+		window.DoPrint = async function DoPrint() {
+			try {
+				const ret = await objDoc.Open(strPath);
+
+				if (ret == true) {
+					for (const item of myData) {
+						const objName = await objDoc.GetObject("name");
+						objName.Text = item.fname + ' ' + item.lname;
+						const objBarcode = await objDoc.GetObject("barcode");
+						objBarcode.Text = item.barcode;
+
+						objDoc.StartPrint("", 0);
+						objDoc.PrintOut(1, 0);
+					}
+
+					objDoc.EndPrint();
+					objDoc.Close();
+					window.location.href = "../check_in_out/index.html"
+				}
+			}
+			catch(e) {
+				console.log(e);
+			}
+		}
+	</script>
+</head>
+<body onload="javascript:DoPrint()">
+	<h1>Printing barcode badges</h1>
+	<h1>Please wait...</h1>
+</body>
+</html>

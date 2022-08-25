@@ -905,7 +905,10 @@
                             "label": "Indicate what you can pay 填寫你可支付的部分:",
                             "prefix": "$",
                             "visibleOn": "${request_reason|default:false}",
-                            "labelClassName": "text-xs"
+                            "labelClassName": "text-xs",
+                            "validations": {
+                              "isNumeric": true
+                            }
                           }
                         ]
                       },
@@ -2248,9 +2251,12 @@
                           "label": "Indicate what you can pay 填寫你可支付的部分:",
                           "prefix": "$",
                           "visibleOn": "${request_reason|default:false}",
-                          "mode": "horizontal",
                           "validations": {
                             "isNumeric": true
+                          },
+                          "mode": "horizontal",
+                          "horizontal": {
+                            "adjust": true
                           }
                         }
                       ]

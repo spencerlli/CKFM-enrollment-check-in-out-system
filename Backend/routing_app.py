@@ -26,14 +26,30 @@ def index():
         return redirect('login')
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        session['loggedin'] = True
-        msg = 'Logged in successfully!'
-        return render_template('flask_templates/index.html', msg=msg)
-
-    return render_template('flask_templates/login.html')
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     res = {
+#         "status": 0,
+#         "msg": None,
+#         "data": {}
+#     }
+#     if request.method == 'POST' and 'phoneNumber' in request.form and 'pwd' in request.form:
+#         phoneNumber = request.form['phoneNumber']
+#         pwd = request.form['pwd']
+#         guardian_res = requests.get(REST_API + '/guardian', json=guardian_json)
+#         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#         cursor.execute(
+#             'SELECT * FROM guardian WHERE phone = %s AND pwd = %s;', (phoneNumber, pwd, ))
+#         account = cursor.fetchone()
+#         if account:
+#             session['loggedin'] = True
+#             session['id'] = account['id']
+#             session['phoneNumber'] = account['phone']
+#             msg = 'Logged in successfully!'
+#             return render_template('flask_templates/index.html', msg=msg)
+#         else:
+#             msg = 'Incorrect phone number / pwd !'
+#     return render_template('flask_templates/login.html', msg=msg)
 
 
 @app.route('/logout')
@@ -52,17 +68,24 @@ def register():
 
 @app.route('/enrollFamily', methods=['GET', 'POST', 'OPTIONS'])
 def enrollFamily():
+    res = {
+        "status": 0,
+        "msg": "Successfully enrolled!",
+        "data": {}
+    }
+
     if request.method == 'POST':
         # guardian
         guardian_list = []
         for guardian in request.json['guardians']:
             guardian_json = {}
-            guardian_json['first_name'] = guardian['fname']
-            guardian_json['last_name'] = guardian['lname']
-            guardian_json['phone_number'] = guardian['phone']
-            guardian_json['email'] = guardian['email']
-            guardian_json['relationship'] = guardian['relationship']
+            guardian_json['fname'] = guardian['fname']
+            guardian_json['lname'] = guardian['lname']
             guardian_json['check_in_method'] = guardian['method']
+
+            guardian_json['phone'] = guardian.get('phone')
+            guardian_json['email'] = guardian.get('email')
+            guardian_json['relationship'] = guardian.get('relationship')
 
             guardian_res = requests.post(
                 REST_API + '/guardian', json=guardian_json)
@@ -72,16 +95,17 @@ def enrollFamily():
         student_list = []
         for student in request.json['students']:
             student_json = {}
-            student_json['first_name'] = student['fname']
-            student_json['last_name'] = student['lname']
-            student_json['birth_date'] = student['date']
-            student_json['gender'] = student['gender']
-            student_json['grade'] = student['grade']
-            student_json['allergies'] = student['allergy']
+            student_json['fname'] = student['fname']
+            student_json['lname'] = student['lname']
             student_json['check_in_method'] = student['method']
 
-            programs = ['sunday_school', 'CM_lounge', 'kid_choir',
-                        'U3_friday', 'friday_lounge', 'friday_night']
+            student_json['birthdate'] = student.get('date')
+            student_json['gender'] = student.get('gender')
+            student_json['grade'] = student.get('grade')
+            student_json['allergies'] = student.get('allergy')
+
+            programs = ['sunday_school', 'cm_lounge', 'kid_choir',
+                        'u3_friday', 'friday_lounge', 'friday_night']
             for i, program in enumerate(programs):
                 student_json[program] = student['program'][0][i]['checked']
 
@@ -91,20 +115,21 @@ def enrollFamily():
 
         # familyInfo
         familyInfo_json = {}
-        familyInfo_json['street'] = request.json['guardians'][0]['street']
-        familyInfo_json['city'] = request.json['guardians'][0]['city']
-        familyInfo_json['state'] = request.json['guardians'][0]['state']
-        familyInfo_json['zip'] = request.json['guardians'][0]['zip']
+        familyInfo_json['street'] = request.json['guardians'][0].get('street')
+        familyInfo_json['city'] = request.json['guardians'][0].get('city')
+        familyInfo_json['state'] = request.json['guardians'][0].get('state')
+        familyInfo_json['zip'] = request.json['guardians'][0].get('zip')
 
-        familyInfo_json['physician'] = request.json['guardians'][0]['physician']
-        familyInfo_json['physician_phone'] = request.json['guardians'][0]['physician_phone']
-        familyInfo_json['insurance'] = request.json['guardians'][0]['insurance']
-        familyInfo_json['insurance_phone'] = request.json['guardians'][0]['insurance_phone']
-        familyInfo_json['insurance_policy'] = request.json['guardians'][0]['insurance_number']
-        familyInfo_json['group'] = request.json['guardians'][0]['group']
+        familyInfo_json['physician'] = request.json['guardians'][0].get('physician')
+        familyInfo_json['physician_phone'] = request.json['guardians'][0].get('physician_phone')
+        familyInfo_json['insurance'] = request.json['guardians'][0].get('insurance')
+        familyInfo_json['insurance_phone'] = request.json['guardians'][0].get('insurance_phone')
+        familyInfo_json['insurance_policy'] = request.json['guardians'][0].get('insurance_number')
+        familyInfo_json['group'] = request.json['guardians'][0].get('group')
+
         familyInfo_json['sunday_school'] = request.json['guardians'][0]['sunday']
         familyInfo_json['friday_night'] = request.json['guardians'][0]['friday']
-        familyInfo_json['special_events'] = request.json['guardians'][0]['special']
+        familyInfo_json['special_events'] = request.json['guardians'][0].get('special')
 
         familyInfo_json['pay'] = request.json['pay']
         familyInfo_json['checkbox'] = request.json['checkbox']
@@ -126,12 +151,7 @@ def enrollFamily():
                     REST_API + '/family', json=family_json)
                 family_json = family_res.json()
 
-    ans = {
-        "status": 0,
-        "msg": "Successfully enrolled!",
-        "data": {}
-    }
-    return jsonify(ans)
+    return jsonify(res)
 
 
 @app.route('/admin/<object>', methods=['GET', 'POST', 'DELETE'])
@@ -218,6 +238,20 @@ def userManage(object=None, id=None):
         res['data']['items'].append(student_json)
     
     return jsonify(res)
+
+
+@app.route('/pre-check-in', methods=['GET', 'POST'])
+def preCheckIn():
+    res = {
+        "status": 0,
+        "msg": None,
+        "data": {
+            "items": [],
+            "hasNext": False
+        }
+    }
+
+    pass
 
 
 @app.route('/firstTimeEnroll', methods=['GET', 'POST'])

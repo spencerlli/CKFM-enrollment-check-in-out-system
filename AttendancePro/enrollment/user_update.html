@@ -56,57 +56,57 @@
           //     },
           //     {
           //       "object": "guardian",
-          //       "first_name": "changTest1",
-          //       "last_name": "liuTest1",
+          //       "fname": "changTest1",
+          //       "lname": "liuTest1",
           //       "email": "chang1@test.com",
           //       "check_in_method": "barcode", 
           //       "id": 1,
-          //       "password": "123456",
-          //       "phone_number": "0000000001",
+          //       "pwd": "123456",
+          //       "phone": "0000000001",
           //       "relationship": "Father"
           //     },
           //     {
           //         "check_in_method": "barcode",
           //         "email": "chang2@test.com",
-          //         "first_name": "changTest2",
+          //         "fname": "changTest2",
           //         "id": 2,
-          //         "last_name": "liuTest2",
+          //         "lname": "liuTest2",
           //         "object": "guardian",
-          //         "password": "123456",
-          //         "phone_number": "0000000002",
+          //         "pwd": "123456",
+          //         "phone": "0000000002",
           //         "relationship": "Mother"
           //     },
           //     {
-          //         //"CM_lounge": False,
-          //         //"U3_friday": False,
+          //         //"cm_lounge": False,
+          //         //"u3_friday": False,
           //         "allergies": "ibuprofen",
-          //         "birth_date": "1659337200",
+          //         "birthdate": "1659337200",
           //         "check_in_method": "barcode",
-          //         "first_name": "changJRTest1",
+          //         "fname": "changJRTest1",
           //         // "friday_lounge": False,
           //         // "friday_night": False,
           //         "gender": "male",
           //         "grade": "1",
           //         "id": 1,
           //         // "kid_choir": False,
-          //         "last_name": "liuTest1",
+          //         "lname": "liuTest1",
           //         "object": "student",
           //         // "sunday_school": True
           //     },
           //     {
-          //         // "CM_lounge": True,
-          //         // "U3_friday": False,
+          //         // "cm_lounge": True,
+          //         // "u3_friday": False,
           //         "allergies": "none",
-          //         "birth_date": "1659423600",
+          //         "birthdate": "1659423600",
           //         "check_in_method": "barcode",
-          //         "first_name": "changJRTest2",
+          //         "fname": "changJRTest2",
           //         // "friday_lounge": False,
           //         // "friday_night": False,
           //         "gender": "female",
           //         "grade": "2",
           //         "id": 2,
           //         // "kid_choir": False,
-          //         "last_name": "liuTest2",
+          //         "lname": "liuTest2",
           //         "object": "student",
           //         // "sunday_school": False
           //     }
@@ -118,9 +118,9 @@
             "mode": "cards",
             "card": {
               "header": {
-                "title": "${first_name|default:'Family Information'} ${last_name}",
+                "title": "${fname|default:'Family Information'} ${lname}",
                 "subTitle": "${CAPITALIZE(object)}",
-                "avatarText": "${first_name|first|upperCase}${last_name|first|upperCase}"
+                "avatarText": "${fname|first|upperCase}${lname|first|upperCase}"
               },
               "actions": [
                 {
@@ -344,21 +344,21 @@
                             {
                               "type": "input-text",
                               "label": "First Name:",
-                              "name": "first_name",
+                              "name": "fname",
                               "required": true,
                               "labelClassName": "text-xs"
                             },
                             {
                               "type": "input-text",
                               "label": "Last Name:",
-                              "name": "last_name",
+                              "name": "lname",
                               "required": true,
                               "labelClassName": "text-xs"
                             },
                             {
                               "type": "input-text",
                               "label": "Phone Number:",
-                              "name": "phone_number",
+                              "name": "phone",
                               "labelClassName": "text-xs"
                             },
                             {
@@ -414,21 +414,21 @@
                                 {
                                   "type": "input-text",
                                   "label": "First Name:",
-                                  "name": "first_name",
+                                  "name": "fname",
                                   "required": true,
                                   "labelClassName": "text-xs"
                                 },
                                 {
                                   "type": "input-text",
                                   "label": "Last Name:",
-                                  "name": "last_name",
+                                  "name": "lname",
                                   "required": true,
                                   "labelClassName": "text-xs"
                                 },
                                 {
                                   "type": "input-date",
                                   "label": "Date of Birth:",
-                                  "name": "birth_date",
+                                  "name": "birthdate",
                                   "labelClassName": "text-xs",
                                   "placeholder": "",
                                   "embed": false
@@ -530,7 +530,7 @@
                   "actionType": "ajax",
                   "label": "Delete",
                   "icon": "fa fa-trash",
-                  "confirmText": "Do you want to delete all the data of ${first_name|default:'Family Information'} ${last_name}?",
+                  "confirmText": "Do you want to delete all the data of ${fname|default:'Family Information'} ${lname}?",
                   "api": "delete:http://54.245.168.231:5002/userManage/${object}/${id}"
                 }
               ]
@@ -769,21 +769,21 @@
                             {
                               "type": "input-text",
                               "label": "First Name:",
-                              "name": "first_name",
+                              "name": "fname",
                               "required": true,
                               "labelClassName": "text-xs"
                             },
                             {
                               "type": "input-text",
                               "label": "Last Name:",
-                              "name": "last_name",
+                              "name": "lname",
                               "required": true,
                               "labelClassName": "text-xs"
                             },
                             {
                               "type": "input-text",
                               "label": "Phone Number:",
-                              "name": "phone_number",
+                              "name": "phone",
                               "labelClassName": "text-xs"
                             },
                             {
@@ -852,21 +852,21 @@
                               {
                                 "type": "input-text",
                                 "label": "First Name:",
-                                "name": "first_name",
+                                "name": "fname",
                                 "required": true,
                                 "labelClassName": "text-xs"
                               },
                               {
                                 "type": "input-text",
                                 "label": "Last Name:",
-                                "name": "last_name",
+                                "name": "lname",
                                 "required": true,
                                 "labelClassName": "text-xs"
                               },
                               {
                                 "type": "input-date",
                                 "label": "Date of Birth:",
-                                "name": "birth_date",
+                                "name": "birthdate",
                                 "labelClassName": "text-xs",
                                 "placeholder": "",
                                 "embed": false
