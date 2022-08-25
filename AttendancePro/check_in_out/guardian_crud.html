@@ -438,6 +438,35 @@
                 }
               },
               "id": "u:8c58d5ef6ef5"
+            },
+            {
+              "type": "button",
+              "label": "Print",
+              "level": "link",
+              "onEvent": {
+                "click": {
+                  "actions": [
+                    {
+                      "actionType": "ajax",
+                      "args": {
+                        "api": "http://54.245.168.231:5002/barcode/${id}"
+                      }
+                    },
+                    {
+                      "actionType": "custom",
+                      "script": "sessionStorage.setItem('myData', JSON.stringify(event.data.responseData.items));",
+                      "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0"
+                    },
+                    {
+                      "actionType": "url",
+                      "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0",
+                      "args": {
+                        "url": "../admin/print_badge.html"
+                      }
+                    }
+                  ]
+                }
+              }
             }
           ],
           "id": "u:54bcc5641ee4"
@@ -541,6 +570,36 @@
         },
         {
           "type": "bulk-actions"
+        },
+        {
+          "type": "button",
+          "label": "Print Barcode Badges",
+          "icon": "fa-solid fa-id-badge",
+          "tooltip": "Print badges for all students recently enrolled at once.",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "ajax",
+                  "args": {
+                    "api": "http://54.245.168.231:5002/barcode"
+                  }
+                },
+                {
+                  "actionType": "custom",
+                  "script": "sessionStorage.setItem('myData', JSON.stringify(event.data.responseData.items));",
+                  "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0"
+                },
+                {
+                  "actionType": "url",
+                  "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0",
+                  "args": {
+                    "url": "../admin/print_badge.html"
+                  }
+                }
+              ]
+            }
+          }
         }
       ],
       "id": "u:d3d8f2c930bd",
@@ -1021,7 +1080,7 @@
     }
   ]
       };
-      let amisScoped = amis.embed('#root', amisJSON);
+      let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
     })();
   </script>
 </body>
