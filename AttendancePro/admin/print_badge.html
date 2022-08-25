@@ -24,7 +24,7 @@
 				if (ret == true) {
 					for (const item of myData) {
 						const objName = await objDoc.GetObject("name");
-						objName.Text = item.first_name + ' ' + item.last_name;
+						objName.Text = item.fname + ' ' + item.lname;
 						const objBarcode = await objDoc.GetObject("barcode");
 						objBarcode.Text = item.barcode;
 

@@ -18,7 +18,7 @@ api = Api(app)
 ###### Guardian ######
 class GuardianSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'password', 'first_name', 'last_name', 'phone_number',
+        fields = ('id', 'pwd', 'fname', 'lname', 'phone',
                   'email', 'relationship', 'check_in_method')
 
 
@@ -35,10 +35,10 @@ class GuardianListResource(Resource):
     def post(self):
         # create a new one
         new_guardian = Guardian(
-            password='123456',
-            first_name=request.json['first_name'],
-            last_name=request.json['last_name'],
-            phone_number=request.json['phone_number'],
+            pwd='123456',
+            fname=request.json['fname'],
+            lname=request.json['lname'],
+            phone=request.json['phone'],
             email=request.json['email'],
             relationship=request.json['relationship'],
             check_in_method=request.json['check_in_method']
@@ -58,14 +58,14 @@ class GuardianResource(Resource):
     def put(self, id):
         # update one by id
         guardian = Guardian.query.filter_by(id=id).first_or_404()
-        if 'password' in request.json:
-            guardian.password = request.json['password']
-        if 'first_name' in request.json:
-            guardian.first_name = request.json['first_name']
-        if 'last_name' in request.json:
-            guardian.last_name = request.json['last_name']
-        if 'phone_number' in request.json:
-            guardian.phone_number = request.json['phone_number']
+        if 'pwd' in request.json:
+            guardian.pwd = request.json['pwd']
+        if 'fname' in request.json:
+            guardian.fname = request.json['fname']
+        if 'lname' in request.json:
+            guardian.lname = request.json['lname']
+        if 'phone' in request.json:
+            guardian.phone = request.json['phone']
         if 'email' in request.json:
             guardian.email = request.json['email']
         if 'relationship' in request.json:
@@ -81,14 +81,20 @@ class GuardianResource(Resource):
         db.session.delete(guardian)
         db.session.commit()
         return '', 204
+
+
+class GuardianLoginResource(Resource):
+    def get(self, phone):
+        guardian = Guardian.query.filter_by(phone).first_or_404()
+        return guardian_schema.dump(guardian)
 ###### Guardian ######
 
 
 ###### Student ######
 class StudentSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'first_name', 'last_name', 'birth_date', 'gender', 'grade', 'allergies', 'check_in_method', 
-                  'sunday_school', 'CM_lounge', 'kid_choir', 'U3_friday', 'friday_lounge', 'friday_night')
+        fields = ('id', 'fname', 'lname', 'birthdate', 'gender', 'grade', 'allergies', 'check_in_method', 
+                  'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday', 'friday_lounge', 'friday_night')
 
 
 student_schema = StudentSchema()
@@ -104,18 +110,18 @@ class StudentListResource(Resource):
     def post(self):
         # create a new one
         new_student = Student(
-            first_name=request.json['first_name'],
-            last_name=request.json['last_name'],
-            birth_date=request.json['birth_date'],
+            fname=request.json['fname'],
+            lname=request.json['lname'],
+            birthdate=request.json['birthdate'],
             gender=request.json['gender'],
             grade=request.json['grade'],
             allergies=request.json['allergies'],
             check_in_method=request.json['check_in_method'],
 
             sunday_school=request.json['sunday_school'],
-            CM_lounge=request.json['CM_lounge'],
+            cm_lounge=request.json['cm_lounge'],
             kid_choir=request.json['kid_choir'],
-            U3_friday=request.json['U3_friday'],
+            u3_friday=request.json['u3_friday'],
             friday_lounge=request.json['friday_lounge'],
             friday_night=request.json['friday_night']
         )
@@ -134,12 +140,12 @@ class StudentResource(Resource):
     def put(self, id):
         # update by id
         student = Student.query.filter_by(id=id).first_or_404()
-        if 'first_name' in request.json:
-            student.first_name = request.json['first_name']
-        if 'last_name' in request.json:
-            student.last_name = request.json['last_name']
-        if 'birth_date' in request.json:
-            student.birth_date = request.json['birth_date']
+        if 'fname' in request.json:
+            student.fname = request.json['fname']
+        if 'lname' in request.json:
+            student.lname = request.json['lname']
+        if 'birthdate' in request.json:
+            student.birthdate = request.json['birthdate']
         if 'gender' in request.json:
             student.gender = request.json['gender']
         if 'grade' in request.json:
@@ -151,12 +157,12 @@ class StudentResource(Resource):
         
         if 'sunday_school' in request.json:
             student.sunday_school = request.json['sunday_school']
-        if 'CM_lounge' in request.json:
-            student.CM_lounge = request.json['CM_lounge']
+        if 'cm_lounge' in request.json:
+            student.cm_lounge = request.json['cm_lounge']
         if 'kid_choir' in request.json:
             student.kid_choir = request.json['kid_choir']
-        if 'U3_friday' in request.json:
-            student.U3_friday = request.json['U3_friday']
+        if 'u3_friday' in request.json:
+            student.u3_friday = request.json['u3_friday']
         if 'friday_lounge' in request.json:
             student.friday_lounge = request.json['friday_lounge']
         if 'friday_night' in request.json:
@@ -342,6 +348,7 @@ class FamilyResource(Resource):
 
 api.add_resource(GuardianListResource, '/guardian')
 api.add_resource(GuardianResource, '/guardian/<int:id>')
+api.add_resource(GuardianLoginResource, '/guardian/login/<phone>')
 api.add_resource(StudentListResource, '/student')
 api.add_resource(StudentResource, '/student/<int:id>')
 api.add_resource(FamilyInfoListResource, '/familyInfo')

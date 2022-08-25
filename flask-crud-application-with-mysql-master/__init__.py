@@ -32,7 +32,7 @@ def student():
     json_data = json.loads(requests.get(API_URL + "/student").content)
 
     attrs = list(json_data[0].keys())
-    attrs = ['id', 'first_name', 'last_name', 'checked_in', 'barcode', 'checked_out', 'school', 'birth_date',
+    attrs = ['id', 'fname', 'lname', 'checked_in', 'barcode', 'checked_out', 'school', 'birthdate',
              'allergies', 'allergies_medication', 'medication', 'emergency_name', 'emergency_phone', 'health_insurance']
 
     entries = []
@@ -42,7 +42,7 @@ def student():
             vals.append(entry[attr])
         entries.append(vals)
 
-    insert_attrs = ('first_name', 'last_name', 'school', 'birth_date','allergies', 'allergies_medication', 
+    insert_attrs = ('fname', 'lname', 'school', 'birthdate','allergies', 'allergies_medication', 
                     'medication', 'emergency_name', 'emergency_phone', 'health_insurance')
 
     return render_template('student.html', attrs=attrs, entries=entries, insert_attrs=insert_attrs, enumerate=enumerate)

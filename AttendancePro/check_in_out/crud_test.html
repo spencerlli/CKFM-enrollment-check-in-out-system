@@ -39,7 +39,7 @@
     {
       "type": "crud",
       "syncLocation": false,
-      "source": "${items | filter:first_name:match:keywords}",
+      "source": "${items | filter:fname:match:keywords}",
     "filter": {
       "body": [
         {
@@ -61,20 +61,20 @@
           "id": "u:d11b88095ee4"
         },
         {
-          "name": "first_name",
+          "name": "fname",
           "label": "FIRST NAME",
           "type": "text",
           "id": "u:272e9202e4bf"
         },
         {
           "type": "text",
-          "name": "last_name",
+          "name": "lname",
           "label": "LAST NAME",
           "id": "u:a42ad0b4b602"
         },
         {
           "type": "text",
-          "name": "birth_date",
+          "name": "birthdate",
           "label": "BIRTHDAY",
           "id": "u:2994b36da1f9"
         },
@@ -160,17 +160,17 @@
                       "type": "input-text"
                     },
                     {
-                      "name": "first_name",
+                      "name": "fname",
                       "label": "FIRST NAME",
                       "type": "input-text"
                     },
                     {
-                      "name": "last_name",
+                      "name": "lname",
                       "label": "LAST NAME",
                       "type": "input-text"
                     },
                     {
-                      "name": "birth_date",
+                      "name": "birthdate",
                       "label": "BIRTHDAY",
                       "type": "input-text"
                     },
@@ -256,17 +256,17 @@
                 },
                 {
                   "type": "input-text",
-                  "name": "first_name",
+                  "name": "fname",
                   "label": "FIRST NAME"
                 },
                 {
                   "type": "input-text",
-                  "name": "last_name",
+                  "name": "lname",
                   "label": "LAST NAME"
                 },
                 {
                   "type": "input-text",
-                  "name": "birth_date",
+                  "name": "birthdate",
                   "label": "BIRTHDAY"
                 },
                 {

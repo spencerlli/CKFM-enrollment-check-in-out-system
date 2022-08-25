@@ -16,10 +16,10 @@ CORS(app, resources=r'/*', supports_credentials=True)
 class Guardian(db.Model):
     __tablename__ = "guardian"
     id = db.Column(db.Integer, primary_key=True)
-    password = db.Column(db.String(256))
-    first_name = db.Column(db.String(256))
-    last_name = db.Column(db.String(256))
-    phone_number = db.Column(db.String(256), unique=True)
+    pwd = db.Column(db.String(256))
+    fname = db.Column(db.String(256))
+    lname = db.Column(db.String(256))
+    phone = db.Column(db.String(256), unique=True)
     email = db.Column(db.String(256), unique=True)
     relationship = db.Column(db.String(256))
     check_in_method = db.Column(db.String(256))
@@ -28,18 +28,18 @@ class Guardian(db.Model):
 class Student(db.Model):
     __tablename__ = "student"
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(256))
-    last_name = db.Column(db.String(256))
-    birth_date = db.Column(db.String(256))
+    fname = db.Column(db.String(256))
+    lname = db.Column(db.String(256))
+    birthdate = db.Column(db.String(256))
     gender = db.Column(db.String(256))
     grade = db.Column(db.String(256))
     allergies = db.Column(db.String(256))
     check_in_method = db.Column(db.String(256))
 
     sunday_school = db.Column(db.Boolean)
-    CM_lounge = db.Column(db.Boolean)
+    cm_lounge = db.Column(db.Boolean)
     kid_choir = db.Column(db.Boolean)
-    U3_friday = db.Column(db.Boolean)
+    u3_friday = db.Column(db.Boolean)
     friday_lounge = db.Column(db.Boolean)
     friday_night = db.Column(db.Boolean)
 

@@ -35,44 +35,44 @@ def guardian(id=None):
         "data": {
             "items": [
                 {
-                    "password": "123456",
+                    "pwd": "123456",
                     "relationship": "Father",
                     "check_in_method": "barcode",
-                    "last_name": "liuTest1",
-                    "phone_number": "0000000001",
+                    "lname": "liuTest1",
+                    "phone": "0000000001",
                     "id": 1,
                     "email": "chang1@test.com",
-                    "first_name": "changTest1"
+                    "fname": "changTest1"
                 },
                 {
-                    "password": "123456",
+                    "pwd": "123456",
                     "relationship": "Mother",
                     "check_in_method": "barcode",
-                    "last_name": "liuTest2",
-                    "phone_number": "0000000002",
+                    "lname": "liuTest2",
+                    "phone": "0000000002",
                     "id": 2,
                     "email": "chang2@test.com",
-                    "first_name": "changTest2"
+                    "fname": "changTest2"
                 },
                 {
-                    "password": "123456",
+                    "pwd": "123456",
                     "relationship": "Father",
                     "check_in_method": "barcode",
-                    "last_name": "liuTest3",
-                    "phone_number": "0000000003",
+                    "lname": "liuTest3",
+                    "phone": "0000000003",
                     "id": 3,
                     "email": "chang3@test.com",
-                    "first_name": "changTest3"
+                    "fname": "changTest3"
                 },
                 {
-                    "password": "123456",
+                    "pwd": "123456",
                     "relationship": "Mother",
                     "check_in_method": "barcode",
-                    "last_name": "liuTest4",
-                    "phone_number": "0000000004",
+                    "lname": "liuTest4",
+                    "phone": "0000000004",
                     "id": 4,
                     "email": "chang4@test.com",
-                    "first_name": "changTest4"
+                    "fname": "changTest4"
                 }
             ],
             "hasNext": False
@@ -97,82 +97,82 @@ def student(id=None):
                 {
                     "sunday_school": True,
                     "kid_choir": False,
-                    "birth_date": "1659337200",
-                    "CM_lounge": False,
-                    "U3_friday": False,
+                    "birthdate": "1659337200",
+                    "cm_lounge": False,
+                    "u3_friday": False,
                     "id": 1,
                     "friday_lounge": False,
                     "allergies": "ibuprofen",
                     "gender": "male",
-                    "first_name": "changJRTest1",
+                    "fname": "changJRTest1",
                     "grade": "1",
                     "check_in_method": "barcode",
                     "friday_night": False,
-                    "last_name": "liuTest1"
+                    "lname": "liuTest1"
                 },
                 {
                     "sunday_school": False,
                     "kid_choir": False,
-                    "birth_date": "1659423600",
-                    "CM_lounge": True,
-                    "U3_friday": False,
+                    "birthdate": "1659423600",
+                    "cm_lounge": True,
+                    "u3_friday": False,
                     "id": 2,
                     "friday_lounge": False,
                     "allergies": "none",
                     "gender": "female",
-                    "first_name": "changJRTest2",
+                    "fname": "changJRTest2",
                     "grade": "2",
                     "check_in_method": "barcode",
                     "friday_night": False,
-                    "last_name": "liuTest2"
+                    "lname": "liuTest2"
                 },
                 {
                     "sunday_school": False,
                     "kid_choir": True,
-                    "birth_date": "1659510000",
-                    "CM_lounge": False,
-                    "U3_friday": False,
+                    "birthdate": "1659510000",
+                    "cm_lounge": False,
+                    "u3_friday": False,
                     "id": 3,
                     "friday_lounge": False,
                     "allergies": "ibuprofen",
                     "gender": "male",
-                    "first_name": "changJRTest3",
+                    "fname": "changJRTest3",
                     "grade": "3",
                     "check_in_method": "barcode",
                     "friday_night": False,
-                    "last_name": "liuTest3"
+                    "lname": "liuTest3"
                 },
                 {
                     "sunday_school": False,
                     "kid_choir": False,
-                    "birth_date": "1659596400",
-                    "CM_lounge": False,
-                    "U3_friday": True,
+                    "birthdate": "1659596400",
+                    "cm_lounge": False,
+                    "u3_friday": True,
                     "id": 4,
                     "friday_lounge": False,
                     "allergies": "none",
                     "gender": "female",
-                    "first_name": "changJRTest4",
+                    "fname": "changJRTest4",
                     "grade": "4",
                     "check_in_method": "barcode",
                     "friday_night": False,
-                    "last_name": "liuTest4"
+                    "lname": "liuTest4"
                 },
                 {
                     "sunday_school": False,
                     "kid_choir": False,
-                    "birth_date": "1998",
-                    "CM_lounge": False,
-                    "U3_friday": False,
+                    "birthdate": "1998",
+                    "cm_lounge": False,
+                    "u3_friday": False,
                     "id": 5,
                     "friday_lounge": False,
                     "allergies": "0",
                     "gender": "M",
-                    "first_name": "changJRTest5",
+                    "fname": "changJRTest5",
                     "grade": "2",
                     "check_in_method": "barcode",
                     "friday_night": False,
-                    "last_name": "liuJRTest5"
+                    "lname": "liuJRTest5"
                 }
             ],
             "hasNext": False
@@ -312,27 +312,27 @@ def checkIn():
             "guardian": [
                 {
                     "guardian_id": 1,
-                    "first_name": "changTest1",
-                    "last_name": "liuTest1",
+                    "fname": "changTest1",
+                    "lname": "liuTest1",
                     "relationship": "Father"
                 },
                 {
                     "guardian_id": 2,
-                    "first_name": "changTest2",
-                    "last_name": "liuTest2",
+                    "fname": "changTest2",
+                    "lname": "liuTest2",
                     "relationship": "Mother"
                 }
             ],
             "student": [
                 {
                     "student_id": 1,
-                    "first_name": "changJRTest1",
-                    "last_name": "liuJRTest1",
+                    "fname": "changJRTest1",
+                    "lname": "liuJRTest1",
                 },
                 {
                     "student_id": 2,
-                    "first_name": "changJRTest2",
-                    "last_name": "liuJRTest2",
+                    "fname": "changJRTest2",
+                    "lname": "liuJRTest2",
                 }
             ]
         }
@@ -356,27 +356,27 @@ def checkOut():
             "guardian": [
                 {
                     "guardian_id": 1,
-                    "first_name": "changTest1",
-                    "last_name": "liuTest1",
+                    "fname": "changTest1",
+                    "lname": "liuTest1",
                     "relationship": "Father"
                 },
                 {
                     "guardian_id": 2,
-                    "first_name": "changTest2",
-                    "last_name": "liuTest2",
+                    "fname": "changTest2",
+                    "lname": "liuTest2",
                     "relationship": "Mother"
                 }
             ],
             "student": [
                 {
                     "student_id": 1,
-                    "first_name": "changJRTest1",
-                    "last_name": "liuJRTest1",
+                    "fname": "changJRTest1",
+                    "lname": "liuJRTest1",
                 },
                 {
                     "student_id": 2,
-                    "first_name": "changJRTest2",
-                    "last_name": "liuJRTest2",
+                    "fname": "changJRTest2",
+                    "lname": "liuJRTest2",
                 }
             ]
         }
@@ -395,13 +395,13 @@ def barcode():
         "data": {
             "items": [
                 {
-                    "first_name": "changTest1",
-                    "last_name": "liuTest1",
+                    "fname": "changTest1",
+                    "lname": "liuTest1",
                     "barcode": "barcodeTest1"
                 },
                 {
-                    "first_name": "changTest2",
-                    "last_name": "liuTest2",
+                    "fname": "changTest2",
+                    "lname": "liuTest2",
                     "barcode": "barcodeTest2"
                 }
             ]
@@ -442,56 +442,56 @@ def userManage(object=None, id=None):
                 {
                     "check_in_method": "barcode",
                     "email": "chang1@test.com",
-                    "first_name": "changTest1",
+                    "fname": "changTest1",
                     "id": 1,
-                    "last_name": "liuTest1",
+                    "lname": "liuTest1",
                     "object": "guardian",
-                    "password": "123456",
-                    "phone_number": "0000000001",
+                    "pwd": "123456",
+                    "phone": "0000000001",
                     "relationship": "Father"
                 },
                 {
                     "check_in_method": "barcode",
                     "email": "chang2@test.com",
-                    "first_name": "changTest2",
+                    "fname": "changTest2",
                     "id": 2,
-                    "last_name": "liuTest2",
+                    "lname": "liuTest2",
                     "object": "guardian",
-                    "password": "123456",
-                    "phone_number": "0000000002",
+                    "pwd": "123456",
+                    "phone": "0000000002",
                     "relationship": "Mother"
                 },
                 {
-                    "CM_lounge": False,
-                    "U3_friday": False,
+                    "cm_lounge": False,
+                    "u3_friday": False,
                     "allergies": "ibuprofen",
-                    "birth_date": "1659337200",
+                    "birthdate": "1659337200",
                     "check_in_method": "barcode",
-                    "first_name": "changJRTest1",
+                    "fname": "changJRTest1",
                     "friday_lounge": False,
                     "friday_night": False,
                     "gender": "male",
                     "grade": "1",
                     "id": 1,
                     "kid_choir": False,
-                    "last_name": "liuTest1",
+                    "lname": "liuTest1",
                     "object": "student",
                     "sunday_school": True
                 },
                 {
-                    "CM_lounge": True,
-                    "U3_friday": False,
+                    "cm_lounge": True,
+                    "u3_friday": False,
                     "allergies": "none",
-                    "birth_date": "1659423600",
+                    "birthdate": "1659423600",
                     "check_in_method": "barcode",
-                    "first_name": "changJRTest2",
+                    "fname": "changJRTest2",
                     "friday_lounge": False,
                     "friday_night": False,
                     "gender": "female",
                     "grade": "2",
                     "id": 2,
                     "kid_choir": False,
-                    "last_name": "liuTest2",
+                    "lname": "liuTest2",
                     "object": "student",
                     "sunday_school": False
                 }
@@ -516,9 +516,9 @@ def userManage(object=None, id=None):
 #             "items": [
 #                 {
 #                     "id": 1,
-#                     "first_name": "Yuan JR",
-#                     "last_name": "Zhang",
-#                     "birth_date": "2022-07-27",
+#                     "fname": "Yuan JR",
+#                     "lname": "Zhang",
+#                     "birthdate": "2022-07-27",
 #                     "gender": "M",
 #                     "school": "UC",
 #                     "grade": "A",
@@ -531,9 +531,9 @@ def userManage(object=None, id=None):
 #                 },
 #                 {
 #                     "id": 2,
-#                     "first_name": "Lingxin JR",
-#                     "last_name": "Li",
-#                     "birth_date": "2022-07-27",
+#                     "fname": "Lingxin JR",
+#                     "lname": "Li",
+#                     "birthdate": "2022-07-27",
 #                     "gender": "F",
 #                     "school": "UC",
 #                     "grade": "A",
@@ -546,9 +546,9 @@ def userManage(object=None, id=None):
 #                 },
 #                 {
 #                     "id": 3,
-#                     "first_name": "Chang JR",
-#                     "last_name": "Liu",
-#                     "birth_date": "2022-07-27",
+#                     "fname": "Chang JR",
+#                     "lname": "Liu",
+#                     "birthdate": "2022-07-27",
 #                     "gender": "M",
 #                     "school": "UC",
 #                     "grade": "A",
