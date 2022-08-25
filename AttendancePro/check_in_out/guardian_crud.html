@@ -51,7 +51,7 @@
     },
       "api": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/guardian"
+        "url": "http://54.245.168.231:5000/admin/guardian"
       },
       "columns": [
         {
@@ -81,6 +81,11 @@
         },
         {
           "type": "text",
+          "name": "email",
+          "label": "EMAIL"
+        },
+        {
+          "type": "text",
           "name": "relationship",
           "label": "relationship"
         },
@@ -102,7 +107,7 @@
               "confirmText": "确定要删除？",
               "api": {
                 "method": "delete",
-                "url": "http://54.245.168.231:5002/guardian"
+                "url": "http://54.245.168.231:5000/admin/guardian"
               },
               "id": "u:0af9a2d5843f"
             },
@@ -115,7 +120,7 @@
                 "title": "编辑",
                 "body": {
                   "type": "form",
-                  "api": "put:http://54.245.168.231:5002/guardian/${id}",
+                  "api": "put:http://54.245.168.231:5000/admin/guardian/${id}",
                   "body": [
                   {
           "name": "id",
@@ -141,6 +146,11 @@
           "type": "input-text",
           "name": "password",
           "label": "PASSWORD"
+        },
+        {
+          "type": "input-text",
+          "name": "email",
+          "label": "EMAIL"
         },
         {
           "type": "input-text",
@@ -184,14 +194,9 @@
               "type": "form",
               "api": {
                 "method": "post",
-                "url": "http://54.245.168.231:5002/guardian"
+                "url": "http://54.245.168.231:5000/admin/guardian"
               },
               "body": [
-              {
-          "name": "id",
-          "label": "ID",
-          "type": "input-text"
-        },
         {
           "name": "first_name",
           "label": "FIRST NAME",
@@ -211,6 +216,11 @@
           "type": "input-text",
           "name": "password",
           "label": "PASSWORD"
+        },
+        {
+          "type": "input-text",
+          "name": "email",
+          "label": "EMAIL"
         },
         {
           "type": "input-text",
@@ -253,7 +263,7 @@
     },
       "api": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/student"
+        "url": "http://54.245.168.231:5000/admin/student"
       },
       "columns": [
         {
@@ -339,7 +349,7 @@
               "confirmText": "确定要删除？",
               "api": {
                 "method": "delete",
-                "url": "http://54.245.168.231:5002/student"
+                "url": "http://54.245.168.231:5000/admin/student"
               },
               "id": "u:0af9a2d5843f"
             },
@@ -352,7 +362,7 @@
                 "title": "编辑",
                 "body": {
                   "type": "form",
-                  "api": "put:http://54.245.168.231:5002/student/${id}",
+                  "api": "put:http://54.245.168.231:5000/admin/student/${id}",
                   "body": [
                   {
           "name": "id",
@@ -456,15 +466,10 @@
               "type": "form",
               "api": {
                 "method": "post",
-                "url": "http://54.245.168.231:5002/student"
+                "url": "http://54.245.168.231:5000/admin/student"
               },
               "body": [
               {
-          "name": "id",
-          "label": "ID",
-          "type": "input-text"
-        },
-        {
           "name": "first_name",
           "label": "FIRST NAME",
           "type": "input-text"
@@ -560,7 +565,7 @@
     },
       "api": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/familyInfo"
+        "url": "http://54.245.168.231:5000/admin/familyInfo"
       },
       "columns": [
         {
@@ -656,7 +661,7 @@
               "confirmText": "确定要删除？",
               "api": {
                 "method": "delete",
-                "url": "http://54.245.168.231:5002/familyInfo"
+                "url": "http://54.245.168.231:5000/admin/familyInfo"
               },
               "id": "u:0af9a2d5843f"
             },
@@ -669,7 +674,7 @@
                 "title": "编辑",
                 "body": {
                   "type": "form",
-                  "api": "put:http://54.245.168.231:5002/familyInfo/${id}",
+                  "api": "put:http://54.245.168.231:5000/admin/familyInfo/${id}",
                   "body": [
                   {
           "name": "id",
@@ -783,15 +788,10 @@
               "type": "form",
               "api": {
                 "method": "post",
-                "url": "http://54.245.168.231:5002/familyInfo"
+                "url": "http://54.245.168.231:5000/admin/familyInfo"
               },
               "body": [
               {
-          "name": "id",
-          "label": "ID",
-          "type": "input-text"
-        },
-        {
           "name": "street",
           "label": "STREET",
           "type": "input-text"
@@ -897,7 +897,7 @@
     },
       "api": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/family"
+        "url": "http://54.245.168.231:5000/admin/family"
       },
       "columns": [
         {
@@ -928,7 +928,7 @@
               "confirmText": "确定要删除？",
               "api": {
                 "method": "delete",
-                "url": "http://54.245.168.231:5002/family"
+                "url": "http://54.245.168.231:5000/admin/family"
               },
               "id": "u:0af9a2d5843f"
             },
@@ -941,7 +941,7 @@
                 "title": "编辑",
                 "body": {
                   "type": "form",
-                  "api": "put:http://54.245.168.231:5002/family/${id}",
+                  "api": "put:http://54.245.168.231:5000/admin/family/${id}",
                   "body": [
                   {
           "name": "id",
@@ -990,15 +990,10 @@
               "type": "form",
               "api": {
                 "method": "post",
-                "url": "http://54.245.168.231:5002/family"
+                "url": "http://54.245.168.231:5000/admin/family"
               },
               "body": [
               {
-          "name": "id",
-          "label": "ID",
-          "type": "input-text"
-        },
-        {
           "name": "guardian_id",
           "label": "GUARDIAN ID",
           "type": "input-text"
