@@ -35,11 +35,10 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "title": "",
+  "title": "PRE CHECK OUT",
   "body": [
     {
       "type": "form",
-      "id": "u:d8d6cfb4b9d8",
       "title": "SELECT PICK UP PARENT",
       "body": [
         {
@@ -60,57 +59,44 @@
                               "type": "input-text",
                               "label": "Name:",
                               "name": "g1_name",
-                              "id": "u:b97d30a22f28",
-                              "mode": "",
                               "size": "",
-                              "value": "${yuan.first_name} ${yuan.last_name}"
+                              "value": "${g1.first_name} ${g1.last_name}"
                             },
                             {
                               "type": "input-text",
                               "label": "Relationship to Student:",
                               "name": "relationship1",
-                              "id": "u:796b0917c44a",
                               "mode": "",
-                              "value": "${yuan.relationship}"
+                              "value": "${g1.relationship}"
                             }
                           ],
-                          "md": 6
-                        },
-                        {
-                          "body": [
-                            {
-                              "type": "avatar",
-                              "icon": "fa fa-user",
-                              "id": "u:89f82847e5e6",
-                              "shape": "square",
-                              "size": 150,
-                              "style": {
-                              },
-                              "text": "First Guardian"
-                            }
-                          ],
-                          "md": 4
+                          "md": 6,
                         }
                       ],
-                      "id": "u:d8c42ac69f4e"
                     }
                   ],
-                  "id": "u:b09fa1d3288c",
                   "actions": [
                     {
-                      "type": "checkbox",
-                      "option": "Pick Up",
+                      "type": "button",
+                      "label": "Pick Up",
                       "name": "checkbox1",
-                      "id": "u:bb1f222e9bcb"
-                    }
+                      "actionType": "ajax",
+                      "api": {
+                          "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkOut",
+                          "data": {
+                            "guardian_id": "${g1.guardian_id}"
+                          }
+                        }
+                      }
                   ]
                 }
               ],
-              "md": 3
+              "md": 3,
             },
             {
               "md": 3,
-              "valign": "",
               "body": [
                 {
                   "type": "panel",
@@ -125,53 +111,41 @@
                               "type": "input-text",
                               "label": "Name:",
                               "name": "g2_name",
-                              "id": "u:d4b0e78ff055",
                               "mode": "",
                               "size": "",
-                              "value": "${lingxin.first_name} ${lingxin.last_name}"
+                              "value": "${g2.first_name} ${g2.last_name}"
                             },
                             {
                               "type": "input-text",
                               "label": "Relationship to Student:",
                               "name": "relationship2",
-                              "id": "u:5ee917a4cfb3",
                               "mode": "",
-                              "value": "${lingxin.relationship}"
-
+                              "value": "${g2.relationship}"
                             }
                           ],
-                          "md": 6
-                        },
-                        {
-                          "body": [
-                            {
-                              "type": "avatar",
-                              "icon": "fa fa-user",
-                              "id": "u:2aa5dc8cc797",
-                              "shape": "square",
-                              "size": 150,
-                              "style": {
-                              },
-                              "text": "Second Guardian"
-                            }
-                          ],
-                          "md": 4
+                          "md": 6,
                         }
                       ],
-                      "id": "u:2d1d64a5af9b"
                     }
                   ],
-                  "id": "u:06998fb5994c",
                   "actions": [
                     {
-                      "type": "checkbox",
-                      "option": "Pick Up",
+                      "type": "button",
+                      "label": "Pick Up",
                       "name": "checkbox2",
-                      "id": "u:8d33749e4708"
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkOut",
+                          "data": {
+                            "guardian_id": "${g2.guardian_id}"
+                          }
+              }
                     }
                   ]
                 }
-              ]
+              ],
             },
             {
               "body": [
@@ -188,126 +162,69 @@
                               "type": "input-text",
                               "label": "Name:",
                               "name": "g3_name",
-                              "id": "u:e447f441da26",
                               "mode": "",
-                              "size": ""
+                              "size": "",
+                              "value": "${g3.first_name} ${g3.last_name}"
                             },
                             {
                               "type": "input-text",
                               "label": "Relationship to Student:",
                               "name": "relationship3",
-                              "id": "u:bfcec43dc1ef",
-                              "mode": ""
+                              "mode": "",
+                              "value": "${g3.relationship}"
                             }
                           ],
-                          "md": 6
-                        },
-                        {
-                          "body": [
-                            {
-                              "type": "avatar",
-                              "icon": "fa fa-user",
-                              "id": "u:238186aebecd",
-                              "shape": "square",
-                              "size": 150,
-                              "style": {
-                              },
-                              "text": "Third Guardian"
-                            }
-                          ],
-                          "md": 4
+                          "md": 6,
                         }
                       ],
-                      "id": "u:dce97c98d377"
                     }
                   ],
-                  "id": "u:af0df0de52f9",
                   "actions": [
                     {
-                      "type": "checkbox",
-                      "option": "Pick Up",
+                      "type": "button",
+                      "label": "Pick Up",
                       "name": "checkbox3",
-                      "id": "u:d09d8fef5b8e"
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkOut",
+                          "data": {
+                            "guardian_id": "${g3.guardian_id}"
+                          }
+              }
                     }
                   ]
                 }
               ],
-              "md": 3
-            },
-            {
-              "body": [
-                {
-                  "type": "panel",
-                  "title": "Temporary Guardian",
-                  "body": [
-                    {
-                      "type": "grid",
-                      "columns": [
-                        {
-                          "body": [
-                            {
-                              "type": "input-text",
-                              "label": "Name:",
-                              "name": "t_fname",
-                              "id": "u:60389e52a621",
-                              "mode": "",
-                              "size": ""
-                            }
-                            
-                          ],
-                          "md": 5
-                        },
-                        {
-                          "body": [
-                            {
-                              "type": "input-text",
-                              "label": "Relationship:",
-                              "name": "relationship3",
-                              "id": "u:132969055bf1",
-                              "mode": "",
-                              "size": ""
-
-                            }
-
-                          ],
-                          "md": 5
-                        }
-                      ],
-                      "id": "u:e4ab3b58f86b",
-                      "align": "between",
-                      "valign": "top"
-                    },
-                    {
-                      "type": "input-text",
-                      "label": "Comments:",
-                      "name": "comment",
-                      "id": "u:5160027e32a9",
-                      "mode": ""
-                    }
-                  ],
-                  "id": "u:bb8086b747ff",
-                  "actions": [
-                    {
-                      "type": "checkbox",
-                      "option": "Pick Up",
-                      "name": "checkbox4",
-                      "id": "u:f2f128ce3a31"
-                    }
-                  ]
-                }
-              ],
-              "md": 3
+              "md": 3,
             }
-          ],
-          "id": "u:1aac2f6fde08"
-        }/*,
+          ]
+        }
+      ],
+      "submitText": "",
+      "redirect": "",
+      "initApi": {
+        "method": "get",
+        "url": "http://54.245.168.231:5002/checkOut",
+        "responseData": {
+          "g1": "${guardian|first}",
+          "g2": "${guardian|nth:1}",
+          "g3": "${guardian|nth:2}"
+        }
+      }
+    },
+    {
+      "type": "form",
+      "title": "SELECT PICK UP CHILD",
+      "body": [
         {
           "type": "grid",
           "columns": [
             {
               "body": [
                 {
-                  "type": "form",
+                  "type": "panel",
                   "title": "First Student",
                   "body": [
                     {
@@ -319,49 +236,40 @@
                               "type": "input-text",
                               "label": "Name:",
                               "name": "s1_name",
-                              "id": "u:53927bf1ff65",
-                              "mode": "inline",
-                              "size": "xs"
+                              "mode": "",
+                              "size": "",
+                              "value": "${s1.first_name} ${s1.last_name}"
                             }
                           ],
-                          "md": 4
-                        },
-                        {
-                          "body": [
-                            {
-                              "type": "avatar",
-                              "icon": "fa fa-user",
-                              "id": "u:1e14c8c1acbb",
-                              "shape": "square",
-                              "size": 200,
-                              "style": {
-                              },
-                              "text": "First Student"
-                            }
-                          ],
-                          "md": 6
+                          "md": 6,
                         }
                       ],
-                      "id": "u:15217e95cd13"
                     }
                   ],
-                  "id": "u:c4be0517a47a",
                   "actions": [
                     {
-                      "type": "checkbox",
-                      "option": "Pick Up",
-                      "name": "checkbox5",
-                      "id": "u:b59245355c5a"
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox1",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkOut",
+                          "data": {
+                            "student_id": "${s1.student_id}"
+                          }
+              }
                     }
                   ]
                 }
               ],
-              "md": 3
+              "md": 3,
             },
             {
               "body": [
                 {
-                  "type": "form",
+                  "type": "panel",
                   "title": "Second Student",
                   "body": [
                     {
@@ -373,49 +281,40 @@
                               "type": "input-text",
                               "label": "Name:",
                               "name": "s2_name",
-                              "id": "u:b1502cf28aae",
-                              "mode": "inline",
-                              "size": "xs"
+                              "mode": "",
+                              "size": "",
+                              "value": "${s2.first_name} ${s2.last_name}"
                             }
                           ],
-                          "md": 4
-                        },
-                        {
-                          "body": [
-                            {
-                              "type": "avatar",
-                              "icon": "fa fa-user",
-                              "id": "u:bf1523b4035e",
-                              "shape": "square",
-                              "size": 200,
-                              "style": {
-                              },
-                              "text": "Second Student"
-                            }
-                          ],
-                          "md": 6
+                          "md": 6,
                         }
                       ],
-                      "id": "u:dfcddabf1dd5"
                     }
                   ],
-                  "id": "u:fbd7d4d1b021",
                   "actions": [
                     {
-                      "type": "checkbox",
-                      "option": "Pick Up",
-                      "name": "checkbox6",
-                      "id": "u:4654d994431a"
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox2",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkOut",
+                          "data": {
+                            "student_id": "${s2.student_id}"
+                          }
+              }
                     }
                   ]
                 }
               ],
-              "md": 3
+              "md": 3,
             },
             {
               "body": [
                 {
-                  "type": "form",
+                  "type": "panel",
                   "title": "Third Student",
                   "body": [
                     {
@@ -427,49 +326,40 @@
                               "type": "input-text",
                               "label": "Name:",
                               "name": "s3_name",
-                              "id": "u:2ea6f585fe85",
-                              "mode": "inline",
-                              "size": "xs"
+                              "mode": "",
+                              "size": "",
+                              "value": "${s3.first_name} ${s3.last_name}"
                             }
                           ],
-                          "md": 4
-                        },
-                        {
-                          "body": [
-                            {
-                              "type": "avatar",
-                              "icon": "fa fa-user",
-                              "id": "u:0cb6a084d9f9",
-                              "shape": "square",
-                              "size": 200,
-                              "style": {
-                              },
-                              "text": "Third Student"
-                            }
-                          ],
-                          "md": 6
+                          "md": 6,
                         }
                       ],
-                      "id": "u:d80790acc6ca"
                     }
                   ],
-                  "id": "u:66d299b74fff",
                   "actions": [
                     {
-                      "type": "checkbox",
-                      "option": "Pick Up",
-                      "name": "checkbox7",
-                      "id": "u:d2001d1c3aed"
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox3",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkOut",
+                          "data": {
+                            "student_id": "${s3.student_id}"
+                          }
+              }
                     }
                   ]
                 }
               ],
-              "md": 3
+              "md": 3,
             },
             {
               "body": [
                 {
-                  "type": "form",
+                  "type": "panel",
                   "title": "Fourth Student",
                   "body": [
                     {
@@ -481,64 +371,53 @@
                               "type": "input-text",
                               "label": "Name:",
                               "name": "s4_name",
-                              "id": "u:f19bcbdbbeaf",
-                              "mode": "inline",
-                              "size": "xs"
+                              "mode": "",
+                              "size": "",
+                              "value": "${s4.first_name} ${s4.last_name}"
                             }
                           ],
-                          "md": 4
-                        },
-                        {
-                          "body": [
-                            {
-                              "type": "avatar",
-                              "icon": "fa fa-user",
-                              "id": "u:9f3c1ed64fad",
-                              "shape": "square",
-                              "size": 200,
-                              "style": {
-                              },
-                              "text": "Fourth Student"
-                            }
-                          ],
-                          "md": 6
+                          "md": 6,
                         }
                       ],
-                      "id": "u:2b03f9839ff0"
                     }
                   ],
-                  "id": "u:1e99bd36de3b",
                   "actions": [
                     {
-                      "type": "checkbox",
-                      "option": "Pick Up",
-                      "name": "checkbox8",
-                      "id": "u:520425bc942b"
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox4",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/checkOut",
+                          "data": {
+                            "student_id": "${s4.student_id}"
+                          }
+              }
                     }
                   ]
                 }
               ],
-              "md": ""
+              "md": "",
             }
           ]
-        }*/
+        }
       ],
-      "submitText": "NEXT",
-      "redirect": "check_out3.html",
+      "submitText": "PRE CHECK OUT",
+      "redirect": "s_check_out.html",
       "initApi": {
-    "method": "get",
-    "url": "http://54.245.168.231:5002/guardian",
-    "responseData": {
-      "yuan": "${guardian_list|first}",
-      "lingxin": "${guardian_list|last}"
+        "method": "get",
+        "url": "http://54.245.168.231:5002/checkOut",
+        "responseData": {
+          "s1": "${student|first}",
+          "s2": "${student|nth:1}",
+          "s3": "${student|nth:2}",
+          "s4": "${student|nth:3}"
+        }
+      }
     }
-  }
-    }
-  ],
-  "messages": {
-  },
-  "style": {
-  }
+  ]
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
