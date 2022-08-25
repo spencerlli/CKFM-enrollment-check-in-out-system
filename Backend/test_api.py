@@ -339,6 +339,7 @@ def checkIn():
     else:
         t["msg"] = "Successfully check in!"
         t["data"] = []
+        print(request.json)
 
     return jsonify(t)
 
@@ -388,25 +389,29 @@ def checkOut():
 
 
 @app.route('/barcode', methods=['GET'])
-def barcode():
+@app.route('/barcode/<int:id>', methods=['GET'])
+def barcode(id=None):
     t = {
         "status": 0,
         "msg": "Successfully get barcode!",
-        "data": {
-            "items": [
-                {
-                    "fname": "changTest1",
-                    "lname": "liuTest1",
-                    "barcode": "barcodeTest1"
-                },
-                {
-                    "fname": "changTest2",
-                    "lname": "liuTest2",
-                    "barcode": "barcodeTest2"
-                }
-            ]
-        }
+        "data": {}
     }
+    items = [
+        {
+            "fname": "changTest1",
+            "lname": "liuTest1",
+            "barcode": "1CLsdj13"
+        },
+        {
+            "fname": "yuanTest2",
+            "lname": "zhangTest2",
+            "barcode": "2YZjkl8d"
+        }
+    ]
+    if id:
+        t['data']['items'] = [items[id - 1]]
+    else:
+        t['data']['items'] = items
 
     return jsonify(t)
 
