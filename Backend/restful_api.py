@@ -1,8 +1,7 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
 from flask_restful import Resource, Api
-from tables import Guardian, Student, FamilyInfo, app, db
+from tables import Guardian, GuardianSchema, Student, StudentSchema, FamilyInfo, FamilyInfoSchema, app, db, ma
 
 
 # app = Flask(__name__)
@@ -11,17 +10,10 @@ from tables import Guardian, Student, FamilyInfo, app, db
 #     config.MYSQL_USER, config.MYSQL_PASSWORD, config.MYSQL_HOST, config.MYSQL_PORT, config.MYSQL_DB)
 
 # db = SQLAlchemy(app)
-ma = Marshmallow(app)
 api = Api(app)
 
 
 ###### Guardian ######
-class GuardianSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'pwd', 'fname', 'lname', 'phone',
-                  'email', 'relationship', 'check_in_method')
-
-
 guardian_schema = GuardianSchema()
 guardians_schema = GuardianSchema(many=True)
 
@@ -91,12 +83,6 @@ class GuardianLoginResource(Resource):
 
 
 ###### Student ######
-class StudentSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'fname', 'lname', 'birthdate', 'gender', 'grade', 'allergies', 'check_in_method', 
-                  'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday', 'friday_lounge', 'friday_night')
-
-
 student_schema = StudentSchema()
 students_schema = StudentSchema(many=True)
 
@@ -154,7 +140,7 @@ class StudentResource(Resource):
             student.allergies = request.json['allergies']
         if 'check_in_method' in request.json:
             student.check_in_method = request.json['check_in_method']
-        
+
         if 'sunday_school' in request.json:
             student.sunday_school = request.json['sunday_school']
         if 'cm_lounge' in request.json:
@@ -167,6 +153,15 @@ class StudentResource(Resource):
             student.friday_lounge = request.json['friday_lounge']
         if 'friday_night' in request.json:
             student.friday_night = request.json['friday_night']
+
+        if 'check_in' in request.json:
+            student.check_in = request.json['check_in']
+        if 'check_in_time' in request.json:
+            student.check_in_time = request.json['check_in_time']
+        if 'check_out' in request.json:
+            student.check_out = request.json['check_out']
+        if 'check_out_time' in request.json:
+            student.check_out_time = request.json['check_out_time']
 
         db.session.commit()
         return student_schema.dump(student)
@@ -181,12 +176,6 @@ class StudentResource(Resource):
 
 
 ###### FamilyInfo ######
-class FamilyInfoSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'street', 'city', 'state', 'zip', 'physician', 'physician_phone', 'insurance', 'insurance_phone', 
-                  'insurance_policy', 'group', 'sunday_school', 'friday_night', 'special_events', 'pay', 'checkbox')
-
-
 family_info_schema = FamilyInfoSchema()
 familys_info_schema = FamilyInfoSchema(many=True)
 
@@ -310,7 +299,7 @@ class FamilyListResource(Resource):
     def post(self):
         # create a new family
         new_family = Family(
-            id = request.json['id'],
+            id=request.json['id'],
             guardian_id=request.json['guardian_id'],
             student_id=request.json['student_id'],
         )

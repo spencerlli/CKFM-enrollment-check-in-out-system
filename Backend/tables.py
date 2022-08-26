@@ -1,8 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+
 import config
 from flask_cors import CORS
+import pymysql
 
+pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 app.secret_key = '654321'
@@ -11,6 +15,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s:%s/%s' % (
 
 db = SQLAlchemy(app)
 CORS(app, resources=r'/*', supports_credentials=True)
+ma = Marshmallow(app)
+
+
+class GuardianSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'pwd', 'fname', 'lname', 'phone',
+                  'email', 'relationship', 'check_in_method')
 
 
 class Guardian(db.Model):
@@ -23,6 +34,13 @@ class Guardian(db.Model):
     email = db.Column(db.String(256), unique=True)
     relationship = db.Column(db.String(256))
     check_in_method = db.Column(db.String(256))
+
+
+class StudentSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'fname', 'lname', 'birthdate', 'gender', 'grade', 'allergies', 'check_in_method',
+                  'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday', 'friday_lounge', 'friday_night',
+                  'check_in', 'check_in_time', 'check_out', 'check_out_time')
 
 
 class Student(db.Model):
@@ -42,6 +60,17 @@ class Student(db.Model):
     u3_friday = db.Column(db.Boolean)
     friday_lounge = db.Column(db.Boolean)
     friday_night = db.Column(db.Boolean)
+
+    check_in = db.Column(db.Integer)
+    check_in_time = db.Column(db.String(256))
+    check_out = db.Column(db.Integer)
+    check_out_time = db.Column(db.String(256))
+
+
+class FamilyInfoSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'street', 'city', 'state', 'zip', 'physician', 'physician_phone', 'insurance', 'insurance_phone',
+                  'insurance_policy', 'group', 'sunday_school', 'friday_night', 'special_events', 'pay', 'checkbox')
 
 
 class FamilyInfo(db.Model):
