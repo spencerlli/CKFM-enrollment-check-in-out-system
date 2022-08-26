@@ -26,7 +26,7 @@
 						const objName = await objDoc.GetObject("name");
 						objName.Text = item.fname + ' ' + item.lname;
 						const objGrade = await objDoc.GetObject("grade");
-						objName.Text = item.grade;
+						objGrade.Text = item.grade;
 						const objBarcode = await objDoc.GetObject("barcode");
 						objBarcode.Text = item.barcode;
 
