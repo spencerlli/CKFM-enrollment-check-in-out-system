@@ -34,7 +34,7 @@
 
 					objDoc.EndPrint();
 					objDoc.Close();
-					window.location.href = "../check_in_out/index.html"
+					window.close();
 				}
 			}
 			catch(e) {
@@ -43,8 +43,10 @@
 		}
 	</script>
 </head>
+
 <body onload="javascript:DoPrint()">
 	<h1>Printing barcode badges</h1>
 	<h1>Please wait...</h1>
 </body>
+
 </html>

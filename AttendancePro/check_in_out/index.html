@@ -234,36 +234,6 @@
         }
       ],
       "id": "u:105ecd10061a"
-    },
-    {
-      "type": "button",
-      "label": "Print Barcode Badge",
-      "icon": "fa-solid fa-id-badge",
-      "onEvent": {
-        "click": {
-          "actions": [
-            {
-              "actionType": "ajax",
-              "args": {
-                "api": "http://54.245.168.231:5002/student"
-              }
-            },
-            {
-              "actionType": "custom",
-              "script": "sessionStorage.setItem('myData', JSON.stringify(event.data.responseData.items));",
-              "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0"
-            },
-            {
-              "actionType": "url",
-              "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0",
-              "args": {
-                "url": "../admin/print_badge.html",
-                "blank": false
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "id": "u:56223b15a761",
