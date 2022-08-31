@@ -584,6 +584,7 @@ def checkOut():
     if request.method == 'POST':
         if request.json['barcode'] in barcode_student_dict.keys():
             t["data"] = barcode_student_dict.get(request.json['barcode'])
+            t["msg"] = "Successfully check out!"
         else:
             t["status"] = 1
             t["msg"] = "Barcode doesn't match!"
