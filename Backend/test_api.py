@@ -238,7 +238,6 @@ def familyInfo(id=None):
     return jsonify(t)
 
 
-
 @app.route('/family', methods=['GET', 'POST', 'DELETE'])
 @app.route('/family/<id>', methods=['PUT', 'DELETE'])
 def family(id=None):
@@ -504,7 +503,7 @@ def userManage(object=None, id=None):
             "hasNext": False
         }
     }
-    
+
     return jsonify(res)
 
 
@@ -529,9 +528,27 @@ def checkIn():
         "msg": None,
         "data": None
     }
-    barcodes = ['1CLsdj13', '2YZjkl8d']
+
+    students = [
+        {
+            "fname": "changTest1",
+            "lname": "liuTest1",
+            "barcode": "1CLsdj13"
+        },
+        {
+            "fname": "yuanTest2",
+            "lname": "zhangTest2",
+            "barcode": "2YZjkl8d"
+        }
+    ]
+
+    barcode_student_dict = {}
+    for s in students:
+        barcode_student_dict[s['barcode']] = s
+
     if request.method == 'POST':
-        if request.json['barcode'] in barcodes:
+        if request.json['barcode'] in barcode_student_dict.keys():
+            t["data"] = barcode_student_dict.get(request.json['barcode'])
             t["msg"] = "Successfully check in!"
         else:
             t["status"] = 1
@@ -547,10 +564,23 @@ def checkOut():
         "msg": None,
         "data": None
     }
-    barcodes = ['1CLsdj13', '2YZjkl8d']
+    students = [
+        {
+            "fname": "changTest1",
+            "lname": "liuTest1",
+            "barcode": "1CLsdj13"
+        },
+        {
+            "fname": "yuanTest2",
+            "lname": "zhangTest2",
+            "barcode": "2YZjkl8d"
+        }
+    ]
+
+    barcode_student_dict = {}
     if request.method == 'POST':
-        if request.json['barcode'] in barcodes:
-            t["msg"] = "Successfully check out!"
+        if request.json['barcode'] in barcode_student_dict.keys():
+            t["data"] = barcode_student_dict.get(request.json['barcode'])
         else:
             t["status"] = 1
             t["msg"] = "Barcode doesn't match!"
@@ -568,7 +598,8 @@ def msgBoard():
     if request.method == 'POST':
         t["msg"] = "Successfully post message!"
     else:
-        t["data"] = [("Chang Liu", "msg1", "1661537553"), ("Chang Liu", "msg2", "1661882133"), ("Yuan Zhang", "msg3", "1661903733")]
+        t["data"] = [("Chang Liu", "msg1", "1661537553"), ("Chang Liu",
+                                                           "msg2", "1661882133"), ("Yuan Zhang", "msg3", "1661903733")]
         t["msg"] = "Successfully get historical messages!"
 
     return jsonify(t)
