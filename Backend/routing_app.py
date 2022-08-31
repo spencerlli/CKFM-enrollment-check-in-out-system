@@ -7,6 +7,7 @@ import os
 from flask_cors import CORS
 import requests
 from config import REST_API
+from copy import deepcopy
 
 # pymysql.install_as_MySQLdb()
 
@@ -17,6 +18,12 @@ app.secret_key = '123456'
 
 CORS(app, resources=r'/*', supports_credentials=True)
 
+RES_TEMPLATE = {
+    'status': 0,
+    'msg': None,
+    'data': {}
+}
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -26,30 +33,20 @@ def index():
         return redirect('login')
 
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     res = {
-#         "status": 0,
-#         "msg": None,
-#         "data": {}
-#     }
-#     if request.method == 'POST' and 'phoneNumber' in request.form and 'pwd' in request.form:
-#         phoneNumber = request.form['phoneNumber']
-#         pwd = request.form['pwd']
-#         guardian_res = requests.get(REST_API + '/guardian', json=guardian_json)
-#         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-#         cursor.execute(
-#             'SELECT * FROM guardian WHERE phone = %s AND pwd = %s;', (phoneNumber, pwd, ))
-#         account = cursor.fetchone()
-#         if account:
-#             session['loggedin'] = True
-#             session['id'] = account['id']
-#             session['phoneNumber'] = account['phone']
-#             msg = 'Logged in successfully!'
-#             return render_template('flask_templates/index.html', msg=msg)
-#         else:
-#             msg = 'Incorrect phone number / pwd !'
-#     return render_template('flask_templates/login.html', msg=msg)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    res = deepcopy(RES_TEMPLATE)
+    if request.method == 'POST' and 'phone' in request.form and 'pwd' in request.form:
+        phone = request.form['phoneNumber']
+        pwd = request.form['pwd']
+        guardian_json = requests.get(REST_API + '/guardian/phone/%d' % phone).json()
+        if guardian_json['pwd'] == pwd:
+            session['loggedin'] = True
+            session['id'] = guardian_json['id']
+            session['phone'] = guardian_json['phone']
+            res['msg'] = 'Logged in successfully!'
+    
+    return jsonify(res)
 
 
 @app.route('/logout')
@@ -69,9 +66,9 @@ def register():
 @app.route('/enrollFamily', methods=['GET', 'POST', 'OPTIONS'])
 def enrollFamily():
     res = {
-        "status": 0,
-        "msg": "Successfully enrolled!",
-        "data": {}
+        'status': 0,
+        'msg': 'Successfully enrolled!',
+        'data': {}
     }
 
     if request.method == 'POST':
@@ -105,7 +102,7 @@ def enrollFamily():
             student_json['allergies'] = student.get('allergy')
 
             programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                        'u3_friday', 'friday_lounge', 'friday_night']
+                        'U3_friday', 'friday_lounge', 'friday_night']
             for i, program in enumerate(programs):
                 student_json[program] = student['program'][0][i]['checked']
 
@@ -158,11 +155,11 @@ def enrollFamily():
 @app.route('/admin/<object>/<id>', methods=['PUT', 'DELETE'])
 def admin(object, id=None):
     res = {
-        "status": 0,
-        "msg": None,
-        "data": {
-            "items": [],
-            "hasNext": False
+        'status': 0,
+        'msg': None,
+        'data': {
+            'items': [],
+            'hasNext': False
         }
     }
 
@@ -209,11 +206,11 @@ def admin(object, id=None):
 @app.route('/userManage/<object>/<id>', methods=['PUT', 'DELETE'])
 def userManage(object=None, id=None):
     res = {
-        "status": 0,
-        "msg": None,
-        "data": {
-            "items": [],
-            "hasNext": False
+        'status': 0,
+        'msg': None,
+        'data': {
+            'items': [],
+            'hasNext': False
         }
     }
 
@@ -240,18 +237,114 @@ def userManage(object=None, id=None):
     return jsonify(res)
 
 
-@app.route('/pre-check-in', methods=['GET', 'POST'])
+pre_check_in_family_id = 1
+pre_check_in_guardian_id = None
+@app.route('/preCheckIn', methods=['GET', 'POST'])
 def preCheckIn():
-    res = {
-        "status": 0,
-        "msg": None,
-        "data": {
-            "items": [],
-            "hasNext": False
-        }
-    }
+    res = deepcopy(RES_TEMPLATE)
 
-    pass
+    global pre_check_in_guardian_id
+
+    if request.method == 'GET':
+        family_json = requests.get(REST_API + '/family/%d' % pre_check_in_family_id).json()
+        guardian_id_set, student_id_set = set(), set()
+        guardian_list, student_list = [], []
+
+        for family in family_json:
+            print(family)
+            if family['guardian_id'] not in guardian_id_set:
+                guardian_json = requests.get(REST_API + '/guardian/%d' % family['guardian_id']).json()
+                guardian_list.append({
+                    'guardian_id': guardian_json['id'],
+                    'fname': guardian_json['fname'],
+                    'lname': guardian_json['lname'],
+                    'relationship': guardian_json['relationship']
+                })
+                guardian_id_set.add(family['guardian_id'])
+
+            if family['student_id'] not in student_id_set:
+                student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
+                student_list.append({
+                    'student_id': student_json['id'],
+                    'fname': student_json['fname'],
+                    'lname': student_json['lname'],
+                })
+                student_id_set.add(family['student_id'])
+
+        res['data']['guardian'] = guardian_list
+        res['data']['student'] = student_list
+        res['msg'] = 'Successfully get guardians and students!'
+    else:   # POST
+        if request.json.get('guardian_id'):  # selected guardian
+            pre_check_in_guardian_id = int(request.json.get('guardian_id'))
+            res['msg'] = 'Successfully select guardian!'
+        else:
+            student_id = request.json.get('student_id')
+            student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+
+            if student_json['check_in'] != 0:
+                res['status'] = 1
+                res['msg'] = 'This student has already checked in!'
+            else:
+                student_json['check_in'] = pre_check_in_guardian_id
+                requests.put(REST_API + '/student/%d' % student_id, json=student_json)
+                res['msg'] = 'Successfully pre-check in student!'
+
+    return jsonify(res)
+
+
+pre_check_out_family_id = 1
+pre_check_out_guardian_id = None
+@app.route('/preCheckOut', methods=['GET', 'POST'])
+def preCheckOut():
+    res = deepcopy(RES_TEMPLATE)
+
+    global pre_check_out_guardian_id
+
+    if request.method == 'GET':
+        family_json = requests.get(REST_API + '/family/%d' % pre_check_out_family_id).json()
+        guardian_id_set, student_id_set = set(), set()
+        guardian_list, student_list = [], []
+
+        for family in family_json:
+            print(family)
+            if family['guardian_id'] not in guardian_id_set:
+                guardian_json = requests.get(REST_API + '/guardian/%d' % family['guardian_id']).json()
+                guardian_list.append({
+                    'guardian_id': guardian_json['id'],
+                    'fname': guardian_json['fname'],
+                    'lname': guardian_json['lname'],
+                    'relationship': guardian_json['relationship']
+                })
+                guardian_id_set.add(family['guardian_id'])
+
+            if family['student_id'] not in student_id_set:
+                student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
+                if student_json.get('check_in', 0) and student_json.get('check_in', 0) != 0:
+                    student_list.append({
+                        'student_id': student_json['id'],
+                        'fname': student_json['fname'],
+                        'lname': student_json['lname'],
+                    })
+                student_id_set.add(family['student_id'])
+
+        res['data']['guardian'] = guardian_list
+        res['data']['student'] = student_list
+        res['msg'] = 'Successfully get guardians and students!'
+    else:   # POST
+        if request.json.get('guardian_id'):  # selected guardian
+            pre_check_out_guardian_id = int(request.json.get('guardian_id'))
+            res['msg'] = 'Successfully select guardian!'
+        else:
+            student_id = request.json.get('student_id')
+            student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+
+            student_json['check_in'] = 0
+            student_json['check_out'] = pre_check_out_guardian_id
+            requests.put(REST_API + '/student/%d' % student_id, json=student_json)
+            res['msg'] = 'Successfully pre-check out student!'
+
+    return jsonify(res)
 
 
 @app.route('/firstTimeEnroll', methods=['GET', 'POST'])
