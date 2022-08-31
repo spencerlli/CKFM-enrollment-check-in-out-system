@@ -508,51 +508,6 @@ def userManage(object=None, id=None):
     return jsonify(res)
 
 
-@app.route('/checkIn', methods=['GET', 'POST'])
-def checkIn():
-    t = {
-        "status": 0,
-        "msg": None,
-        "data": None
-    }
-    if request.method == 'GET':
-        t["msg"] = "Successfully get guardians and students!"
-        t["data"] = {
-            "guardian": [
-                {
-                    "guardian_id": 1,
-                    "fname": "changTest1",
-                    "lname": "liuTest1",
-                    "relationship": "Father"
-                },
-                {
-                    "guardian_id": 2,
-                    "fname": "changTest2",
-                    "lname": "liuTest2",
-                    "relationship": "Mother"
-                }
-            ],
-            "student": [
-                {
-                    "student_id": 1,
-                    "fname": "changJRTest1",
-                    "lname": "liuJRTest1",
-                },
-                {
-                    "student_id": 2,
-                    "fname": "changJRTest2",
-                    "lname": "liuJRTest2",
-                }
-            ]
-        }
-    else:
-        t["msg"] = "Successfully check in!"
-        t["data"] = []
-        print(request.json)
-
-    return jsonify(t)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     t = {
