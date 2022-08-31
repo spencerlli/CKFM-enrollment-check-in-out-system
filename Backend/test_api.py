@@ -299,8 +299,8 @@ def family(id=None):
     return jsonify(t)
 
 
-@app.route('/checkIn', methods=['GET', 'POST'])
-def checkIn():
+@app.route('/preCheckIn', methods=['GET', 'POST'])
+def preCheckIn():
     t = {
         "status": 0,
         "msg": None,
@@ -344,8 +344,8 @@ def checkIn():
     return jsonify(t)
 
 
-@app.route('/checkOut', methods=['GET', 'POST'])
-def checkOut():
+@app.route('/preCheckOut', methods=['GET', 'POST'])
+def preCheckOut():
     t = {
         "status": 0,
         "msg": None,
@@ -518,6 +518,58 @@ def login():
     if request.method == 'POST':
         t["msg"] = "Successfully login!"
         print(request.json)
+
+    return jsonify(t)
+
+
+@app.route('/checkIn', methods=['POST'])
+def checkIn():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": None
+    }
+    barcodes = ['1CLsdj13', '2YZjkl8d']
+    if request.method == 'POST':
+        if request.json['barcode'] in barcodes:
+            t["msg"] = "Successfully check in!"
+        else:
+            t["status"] = 1
+            t["msg"] = "Barcode doesn't match!"
+
+    return jsonify(t)
+
+
+@app.route('/checkOut', methods=['POST'])
+def checkOut():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": None
+    }
+    barcodes = ['1CLsdj13', '2YZjkl8d']
+    if request.method == 'POST':
+        if request.json['barcode'] in barcodes:
+            t["msg"] = "Successfully check out!"
+        else:
+            t["status"] = 1
+            t["msg"] = "Barcode doesn't match!"
+
+    return jsonify(t)
+
+
+@app.route('/msgBoard', methods=['GET', 'POST'])
+def msgBoard():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": None
+    }
+    if request.method == 'POST':
+        t["msg"] = "Successfully post message!"
+    else:
+        t["data"] = [("Chang Liu", "msg1", "1661537553"), ("Chang Liu", "msg2", "1661882133"), ("Yuan Zhang", "msg3", "1661903733")]
+        t["msg"] = "Successfully get historical messages!"
 
     return jsonify(t)
 
