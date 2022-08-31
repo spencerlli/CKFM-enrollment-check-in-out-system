@@ -53,7 +53,9 @@
               },
               "id": "u:15f4cedc236a",
               "link": "../enrollment/form.html",
-              "size": "lg"
+              "size": "lg",
+              "block": true,
+              "level": "light"
             },
             {
               "type": "button",
@@ -65,7 +67,35 @@
               },
               "id": "u:11df25266b31",
               "size": "lg",
-              "link": ""
+              "link": "",
+              "block": true
+            },
+            {
+              "type": "button",
+              "label": "VIEW LOG FILE",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:5b5eb909196b",
+              "link": "",
+              "size": "lg",
+              "block": true,
+              "level": "light"
+            },
+            {
+              "type": "button",
+              "label": "INPUT DAILY PROGRESS",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:60e318427c32",
+              "size": "lg",
+              "link": "",
+              "block": true
             }
           ],
           "valign": "",
@@ -84,7 +114,9 @@
               },
               "id": "u:868591dfb544",
               "link": "check_in.html",
-              "size": "lg"
+              "size": "lg",
+              "block": true,
+              "level": "default"
             },
             {
               "type": "button",
@@ -96,7 +128,36 @@
               },
               "id": "u:ff866581f574",
               "size": "lg",
-              "link": "check_out.html"
+              "link": "check_out.html",
+              "block": true,
+              "level": "light"
+            },
+            {
+              "type": "button",
+              "label": "COMMUNICATION",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:9af5fa121549",
+              "link": "",
+              "size": "lg",
+              "block": true
+            },
+            {
+              "type": "button",
+              "label": "CUSTOMIZE",
+              "actionType": "link",
+              "dialog": {
+                "title": "系统提示",
+                "body": "对你点击了"
+              },
+              "id": "u:76b3b7ba5378",
+              "size": "lg",
+              "link": "",
+              "block": true,
+              "level": "light"
             }
           ],
           "valign": "",
@@ -115,7 +176,9 @@
               },
               "id": "u:139b261805b8",
               "link": "",
-              "size": "lg"
+              "size": "lg",
+              "block": true,
+              "level": "light"
             },
             {
               "type": "button",
@@ -127,82 +190,9 @@
               },
               "id": "u:aa73806531c3",
               "size": "lg",
-              "link": ""
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:a3d029f347b4"
-        }
-      ]
-    },
-    {
-      "type": "grid",
-      "columns": [
-        {
-          "body": [
-            {
-              "type": "button",
-              "label": "VIEW LOG FILE",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:5b5eb909196b",
               "link": "",
-              "size": "lg"
+              "block": true
             },
-            {
-              "type": "button",
-              "label": "INPUT DAILY PROGRESS",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:60e318427c32",
-              "size": "lg",
-              "link": ""
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:f2b6f0d507ef"
-        },
-        {
-          "body": [
-            {
-              "type": "button",
-              "label": "COMMUNICATION",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:9af5fa121549",
-              "link": "",
-              "size": "lg"
-            },
-            {
-              "type": "button",
-              "label": "CUSTOMIZE",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:76b3b7ba5378",
-              "size": "lg",
-              "link": ""
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:15fdba23fa94"
-        },
-        {
-          "body": [
             {
               "type": "button",
               "label": "EXPORT",
@@ -213,7 +203,9 @@
               },
               "id": "u:458e42a6f5e5",
               "link": "",
-              "size": "lg"
+              "size": "lg",
+              "block": true,
+              "level": "light"
             },
             {
               "type": "button",
@@ -225,21 +217,28 @@
               },
               "id": "u:f146b2be79dc",
               "size": "lg",
-              "link": ""
+              "link": "",
+              "block": true
             }
           ],
           "valign": "",
           "md": "",
-          "id": "u:5fb47255f977"
+          "id": "u:a3d029f347b4"
         }
-      ],
-      "id": "u:105ecd10061a"
+      ]
     }
   ],
   "id": "u:56223b15a761",
   "messages": {
   },
   "style": {
+    "fontSize": 100,
+    "fontFamily": "Times New Roman",
+    "display": "inline",
+    "color": "#4a90e2",
+    "fontWeight": "bold"
+  },
+  "pullRefresh": {
   }
       };
       let amisScoped = amis.embed('#root', amisJSON);
