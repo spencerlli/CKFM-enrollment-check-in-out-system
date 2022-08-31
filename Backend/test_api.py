@@ -578,6 +578,9 @@ def checkOut():
     ]
 
     barcode_student_dict = {}
+    for s in students:
+        barcode_student_dict[s['barcode']] = s
+
     if request.method == 'POST':
         if request.json['barcode'] in barcode_student_dict.keys():
             t["data"] = barcode_student_dict.get(request.json['barcode'])
