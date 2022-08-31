@@ -35,42 +35,43 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "title": "",
-  "body": [
-    {
-      "type": "form",
-      "title": "LOG IN",
-      "body": [
-        {
-          "label": "",
-          "type": "input-text",
-          "name": "phone",
-          "id": "u:bfa4898b0aa3",
-          "placeholder": "Enter your phone number",
-          "mode": "horizontal",
-          "size": "md",
-          "required": true
+        "title": "",
+        "body": [
+          {
+            "type": "form",
+            "title": "LOG IN",
+            "body": [
+              {
+                "label": "",
+                "type": "input-text",
+                "name": "phone",
+                "id": "u:bfa4898b0aa3",
+                "placeholder": "Enter your phone number",
+                "mode": "horizontal",
+                "size": "md",
+                "required": true
+              },
+              {
+                "type": "input-password",
+                "name": "pwd",
+                "id": "u:6454384c09e3",
+                "mode": "horizontal",
+                "size": "md",
+                "placeholder": "Enter your pwd",
+                "required": true
+              }
+            ],
+            "mode": "inline",
+            "id": "u:d5367d2b2805",
+            "submitText": "LOG IN",
+            "api": "post:http://54.245.168.231:5002/login"
+          }
+        ],
+        "id": "u:699983e80790",
+        "messages": {
         },
-        {
-          "type": "input-text",
-          "name": "pwd",
-          "id": "u:6454384c09e3",
-          "mode": "horizontal",
-          "size": "md",
-          "placeholder": "Enter your pwd",
-          "required": true
+        "pullRefresh": {
         }
-      ],
-      "mode": "inline",
-      "id": "u:d5367d2b2805",
-      "submitText": "LOG IN"
-    }
-  ],
-  "id": "u:699983e80790",
-  "messages": {
-  },
-  "pullRefresh": {
-  }
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
