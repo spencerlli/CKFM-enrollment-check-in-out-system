@@ -1,7 +1,7 @@
 import random
 # import MySQLdb.cursors
 # from flask_mysqldb import MySQL
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response
 # import pymysql
 import os
 from flask_cors import CORS
@@ -27,7 +27,7 @@ RES_TEMPLATE = {
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if ('loggedin' in session.keys() and session['loggedin'] == True):
+    if ('login' in session.keys() and session['login'] == True):
         return render_template('flask_templates/index.html')
     else:
         return redirect('login')
@@ -35,25 +35,36 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    res = deepcopy(RES_TEMPLATE)
-    if request.method == 'POST' and 'phone' in request.form and 'pwd' in request.form:
-        phone = request.form['phoneNumber']
-        pwd = request.form['pwd']
-        guardian_json = requests.get(REST_API + '/guardian/phone/%d' % phone).json()
-        if guardian_json['pwd'] == pwd:
-            session['loggedin'] = True
-            session['id'] = guardian_json['id']
-            session['phone'] = guardian_json['phone']
-            res['msg'] = 'Logged in successfully!'
-    
-    return jsonify(res)
+    res_json = deepcopy(RES_TEMPLATE)
+    print(request.cookies.get('login'))
+    if request.method == 'GET':
+        return render_template('log_in/log_in.html')
+    else:   # method == POST
+        if 'phone' in request.json and 'pwd' in request.json:
+            phone = request.json['phone']
+            pwd = request.json['pwd']
+            guardian_json = requests.get(REST_API + '/guardian/phone/' + phone).json()
+            if guardian_json['pwd'] == pwd:
+                res_json['msg'] = 'Logged in successfully!'
+
+                res = make_response(jsonify(res_json))
+                res.set_cookie('login', bytes(1))
+                res.set_cookie('guardian_id', bytes(guardian_json['id']))
+                return res
+            else:
+                res_json['status'] = 1
+                res_json['msg'] = 'Incorrect phone number or password!'
+        else:
+            res_json['status'] = 1
+            res_json['msg'] = 'Please input phone number and password!'
+
+        return jsonify(res_json)
 
 
 @app.route('/logout')
 def logout():
-    session.pop('loggedin', None)
-    session.pop('id', None)
-    session.pop('username', None)
+    session.pop('login', None)
+    session.pop('guardian_id', None)
     return redirect(url_for('login'))
 
 
