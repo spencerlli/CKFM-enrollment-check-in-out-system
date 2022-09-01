@@ -35,211 +35,57 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "title": "MAIN MENU",
   "body": [
     {
-      "type": "grid",
-      "id": "u:b4fc350162ed",
-      "columns": [
+      "type": "form",
+      "title": "",
+      "body": [
         {
-          "body": [
-            {
-              "type": "button",
-              "label": "ENROLLMENT",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:15f4cedc236a",
-              "link": "../enrollment/form.html",
-              "size": "lg",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "ENROLLMENT UPDATE",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:11df25266b31",
-              "size": "lg",
-              "link": "",
-              "block": true
-            },
-            {
-              "type": "button",
-              "label": "VIEW LOG FILE",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:5b5eb909196b",
-              "link": "",
-              "size": "lg",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "INPUT DAILY PROGRESS",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:60e318427c32",
-              "size": "lg",
-              "link": "",
-              "block": true
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:45038712df46"
-        },
-        {
-          "body": [
-            {
-              "type": "button",
-              "label": "PRE CHECK IN",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:868591dfb544",
-              "link": "check_in.html",
-              "size": "lg",
-              "block": true,
-              "level": "default"
-            },
-            {
-              "type": "button",
-              "label": "PRE CHECK OUT",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:ff866581f574",
-              "size": "lg",
-              "link": "check_out.html",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "COMMUNICATION",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:9af5fa121549",
-              "link": "",
-              "size": "lg",
-              "block": true
-            },
-            {
-              "type": "button",
-              "label": "CUSTOMIZE",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:76b3b7ba5378",
-              "size": "lg",
-              "link": "",
-              "block": true,
-              "level": "light"
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:88f13f0a87ed"
-        },
-        {
-          "body": [
-            {
-              "type": "button",
-              "label": "GET ATTENDANCE REPORT",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:139b261805b8",
-              "link": "",
-              "size": "lg",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "SIGN OFF",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:aa73806531c3",
-              "size": "lg",
-              "link": "",
-              "block": true
-            },
-            {
-              "type": "button",
-              "label": "EXPORT",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:458e42a6f5e5",
-              "link": "",
-              "size": "lg",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "IMPORT",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:f146b2be79dc",
-              "size": "lg",
-              "link": "",
-              "block": true
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:a3d029f347b4"
+          "type": "textarea",
+          "label": "Message from Administrator",
+          "name": "msgBoard1",
+          "id": "u:ec78bec25632",
+          "minRows": 3,
+          "maxRows": 20,
+          "value": "${msg1.msg}"
         }
-      ]
+      ],
+      "id": "u:4ee00812167b",
+      "initApi": {
+        "method": "get",
+        "url": "http://54.245.168.231:5002/msgBoard",
+        "responseData": {
+          "msg1": "${items|first}"
+        }
+      },
+      "submitText": ""
+    },
+    {
+      "type": "form",
+      "title": "Message Board",
+      "body": [
+        {
+          "type": "textarea",
+          "label": "",
+          "name": "msgBoard2",
+          "id": "u:3ec513061fa7",
+          "minRows": 3,
+          "maxRows": 20
+        }
+      ],
+      "id": "u:6ab05083482c",
+      "submitText": "Send Message to Administrator",
+      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/msgBoard",
+                          "data": {
+                            "msg": "${msgBoard2.value}"
+                          }
+              }
     }
   ],
-  "id": "u:56223b15a761",
-  "messages": {
-  },
-  "style": {
-    "fontSize": 100,
-    "fontFamily": "Times New Roman",
-    "display": "inline",
-    "color": "#4a90e2",
-    "fontWeight": "bold"
-  },
-  "pullRefresh": {
-  }
+  "id": "u:437f36f638f1"
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
