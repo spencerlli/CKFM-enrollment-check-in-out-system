@@ -33,6 +33,9 @@
         // 通过替换amisJSON中的内容来生成不同页面
         let amisJSON = {
           "type": "page",
+          "cssVars": {
+            "--Panel-btnToolbarTextAlign": "left"
+          },
           "body": [
             {
               "type": "form",
@@ -46,9 +49,13 @@
                   "type": "input-text",
                   "name": "barcode",
                   "label": "Barcode",
+                  "mode": "horizontal",
                   "clearable": true
                 }
               ],
+              "horizontal": {
+                "justify": true
+              },
               "onEvent": {
                 "submitFail": {
                   "actions": [
@@ -62,7 +69,7 @@
                           {
                             "type": "alert",
                             "title": "Failed to check in",
-                            "body": "Please complete pre-check in first and try it again.",
+                            "body": "Please instruct the family to complete pre-check in first and try it again.",
                             "level": "danger"
                           }
                         ],
