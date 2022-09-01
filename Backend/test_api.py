@@ -602,8 +602,32 @@ def msgBoard():
     if request.method == 'POST':
         t["msg"] = "Successfully post message!"
     else:
-        t["data"] = [("Chang Liu", "msg1", "1661537553"), ("Chang Liu",
-                                                           "msg2", "1661882133"), ("Yuan Zhang", "msg3", "1661903733")]
+        t["data"] = {
+            "items": [
+                {
+                    "id": 1,
+                    "fname": "Chang",
+                    "lname": "Liu",
+                    "msg": "msg 111",
+                    "timestamp": "1661537553"
+                }, 
+                {
+                    "id": 1,
+                    "fname": "Chang",
+                    "lname": "Liu",
+                    "msg": "msg 222",
+                    "timestamp": "1661882133"
+                }, 
+                {
+                    "id": 0,
+                    "fname": "Admin",
+                    "lname": "",
+                    "msg": "msg 333",
+                    "timestamp": "1661903733"
+                }
+            ]
+        }
+
         t["msg"] = "Successfully get historical messages!"
 
     return jsonify(t)
