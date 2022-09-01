@@ -1,15 +1,8 @@
-from flask import Flask, request
-from flask_sqlalchemy import SQLAlchemy
+from flask import request
 from flask_restful import Resource, Api
-from tables import Guardian, GuardianSchema, Student, StudentSchema, FamilyInfo, FamilyInfoSchema, app, db, ma
+from tables import Guardian, GuardianSchema, Student, StudentSchema, \
+    FamilyInfo, FamilyInfoSchema, MsgRecord, MsgRecordSchema, app, db, ma
 
-
-# app = Flask(__name__)
-# app.secret_key = '654321'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s:%s/%s' % (
-#     config.MYSQL_USER, config.MYSQL_PASSWORD, config.MYSQL_HOST, config.MYSQL_PORT, config.MYSQL_DB)
-
-# db = SQLAlchemy(app)
 api = Api(app)
 
 
@@ -75,9 +68,9 @@ class GuardianResource(Resource):
         return '', 204
 
 
-class GuardianLoginResource(Resource):
+class GuardianPhoneResource(Resource):
     def get(self, phone):
-        guardian = Guardian.query.filter_by(phone).first_or_404()
+        guardian = Guardian.query.filter_by(phone=phone).first_or_404()
         return guardian_schema.dump(guardian)
 ###### Guardian ######
 
@@ -335,15 +328,68 @@ class FamilyResource(Resource):
 ###### Family ######
 
 
+###### MsgRecord ######
+msg_record_schema = MsgRecordSchema()
+msg_records_schema = MsgRecordSchema(many=True)
+
+
+class MsgRecordListResource(Resource):
+    def get(self):
+        # get all
+        msg_records = MsgRecord.query.all()
+        return msg_records_schema.dump(msg_records)
+
+
+class MsgRecordResource(Resource):
+    def get(self, id):
+        # get one by id
+        msg_record = MsgRecord.query.filter_by(id=id).first_or_404()
+        return msg_record_schema.dump(msg_record)
+
+    def post(self):
+        # create a new msg record
+        new_msg = MsgRecord(
+            send_id=request.json['send_id'],
+            receive_id=request.json['receive_id'],
+            content=request.json['content'],
+            time=request.json['time']
+        )
+        db.session.add(new_msg)
+        db.session.commit()
+        return msg_record_schema.dump(new_msg)
+
+    def delete(self, id):
+        # delete one by id
+        msg_got = MsgRecord.query.filter_by(id=id).first_or_404()
+        db.session.delete(msg_got)
+        db.session.commit()
+        return '', 204
+
+
+class MsgRecordGuardianResource(Resource):
+    def get(self, guardian_id):
+        # get one by id
+        msg_record = MsgRecord.query.filter(
+            ((MsgRecord.send_id == 0) & (MsgRecord.receive_id == guardian_id)) |
+            ((MsgRecord.send_id == guardian_id) & (MsgRecord.receive_id == 0))
+        ).all()
+        return msg_records_schema.dump(msg_record)
+###### MsgRecord ######
+
+
 api.add_resource(GuardianListResource, '/guardian')
 api.add_resource(GuardianResource, '/guardian/<int:id>')
-api.add_resource(GuardianLoginResource, '/guardian/login/<phone>')
+api.add_resource(GuardianPhoneResource, '/guardian/phone/<phone>')
 api.add_resource(StudentListResource, '/student')
 api.add_resource(StudentResource, '/student/<int:id>')
 api.add_resource(FamilyInfoListResource, '/familyInfo')
 api.add_resource(FamilyInfoResource, '/familyInfo/<int:id>')
 api.add_resource(FamilyListResource, '/family')
 api.add_resource(FamilyResource, '/family/<int:id>')
+api.add_resource(MsgRecordListResource, '/msgRecord')
+api.add_resource(MsgRecordResource, '/msgRecord/<int:id>')
+api.add_resource(MsgRecordGuardianResource,
+                 '/msgRecord/guardian/<int:guardian_id>')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
