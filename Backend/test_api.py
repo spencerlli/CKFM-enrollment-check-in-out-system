@@ -399,11 +399,13 @@ def barcode(id=None):
         {
             "fname": "changTest1",
             "lname": "liuTest1",
+            "grade": "9",
             "barcode": "1CLsdj13"
         },
         {
             "fname": "yuanTest2",
             "lname": "zhangTest2",
+            "grade": "9",
             "barcode": "2YZjkl8d"
         }
     ]
