@@ -529,6 +529,8 @@ def checkIn():
         "data": None
     }
 
+    print(request.json)
+
     students = [
         {
             "fname": "changTest1",
@@ -610,14 +612,14 @@ def msgBoard():
                     "lname": "Liu",
                     "msg": "msg 111",
                     "timestamp": "1661537553"
-                }, 
+                },
                 {
                     "id": 1,
                     "fname": "Chang",
                     "lname": "Liu",
                     "msg": "msg 222",
                     "timestamp": "1661882133"
-                }, 
+                },
                 {
                     "id": 0,
                     "fname": "Admin",
@@ -629,6 +631,59 @@ def msgBoard():
         }
 
         t["msg"] = "Successfully get historical messages!"
+
+    return jsonify(t)
+
+
+@app.route('/attendanceReport', methods=['GET', 'POST'])
+def attendanceReport():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": []
+    }
+    if request.method == 'POST':
+        t["msg"] = "Successfully post message!"
+    else:
+        t["data"] = {
+            "items": [
+                {
+                    "id": 1,
+                    "student_name": "Chang Liu",
+                    "current_status": "2",
+                    "check_in_method": "barcode",
+                    "check_in": "Father Malone",
+                    "check_in_time": "1661882133",
+                    "check_out": "Father Malone",
+                    "check_out_time": "1661903733",
+                    "programs": ["sunday_school", "cm_lounge"]
+                }, 
+                {
+                    "id": 2,
+                    "student_name": "John Smith",
+                    "current_status": "1",
+                    "check_in_method": "barcode",
+                    "check_in": "Bob Smith",
+                    "check_in_time": "1661537553",
+                    "check_out": None,
+                    "check_out_time": None,
+                    "programs": ["kid_choir", "u3_friday"]
+                }, 
+                {
+                    "id": 3,
+                    "student_name": "Alex Smell",
+                    "current_status": "0",
+                    "check_in_method": "barcode",
+                    "check_in": None,
+                    "check_in_time": None,
+                    "check_out": None,
+                    "check_out_time": None,
+                    "programs": ["friday_lounge", "friday_night"]
+                }
+            ]
+        }
+
+        t["msg"] = "Successfully get attendance report!"
 
     return jsonify(t)
 

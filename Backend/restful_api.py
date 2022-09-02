@@ -165,6 +165,12 @@ class StudentResource(Resource):
         db.session.delete(student)
         db.session.commit()
         return '', 204
+
+
+class StudentBarcodeResource(Resource):
+    def get(self, barcode):
+        student = Student.query.filter_by(barcode=barcode).first_or_404()
+        return student_schema.dump(student)
 ###### Student ######
 
 
@@ -382,6 +388,7 @@ api.add_resource(GuardianResource, '/guardian/<int:id>')
 api.add_resource(GuardianPhoneResource, '/guardian/phone/<phone>')
 api.add_resource(StudentListResource, '/student')
 api.add_resource(StudentResource, '/student/<int:id>')
+api.add_resource(StudentBarcodeResource, '/student/barcode/<barcode>')
 api.add_resource(FamilyInfoListResource, '/familyInfo')
 api.add_resource(FamilyInfoResource, '/familyInfo/<int:id>')
 api.add_resource(FamilyListResource, '/family')
