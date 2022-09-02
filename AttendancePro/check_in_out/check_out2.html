@@ -84,7 +84,7 @@
                       "api": {
                           "method": "post",
                           "convertKeyToPath": false,
-                          "url": "http://54.245.168.231:5002/checkOut",
+                          "url": "http://54.245.168.231:5002/preCheckOut",
                           "data": {
                             "guardian_id": "${g1.guardian_id}"
                           }
@@ -137,7 +137,7 @@
                       "api": {
                         "method": "post",
                           "convertKeyToPath": false,
-                          "url": "http://54.245.168.231:5002/checkOut",
+                          "url": "http://54.245.168.231:5002/preCheckOut",
                           "data": {
                             "guardian_id": "${g2.guardian_id}"
                           }
@@ -188,7 +188,7 @@
                       "api": {
                         "method": "post",
                           "convertKeyToPath": false,
-                          "url": "http://54.245.168.231:5002/checkOut",
+                          "url": "http://54.245.168.231:5002/preCheckOut",
                           "data": {
                             "guardian_id": "${g3.guardian_id}"
                           }
@@ -206,7 +206,7 @@
       "redirect": "",
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/checkIn",
+        "url": "http://54.245.168.231:5002/preCheckOut",
         "responseData": {
           "g1": "${guardian|first}",
           "g2": "${guardian|nth:1}",
@@ -255,7 +255,7 @@
                       "api": {
                         "method": "post",
                           "convertKeyToPath": false,
-                          "url": "http://54.245.168.231:5002/checkOut",
+                          "url": "http://54.245.168.231:5002/preCheckOut",
                           "data": {
                             "student_id": "${s1.student_id}"
                           }
@@ -300,7 +300,7 @@
                       "api": {
                         "method": "post",
                           "convertKeyToPath": false,
-                          "url": "http://54.245.168.231:5002/checkOut",
+                          "url": "http://54.245.168.231:5002/preCheckOut",
                           "data": {
                             "student_id": "${s2.student_id}"
                           }
@@ -345,7 +345,7 @@
                       "api": {
                         "method": "post",
                           "convertKeyToPath": false,
-                          "url": "http://54.245.168.231:5002/checkOut",
+                          "url": "http://54.245.168.231:5002/preCheckOut",
                           "data": {
                             "student_id": "${s3.student_id}"
                           }
@@ -390,7 +390,7 @@
                       "api": {
                         "method": "post",
                           "convertKeyToPath": false,
-                          "url": "http://54.245.168.231:5002/checkOut",
+                          "url": "http://54.245.168.231:5002/preCheckOut",
                           "data": {
                             "student_id": "${s4.student_id}"
                           }
@@ -408,7 +408,7 @@
       "redirect": "s_check_in.html",
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/checkOut",
+        "url": "http://54.245.168.231:5002/preCheckOut",
         "responseData": {
           "s1": "${student|first}",
           "s2": "${student|nth:1}",
