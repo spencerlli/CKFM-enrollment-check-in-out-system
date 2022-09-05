@@ -10,6 +10,15 @@
   <script src="https://unpkg.com/babel-transform-in-browser@6.4.6/dist/btib.min.js"></script>
   <script src="react-webcam.js"></script>
   <script type="text/es2015">
+    //let key = -1;
+    //window.addEventListener('message', e => {
+    //  if (key === -1 && e.data.type === 'amis:init') {
+    //    //console.log(e.data.data);
+    //    if (typeof e.data.data.uuid !== 'undefined') {
+    //      key = e.data.data.uuid;
+    //    }
+    //  }
+    //});
 
     class App extends React.Component {
       constructor(props) {
@@ -38,6 +47,7 @@
                       type: 'amis:snap',
                       data: {
                         img: screenshot
+                        //key: key
                       }
                     },
                     '*'

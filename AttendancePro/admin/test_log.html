@@ -32,43 +32,42 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
-          "data": {
-            "items": [
-              {
-                "id": "1",
-                "student_name": "Post Malone",  // student's first + last name
-                "current_status": "2",          // 0 = not checked in; 
-                                                // 1 = checked in but not checked out;
-                                                // 2 = checked out;
-                "check_in_method": "barcode",
-                "check_in": "Father Malone",    // guardian's first + last name
-                "check_in_time": "1661882133",  // Unix Timestamp
-                "check_out": "Father Malone",   // guardian's first + last name
-                "check_out_time": "1661903733", // Unix Timestamp
-                "programs": ["sunday_school", "cm_lounge"]  // list of programs
-              },
-              {
-                "id": "2",
-                "student_name": "John Smith",
-                "current_status": "1",
-                "check_in_method": "barcode",
-                "check_in": "Bob Smith",
-                "check_in_time": "1661537553",
-                "programs": ["kid_choir", "u3_friday"]
-              },
-              {
-                "id": "3",
-                "student_name": "Alex Smell",
-                "current_status": "0",
-                "check_in_method": "barcode",
-                "programs": ["friday_lounge", "friday_night"]
-              }
-            ]
-          },
+          // "data": {
+          //   "items": [
+          //     {
+          //       "id": "1",
+          //       "student_name": "Post Malone",  // student's first + last name
+          //       "current_status": "2",          // 0 = not checked in; 
+          //                                       // 1 = checked in but not checked out;
+          //                                       // 2 = checked out;
+          //       "check_in_method": "barcode",
+          //       "check_in": "Father Malone",    // guardian's first + last name
+          //       "check_in_time": "1661882133",  // Unix Timestamp
+          //       "check_out": "Father Malone",   // guardian's first + last name
+          //       "check_out_time": "1661903733", // Unix Timestamp
+          //       "programs": ["sunday_school", "cm_lounge"]  // list of programs
+          //     },
+          //     {
+          //       "id": "2",
+          //       "student_name": "John Smith",
+          //       "current_status": "1",
+          //       "check_in_method": "barcode",
+          //       "check_in": "Bob Smith",
+          //       "check_in_time": "1661537553",
+          //       "programs": ["kid_choir", "u3_friday"]
+          //     },
+          //     {
+          //       "id": "3",
+          //       "student_name": "Alex Smell",
+          //       "current_status": "0",
+          //       "check_in_method": "barcode",
+          //       "programs": ["friday_lounge", "friday_night"]
+          //     }
+          //   ]
+          // },
           "body": {
             "type": "crud",
-            "source": "${items}",
-            //"api": "",
+            "api": "http://54.245.168.231:5002/attendanceReport",
             "syncLocation": false,
             "filter": {
               "debug": true,
