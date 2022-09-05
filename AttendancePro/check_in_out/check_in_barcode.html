@@ -30,19 +30,14 @@
     <script type="text/javascript">
       (function() {
         let amis = amisRequire('amis/embed');
-        // 通过替换amisJSON中的内容来生成不同页面
         let amisJSON = {
           "type": "page",
-          "cssVars": {
-            "--Panel-btnToolbarTextAlign": "left"
-          },
           "body": [
             {
               "type": "form",
               "title": "Check In",
               "autoFocus": true,
-              "submitText": "Check In",
-              "reload": "window",
+              "submitText": "",
               "api": "post:http://54.245.168.231:5002/checkIn",
               "body": [
                 {
@@ -57,12 +52,35 @@
                 "justify": true
               },
               "onEvent": {
+                "submitSucc": {
+                  "actions": [
+                    {
+                      "actionType": "dialog",
+                      "dialog": {
+                        "title": "Success",
+                        "actions": [],
+                        "showCloseButton": false,
+                        "body": [
+                          {
+                            "type": "alert",
+                            "title": "Successfully Checked in!",
+                            "level": "success",
+                            "showIcon": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "actionType": "custom",
+                      "script": "function reload() { location.reload(); }; setTimeout(reload, 2000);"
+                    }
+                  ]
+                },
                 "submitFail": {
                   "actions": [
                     {
                       "actionType": "dialog",
                       "dialog": {
-                        "type": "dialog",
                         "title": "Failure",
                         "showCloseButton": false,
                         "body": [
