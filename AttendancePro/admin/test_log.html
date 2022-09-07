@@ -167,6 +167,21 @@
                 },
                 {
                   "type": "button",
+                  "label": "Get achievement report",
+                  "actionType": "ajax",
+                  "required": ["student_name", "check_out_time", "programs"],
+                  "api": {
+                    "method": "get",
+                    "url": "test",
+                    "responseType": "blob",
+                    "data": {
+                      "&": "$$",
+                      "achievement_report": true
+                    }
+                  }
+                },
+                {
+                  "type": "button",
                   "label": "Get attendance rate",
                   "actionType": "ajax",
                   "required": ["check_out_time", "programs"],
@@ -176,7 +191,7 @@
                     "responseType": "blob",
                     "data": {
                       "&": "$$",
-                      "rate": true
+                      "attendance_rate": true
                     }
                   }
                 },
@@ -191,7 +206,7 @@
                     "responseType": "blob",
                     "data": {
                       "&": "$$",
-                      "report": true
+                      "attendance_report": true
                     }
                   }
                 },
@@ -258,6 +273,42 @@
                   "friday_lounge": "<span class='label label-default'>Friday Night CKFM and Chlid Lounge</span>",
                   "friday_night": "<span class='label label-default'>Friday Night</span>",
                 }
+              },
+              {
+                "type": "operation",
+                "label": "Daily Progress",
+                "buttons": [
+                  {
+                    "type": "button",
+                    "label": "Enter",
+                    "level": "link",
+                    "actionType": "dialog",
+                    "dialog": {
+                      "title": "Enter daily progress",
+                      "body": {
+                        "type": "form",
+                        "api": "post:api${id}",
+                        "body": [
+                          {
+                            "type": "checkboxes",
+                            "name": "daily_progress",
+                            "label": "Checklist",
+                            "options": [
+                              {
+                                "label": "Being on time",
+                                "value": "on_time"
+                              },
+                              {
+                                "label": "Bring a friend",
+                                "value": "bring_friend"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
               }
             ]
           }
