@@ -75,12 +75,12 @@
                 {
                   "type": "input-text",
                   "name": "student_name",
-                  "label": "Student Name"
+                  "label": "Student name:"
                 },
                 {
                   "type": "select",
                   "name": "current_status",
-                  "label": "Current Status",
+                  "label": "Current status:",
                   "options": [
                     {
                       "label": "Not checked in",
@@ -99,7 +99,7 @@
                 {
                   "type": "select",
                   "name": "check_in_method",
-                  "label": "Check-in/out Method",
+                  "label": "Check-in/out method:",
                   "options": [
                     {
                       "label": "Barcode",
@@ -110,27 +110,27 @@
                 {
                   "type": "input-text",
                   "name": "check_in",
-                  "label": "Checked in by"
+                  "label": "Checked in by:"
                 },
                 {
                   "type": "input-datetime-range",
                   "name": "check_in_time",
-                  "label": "Checked in Time Range"
+                  "label": "Checked in time range:"
                 },
                 {
                   "type": "input-text",
                   "name": "check_out",
-                  "label": "Checked out by"
+                  "label": "Checked out by:"
                 },
                 {
                   "type": "input-datetime-range",
                   "name": "check_out_time",
-                  "label": "Checked out Time Range"
+                  "label": "Checked out time range:"
                 },
                 {
                   "type": "select",
                   "name": "programs",
-                  "label": "Programs",
+                  "label": "Program(s):",
                   "multiple": true,
                   "options": [
                     {
@@ -164,6 +164,36 @@
                 {
                   "type": "reset",
                   "label": "Reset"
+                },
+                {
+                  "type": "button",
+                  "label": "Get attendance rate",
+                  "actionType": "ajax",
+                  "required": ["check_out_time", "programs"],
+                  "api": {
+                    "method": "get",
+                    "url": "test",
+                    "responseType": "blob",
+                    "data": {
+                      "&": "$$",
+                      "rate": true
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "Get attendance report",
+                  "actionType": "ajax",
+                  "required": ["programs"],
+                  "api": {
+                    "method": "get",
+                    "url": "test",
+                    "responseType": "blob",
+                    "data": {
+                      "&": "$$",
+                      "report": true
+                    }
+                  }
                 },
                 {
                   "type": "submit",
