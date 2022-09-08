@@ -2,12 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- 下列1行：注意替换页面对应名称 -->
-    <title>CRUD</title>
+    <title>Management</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <!-- 下列3行：需要注意填写对应href路径 -->
     <link rel="stylesheet" href="../sdk/sdk.css" />
     <link rel="stylesheet" href="../sdk/helper.css" />
     <link rel="stylesheet" href="../sdk/iconfont.css" />
@@ -25,24 +26,20 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <!-- 下列1行：需要注意填写对应路径 -->
     <script src=" ../sdk/sdk.js"></script>
     <script type="text/javascript">
-      (function() {
+      (function () {
         let amis = amisRequire('amis/embed');
-        // 通过替换amisJSON中的内容来生成不同页面
         let amisJSON = {
-          "type": "page",
+          "type": 'page',
+          "title": "Management",
           "body": {
-            "type": "collapse-group",
-            "accordion": true,
-            "activeKey": ["1"],
-            "body": [
+            "type": "tabs",
+            "tabsMode": "strong",
+            "tabs": [
               {
-                "type": "collapse",
-                "header": "Guardians",
-                "key": "1",
-                "body": [
+                "title": "Guardians",
+                "tab": [
                   {
                     "type": "crud",
                     "syncLocation": false,
@@ -55,7 +52,7 @@
                           "label": "First Name"
                         }
                       ]
-                  },
+                    },
                     "api": {
                       "method": "get",
                       "url": "http://54.245.168.231:5000/admin/guardian"
@@ -251,30 +248,26 @@
                     "id": "u:d3d8f2c930bd",
                     "perPageAvailable": [
                       10
-                    ],
-                    "messages": {
-                    }
+                    ]
                   }
                 ]
               },
               {
-                "type": "collapse",
-                "header": "Students",
-                "key": "2",
-                "body": [
+                "title": "Students",
+                "tab": [
                   {
                     "type": "crud",
                     "syncLocation": false,
                     "source": "${items | filter:fname:match:keywords}",
                     "filter": {
-                    "body": [
-                      {
-                        "type": "input-text",
-                        "name": "keywords",
-                        "label": "First Name"
-                      }
-                    ]
-                  },
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "keywords",
+                          "label": "First Name"
+                        }
+                      ]
+                    },
                     "api": {
                       "method": "get",
                       "url": "http://54.245.168.231:5000/admin/student"
@@ -640,30 +633,26 @@
                     "id": "u:d3d8f2c930bd",
                     "perPageAvailable": [
                       10
-                    ],
-                    "messages": {
-                    }
+                    ]
                   }
                 ]
               },
               {
-                "type": "collapse",
-                "header": "Family Information",
-                "key": "3",
-                "body": [
+                "title": "Family Information",
+                "tab": [
                   {
                     "type": "crud",
                     "syncLocation": false,
                     "source": "${items | filter:id:match:keywords}",
                     "filter": {
-                    "body": [
-                      {
-                        "type": "input-text",
-                        "name": "keywords",
-                        "label": "ID"
-                      }
-                    ]
-                  },
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "keywords",
+                          "label": "ID"
+                        }
+                      ]
+                    },
                     "api": {
                       "method": "get",
                       "url": "http://54.245.168.231:5000/admin/familyInfo"
@@ -979,30 +968,26 @@
                     "id": "u:d3d8f2c930bd",
                     "perPageAvailable": [
                       10
-                    ],
-                    "messages": {
-                    }
+                    ]
                   }
                 ]
               },
               {
-                "type": "collapse",
-                "header": "Family",
-                "key": "4",
-                "body": [
+                "title": "Family",
+                "tab": [
                   {
                     "type": "crud",
                     "syncLocation": false,
                     "source": "${items | filter:id:match:keywords}",
                     "filter": {
-                    "body": [
-                      {
-                        "type": "input-text",
-                        "name": "keywords",
-                        "label": "ID"
-                      }
-                    ]
-                  },
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "keywords",
+                          "label": "ID"
+                        }
+                      ]
+                    },
                     "api": {
                       "method": "get",
                       "url": "http://54.245.168.231:5000/admin/family"
@@ -1123,10 +1108,8 @@
                     "id": "u:d3d8f2c930bd",
                     "perPageAvailable": [
                       10
-                    ],
-                    "messages": {
-                    }
-                  } 
+                    ]
+                  }
                 ]
               }
             ]
