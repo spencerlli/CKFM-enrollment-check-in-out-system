@@ -8,6 +8,7 @@ from flask_cors import CORS
 import requests
 from config import REST_API
 from copy import deepcopy
+import datetime
 
 # pymysql.install_as_MySQLdb()
 
@@ -35,11 +36,10 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    res_json = deepcopy(RES_TEMPLATE)
-    print(request.cookies.get('login'))
     if request.method == 'GET':
         return render_template('log_in/log_in.html')
     else:   # method == POST
+        res_json = deepcopy(RES_TEMPLATE)
         if 'phone' in request.json and 'pwd' in request.json:
             phone = request.json['phone']
             pwd = request.json['pwd']
@@ -47,9 +47,10 @@ def login():
             if guardian_json['pwd'] == pwd:
                 res_json['msg'] = 'Logged in successfully!'
 
-                res = make_response(jsonify(res_json))
-                res.set_cookie('login', bytes(1))
-                res.set_cookie('guardian_id', bytes(guardian_json['id']))
+                res = jsonify(res_json)
+                expire_date = datetime.datetime.now() + datetime.timedelta(days=7)
+                res.set_cookie(key='login', value="1", expires=expire_date)
+                res.set_cookie(key='guardian_id', value=str(guardian_json['id']), expires=expire_date)
                 return res
             else:
                 res_json['status'] = 1
@@ -358,6 +359,53 @@ def preCheckOut():
     return jsonify(res)
 
 
+@app.route('/checkIn', methods=['GET', 'POST'])
+def checkIn():
+    res = deepcopy(RES_TEMPLATE)
+    barcode = ''
+    if request.method == 'POST':
+        barcode = request.json['barcode']
+        query_res = requests.get(REST_API + '/student/barcode/' + barcode)
+        if query_res.status_code != 200:
+            res['status'] = 1
+            res['msg'] = "Barcode doesn't match!"
+        else:
+            student_json = query_res.json()
+            if student_json['check_in'] == 0:
+                res['status'] = 1
+                res['msg'] = "Student has not been pre-checked in!"
+            else:
+                student_json['check_in_time'] = datetime.datetime.now().timestamp
+                requests.put(REST_API + 'student/%d' % student_json['id'], json=student_json)
+                res['msg'] = "Successfully check in!"
+        return jsonify(res)
+
+    return render_template('flask_check_in_out/check_in.html')
+
+
+@app.route('/checkOut', methods=['GET', 'POST'])
+def checkOut():
+    res = deepcopy(RES_TEMPLATE)
+    barcode = ''
+    if request.method == 'POST':
+        barcode = request.json['barcode']
+        query_req = requests.get(REST_API + 'student/barcode/' + barcode)
+        if query_req.status_code == 404:
+            res['status'] = 1
+            res['msg'] = "Barcode doesn't match!"
+        else:
+            student_json = query_req.json()
+            if student_json['check_out'] == 0:
+                res['status'] = 1
+                res['msg'] = "Student has not been pre-checked out!"
+            else:
+                student_json['check_out_time'] = datetime.datetime.now().timestamp
+                requests.put(REST_API + 'student/%d' % student_json['id'], json=student_json)
+                res['msg'] = "Successfully check out!"
+            return jsonify(res)
+    return render_template('flask_check_in_out/check_out.html')
+
+
 @app.route('/firstTimeEnroll', methods=['GET', 'POST'])
 def firstTimeEnroll():
     msg = ''
@@ -382,11 +430,6 @@ def checkInOut():
     return render_template('flask_check_in_out/main.html')
 
 
-@app.route('/checkIn', methods=['GET', 'POST'])
-def checkIn():
-    return render_template('flask_check_in_out/check_in.html')
-
-
 @app.route('/checkIn2', methods=['GET', 'POST'])
 def checkIn2():
     return render_template('flask_check_in_out/check_in2.html')
@@ -395,11 +438,6 @@ def checkIn2():
 @app.route('/checkInSuccess', methods=['GET', 'POST'])
 def checkInSuccess():
     return render_template('flask_check_in_out/s_check_in.html')
-
-
-@app.route('/checkOut', methods=['GET', 'POST'])
-def checkOut():
-    return render_template('flask_check_in_out/check_out.html')
 
 
 @app.route('/checkOut2', methods=['GET', 'POST'])
