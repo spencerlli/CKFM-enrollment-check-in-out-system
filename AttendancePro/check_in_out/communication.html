@@ -38,31 +38,412 @@
   "body": [
     {
       "type": "form",
+      "id": "u:4ee00812167b",
       "title": "",
       "body": [
         {
-          "type": "textarea",
-          "label": "Message from Administrator",
-          "name": "msgBoard1",
-          "id": "u:ec78bec25632",
-          "minRows": 3,
-          "maxRows": 20,
-          "value": "${msg1.msg}"
-        }
-      ],
-      "id": "u:4ee00812167b",
-      "initApi": {
-        "method": "get",
-        "url": "http://54.245.168.231:5002/msgBoard",
-        "responseData": {
-          "msg1": "${items|first}"
-        }
-      },
-      "submitText": ""
-    },
-    {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg1.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg1.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg1.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg1.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg2.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg2.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg2.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg2.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg3.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg3.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg3.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg3.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg4.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg4.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg4.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg4.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg5.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg5.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg5.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg5.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg6.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg6.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg6.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg6.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg7.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg7.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg7.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg7.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg8.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg8.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg8.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg8.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg9.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg9.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg9.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg9.id == 1",
+          "className": "Panel--success"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "Administrator:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg10.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg10.id == 0",
+          "className": "Panel--primary"
+        },
+        {
+          "type": "panel",
+          "title": "",
+          "body": [
+            {
+              "type": "textarea",
+              "label": "User:",
+              "name": "msgBoard1",
+              "id": "u:ec78bec25632",
+              "minRows": 1,
+              "maxRows": 20,
+              "value": "${msg10.msg}"
+            }
+          ],
+          "id": "u:c074a57419c8",
+          "affixFooter": false,
+          "visible": "typeof this.visibleOn === \"string\" ? 2 : 1",
+          "visibleOn": "msg10.id == 1",
+          "className": "Panel--success"
+        },
+        {
       "type": "form",
-      "title": "Message Board",
+      "title": "",
       "body": [
         {
           "type": "textarea",
@@ -76,13 +457,33 @@
       "id": "u:6ab05083482c",
       "submitText": "Send Message to Administrator",
       "api": {
-                        "method": "post",
-                          "convertKeyToPath": false,
-                          "url": "http://54.245.168.231:5002/msgBoard",
-                          "data": {
-                            "msg": "${msgBoard2.value}"
-                          }
-              }
+        "method": "post",
+        "convertKeyToPath": false,
+        "url": "http://54.245.168.231:5002/msgBoard",
+        "data": {
+          "msg": "${msgBoard2.value}"
+        }
+      }
+    }
+      ],
+      "initApi": {
+        "method": "get",
+        "url": "http://54.245.168.231:5002/msgBoard",
+        "responseData": {
+          "msg1": "${items|sortBy:timestamp:numerical:desc|nth:9}",
+          "msg2": "${items|sortBy:timestamp:numerical:desc|nth:8}",
+          "msg3": "${items|sortBy:timestamp:numerical:desc|nth:7}",
+          "msg4": "${items|sortBy:timestamp:numerical:desc|nth:6}",
+          "msg5": "${items|sortBy:timestamp:numerical:desc|nth:5}",
+          "msg6": "${items|sortBy:timestamp:numerical:desc|nth:4}",
+          "msg7": "${items|sortBy:timestamp:numerical:desc|nth:3}",
+          "msg8": "${items|sortBy:timestamp:numerical:desc|nth:2}",
+          "msg9": "${items|sortBy:timestamp:numerical:desc|nth:1}",
+          "msg10": "${items|sortBy:timestamp:numerical:desc|nth:0}",
+
+        }
+      },
+      "submitText": ""
     }
   ],
   "id": "u:437f36f638f1"
