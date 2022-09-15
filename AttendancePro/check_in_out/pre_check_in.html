@@ -32,39 +32,9 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
-          // sample api data
-          "data": {
-            "items": [
-              {
-                "object": "guardian",
-                "fname": "changTest1",
-                "lname": "liuTest1",
-                "id": 1,
-              },
-              {
-                "object": "guardian",
-                  "fname": "changTest2",
-                  "id": 2,
-                  "lname": "liuTest2"
-              },
-              {
-                  "object": "student",
-                  "fname": "changJRTest1",
-                  "id": 1,
-                  "lname": "liuTest1",
-                  
-              },
-              {
-                  "object": "student",
-                  "fname": "changJRTest2",
-                  "id": 2,
-                  "lname": "liuTest2"
-              }
-            ]
-          },
           "body": {
             "type": "crud",
-            //"api": "",
+            "api": "http://54.245.168.231:5002/preCheckIn",
             "mode": "cards",
             "card": {
               "header": {
