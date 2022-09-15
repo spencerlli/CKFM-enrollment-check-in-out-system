@@ -337,9 +337,13 @@ def preCheckIn():
             ]
         }
     else:
-        t["msg"] = "Successfully check in!"
-        t["data"] = []
-        print(request.json)
+        t["msg"] = "Successfully pre-check in! Please scan this barcode to complete check in when you arrive."
+        t["data"] = {
+            "id": 1,
+            "fname": "changTest1",
+            "lname": "liuTest1",
+            "barcode": "1CLsdj13"
+        }
 
     return jsonify(t)
 
