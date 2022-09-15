@@ -35,211 +35,238 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "title": "MAIN MENU",
-  "body": [
-    {
-      "type": "grid",
-      "id": "u:b4fc350162ed",
-      "columns": [
-        {
-          "body": [
-            {
-              "type": "button",
-              "label": "ENROLLMENT/注册",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
+        "toolbar": [
+          {
+            "type": "button",
+            "label": "Sign in",
+            "level": "link",
+            "hiddenOn": "1"
+          },
+          {
+            "type": "button",
+            "label": "Sign out/退出账号",
+            "level": "link",
+            "hiddenOn": ""
+          }
+        ],
+        "title": "MAIN MENU",
+        "body": [
+          {
+            "type": "grid",
+            "id": "u:b4fc350162ed",
+            "columns": [
+              {
+                "body": [
+                  {
+                    "type": "button",
+                    "label": "ENROLLMENT/注册",
+                    "actionType": "link",
+                    "link": "../enrollment/form.html",
+                    "size": "lg",
+                    "block": true,
+                    "level": "light"
+                  },
+                  {
+                    "type": "button",
+                    "label": "ENROLLMENT UPDATE/更新注册信息",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:11df25266b31",
+                    "size": "lg",
+                    "link": "",
+                    "block": true
+                  },
+                  {
+                    "type": "button",
+                    "label": "VIEW LOG FILE/查看登陆日志",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:5b5eb909196b",
+                    "link": "",
+                    "size": "lg",
+                    "block": true,
+                    "level": "light"
+                  },
+                  {
+                    "type": "button",
+                    "label": "INPUT DAILY PROGRESS/输入每日进展",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:60e318427c32",
+                    "size": "lg",
+                    "link": "",
+                    "block": true
+                  },
+                  {
+                    "type": "button",
+                    "label": "Show Barcode/出示条形码",
+                    "actionType": "dialog",
+                    "dialog": {
+                      "title": "Barcode",
+                      "body": {
+                        "type": "service",
+                        "data": {
+                          "barcode": "12345"
+                        },
+                        //"api": "",
+                        "body": {
+                          "type": "barcode",
+                          "name": "barcode"
+                        }
+                      }
+                    },
+                    "level": "light",
+                    "size": "lg",
+                    "block": true
+                  }
+                ],
+                "valign": "",
+                "md": "",
+                "id": "u:45038712df46"
               },
-              "id": "u:15f4cedc236a",
-              "link": "../enrollment/form.html",
-              "size": "lg",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "ENROLLMENT UPDATE/更新注册信息",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
+              {
+                "body": [
+                  {
+                    "type": "button",
+                    "label": "PRE CHECK IN/登记",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:868591dfb544",
+                    "link": "check_in.html",
+                    "size": "lg",
+                    "block": true,
+                    "level": "default"
+                  },
+                  {
+                    "type": "button",
+                    "label": "PRE CHECK OUT/登出",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:ff866581f574",
+                    "size": "lg",
+                    "link": "check_out.html",
+                    "block": true,
+                    "level": "light"
+                  },
+                  {
+                    "type": "button",
+                    "label": "COMMUNICATION/留言",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:9af5fa121549",
+                    "link": "",
+                    "size": "lg",
+                    "block": true
+                  },
+                  {
+                    "type": "button",
+                    "label": "CUSTOMIZE/自定义",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:76b3b7ba5378",
+                    "size": "lg",
+                    "link": "",
+                    "block": true,
+                    "level": "light"
+                  }
+                ],
+                "valign": "",
+                "md": "",
+                "id": "u:88f13f0a87ed"
               },
-              "id": "u:11df25266b31",
-              "size": "lg",
-              "link": "",
-              "block": true
-            },
-            {
-              "type": "button",
-              "label": "VIEW LOG FILE/查看登陆日志",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:5b5eb909196b",
-              "link": "",
-              "size": "lg",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "INPUT DAILY PROGRESS/输入每日进展",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:60e318427c32",
-              "size": "lg",
-              "link": "",
-              "block": true
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:45038712df46"
+              {
+                "body": [
+                  {
+                    "type": "button",
+                    "label": "GET ATTENDANCE REPORT/出勤记录",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:139b261805b8",
+                    "link": "",
+                    "size": "lg",
+                    "block": true,
+                    "level": "light"
+                  },
+                  {
+                    "type": "button",
+                    "label": "SIGN OFF/退出账号",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:aa73806531c3",
+                    "size": "lg",
+                    "link": "",
+                    "block": true
+                  },
+                  {
+                    "type": "button",
+                    "label": "EXPORT/导出",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:458e42a6f5e5",
+                    "link": "",
+                    "size": "lg",
+                    "block": true,
+                    "level": "light"
+                  },
+                  {
+                    "type": "button",
+                    "label": "IMPORT/导入",
+                    "actionType": "link",
+                    "dialog": {
+                      "title": "系统提示",
+                      "body": "对你点击了"
+                    },
+                    "id": "u:f146b2be79dc",
+                    "size": "lg",
+                    "link": "",
+                    "block": true
+                  }
+                ],
+                "valign": "",
+                "md": "",
+                "id": "u:a3d029f347b4"
+              }
+            ]
+          }
+        ],
+        "id": "u:56223b15a761",
+        "messages": {
         },
-        {
-          "body": [
-            {
-              "type": "button",
-              "label": "PRE CHECK IN/登记",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:868591dfb544",
-              "link": "check_in.html",
-              "size": "lg",
-              "block": true,
-              "level": "default"
-            },
-            {
-              "type": "button",
-              "label": "PRE CHECK OUT/登出",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:ff866581f574",
-              "size": "lg",
-              "link": "check_out.html",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "COMMUNICATION/留言",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:9af5fa121549",
-              "link": "",
-              "size": "lg",
-              "block": true
-            },
-            {
-              "type": "button",
-              "label": "CUSTOMIZE/自定义",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:76b3b7ba5378",
-              "size": "lg",
-              "link": "",
-              "block": true,
-              "level": "light"
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:88f13f0a87ed"
-        },
-        {
-          "body": [
-            {
-              "type": "button",
-              "label": "GET ATTENDANCE REPORT/出勤记录",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:139b261805b8",
-              "link": "",
-              "size": "lg",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "SIGN OFF/退出账号",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:aa73806531c3",
-              "size": "lg",
-              "link": "",
-              "block": true
-            },
-            {
-              "type": "button",
-              "label": "EXPORT/导出",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:458e42a6f5e5",
-              "link": "",
-              "size": "lg",
-              "block": true,
-              "level": "light"
-            },
-            {
-              "type": "button",
-              "label": "IMPORT/导入",
-              "actionType": "link",
-              "dialog": {
-                "title": "系统提示",
-                "body": "对你点击了"
-              },
-              "id": "u:f146b2be79dc",
-              "size": "lg",
-              "link": "",
-              "block": true
-            }
-          ],
-          "valign": "",
-          "md": "",
-          "id": "u:a3d029f347b4"
+        "style": {
+          "fontFamily": "Times New Roman"
         }
-      ]
-    }
-  ],
-  "id": "u:56223b15a761",
-  "messages": {
-  },
-  "style": {
-    "fontSize": 100,
-    "fontFamily": "Times New Roman",
-    "display": "inline",
-    "color": "#4a90e2",
-    "fontWeight": "bold"
-  }
       };
-      let amisScoped = amis.embed('#root', amisJSON);
+      let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
     })();
   </script>
 </body>
