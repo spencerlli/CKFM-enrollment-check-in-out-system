@@ -386,8 +386,13 @@ def preCheckOut():
             ]
         }
     else:
-        t["msg"] = "Successfully check out!"
-        t["data"] = []
+        t["msg"] = "Successfully pre-check out! Please scan this barcode to complete check out when you arrive."
+        t["data"] = {
+            "id": 1,
+            "fname": "changTest1",
+            "lname": "liuTest1",
+            "barcode": "1CLsdj13"
+        }
 
     return jsonify(t)
 
