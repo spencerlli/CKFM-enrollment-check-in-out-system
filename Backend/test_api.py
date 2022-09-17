@@ -533,6 +533,20 @@ def login():
     return jsonify(t)
 
 
+@app.route('/logout', methods=['POST'])
+def logout():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": None
+    }
+    if request.method == 'POST':
+        t["msg"] = "Successfully logout!"
+        print(request.json)
+
+    return jsonify(t)
+
+
 @app.route('/checkIn', methods=['POST'])
 def checkIn():
     t = {
