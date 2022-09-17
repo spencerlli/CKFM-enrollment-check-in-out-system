@@ -628,7 +628,7 @@ def msgBoard():
         "data": None
     }
     if request.method == 'POST':
-        t["msg"] = "Successfully post message!"
+        t["msg"] = "Successfully post message! JSON: " + str(request.json)
     else:
         t["data"] = {
             "items": [
