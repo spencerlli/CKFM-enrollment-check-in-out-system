@@ -26,7 +26,7 @@ class GuardianListResource(Resource):
             phone=request.json['phone'],
             email=request.json['email'],
             relationship=request.json['relationship'],
-            check_in_method=request.json['check_in_method']
+            check_in_method=request.json['check_in_method'],
         )
         db.session.add(new_guardian)
         db.session.flush()
@@ -57,6 +57,8 @@ class GuardianResource(Resource):
             guardian.relationship = request.json['relationship']
         if 'check_in_method' in request.json:
             guardian.check_in_method = request.json['check_in_method']
+        if 'barcode' in request.json:
+            guardian.barcode = request.json['barcode']
         db.session.commit()
         return guardian_schema.dump(guardian)
 
@@ -331,6 +333,13 @@ class FamilyResource(Resource):
         db.session.delete(family_got)
         db.session.commit()
         return '', 204
+
+
+class FamilyGuardianResource(Resource):
+    def get(self, guardian_id):
+        # get one by id
+        family_got = Family.query.filter_by(guardian_id=guardian_id).all()
+        return family_schema.dump(family_got)
 ###### Family ######
 
 
@@ -345,13 +354,6 @@ class MsgRecordListResource(Resource):
         msg_records = MsgRecord.query.all()
         return msg_records_schema.dump(msg_records)
 
-
-class MsgRecordResource(Resource):
-    def get(self, id):
-        # get one by id
-        msg_record = MsgRecord.query.filter_by(id=id).first_or_404()
-        return msg_record_schema.dump(msg_record)
-
     def post(self):
         # create a new msg record
         new_msg = MsgRecord(
@@ -363,6 +365,13 @@ class MsgRecordResource(Resource):
         db.session.add(new_msg)
         db.session.commit()
         return msg_record_schema.dump(new_msg)
+
+
+class MsgRecordResource(Resource):
+    def get(self, id):
+        # get one by id
+        msg_record = MsgRecord.query.filter_by(id=id).first_or_404()
+        return msg_record_schema.dump(msg_record)
 
     def delete(self, id):
         # delete one by id
@@ -393,6 +402,7 @@ api.add_resource(FamilyInfoListResource, '/familyInfo')
 api.add_resource(FamilyInfoResource, '/familyInfo/<int:id>')
 api.add_resource(FamilyListResource, '/family')
 api.add_resource(FamilyResource, '/family/<int:id>')
+api.add_resource(FamilyGuardianResource, '/family/guardian/<int:guardian_id>')
 api.add_resource(MsgRecordListResource, '/msgRecord')
 api.add_resource(MsgRecordResource, '/msgRecord/<int:id>')
 api.add_resource(MsgRecordGuardianResource,

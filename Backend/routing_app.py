@@ -28,8 +28,8 @@ RES_TEMPLATE = {
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if ('login' in session.keys() and session['login'] == True):
-        return render_template('flask_templates/index.html')
+    if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
+        return render_template('check_in_out/index.html')
     else:
         return redirect('login')
 
@@ -37,9 +37,10 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        print(request.cookies.get('login'))
-        return render_template('log_in/log_in.html')
-
+        if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
+            return redirect(url_for('index'))
+        else:
+            return render_template('log_in/log_in.html')
     else:   # method == POST
         res_json = deepcopy(RES_TEMPLATE)
         if 'phone' in request.json and 'pwd' in request.json:
@@ -48,13 +49,13 @@ def login():
             guardian_json = requests.get(REST_API + '/guardian/phone/' + phone).json()
             if guardian_json['pwd'] == pwd:
                 res_json['msg'] = 'Logged in successfully!'
-                family_json = requests.get(REST_API + '/family/guardian/%d' % guardian_json['id']).json()
-
                 res = jsonify(res_json)
-                expire_date = datetime.datetime.now() + datetime.timedelta(minutes=2)
+
+                family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_json['id']).json()[0]['id']
+                expire_date = (datetime.datetime.now() + datetime.timedelta(days=7)).timestamp()
                 res.set_cookie(key='login', value="1", expires=expire_date)
                 res.set_cookie(key='guardian_id', value=str(guardian_json['id']), expires=expire_date)
-                res.set_cookie(key='family_id', value=str(family_json[0]['id']), expires=expire_date)
+                res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
                 return res
             else:
                 res_json['status'] = 1
@@ -68,9 +69,11 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('login', None)
-    session.pop('guardian_id', None)
-    return redirect(url_for('login'))
+    res = redirect(url_for('index'))
+    res.delete_cookie('login')
+    res.delete_cookie('guardian_id')
+    res.delete_cookie('family_id')
+    return res
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -435,6 +438,39 @@ def firstTimeEnroll():
         return render_template('flask_enrollment/GuardianEnrollment.html', msg=msg)
     else:
         return render_template('flask_enrollment/StudentEnrollment.html', msg=msg)
+
+
+@app.route('/msgBoard', methods=['GET', 'POST'])
+def msgBoard():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": None
+    }
+    # guardian_id = request.cookies.get('guardian_id')
+    guardian_id = 1
+    
+    if request.method == 'GET':
+        guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
+        fname, lname = guardian_json['fname'], guardian_json['lname']
+        
+        msg_show = []
+        msgRecords_json = requests.get(REST_API + '/msgRecord/guardian/%d' % guardian_id).json()
+        for msg in msgRecords_json:
+            if msg['send_id'] == 0:
+                msg_show.append({'id': 0, 'fname': 'Admin', 'lname': None,
+                                'msg': msg['content'], 'timestamp': msg['time']})
+            else:
+                msg_show.append({'id': guardian_id, 'fname': fname, 'lname': lname,
+                                'msg': msg['content'], 'timestamp': msg['time']})
+
+        t['data'] = {'items': msg_show}
+        t["msg"] = "Successfully get historical messages!"
+    else:
+        print(request.json)
+        t["msg"] = "Successfully post message!"
+
+    return jsonify(t)
 
 
 @app.route('/studentEnrollment', methods=['GET', 'POST'])
