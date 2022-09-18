@@ -399,7 +399,7 @@ def preCheckOut():
 
 @app.route('/student/barcode', methods=['GET'])
 @app.route('/student/barcode/<int:id>', methods=['GET'])
-def barcode(id=None):
+def studentBarcode(id=None):
     t = {
         "status": 0,
         "msg": "Successfully get barcode!",
@@ -423,6 +423,17 @@ def barcode(id=None):
         t['data']['items'] = [items[id - 1]]
     else:
         t['data']['items'] = items
+
+    return jsonify(t)
+
+
+@app.route('/guardian/barcode', methods=['GET'])
+def guardianBarcode():
+    t = {
+        "status": 0,
+        "msg": "Successfully get barcode!",
+        "data": {'barcode': '1PLxcirm'}
+    }
 
     return jsonify(t)
 
