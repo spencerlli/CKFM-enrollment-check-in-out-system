@@ -397,8 +397,8 @@ def preCheckOut():
     return jsonify(t)
 
 
-@app.route('/barcode', methods=['GET'])
-@app.route('/barcode/<int:id>', methods=['GET'])
+@app.route('/student/barcode', methods=['GET'])
+@app.route('/student/barcode/<int:id>', methods=['GET'])
 def barcode(id=None):
     t = {
         "status": 0,
