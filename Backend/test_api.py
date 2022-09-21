@@ -631,15 +631,42 @@ def checkOut():
     return jsonify(t)
 
 
-@app.route('/msgBoard', methods=['GET', 'POST'])
-def msgBoard():
+@app.route('/studentBriefInfo', methods=['GET'])
+def studentBriefInfo():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": None
+    }
+    t['data'] = [
+        {
+            "fname": "changTest1",
+            "lname": "liuTest1",
+            "id": "1",
+        },
+        {
+            "fname": "yuanTest2",
+            "lname": "zhangTest2",
+            "id": "2"
+        }
+    ]
+    return jsonify(t)
+
+
+@app.route('/msgBoard/student/<student_id>', methods=['POST'])
+@app.route('/msgBoard', methods=['GET'])
+def msgBoard(student_id=0):
     t = {
         "status": 0,
         "msg": None,
         "data": None
     }
     if request.method == 'POST':
-        t["msg"] = "Successfully post message! JSON: " + str(request.json)
+        if not student_id:
+            t['status'] = 1
+            t["msg"] = "Please select a student related to the message!"
+        else:
+            t["msg"] = "Successfully post message! JSON: " + str(request.json)
     else:
         t["data"] = {
             "items": [
