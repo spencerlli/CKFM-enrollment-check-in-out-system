@@ -653,16 +653,15 @@ def studentBriefInfo():
     return jsonify(t)
 
 
-@app.route('/msgBoard/student/<student_id>', methods=['POST'])
-@app.route('/msgBoard', methods=['GET'])
-def msgBoard(student_id=0):
+@app.route('/msgBoard', methods=['GET', 'POST'])
+def msgBoard():
     t = {
         "status": 0,
         "msg": None,
         "data": None
     }
     if request.method == 'POST':
-        if not student_id:
+        if 'student_id' not in request.json:
             t['status'] = 1
             t["msg"] = "Please select a student related to the message!"
         else:
