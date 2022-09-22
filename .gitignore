@@ -11,3 +11,5 @@ AttendancePro/.DS_Store
 Backend/config.py
 flask-crud-application-with-mysql-master/config.py
 Backend/*.json
+
+# AttendancePro/flask_templates/*

@@ -258,6 +258,11 @@ def userManage(object=None, id=None):
     return jsonify(res)
 
 
+@app.route('/preCheckInPage', methods=['GET'])
+def preCheckInPage():
+    return render_template('check_in_out/pre_check_in.html')
+
+
 @app.route('/preCheckIn', methods=['GET', 'POST'])
 def preCheckIn():
     session['login'] = True
@@ -279,9 +284,10 @@ def preCheckIn():
             print(family)
             if family['guardian_id'] not in guardian_id_set:    # filter repeat
                 guardian_json = requests.get(REST_API + '/guardian/%d' % family['guardian_id']).json()
+                print(guardian_json)
                 object_list.append({
                     'object': 'guardian',
-                    'id': guardian_json['guardian_id'],
+                    'id': guardian_json['id'],
                     'fname': guardian_json['fname'],
                     'lname': guardian_json['lname']
                 })
