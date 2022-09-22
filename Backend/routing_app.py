@@ -47,12 +47,12 @@ def login():
             phone = request.json['phone']
             pwd = request.json['pwd']
             guardian_json = requests.get(REST_API + '/guardian/phone/' + phone).json()
-            if guardian_json['pwd'] == pwd:
+            if 'phone' in guardian_json.keys() and guardian_json['pwd'] == pwd:
                 res_json['msg'] = 'Logged in successfully!'
                 res = jsonify(res_json)
 
                 family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_json['id']).json()[0]['id']
-                expire_date = (datetime.datetime.now() + datetime.timedelta(days=7)).timestamp()
+                expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
                 res.set_cookie(key='login', value="1", expires=expire_date)
                 res.set_cookie(key='guardian_id', value=str(guardian_json['id']), expires=expire_date)
                 res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
@@ -67,9 +67,11 @@ def login():
         return jsonify(res_json)
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
-    res = redirect(url_for('index'))
+    res = deepcopy(RES_TEMPLATE)
+    res['msg'] = 'Successfully logout!'
+    res = jsonify(res)
     res.delete_cookie('login')
     res.delete_cookie('guardian_id')
     res.delete_cookie('family_id')
@@ -400,7 +402,7 @@ def checkIn():
                 res['status'] = 1
                 res['msg'] = "Student has not been pre-checked in!"
             else:
-                student_json['check_in_time'] = datetime.datetime.now().timestamp
+                student_json['check_in_time'] = int(datetime.datetime.now().timestamp())
                 requests.put(REST_API + 'student/%d' % student_json['id'], json=student_json)
                 res['msg'] = "Successfully check in!"
         return jsonify(res)
@@ -414,7 +416,7 @@ def checkOut():
     barcode = ''
     if request.method == 'POST':
         barcode = request.json['barcode']
-        query_req = requests.get(REST_API + 'student/barcode/' + barcode)
+        query_req = requests.get(REST_API + '/student/barcode/' + barcode)
         if query_req.status_code == 404:
             res['status'] = 1
             res['msg'] = "Barcode doesn't match!"
@@ -424,7 +426,7 @@ def checkOut():
                 res['status'] = 1
                 res['msg'] = "Student has not been pre-checked out!"
             else:
-                student_json['check_out_time'] = datetime.datetime.now().timestamp
+                student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
                 requests.put(REST_API + 'student/%d' % student_json['id'], json=student_json)
                 res['msg'] = "Successfully check out!"
             return jsonify(res)
@@ -467,7 +469,10 @@ def msgBoard():
         t['data'] = {'items': msg_show}
         t["msg"] = "Successfully get historical messages!"
     else:
-        print(request.json)
+        msg_json = {'send_id': guardian_id, 'receive_id': 0, 
+                    'content': request.json['msg'], 'time': int(datetime.datetime.now().timestamp())}
+        requests.post(REST_API + '/msgRecord', json=msg_json)
+        # /msgRecord
         t["msg"] = "Successfully post message!"
 
     return jsonify(t)

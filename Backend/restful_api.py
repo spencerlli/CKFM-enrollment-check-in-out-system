@@ -74,6 +74,12 @@ class GuardianPhoneResource(Resource):
     def get(self, phone):
         guardian = Guardian.query.filter_by(phone=phone).first_or_404()
         return guardian_schema.dump(guardian)
+
+
+class GuardianBarcodeResource(Resource):
+    def get(self, barcode):
+        guardian = Guardian.query.filter_by(barcode=barcode).first_or_404()
+        return guardian_schema.dump(guardian)
 ###### Guardian ######
 
 
@@ -395,6 +401,7 @@ class MsgRecordGuardianResource(Resource):
 api.add_resource(GuardianListResource, '/guardian')
 api.add_resource(GuardianResource, '/guardian/<int:id>')
 api.add_resource(GuardianPhoneResource, '/guardian/phone/<phone>')
+api.add_resource(GuardianBarcodeResource, '/guardian/barcode/<barcode>')
 api.add_resource(StudentListResource, '/student')
 api.add_resource(StudentResource, '/student/<int:id>')
 api.add_resource(StudentBarcodeResource, '/student/barcode/<barcode>')
