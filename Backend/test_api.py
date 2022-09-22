@@ -638,18 +638,20 @@ def studentBriefInfo():
         "msg": None,
         "data": None
     }
-    t['data'] = [
-        {
-            "fname": "changTest1",
-            "lname": "liuTest1",
-            "id": "1",
-        },
-        {
-            "fname": "yuanTest2",
-            "lname": "zhangTest2",
-            "id": "2"
-        }
-    ]
+    t['data'] = {
+        "items": [
+            {
+                "fname": "changTest1",
+                "lname": "liuTest1",
+                "id": "1",
+            },
+            {
+                "fname": "yuanTest2",
+                "lname": "zhangTest2",
+                "id": "2"
+            }
+        ]
+    }
     return jsonify(t)
 
 
@@ -720,7 +722,7 @@ def attendanceReport():
                     "check_out": "Father Malone",
                     "check_out_time": "1661903733",
                     "programs": ["sunday_school", "cm_lounge"]
-                }, 
+                },
                 {
                     "id": 2,
                     "student_name": "John Smith",
@@ -731,7 +733,7 @@ def attendanceReport():
                     "check_out": None,
                     "check_out_time": None,
                     "programs": ["kid_choir", "u3_friday"]
-                }, 
+                },
                 {
                     "id": 3,
                     "student_name": "Alex Smell",
