@@ -38,7 +38,7 @@
           "type": "page",
           "body": {
             "type": "crud",
-            "api": "http://54.245.168.231:5002/preCheckIn",
+            "api": "{{url_for('preCheckIn')}}",
             "mode": "cards",
             "card": {
               "header": {
@@ -63,7 +63,7 @@
                         "args": {
                           "api": {
                             "method": "post",
-                            "url": "http://54.245.168.231:5002/preCheckIn",
+                            "url": "{{url_for('preCheckIn')}}",
                             "data": {
                               "items": "${selectedItems}"
                             }
@@ -90,7 +90,7 @@
                               "type": "button",
                               "label": "OK",
                               "actionType": "link",
-                              "link": "../check_in_out/index.html",
+                              "link": "{{url_for('index')}}",
                               "primary": true
                             }
                           ]
@@ -116,7 +116,7 @@
                               "type": "button",
                               "label": "OK",
                               "actionType": "link",
-                              "link": "../check_in_out/index.html",
+                              "link": "{{url_for('index')}}",
                               "primary": true
                             }
                           ]
