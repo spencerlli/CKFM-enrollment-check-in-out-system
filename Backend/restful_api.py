@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource, Api
 from tables import Guardian, GuardianSchema, Student, StudentSchema, \
-    FamilyInfo, FamilyInfoSchema, MsgRecord, MsgRecordSchema, app, db, ma
+    FamilyInfo, FamilyInfoSchema, MsgBoard, MsgBoardSchema, app, db, ma
 
 api = Api(app)
 
@@ -349,20 +349,20 @@ class FamilyGuardianResource(Resource):
 ###### Family ######
 
 
-###### MsgRecord ######
-msg_record_schema = MsgRecordSchema()
-msg_records_schema = MsgRecordSchema(many=True)
+###### MsgBoard ######
+msg_record_schema = MsgBoardSchema()
+msg_records_schema = MsgBoardSchema(many=True)
 
 
-class MsgRecordListResource(Resource):
+class MsgBoardListResource(Resource):
     def get(self):
         # get all
-        msg_records = MsgRecord.query.all()
+        msg_records = MsgBoard.query.all()
         return msg_records_schema.dump(msg_records)
 
     def post(self):
         # create a new msg record
-        new_msg = MsgRecord(
+        new_msg = MsgBoard(
             send_id=request.json['send_id'],
             receive_id=request.json['receive_id'],
             content=request.json['content'],
@@ -373,29 +373,29 @@ class MsgRecordListResource(Resource):
         return msg_record_schema.dump(new_msg)
 
 
-class MsgRecordResource(Resource):
+class MsgBoardResource(Resource):
     def get(self, id):
         # get one by id
-        msg_record = MsgRecord.query.filter_by(id=id).first_or_404()
+        msg_record = MsgBoard.query.filter_by(id=id).first_or_404()
         return msg_record_schema.dump(msg_record)
 
     def delete(self, id):
         # delete one by id
-        msg_got = MsgRecord.query.filter_by(id=id).first_or_404()
+        msg_got = MsgBoard.query.filter_by(id=id).first_or_404()
         db.session.delete(msg_got)
         db.session.commit()
         return '', 204
 
 
-class MsgRecordGuardianResource(Resource):
+class MsgBoardGuardianResource(Resource):
     def get(self, guardian_id):
         # get one by id
-        msg_record = MsgRecord.query.filter(
-            ((MsgRecord.send_id == 0) & (MsgRecord.receive_id == guardian_id)) |
-            ((MsgRecord.send_id == guardian_id) & (MsgRecord.receive_id == 0))
+        msg_record = MsgBoard.query.filter(
+            ((MsgBoard.send_id == 0) & (MsgBoard.receive_id == guardian_id)) |
+            ((MsgBoard.send_id == guardian_id) & (MsgBoard.receive_id == 0))
         ).all()
         return msg_records_schema.dump(msg_record)
-###### MsgRecord ######
+###### MsgBoard ######
 
 
 api.add_resource(GuardianListResource, '/guardian')
@@ -410,10 +410,10 @@ api.add_resource(FamilyInfoResource, '/familyInfo/<int:id>')
 api.add_resource(FamilyListResource, '/family')
 api.add_resource(FamilyResource, '/family/<int:id>')
 api.add_resource(FamilyGuardianResource, '/family/guardian/<int:guardian_id>')
-api.add_resource(MsgRecordListResource, '/msgRecord')
-api.add_resource(MsgRecordResource, '/msgRecord/<int:id>')
-api.add_resource(MsgRecordGuardianResource,
-                 '/msgRecord/guardian/<int:guardian_id>')
+api.add_resource(MsgBoardListResource, '/msgBoard')
+api.add_resource(MsgBoardResource, '/msgBoard/<int:id>')
+api.add_resource(MsgBoardGuardianResource,
+                 '/msgBoard/guardian/<int:guardian_id>')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

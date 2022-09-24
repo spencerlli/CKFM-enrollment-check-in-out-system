@@ -99,13 +99,13 @@ class FamilyInfo(db.Model):
     checkbox = db.Column(db.Boolean)
 
 
-class MsgRecordSchema(ma.Schema):
+class MsgBoardSchema(ma.Schema):
     class Meta:
         fields = ('id', 'send_id', 'receive_id', 'content', 'time')
 
 
-class MsgRecord(db.Model):
-    __tablename__ = "msgRecord"
+class MsgBoard(db.Model):
+    __tablename__ = "msgBoard"
     id = db.Column(db.Integer, primary_key=True)
     send_id = db.Column(db.Integer)
     receive_id = db.Column(db.Integer)

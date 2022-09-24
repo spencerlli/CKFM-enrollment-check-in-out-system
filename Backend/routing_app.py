@@ -443,6 +443,10 @@ def firstTimeEnroll():
     else:
         return render_template('flask_templates/StudentEnrollment.html', msg=msg)
 
+@app.route('/msgBoardPage', methods=['GET'])
+def msgBoardPage():
+    return render_template('flask_templates/communication.html')
+
 
 @app.route('/msgBoard', methods=['GET', 'POST'])
 def msgBoard():
@@ -459,8 +463,8 @@ def msgBoard():
         fname, lname = guardian_json['fname'], guardian_json['lname']
         
         msg_show = []
-        msgRecords_json = requests.get(REST_API + '/msgRecord/guardian/%d' % guardian_id).json()
-        for msg in msgRecords_json:
+        msgBoard_json = requests.get(REST_API + '/msgBoard/guardian/%d' % guardian_id).json()
+        for msg in msgBoard_json:
             if msg['send_id'] == 0:
                 msg_show.append({'id': 0, 'fname': 'Admin', 'lname': None,
                                 'msg': msg['content'], 'timestamp': msg['time']})
@@ -473,46 +477,70 @@ def msgBoard():
     else:
         msg_json = {'send_id': guardian_id, 'receive_id': 0, 
                     'content': request.json['msg'], 'time': int(datetime.datetime.now().timestamp())}
-        requests.post(REST_API + '/msgRecord', json=msg_json)
-        # /msgRecord
+        requests.post(REST_API + '/msgBoard', json=msg_json)
+        # /msgBoard
         t["msg"] = "Successfully post message!"
 
     return jsonify(t)
 
 
-@app.route('/studentEnrollment', methods=['GET', 'POST'])
-def studentEnrollment():
-    return render_template('flask_enrollment/StudentEnrollment.html')
+@app.route('/studentBriefInfo', methods=['GET'])
+def studentBriefInfo():
+    res = deepcopy(AMIS_RES_TEMPLATE)
+    family_id = int(request.cookies.get('family_id'))
+    family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+    # filter repeat to be unique
+    student_id_set = set()
+    # list of json objects
+    student_info_list = []
+
+    for family in family_json:
+        if family['student_id'] not in student_id_set:  # filter repeat
+            student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
+            student_info_list.append({
+                'id': student_json['id'],
+                'fname': student_json['fname'],
+                'lname': student_json['lname']
+            })
+            student_id_set.add(family['student_id'])
+        
+    res['data']['items'] = student_info_list
+    return jsonify(res)
 
 
-@app.route('/enrollmentCheck', methods=['GET', 'POST'])
-def enrollmentCheck():
-    return render_template('flask_enrollment/CompleteEnrollmentCheck.html')
+# @app.route('/studentEnrollment', methods=['GET', 'POST'])
+# def studentEnrollment():
+#     return render_template('flask_enrollment/StudentEnrollment.html')
 
 
-@app.route('/checkInOut', methods=['GET', 'POST'])
-def checkInOut():
-    return render_template('flask_check_in_out/main.html')
+# @app.route('/enrollmentCheck', methods=['GET', 'POST'])
+# def enrollmentCheck():
+#     return render_template('flask_enrollment/CompleteEnrollmentCheck.html')
 
 
-@app.route('/checkIn2', methods=['GET', 'POST'])
-def checkIn2():
-    return render_template('flask_check_in_out/check_in2.html')
+# @app.route('/checkInOut', methods=['GET', 'POST'])
+# def checkInOut():
+#     return render_template('flask_check_in_out/main.html')
 
 
-@app.route('/checkInSuccess', methods=['GET', 'POST'])
-def checkInSuccess():
-    return render_template('flask_check_in_out/s_check_in.html')
+# @app.route('/checkIn2', methods=['GET', 'POST'])
+# def checkIn2():
+#     return render_template('flask_check_in_out/check_in2.html')
 
 
-@app.route('/checkOut2', methods=['GET', 'POST'])
-def checkOut2():
-    return render_template('flask_check_in_out/check_out2.html')
+# @app.route('/checkInSuccess', methods=['GET', 'POST'])
+# def checkInSuccess():
+#     return render_template('flask_check_in_out/s_check_in.html')
 
 
-@app.route('/checkOutSuccess', methods=['GET', 'POST'])
-def checkOutSuccess():
-    return render_template('flask_check_in_out/s_check_out.html')
+# @app.route('/checkOut2', methods=['GET', 'POST'])
+# def checkOut2():
+#     return render_template('flask_check_in_out/check_out2.html')
+
+
+# @app.route('/checkOutSuccess', methods=['GET', 'POST'])
+# def checkOutSuccess():
+#     return render_template('flask_check_in_out/s_check_out.html')
 
 
 def generate_random_str(randomLength=8):
