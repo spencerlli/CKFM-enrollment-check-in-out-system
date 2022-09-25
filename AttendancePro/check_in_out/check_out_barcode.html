@@ -2,12 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- 下列1行：注意替换页面对应名称 -->
     <title>Check Out</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <!-- 下列3行：需要注意填写对应href路径 -->
     <link rel="stylesheet" href="../sdk/sdk.css" />
     <link rel="stylesheet" href="../sdk/helper.css" />
     <link rel="stylesheet" href="../sdk/iconfont.css" />
@@ -25,87 +23,87 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <!-- 下列1行：需要注意填写对应路径 -->
     <script src=" ../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function() {
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
-          "body": [
-            {
-              "type": "form",
-              "title": "Check Out",
-              "autoFocus": true,
-              "submitText": "",
-              "api": "post:http://54.245.168.231:5002/checkOut",
-              "body": [
-                {
-                  "type": "input-text",
-                  "name": "barcode",
-                  "label": "Barcode",
-                  "mode": "horizontal",
-                  "clearable": true
-                }
-              ],
-              "horizontal": {
-                "justify": true
+          "body": {
+            "type": "wizard",
+            "steps": [
+              {
+                "title": "Scan Guardian's Barcode",
+                "autoFocus": true,
+                "api": "post:http://54.245.168.231:5002/checkOut",
+                "body": [
+                  {
+                    "type": "input-text",
+                    "name": "barcode",
+                    "label": "Guardian's Barcode",
+                    "clearable": true,
+                    "mode": "horizontal",
+                    "horizontal": {
+                      "justify": true
+                    }
+                  }
+                ]
               },
-              "onEvent": {
-                "submitSucc": {
-                  "actions": [
-                    {
-                      "actionType": "dialog",
-                      "dialog": {
-                        "title": "Success",
-                        "actions": [],
-                        "showCloseButton": false,
-                        "body": [
-                          {
-                            "type": "alert",
-                            "title": "Successfully Checked out!",
-                            "level": "success",
-                            "showIcon": true
-                          }
-                        ]
-                      }
+              {
+                "title": "Scan Student's Barcode",
+                "initApi": "http://54.245.168.231:5002/preCheckIn",
+                "body": {
+                  "type": "cards",
+                  "card": {
+                    "header": {
+                      "title": "${fname} ${lname}",
+                      "subTitle": "${CAPITALIZE(object)}",
+                      "avatarText": "${fname|first|upperCase}${lname|first|upperCase}"
                     },
-                    {
-                      "actionType": "custom",
-                      "script": "function reload() { location.reload(); }; setTimeout(reload, 2000);"
-                    }
-                  ]
-                },
-                "submitFail": {
-                  "actions": [
-                    {
-                      "actionType": "dialog",
-                      "dialog": {
-                        "title": "Failure",
-                        "showCloseButton": false,
-                        "body": [
-                          {
-                            "type": "alert",
-                            "title": "Failed to check out",
-                            "body": "Please instruct the family to complete pre-check out first and try it again.",
-                            "level": "danger",
-                            "showIcon": true
+                    "body": {
+                      "type": "form",
+                      "wrapWithPanel": false,
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "barcode",
+                          "label": "Student's Barcode",
+                          "clearable": true,
+                          "mode": "horizontal",
+                          "horizontal": {
+                            "justify": true
                           }
-                        ],
-                        "actions": [
-                          {
-                            "type": "button",
-                            "label": "OK",
-                            "actionType": "link"
-                          }
-                        ]
-                      }
+                        },
+                        {
+                          "type": "alert",
+                          "body": "Successfully Checked out!",
+                          "level": "success",
+                          "showIcon": true,
+                          "visibleOn": "typeof key !== 'undefined' && key === this.id"
+                        },
+                        {
+                          "type": "button",
+                          "label": "Submit",
+                          "level": "info",
+                          "actionType": "submit",
+                          "api": "post:http://54.245.168.231:5002/checkOut"
+                        }
+                      ]
                     }
-                  ]
+                  }
                 }
               }
+            ],
+            "onEvent": {
+              "finished": {
+                "actions": [
+                  {
+                    "actionType": "refresh"
+                  }
+                ]
+              }
             }
-          ]
+          }
         };
         let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();

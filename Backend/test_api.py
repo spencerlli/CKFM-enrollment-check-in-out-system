@@ -358,28 +358,29 @@ def preCheckOut():
     if request.method == 'GET':
         t["msg"] = "Successfully get guardians and students!"
         t["data"] = {
-            "guardian": [
+            "items": [
                 {
-                    "guardian_id": 1,
+                    "object": "guardian",
+                    "id": 1,
                     "fname": "changTest1",
-                    "lname": "liuTest1",
-                    "relationship": "Father"
+                    "lname": "liuTest1"
+
                 },
                 {
-                    "guardian_id": 2,
+                    "object": "guardian",
+                    "id": 2,
                     "fname": "changTest2",
-                    "lname": "liuTest2",
-                    "relationship": "Mother"
-                }
-            ],
-            "student": [
+                    "lname": "liuTest2"
+                },
                 {
-                    "student_id": 1,
+                    "object": "student",
+                    "id": 1,
                     "fname": "changJRTest1",
                     "lname": "liuJRTest1",
                 },
                 {
-                    "student_id": 2,
+                    "object": "student",
+                    "id": 2,
                     "fname": "changJRTest2",
                     "lname": "liuJRTest2",
                 }
