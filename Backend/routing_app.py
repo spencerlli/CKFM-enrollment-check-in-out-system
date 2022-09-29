@@ -412,27 +412,44 @@ def checkIn():
     return render_template('flask_templates/check_in.html')
 
 
-@app.route('/checkOut', methods=['GET', 'POST'])
+@app.route('/checkOutPage', methods=['GET'])
+def checkOutPage():
+    return render_template('flask_templates/check_out_barcode.html')
+
+
+@app.route('/checkOut', methods=['POST'])
 def checkOut():
     res = deepcopy(AMIS_RES_TEMPLATE)
-    barcode = ''
-    if request.method == 'POST':
-        barcode = request.json['barcode']
-        query_req = requests.get(REST_API + '/student/barcode/' + barcode)
-        if query_req.status_code == 404:
+    if len(request.json.keys()) == 1:
+        guardian_barcode = request.json.get('barcode')
+        guardian_query = requests.get(REST_API + '/guardian/barcode/' + guardian_barcode)
+        if guardian_query.status_code == 404:
             res['status'] = 1
             res['msg'] = "Barcode doesn't match!"
         else:
-            student_json = query_req.json()
+            guardian_id = guardian_query.json().get('id')
+            family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_id).json()[0].get('guardian_id')
+            expire_date = int((datetime.datetime.now() + datetime.timedelta(minutes=5)).timestamp())
+            res['msg'] = 'Verified guardian barcode!'
+            res = jsonify(res)
+            res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
+            return res
+    else:
+        student_barcode = request.json['barcode']
+        student_query = requests.get(REST_API + '/student/barcode/' + student_barcode)
+        if student_query.status_code == 404:
+            res['status'] = 1
+            res['msg'] = "Barcode doesn't match!"
+        else:
+            student_json = student_query.json()
             if student_json['check_out'] == 0:
                 res['status'] = 1
                 res['msg'] = "Student has not been pre-checked out!"
             else:
                 student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
-                requests.put(REST_API + 'student/%d' % student_json['id'], json=student_json)
+                requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
                 res['msg'] = "Successfully check out!"
-            return jsonify(res)
-    return render_template('flask_templates/check_out.html')
+    return jsonify(res)
 
 
 @app.route('/firstTimeEnroll', methods=['GET', 'POST'])
@@ -485,7 +502,8 @@ def msgBoard():
 
 
 @app.route('/studentBriefInfo', methods=['GET'])
-def studentBriefInfo():
+@app.route('/studentBriefInfo/checkInOut/<checkInOutFlag>', methods=['GET'])
+def studentBriefInfo(checkInOutFlag=None):
     res = deepcopy(AMIS_RES_TEMPLATE)
     family_id = int(request.cookies.get('family_id'))
     family_json = requests.get(REST_API + '/family/%d' % family_id).json()
@@ -497,6 +515,8 @@ def studentBriefInfo():
     for family in family_json:
         if family['student_id'] not in student_id_set:  # filter repeat
             student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
+            if checkInOutFlag == 'out' and student_json['check_out'] == 0:
+                continue
             student_info_list.append({
                 'id': student_json['id'],
                 'fname': student_json['fname'],
@@ -505,6 +525,15 @@ def studentBriefInfo():
             student_id_set.add(family['student_id'])
         
     res['data']['items'] = student_info_list
+    return jsonify(res)
+
+
+@app.route('/guardian/barcode', methods=['GET'])
+def guardianBarcode():
+    res = deepcopy(AMIS_RES_TEMPLATE)
+    guardian_id = int(request.cookies.get('guardian_id'))
+    guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
+    res['data']['barcode'] = guardian_json.get('barcode')
     return jsonify(res)
 
 

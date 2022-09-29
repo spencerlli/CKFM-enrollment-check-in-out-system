@@ -597,13 +597,15 @@ def checkIn():
     return jsonify(t)
 
 
-@app.route('/checkOut', methods=['POST'])
+@app.route('/checkOut', methods=['GET', 'POST'])
 def checkOut():
     t = {
         "status": 0,
         "msg": None,
         "data": None
     }
+    print(request.json)
+
     students = [
         {
             "fname": "changTest1",
@@ -628,6 +630,23 @@ def checkOut():
         else:
             t["status"] = 1
             t["msg"] = "Barcode doesn't match!"
+    else:
+        t["data"] = {
+            "items": [
+                {
+                    "id": 1,
+                    "fname": "changJRTest1",
+                    "lname": "liuJRTest1",
+                },
+                {
+                    "id": 2,
+                    "fname": "changJRTest2",
+                    "lname": "liuJRTest2",
+                }
+            ]
+        }
+        t["msg"] = "Successfully get pre-checked out students!"
+    print(t)
 
     return jsonify(t)
 
