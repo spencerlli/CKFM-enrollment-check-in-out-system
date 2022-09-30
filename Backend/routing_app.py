@@ -48,6 +48,7 @@ def login():
             pwd = request.json['pwd']
             guardian_json = requests.get(REST_API + '/guardian/phone/' + phone).json()
             if 'phone' in guardian_json.keys() and guardian_json['pwd'] == pwd:
+                res_json['data']['object'] = 'guardian'
                 res_json['msg'] = 'Logged in successfully!'
                 res = jsonify(res_json)
 
