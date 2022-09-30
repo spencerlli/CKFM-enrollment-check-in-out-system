@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- 下列1行：注意替换页面对应名称 -->
+  <title>CHECK OUT FAMILY INFORMATION</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <!-- 下列3行：需要注意填写对应href路径 -->
+  <link rel="stylesheet" href="../sdk/sdk.css" />
+  <link rel="stylesheet" href="../sdk/helper.css" />
+  <link rel="stylesheet" href="../sdk/iconfont.css" />
+  <style>
+    html,
+    body,
+    .app-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root" class="app-wrapper"></div>
+  <!-- 下列1行：需要注意填写对应路径 -->
+  <script src=" ../sdk/sdk.js"></script>
+  <script type="text/javascript">
+    (function() {
+      let amis = amisRequire('amis/embed');
+      // 通过替换amisJSON中的内容来生成不同页面
+      let amisJSON = {
+        "type": "page",
+  "title": "PRE CHECK OUT",
+  "body": [
+    {
+      "type": "form",
+      "title": "SELECT PICK UP PARENT",
+      "body": [
+        {
+          "type": "grid",
+          "columns": [
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "First Guardian",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "g1_name",
+                              "size": "",
+                              "value": "${g1.fname} ${g1.lname}"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
+                              "name": "relationship1",
+                              "mode": "",
+                              "value": "${g1.relationship}"
+                            }
+                          ],
+                          "md": 6,
+                        }
+                      ],
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox1",
+                      "actionType": "ajax",
+                      "api": {
+                          "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/preCheckOut",
+                          "data": {
+                            "guardian_id": "${g1.guardian_id}"
+                          }
+                        }
+                      }
+                  ]
+                }
+              ],
+              "md": 3,
+            },
+            {
+              "md": 3,
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Second Guardian",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "g2_name",
+                              "mode": "",
+                              "size": "",
+                              "value": "${g2.fname} ${g2.lname}"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
+                              "name": "relationship2",
+                              "mode": "",
+                              "value": "${g2.relationship}"
+                            }
+                          ],
+                          "md": 6,
+                        }
+                      ],
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox2",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/preCheckOut",
+                          "data": {
+                            "guardian_id": "${g2.guardian_id}"
+                          }
+              }
+                    }
+                  ]
+                }
+              ],
+            },
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Third Guardian",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "g3_name",
+                              "mode": "",
+                              "size": "",
+                              "value": "${g3.fname} ${g3.lname}"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
+                              "name": "relationship3",
+                              "mode": "",
+                              "value": "${g3.relationship}"
+                            }
+                          ],
+                          "md": 6,
+                        }
+                      ],
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox3",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/preCheckOut",
+                          "data": {
+                            "guardian_id": "${g3.guardian_id}"
+                          }
+              }
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+            }
+          ]
+        }
+      ],
+      "submitText": "",
+      "redirect": "",
+      "initApi": {
+        "method": "get",
+        "url": "http://54.245.168.231:5002/preCheckOut",
+        "responseData": {
+          "g1": "${guardian|first}",
+          "g2": "${guardian|nth:1}",
+          "g3": "${guardian|nth:2}"
+        }
+      }
+    },
+    {
+      "type": "form",
+      "title": "SELECT PICK UP CHILD",
+      "body": [
+        {
+          "type": "grid",
+          "columns": [
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "First Student",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "s1_name",
+                              "mode": "",
+                              "size": "",
+                              "value": "${s1.fname} ${s1.lname}"
+                            }
+                          ],
+                          "md": 6,
+                        }
+                      ],
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox1",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/preCheckOut",
+                          "data": {
+                            "student_id": "${s1.student_id}"
+                          }
+              }
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+            },
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Second Student",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "s2_name",
+                              "mode": "",
+                              "size": "",
+                              "value": "${s2.fname} ${s2.lname}"
+                            }
+                          ],
+                          "md": 6,
+                        }
+                      ],
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox2",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/preCheckOut",
+                          "data": {
+                            "student_id": "${s2.student_id}"
+                          }
+              }
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+            },
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Third Student",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "s3_name",
+                              "mode": "",
+                              "size": "",
+                              "value": "${s3.fname} ${s3.lname}"
+                            }
+                          ],
+                          "md": 6,
+                        }
+                      ],
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox3",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/preCheckOut",
+                          "data": {
+                            "student_id": "${s3.student_id}"
+                          }
+              }
+                    }
+                  ]
+                }
+              ],
+              "md": 3,
+            },
+            {
+              "body": [
+                {
+                  "type": "panel",
+                  "title": "Fourth Student",
+                  "body": [
+                    {
+                      "type": "grid",
+                      "columns": [
+                        {
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "Name:",
+                              "name": "s4_name",
+                              "mode": "",
+                              "size": "",
+                              "value": "${s4.fname} ${s4.lname}"
+                            }
+                          ],
+                          "md": 6,
+                        }
+                      ],
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "button",
+                      "label": "Pick Up",
+                      "name": "checkbox4",
+                      "actionType": "ajax",
+                      "api": {
+                        "method": "post",
+                          "convertKeyToPath": false,
+                          "url": "http://54.245.168.231:5002/preCheckOut",
+                          "data": {
+                            "student_id": "${s4.student_id}"
+                          }
+              }
+                    }
+                  ]
+                }
+              ],
+              "md": "",
+            }
+          ]
+        }
+      ],
+      "submitText": "PRE CHECK IN",
+      "redirect": "s_check_in.html",
+      "initApi": {
+        "method": "get",
+        "url": "http://54.245.168.231:5002/preCheckOut",
+        "responseData": {
+          "s1": "${student|first}",
+          "s2": "${student|nth:1}",
+          "s3": "${student|nth:2}",
+          "s4": "${student|nth:3}"
+        }
+      }
+    }
+  ]
+      };
+      let amisScoped = amis.embed('#root', amisJSON);
+    })();
+  </script>
+</body>
+
+</html>

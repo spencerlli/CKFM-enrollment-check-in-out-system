@@ -38,15 +38,8 @@
         "toolbar": [
           {
             "type": "button",
-            "label": "Sign in",
-            "level": "link",
-            "hiddenOn": "1"
-          },
-          {
-            "type": "button",
             "label": "Sign out/退出账号",
             "level": "link",
-            "hiddenOn": "",
             "onEvent": {
               "click": {
                 "actions": [
@@ -57,6 +50,13 @@
                         "method": "post",
                         "url": "http://54.245.168.231:5002/logout"
                       }
+                    }
+                  },
+                  {
+                    "actionType": "link",
+                    "expression": "event.data.responseResult.responseStatus === 0",
+                    "args": {
+                      "link": "./sign_in.html"
                     }
                   }
                 ]

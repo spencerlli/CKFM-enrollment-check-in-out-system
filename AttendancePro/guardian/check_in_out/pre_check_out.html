@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Pre-check in</title>
+    <title>Pre-check out</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta
       name="viewport"
@@ -38,7 +38,7 @@
           "type": "page",
           "body": {
             "type": "crud",
-            "api": "http://54.245.168.231:5002/preCheckIn",
+            "api": "http://54.245.168.231:5002/preCheckOut",
             "mode": "cards",
             "card": {
               "header": {
@@ -47,12 +47,12 @@
                 "avatarText": "${fname|first|upperCase}${lname|first|upperCase}"
               }
             },
-            "headerToolbar": ["*Note: Please select only one guardian and at least one student to pre-check in."],
+            "headerToolbar": ["*Note: Please select only one guardian and at least one student to pre-check out."],
             "footerToolbar": ["bulkActions"],
             "bulkActions": [
               {
                 "type": "button",
-                "label": "Pre-check in",
+                "label": "Pre-check out",
                 "level": "primary",
                 "disabledOn": "this.selectedItems.filter(item => item.object === 'guardian').length != 1 || !this.selectedItems.some(item => item.object === 'student')",
                 "onEvent": {
@@ -63,7 +63,7 @@
                         "args": {
                           "api": {
                             "method": "post",
-                            "url": "http://54.245.168.231:5002/preCheckIn",
+                            "url": "http://54.245.168.231:5002/preCheckOut",
                             "data": {
                               "items": "${selectedItems}"
                             }
@@ -82,7 +82,7 @@
                               "title": "Thank You!",
                               "level": "success",
                               "showIcon": true,
-                              "body": "You have successfully pre-checked in."
+                              "body": "You have successfully pre-checked out. A barcode has been generated for the following check-out. Please show it to front desk by clicking the button on the main menu."
                             }
                           ],
                           "actions": [
@@ -90,7 +90,7 @@
                               "type": "button",
                               "label": "OK",
                               "actionType": "link",
-                              "link": "../check_in_out/index.html",
+                              "link": "../sign_in/guardian_index.html",
                               "primary": true
                             }
                           ]
@@ -105,7 +105,7 @@
                           "body": [
                             {
                               "type": "alert",
-                              "title": "Failed to pre-check in!",
+                              "title": "Failed to pre-check out!",
                               "body": "Please try again later.",
                               "level": "danger",
                               "showIcon": true
@@ -116,7 +116,7 @@
                               "type": "button",
                               "label": "OK",
                               "actionType": "link",
-                              "link": "../check_in_out/index.html",
+                              "link": "../sign_in/guardian_index.html",
                               "primary": true
                             }
                           ]

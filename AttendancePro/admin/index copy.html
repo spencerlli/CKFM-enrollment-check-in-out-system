@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Guardian's Main Menu</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="../sdk/sdk.css" />
+    <link rel="stylesheet" href="../sdk/helper.css" />
+    <link rel="stylesheet" href="../sdk/iconfont.css" />
+    <style>
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src=" ../sdk/sdk.js"></script>
+    <script type="text/javascript">
+      (function () {
+        let amis = amisRequire('amis/embed');
+        let amisJSON = {
+          "type": "page",
+          "title": "Main Menu",
+          "style": {
+            "fontFamily": "Times New Roman"
+          },
+          "toolbar": [
+            {
+              "type": "button",
+              "label": "Sign out/退出账号",
+              "level": "link",
+              "onEvent": {
+                "click": {
+                  "actions": [
+                    {
+                      "actionType": "ajax",
+                      "args": {
+                        "api": {
+                          "method": "post",
+                          "url": "http://54.245.168.231:5002/logout"
+                        }
+                      }
+                    },
+                    {
+                      "actionType": "link",
+                      "expression": "event.data.responseResult.responseStatus === 0",
+                      "args": {
+                        "link": "../sign_in.html"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "body": [
+            {
+              "type": "grid",
+              "columns": [
+                {
+                  "body": [
+                    {
+                      "type": "button",
+                      "label": "Enrollment / 注册",
+                      "actionType": "link",
+                      "link": "../enrollment/form.html",
+                      "size": "lg",
+                      "block": true,
+                      "level": "light"
+                    },
+                    {
+                      "type": "button",
+                      "label": "Enrollment Management / 更新注册信息",
+                      "actionType": "link",
+                      "size": "lg",
+                      "link": "../enrollment/management.html",
+                      "block": true
+                    },
+                    {
+                      "type": "button",
+                      "label": "View Check in&out Log / 查看登记日志",
+                      "actionType": "link",
+                      "link": "../admin/test_log.html",
+                      "size": "lg",
+                      "block": true,
+                      "level": "light"
+                    },
+                    {
+                      "type": "button",
+                      "label": "Input Daily Progress / 输入每日进展",
+                      "actionType": "link",
+                      "dialog": {
+                        "title": "系统提示",
+                        "body": "对你点击了"
+                      },
+                      "size": "lg",
+                      "link": "",
+                      "block": true
+                    }
+                  ]
+                },
+                {
+                  "body": [
+                    {
+                      "type": "button",
+                      "label": "Communication / 留言",
+                      "actionType": "link",
+                      "dialog": {
+                        "title": "系统提示",
+                        "body": "对你点击了"
+                      },
+                      "id": "u:9af5fa121549",
+                      "link": "",
+                      "size": "lg",
+                      "block": true
+                    },
+                    {
+                      "type": "button",
+                      "label": "Customize / 自定义",
+                      "actionType": "link",
+                      "dialog": {
+                        "title": "系统提示",
+                        "body": "对你点击了"
+                      },
+                      "size": "lg",
+                      "link": "",
+                      "block": true,
+                      "level": "light"
+                    },
+                    {
+                      "type": "button",
+                      "label": "Get Attendance Report / 出勤记录",
+                      "actionType": "link",
+                      "dialog": {
+                        "title": "系统提示",
+                        "body": "对你点击了"
+                      },
+                      "link": "",
+                      "size": "lg",
+                      "block": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        };
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
+      })();
+    </script>
+  </body>
+</html>
