@@ -120,5 +120,28 @@ class MsgBoard(db.Model):
 # )
 
 
+class TeacherSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'pwd', 'fname', 'lname', 'phone', 'email', 'classes')
+
+
+class Teacher(db.Model):
+    __tablename__ = "teacher"
+    id = db.Column(db.Integer, primary_key=True)
+    pwd = db.Column(db.String(256))
+    fname = db.Column(db.String(256))
+    lname = db.Column(db.String(256))
+    phone = db.Column(db.String(256), unique=True)
+    email = db.Column(db.String(256), unique=True)
+    classes = db.Column(db.String(256))
+
+
+# classes = db.Table('classes',
+#     db.Column('id', db.String(256), primary_key=True),
+#     db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id'), primary_key=True),
+#     db.Column('student_id', db.Integer, db.ForeignKey('student.id'), primary_key=True),
+# )
+
+
 if __name__ == '__main__':
     db.create_all()

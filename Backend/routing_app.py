@@ -448,6 +448,7 @@ def checkOut():
             else:
                 student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
                 requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+                res['data']['key'] = student_json['id']
                 res['msg'] = "Successfully check out!"
     return jsonify(res)
 
@@ -472,7 +473,6 @@ def msgBoard():
         "msg": None,
         "data": None
     }
-    # guardian_id = request.cookies.get('guardian_id')
     guardian_id = 1
     
     if request.method == 'GET':
@@ -492,7 +492,7 @@ def msgBoard():
         t['data'] = {'items': msg_show}
         t["msg"] = "Successfully get historical messages!"
     else:
-        msg_json = {'send_id': guardian_id, 'receive_id': 0, 
+        msg_json = {'send_id': guardian_id, 'receive_id': 0,
                     'content': request.json['msg'], 'time': int(datetime.datetime.now().timestamp())}
         requests.post(REST_API + '/msgBoard', json=msg_json)
         # /msgBoard
