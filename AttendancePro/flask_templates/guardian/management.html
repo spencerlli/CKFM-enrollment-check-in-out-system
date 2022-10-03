@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Enrollment Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="../../sdk/sdk.css" />
+    <link rel="stylesheet" href="../../sdk/helper.css" />
+    <link rel="stylesheet" href="../../sdk/iconfont.css" />
+    <style>
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src=" ../../sdk/sdk.js"></script>
+    <script type="text/javascript">
+      (function () {
+        let amis = amisRequire('amis/embed');
+        let amisJSON = {
+          "type": "page",
+          "body": {
+            "type": "crud",
+            "api": "http://54.245.168.231:5002/userManage",
+            "mode": "cards",
+            "card": {
+              "header": {
+                "title": "${fname|default:'Family Information'} ${lname}",
+                "subTitle": "${CAPITALIZE(object)}",
+                "avatarText": "${fname|first|upperCase}${lname|first|upperCase}"
+              },
+              "actions": [
+                {
+                  "type": "button",
+                  "label": "Edit",
+                  "icon": "fa fa-pencil",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "Edit ${CAPITALIZE(object)}",
+                    "body": {
+                      "type": "form",
+                      "api": "put:http://54.245.168.231:5002/userManage/${object}/${id}",
+                      "body": [
+                        {
+                          "type": "collapse-group",
+                          "visibleOn": "this.object == 'familyInfo'",
+                          "activeKey": "1",
+                          "body": [
+                            {
+                              "type": "collapse",
+                              "key": "1",
+                              "header": "Home Address",
+                              "body": [
+                                {
+                                  "type": "input-text",
+                                  "label": "Street:",
+                                  "name": "street",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "City:",
+                                  "name": "city",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "State:",
+                                  "name": "state",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Zip Code:",
+                                  "name": "zip",
+                                  "labelClassName": "text-xs"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "collapse",
+                              "key": "2",
+                              "header": "Insurance",
+                              "body": [
+                                {
+                                  "type": "input-text",
+                                  "label": "PRIMARY FAMILY PHYSICIAN 家庭醫生名字",
+                                  "name": "physician",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "PHYSICIAN PHONE 醫生電話",
+                                  "name": "physician_phone",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "NAME OF MEDICAL INSURANCE 醫療保險公司",
+                                  "name": "insurance",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "INSURANCE PHONE 保險公司電話",
+                                  "name": "insurance_phone",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "MEDICAL INSURANCE POLICY 保單號碼 #",
+                                  "name": "insurance_policy",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "GROUP #",
+                                  "name": "group",
+                                  "labelClassName": "text-xs"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "collapse",
+                              "key": "3",
+                              "header": "*Volunteer",
+                              "body": [
+                                {
+                                  "type": "tpl",
+                                  "tpl": "<p><span style=\"background-color: #ecf0f1; font-size: 7pt;\"><strong><em>*Mandatory 3 months per family per year / </em></strong>每家庭每年有义务作义工服务三个月&nbsp;</span></p>\n<p><span style=\"background-color: #ecf0f1; font-size: 7pt;\"><strong><em>*Parents, be sure to add yourselves in &ldquo;ICCCC Parents&rdquo; WeChat Group for further communication / &nbsp;</em></strong>家长们，请务必加入&ldquo;<strong><em>ICCCC </em></strong>家长&rdquo;微信群以便沟通&nbsp;&nbsp;</span></p>"
+                                },
+                                {
+                                  "type": "tpl",
+                                  "tpl": "<p><span style=\"font-size: 8pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\"><span style=\"color: #e03e2d;\">*</span>Sunday School</span> </strong><strong>主日学</strong></span></p>"
+                                },
+                                {
+                                  "type": "checkboxes",
+                                  "name": "sunday",
+                                  "required": true,
+                                  "joinValues": true,
+                                  "inputClassName": "text-xs",
+                                  "options": [
+                                    {
+                                      "label": "Welcome Table 前台接待",
+                                      "value": "table"
+                                    },
+                                    {
+                                      "label": "Class Teacher 教师",
+                                      "value": "teacher"
+                                    },
+                                    {
+                                      "label": "Class Assistant 助教",
+                                      "value": "assistant"
+                                    },
+                                    {
+                                      "label": "Yard Supervisor 操场监督",
+                                      "value": "supervisor"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "tpl",
+                                  "tpl": "<p><span style=\"font-size: 8pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\"><span style=\"color: #e03e2d;\">*</span>Friday Night</span>&nbsp;&nbsp;</strong><strong>周五晚</strong></span></p>"
+                                },
+                                {
+                                  "type": "checkboxes",
+                                  "name": "friday",
+                                  "required": true,
+                                  "joinValues": true,
+                                  "inputClassName": "text-xs",
+                                  "options": [
+                                    {
+                                      "label": "Welcome Table 前台接待",
+                                      "value": "table"
+                                    },
+                                    {
+                                      "label": "Regular Snacks 平时点心",
+                                      "value": "snack"
+                                    },
+                                    {
+                                      "label": "Club Teacher 教师",
+                                      "value": "teacher"
+                                    },
+                                    {
+                                      "label": "Club Assistant 助教",
+                                      "value": "assistant"
+                                    },
+                                    {
+                                      "label": "Game Leader 游戏领导者",
+                                      "value": "leader"
+                                    },
+                                    {
+                                      "label": "Bible Store 圣经商店",
+                                      "value": "store"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "tpl",
+                                  "tpl": "<p><strong><span style=\"font-size: 8pt;\"><span style=\"font-family: 'times new roman', times, serif;\">Special Events</span> 特别活动&nbsp;</span></strong></p>\n<p style=\"text-align: left;\"><span style=\"font-size: 8pt;\">(<strong><span style=\"font-size: 8pt; font-family: 'times new roman', times, serif;\">4 days count as one month of service/ 4</span> </strong>天计为一个月的服务）</span></p>"
+                                },
+                                {
+                                  "type": "checkboxes",
+                                  "name": "special",
+                                  "joinValues": true,
+                                  "inputClassName": "text-xs",
+                                  "options": [
+                                    {
+                                      "label": "Sat. – Church Picnic 野餐",
+                                      "value": "picnic"
+                                    },
+                                    {
+                                      "label": "Sat. – Evangelical Weekend 布道会-周六",
+                                      "value": "evangelical"
+                                    },
+                                    {
+                                      "label": "10/31/22 Mon. – Harvest 丰收节",
+                                      "value": "harvest"
+                                    },
+                                    {
+                                      "label": "Fri. – Christmas Musical 圣诞音乐剧",
+                                      "value": "christmas"
+                                    },
+                                    {
+                                      "label": "Fri.-- Chinese New Year 春节特别 节目",
+                                      "value": "chinese"
+                                    },
+                                    {
+                                      "label": "Sat. --  Mission Week 宣教周- 周六",
+                                      "value": "mission"
+                                    },
+                                    {
+                                      "label": "Sat. – Pray and Plan",
+                                      "value": "pray"
+                                    },
+                                    {
+                                      "label": "Summer, Fri. – Sun. Church Retreat 退休会",
+                                      "value": "retreat"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]  
+                        },
+                        {
+                          "type": "collapse",
+                          "header": "*Basic information",
+                          "visibleOn": "this.object == 'guardian'",
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "First Name:",
+                              "name": "fname",
+                              "required": true,
+                              "labelClassName": "text-xs"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Last Name:",
+                              "name": "lname",
+                              "required": true,
+                              "labelClassName": "text-xs"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Phone Number:",
+                              "name": "phone",
+                              "labelClassName": "text-xs"
+                            },
+                            {
+                              "type": "input-email",
+                              "label": "Email Address:",
+                              "name": "email",
+                              "labelClassName": "text-xs",
+                              "validations": {
+                                "isEmail": true
+                              },
+                              "validationErrors": {
+                                "isEmail": "Invalid email address"
+                              }
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
+                              "name": "relationship",
+                              "labelClassName": "text-xs",
+                              "required": false
+                            },
+                            {
+                              "type": "select",
+                              "label": "Preferred Check-in/out Method",
+                              "name": "check_in_method",
+                              "value": "barcode",
+                              "required": true,
+                              "multiple": false,
+                              "labelClassName": "text-xs",
+                              "options": [
+                                // {
+                                //   "label": "Face ID",
+                                //   "value": "face"
+                                // },
+                                {
+                                  "label": "Barcode",
+                                  "value": "barcode"
+                                }
+                              ]
+                            }     
+                          ]
+                        },
+                        {
+                          "type": "collapse-group",
+                          "visibleOn": "this.object == 'student'",
+                          "activeKey": "1",
+                          "body": [
+                            {
+                              "type": "collapse",
+                              "key": "1",
+                              "header": "*Basic information",
+                              "body": [
+                                {
+                                  "type": "input-text",
+                                  "label": "First Name:",
+                                  "name": "fname",
+                                  "required": true,
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Last Name:",
+                                  "name": "lname",
+                                  "required": true,
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-date",
+                                  "label": "Date of Birth:",
+                                  "name": "birthdate",
+                                  "labelClassName": "text-xs",
+                                  "placeholder": "",
+                                  "embed": false
+                                },
+                                {
+                                  "type": "select",
+                                  "label": "Gender:",
+                                  "name": "gender",
+                                  "labelClassName": "text-xs",
+                                  "placeholder": "",
+                                  "options": [
+                                    {
+                                      "label": "Male",
+                                      "value": "male"
+                                    },
+                                    {
+                                      "label": "Female",
+                                      "value": "female"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Grade:",
+                                  "name": "grade",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "input-text",
+                                  "label": "Allergies",
+                                  "name": "allergies",
+                                  "labelClassName": "text-xs"
+                                },
+                                {
+                                  "type": "select",
+                                  "label": "Preferred Check-in/out Method",
+                                  "name": "check_in_method",
+                                  "value": "barcode",
+                                  "required": true,
+                                  "multiple": false,
+                                  "labelClassName": "text-xs",
+                                  "options": [
+                                    // {
+                                    //   "label": "Face ID",
+                                    //   "value": "face"
+                                    // },
+                                    {
+                                      "label": "Barcode",
+                                      "value": "barcode"
+                                    }
+                                  ]
+                                }
+                              ]
+                          },
+                          {
+                            "type": "collapse",
+                            "key": "2",
+                            "header": "Program",
+                            "body": [
+                              {
+                              "type": "matrix-checkboxes",
+                              "name": "program",
+                              "multiple": true,
+                              "columns": [
+                                {
+                                  "label": "check"
+                                }
+                              ],
+                              "rows": [
+                                {
+                                  "label": "SUNDAY SCHOOL 主日學 (18 months old – 6th grade) 10:00 AM – 11:30 AM Fee/ 免费"
+                                },
+                                {
+                                  "label": "CM Parent and Child Lounge  中文堂家长和幼儿休息室 (新生兒 - 18個月大) July 2022 – June 2023 *Available on Sundays & Special events *主日和特別活動開放時可用"
+                                },
+                                {
+                                  "label": "CANAAN KID’S CHOIR/ART 迦南兒童合唱團/ 美术班 (Kindergarten – 6th grade)  July 2022 – June. 2023 (Sunday 11:30 AM – 12:30 PM) Fee Required Program/ 需繳费活動: □ Early Bird / 1st Time Registration  $45  (June 2022 / 於6月間註冊) □ Regular Registration $60.00 August – Jan/於8-1月間註冊) □ Late Registration $30.00 (Feb – June /於2-6月間註冊)"
+                                },
+                                {
+                                  "label": "U3 Friday Night (18 月大 – 3 歲)  Sept. 2021 – June 2022 周五晚7:30 PM – 9:30 PM *Class availability determines upon number of registrants *根據註冊人數決定是否開班"
+                                },
+                                {
+                                  "label": "Friday Night CKFM Parent and Child Lounge  周五晚家长和幼儿休息室 (新生兒 - 18個月大) July 2022 – June 2023 7:30 PM – 9:30 PM"
+                                },
+                                {
+                                  "label": "Friday Night   周五晚 (Preschool – 6th grades) July 2022 – June 2023  Friday 7:30 PM – 9:30 PM  Fee Required Program/需繳费活動  □ Early Bird / 1st Time Registration  $90  (June 2022) / 於6月份時註冊 □ Regular Registration $120.00 (July 2022 – Dec. 2022) 於7月至12月間註冊 □ Late Registration $60.00 (Jan. 2023 – June 2023) 於2023年1月至6月間註冊"
+                                }
+                              ]
+                            }
+                            ]
+                          }
+                        ]
+                      } 
+                      ]
+                    }
+                  }
+                },
+                {
+                  "actionType": "ajax",
+                  "label": "Delete",
+                  "icon": "fa fa-trash",
+                  "confirmText": "Do you want to delete all the data of ${fname|default:'Family Information'} ${lname}?",
+                  "api": "delete:http://54.245.168.231:5002/userManage/${object}/${id}"
+                }
+              ]
+            },
+            "headerToolbar": [
+                {
+                  "type": "button",
+                  "label": "Add Family Information",
+                  "level": "info",
+                  "disabledOn": "items.some(person => person.object == 'familyInfo')",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "Add Family Information",
+                    "body": {
+                      "type": "form",
+                      "api": "post:http://54.245.168.231:5002/userManage/familyInfo",
+                      "body": {
+                        "type": "collapse-group",
+                        "activeKey": "1",
+                        "body": [
+                          {
+                            "type": "collapse",
+                            "key": "1",
+                            "header": "Home Address",
+                            "body": [
+                              {
+                                "type": "input-text",
+                                "label": "Street:",
+                                "name": "street",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "City:",
+                                "name": "city",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "State:",
+                                "name": "state",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "Zip Code:",
+                                "name": "zip",
+                                "labelClassName": "text-xs"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "collapse",
+                            "key": "2",
+                            "header": "Insurance",
+                            "body": [
+                              {
+                                "type": "input-text",
+                                "label": "PRIMARY FAMILY PHYSICIAN 家庭醫生名字",
+                                "name": "physician",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "PHYSICIAN PHONE 醫生電話",
+                                "name": "physician_phone",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "NAME OF MEDICAL INSURANCE 醫療保險公司",
+                                "name": "insurance",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "INSURANCE PHONE 保險公司電話",
+                                "name": "insurance_phone",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "MEDICAL INSURANCE POLICY 保單號碼 #",
+                                "name": "insurance_policy",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "GROUP #",
+                                "name": "group",
+                                "labelClassName": "text-xs"
+                              }
+                            ]
+                          },
+                          {
+                          "type": "collapse",
+                          "key": "3",
+                          "header": "*Volunteer",
+                          "body": [
+                            {
+                              "type": "tpl",
+                              "tpl": "<p><span style=\"background-color: #ecf0f1; font-size: 7pt;\"><strong><em>*Mandatory 3 months per family per year / </em></strong>每家庭每年有义务作义工服务三个月&nbsp;</span></p>\n<p><span style=\"background-color: #ecf0f1; font-size: 7pt;\"><strong><em>*Parents, be sure to add yourselves in &ldquo;ICCCC Parents&rdquo; WeChat Group for further communication / &nbsp;</em></strong>家长们，请务必加入&ldquo;<strong><em>ICCCC </em></strong>家长&rdquo;微信群以便沟通&nbsp;&nbsp;</span></p>"
+                            },
+                            {
+                              "type": "tpl",
+                              "tpl": "<p><span style=\"font-size: 8pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\"><span style=\"color: #e03e2d;\">*</span>Sunday School</span> </strong><strong>主日学</strong></span></p>"
+                            },
+                            {
+                              "type": "checkboxes",
+                              "name": "sunday",
+                              "required": true,
+                              "joinValues": true,
+                              "inputClassName": "text-xs",
+                              "options": [
+                                {
+                                  "label": "Welcome Table 前台接待",
+                                  "value": "table"
+                                },
+                                {
+                                  "label": "Class Teacher 教师",
+                                  "value": "teacher"
+                                },
+                                {
+                                  "label": "Class Assistant 助教",
+                                  "value": "assistant"
+                                },
+                                {
+                                  "label": "Yard Supervisor 操场监督",
+                                  "value": "supervisor"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "tpl",
+                              "tpl": "<p><span style=\"font-size: 8pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\"><span style=\"color: #e03e2d;\">*</span>Friday Night</span>&nbsp;&nbsp;</strong><strong>周五晚</strong></span></p>"
+                            },
+                            {
+                              "type": "checkboxes",
+                              "name": "friday",
+                              "required": true,
+                              "joinValues": true,
+                              "inputClassName": "text-xs",
+                              "options": [
+                                {
+                                  "label": "Welcome Table 前台接待",
+                                  "value": "table"
+                                },
+                                {
+                                  "label": "Regular Snacks 平时点心",
+                                  "value": "snack"
+                                },
+                                {
+                                  "label": "Club Teacher 教师",
+                                  "value": "teacher"
+                                },
+                                {
+                                  "label": "Club Assistant 助教",
+                                  "value": "assistant"
+                                },
+                                {
+                                  "label": "Game Leader 游戏领导者",
+                                  "value": "leader"
+                                },
+                                {
+                                  "label": "Bible Store 圣经商店",
+                                  "value": "store"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "tpl",
+                              "tpl": "<p><strong><span style=\"font-size: 8pt;\"><span style=\"font-family: 'times new roman', times, serif;\">Special Events</span> 特别活动&nbsp;</span></strong></p>\n<p style=\"text-align: left;\"><span style=\"font-size: 8pt;\">(<strong><span style=\"font-size: 8pt; font-family: 'times new roman', times, serif;\">4 days count as one month of service/ 4</span> </strong>天计为一个月的服务）</span></p>"
+                            },
+                            {
+                              "type": "checkboxes",
+                              "name": "special",
+                              "joinValues": true,
+                              "inputClassName": "text-xs",
+                              "options": [
+                                {
+                                  "label": "Sat. – Church Picnic 野餐",
+                                  "value": "picnic"
+                                },
+                                {
+                                  "label": "Sat. – Evangelical Weekend 布道会-周六",
+                                  "value": "evangelical"
+                                },
+                                {
+                                  "label": "10/31/22 Mon. – Harvest 丰收节",
+                                  "value": "harvest"
+                                },
+                                {
+                                  "label": "Fri. – Christmas Musical 圣诞音乐剧",
+                                  "value": "christmas"
+                                },
+                                {
+                                  "label": "Fri.-- Chinese New Year 春节特别 节目",
+                                  "value": "chinese"
+                                },
+                                {
+                                  "label": "Sat. --  Mission Week 宣教周- 周六",
+                                  "value": "mission"
+                                },
+                                {
+                                  "label": "Sat. – Pray and Plan",
+                                  "value": "pray"
+                                },
+                                {
+                                  "label": "Summer, Fri. – Sun. Church Retreat 退休会",
+                                  "value": "retreat"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "Add Guardian",
+                  "level": "info",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "Add Guardian",
+                    "body": {
+                      "type": "form",
+                      "api": "post:http://54.245.168.231:5002/userManage/guardian",
+                      "body": [
+                        {
+                          "type": "collapse",
+                          "header": "*Basic information",
+                          "body": [
+                            {
+                              "type": "input-text",
+                              "label": "First Name:",
+                              "name": "fname",
+                              "required": true,
+                              "labelClassName": "text-xs"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Last Name:",
+                              "name": "lname",
+                              "required": true,
+                              "labelClassName": "text-xs"
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Phone Number:",
+                              "name": "phone",
+                              "labelClassName": "text-xs"
+                            },
+                            {
+                              "type": "input-email",
+                              "label": "Email Address:",
+                              "name": "email",
+                              "labelClassName": "text-xs",
+                              "validations": {
+                                "isEmail": true
+                              },
+                              "validationErrors": {
+                                "isEmail": "Invalid email address"
+                              }
+                            },
+                            {
+                              "type": "input-text",
+                              "label": "Relationship to Student:",
+                              "name": "relationship",
+                              "labelClassName": "text-xs",
+                              "required": false
+                            },
+                            {
+                              "type": "select",
+                              "label": "Preferred Check-in/out Method",
+                              "name": "check_in_method",
+                              "value": "barcode",
+                              "required": true,
+                              "multiple": false,
+                              "labelClassName": "text-xs",
+                              "options": [
+                                // {
+                                //   "label": "Face ID",
+                                //   "value": "face"
+                                // },
+                                {
+                                  "label": "Barcode",
+                                  "value": "barcode"
+                                }
+                              ]
+                            }     
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "Add Student",
+                  "level": "info",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "Add Student",
+                    "body": {
+                      "type": "form",
+                      "api": "post:http://54.245.168.231:5002/userManage/student",
+                      "body": {
+                        "type": "collapse-group",
+                        "activeKey": "1",
+                        "body": [
+                          {
+                            "type": "collapse",
+                            "key": "1",
+                            "header": "*Basic information",
+                            "body": [
+                              {
+                                "type": "input-text",
+                                "label": "First Name:",
+                                "name": "fname",
+                                "required": true,
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "Last Name:",
+                                "name": "lname",
+                                "required": true,
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-date",
+                                "label": "Date of Birth:",
+                                "name": "birthdate",
+                                "labelClassName": "text-xs",
+                                "placeholder": "",
+                                "embed": false
+                              },
+                              {
+                                "type": "select",
+                                "label": "Gender:",
+                                "name": "gender",
+                                "labelClassName": "text-xs",
+                                "placeholder": "",
+                                "options": [
+                                  {
+                                    "label": "Male",
+                                    "value": "male"
+                                  },
+                                  {
+                                    "label": "Female",
+                                    "value": "female"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "Grade:",
+                                "name": "grade",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "input-text",
+                                "label": "Allergies",
+                                "name": "allergies",
+                                "labelClassName": "text-xs"
+                              },
+                              {
+                                "type": "select",
+                                "label": "Preferred Check-in/out Method",
+                                "name": "check_in_method",
+                                "value": "barcode",
+                                "required": true,
+                                "multiple": false,
+                                "labelClassName": "text-xs",
+                                "options": [
+                                  // {
+                                  //   "label": "Face ID",
+                                  //   "value": "face"
+                                  // },
+                                  {
+                                    "label": "Barcode",
+                                    "value": "barcode"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                          "type": "collapse",
+                          "key": "2",
+                          "header": "Program",
+                          "body": [
+                            {
+                              "type": "matrix-checkboxes",
+                              "name": "program",
+                              "multiple": true,
+                              "columns": [
+                                {
+                                  "label": "check"
+                                }
+                              ],
+                              "rows": [
+                                {
+                                  "label": "SUNDAY SCHOOL 主日學 (18 months old – 6th grade) 10:00 AM – 11:30 AM Fee/ 免费"
+                                },
+                                {
+                                  "label": "CM Parent and Child Lounge  中文堂家长和幼儿休息室 (新生兒 - 18個月大) July 2022 – June 2023 *Available on Sundays & Special events *主日和特別活動開放時可用"
+                                },
+                                {
+                                  "label": "CANAAN KID’S CHOIR/ART 迦南兒童合唱團/ 美术班 (Kindergarten – 6th grade)  July 2022 – June. 2023 (Sunday 11:30 AM – 12:30 PM) Fee Required Program/ 需繳费活動: □ Early Bird / 1st Time Registration  $45  (June 2022 / 於6月間註冊) □ Regular Registration $60.00 August – Jan/於8-1月間註冊) □ Late Registration $30.00 (Feb – June /於2-6月間註冊)"
+                                },
+                                {
+                                  "label": "U3 Friday Night (18 月大 – 3 歲)  Sept. 2021 – June 2022 周五晚7:30 PM – 9:30 PM *Class availability determines upon number of registrants *根據註冊人數決定是否開班"
+                                },
+                                {
+                                  "label": "Friday Night CKFM Parent and Child Lounge  周五晚家长和幼儿休息室 (新生兒 - 18個月大) July 2022 – June 2023 7:30 PM – 9:30 PM"
+                                },
+                                {
+                                  "label": "Friday Night   周五晚 (Preschool – 6th grades) July 2022 – June 2023  Friday 7:30 PM – 9:30 PM  Fee Required Program/需繳费活動  □ Early Bird / 1st Time Registration  $90  (June 2022) / 於6月份時註冊 □ Regular Registration $120.00 (July 2022 – Dec. 2022) 於7月至12月間註冊 □ Late Registration $60.00 (Jan. 2023 – June 2023) 於2023年1月至6月間註冊"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                        ]
+                      }
+                    }
+                  }
+                }
+            ]
+          }
+        };
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
+      })();
+    </script>
+  </body>
+</html>

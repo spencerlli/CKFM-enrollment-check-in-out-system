@@ -2,16 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Guardian's Main Menu</title>
+    <title>Administrator's Main Menu</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="../sdk/sdk.css" />
-    <link rel="stylesheet" href="../sdk/helper.css" />
-    <link rel="stylesheet" href="../sdk/iconfont.css" />
+    <link rel="stylesheet" href="../../sdk/sdk.css" />
+    <link rel="stylesheet" href="../../sdk/helper.css" />
+    <link rel="stylesheet" href="../../sdk/iconfont.css" />
     <style>
       html,
       body,
@@ -26,7 +26,7 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script src=" ../sdk/sdk.js"></script>
+    <script src=" ../../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function () {
         let amis = amisRequire('amis/embed');
@@ -76,18 +76,54 @@
                       "label": "Enrollment / 注册",
                       "actionType": "link",
                       "link": "./form.html",
-                      "icon": "fa-solid fa-user-plus",
                       "size": "lg",
                       "block": true,
                       "level": "light"
                     },
                     {
                       "type": "button",
-                      "label": "Enrollment Management / 注册管理",
+                      "label": "Management / 管理",
                       "actionType": "link",
-                      "link": "./management.html",
-                      "icon": "fa-solid fa-user-pen",
                       "size": "lg",
+                      "link": "./management.html",
+                      "block": true
+                    },
+                    {
+                      "type": "button",
+                      "label": "Check in / 签到",
+                      "actionType": "link",
+                      "link": "./check_in_barcode.html",
+                      "size": "lg",
+                      "block": true,
+                      "level": "light"
+                    },
+                    {
+                      "type": "button",
+                      "label": "Check out / 签出",
+                      "actionType": "link",
+                      "size": "lg",
+                      "link": "./check_out_barcode.html",
+                      "block": true
+                    }
+                  ]
+                },
+                {
+                  "body": [
+                  {
+                      "type": "button",
+                      "label": "View Check in&out Log / 查看签到日志",
+                      "actionType": "link",
+                      "link": "./test_log.html",
+                      "size": "lg",
+                      "block": true
+                    },
+                    {
+                      "type": "button",
+                      "label": "Input Daily Progress / 输入每日进展",
+                      "actionType": "link",
+                      "link": "./test_log.html",
+                      "size": "lg",
+                      "level": "light",
                       "block": true
                     },
                     {
@@ -95,52 +131,30 @@
                       "label": "Communication / 留言",
                       "actionType": "link",
                       "link": "../general/communication.html",
-                      "icon": "fa-solid fa-comments",
-                      "level": "light",
-                      "size": "lg",
-                      "block": true
-                    }
-                  ]
-                },
-                {
-                  "body": [
-                    {
-                      "type": "button",
-                      "label": "Pre-check in / 预签到",
-                      "actionType": "link",
-                      "link": "./pre_check_in.html",
-                      "icon": "fa-solid fa-arrow-right-to-bracket",
                       "size": "lg",
                       "block": true
                     },
                     {
                       "type": "button",
-                      "label": "Pre-check out / 预签出",
+                      "label": "Customize / 自定义",
                       "actionType": "link",
-                      "link": "./pre_check_out.html",
-                      "icon": "fa-solid fa-arrow-right-from-bracket",
-                      "size": "lg",
-                      "level": "light",
-                      "block": true
-                    },
-                    {
-                      "type": "button",
-                      "label": "Show Barcode / 出示条形码",
-                      "icon": "fa-solid fa-barcode",
-                      "size": "lg",
-                      "block": true,
-                      "actionType": "dialog",
                       "dialog": {
-                        "title": "Barcode",
-                        "body": {
-                          "type": "service",
-                          "api": "http://54.245.168.231:5002/guardian/barcode",
-                          "body": {
-                            "type": "barcode",
-                            "name": "barcode"
-                          }
-                        }
-                      }
+                        "title": "系统提示",
+                        "body": "对你点击了"
+                      },
+                      "size": "lg",
+                      "link": "",
+                      "level": "light",
+                      "block": true,
+                      
+                    },
+                    {
+                      "type": "button",
+                      "label": "Get Attendance Report / 出勤记录",
+                      "actionType": "link",
+                      "link": "./test_log.html",
+                      "size": "lg",
+                      "block": true
                     }
                   ]
                 }

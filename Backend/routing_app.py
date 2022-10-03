@@ -25,11 +25,19 @@ AMIS_RES_TEMPLATE = {
     'data': {}
 }
 
+'''
+COOKIES: {
+    'login': ('1', '0'),
+    'user': '(guardian','admin'),
+    'user_id': user_id
+    'family_id': family_id
+} (all str)
+'''
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
-        return render_template('flask_templates/index.html')
+        return render_template('flask_templates/guardian/index.html')
     else:
         return redirect('login')
 
@@ -40,7 +48,7 @@ def login():
         if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
             return redirect(url_for('index'))
         else:
-            return render_template('flask_templates/log_in.html')
+            return render_template('flask_templates/general/sign_in.html')
     else:   # method == POST
         res_json = deepcopy(AMIS_RES_TEMPLATE)
         if 'phone' in request.json and 'pwd' in request.json:
@@ -82,7 +90,7 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     msg = ''
-    return render_template('flask_templates/register.html', msg=msg)
+    return render_template('flask_templates/guardian/form.html', msg=msg)
 
 
 @app.route('/enrollFamily', methods=['GET', 'POST', 'OPTIONS'])
@@ -261,7 +269,7 @@ def userManage(object=None, id=None):
 
 @app.route('/preCheckInPage', methods=['GET'])
 def preCheckInPage():
-    return render_template('flask_templates/pre_check_in.html')
+    return render_template('flask_templates/guardian/pre_check_in.html')
 
 
 @app.route('/preCheckIn', methods=['GET', 'POST'])
@@ -328,7 +336,7 @@ def preCheckIn():
 
 @app.route('/preCheckOutPage', methods=['GET'])
 def preCheckOutPage():
-    return render_template('flask_templates/pre_check_out.html')
+    return render_template('flask_templates/guardian/pre_check_out.html')
 
 
 @app.route('/preCheckOut', methods=['GET', 'POST'])
@@ -410,12 +418,12 @@ def checkIn():
                 res['msg'] = "Successfully check in!"
         return jsonify(res)
 
-    return render_template('flask_templates/check_in.html')
+    return render_template('flask_templates/admin/check_in.html')
 
 
 @app.route('/checkOutPage', methods=['GET'])
 def checkOutPage():
-    return render_template('flask_templates/check_out_barcode.html')
+    return render_template('flask_templates/guardian/check_out_barcode.html')
 
 
 @app.route('/checkOut', methods=['POST'])
@@ -464,7 +472,7 @@ def firstTimeEnroll():
 
 @app.route('/msgBoardPage', methods=['GET'])
 def msgBoardPage():
-    return render_template('flask_templates/communication.html')
+    return render_template('flask_templates/general/communication.html')
 
 
 @app.route('/msgBoard', methods=['GET', 'POST'])
@@ -536,41 +544,6 @@ def guardianBarcode():
     guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
     res['data']['barcode'] = guardian_json.get('barcode')
     return jsonify(res)
-
-
-# @app.route('/studentEnrollment', methods=['GET', 'POST'])
-# def studentEnrollment():
-#     return render_template('flask_enrollment/StudentEnrollment.html')
-
-
-# @app.route('/enrollmentCheck', methods=['GET', 'POST'])
-# def enrollmentCheck():
-#     return render_template('flask_enrollment/CompleteEnrollmentCheck.html')
-
-
-# @app.route('/checkInOut', methods=['GET', 'POST'])
-# def checkInOut():
-#     return render_template('flask_check_in_out/main.html')
-
-
-# @app.route('/checkIn2', methods=['GET', 'POST'])
-# def checkIn2():
-#     return render_template('flask_check_in_out/check_in2.html')
-
-
-# @app.route('/checkInSuccess', methods=['GET', 'POST'])
-# def checkInSuccess():
-#     return render_template('flask_check_in_out/s_check_in.html')
-
-
-# @app.route('/checkOut2', methods=['GET', 'POST'])
-# def checkOut2():
-#     return render_template('flask_check_in_out/check_out2.html')
-
-
-# @app.route('/checkOutSuccess', methods=['GET', 'POST'])
-# def checkOutSuccess():
-#     return render_template('flask_check_in_out/s_check_out.html')
 
 
 def generate_random_str(randomLength=8):
