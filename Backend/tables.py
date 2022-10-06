@@ -120,13 +120,13 @@ class MsgBoard(db.Model):
 # )
 
 
-class TeacherSchema(ma.Schema):
+class AdminSchema(ma.Schema):
     class Meta:
         fields = ('id', 'pwd', 'fname', 'lname', 'phone', 'email', 'classes')
 
 
-class Teacher(db.Model):
-    __tablename__ = "teacher"
+class Admin(db.Model):
+    __tablename__ = "admin"
     id = db.Column(db.Integer, primary_key=True)
     pwd = db.Column(db.String(256))
     fname = db.Column(db.String(256))
@@ -138,7 +138,7 @@ class Teacher(db.Model):
 
 # classes = db.Table('classes',
 #     db.Column('id', db.String(256), primary_key=True),
-#     db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id'), primary_key=True),
+#     db.Column('admin_id', db.Integer, db.ForeignKey('admin.id'), primary_key=True),
 #     db.Column('student_id', db.Integer, db.ForeignKey('student.id'), primary_key=True),
 # )
 

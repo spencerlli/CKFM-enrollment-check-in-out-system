@@ -2,6 +2,7 @@ from flask import request
 from flask_restful import Resource, Api
 from tables import Guardian, GuardianSchema, Student, StudentSchema, \
     FamilyInfo, FamilyInfoSchema, MsgBoard, MsgBoardSchema, app, db, ma
+from tables import Admin, AdminSchema
 
 api = Api(app)
 
@@ -398,6 +399,72 @@ class MsgBoardGuardianResource(Resource):
 ###### MsgBoard ######
 
 
+###### Admin ######
+admin_schema = AdminSchema()
+admins_schema = AdminSchema(many=True)
+
+
+class AdminListResource(Resource):
+    def get(self):
+        # get all
+        admins = Admin.query.all()
+        return admins_schema.dump(admins)
+
+    def post(self):
+        # create a new one
+        new_admin = Admin(
+            pwd='123456',
+            fname=request.json['fname'],
+            lname=request.json['lname'],
+            phone=request.json['phone'],
+            email=request.json['email'],
+            classes=request.json['classes']
+        )
+        db.session.add(new_admin)
+        db.session.flush()
+        db.session.commit()
+        return admin_schema.dump(new_admin)
+
+
+class AdminResource(Resource):
+    def get(self, id):
+        # get one by id
+        admin = Admin.query.filter_by(id=id).first_or_404()
+        return admin_schema.dump(admin)
+
+    def put(self, id):
+        # update one by id
+        admin = Admin.query.filter_by(id=id).first_or_404()
+        if 'pwd' in request.json:
+            admin.pwd = request.json['pwd']
+        if 'fname' in request.json:
+            admin.fname = request.json['fname']
+        if 'lname' in request.json:
+            admin.lname = request.json['lname']
+        if 'phone' in request.json:
+            admin.phone = request.json['phone']
+        if 'email' in request.json:
+            admin.email = request.json['email']
+        if 'classes' in request.json:
+            admin.classes = request.json['classes']
+        db.session.commit()
+        return admin_schema.dump(admin)
+
+    def delete(self, id):
+        # delete one by id
+        admin = Admin.query.filter_by(id=id).first_or_404()
+        db.session.delete(admin)
+        db.session.commit()
+        return '', 204
+
+
+class AdminPhoneResource(Resource):
+    def get(self, phone):
+        admin = Admin.query.filter_by(phone=phone).first_or_404()
+        return admin_schema.dump(admin)
+###### Admin ######
+
+
 api.add_resource(GuardianListResource, '/guardian')
 api.add_resource(GuardianResource, '/guardian/<int:id>')
 api.add_resource(GuardianPhoneResource, '/guardian/phone/<phone>')
@@ -414,6 +481,10 @@ api.add_resource(MsgBoardListResource, '/msgBoard')
 api.add_resource(MsgBoardResource, '/msgBoard/<int:id>')
 api.add_resource(MsgBoardGuardianResource,
                  '/msgBoard/guardian/<int:guardian_id>')
+api.add_resource(AdminListResource, '/admin')
+api.add_resource(AdminResource, '/admin/<int:id>')
+api.add_resource(AdminPhoneResource, '/admin/phone/<phone>')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
