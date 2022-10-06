@@ -28,16 +28,20 @@ AMIS_RES_TEMPLATE = {
 '''
 COOKIES: {
     'login': ('1', '0'),
-    'user': '(guardian','admin'),
-    'user_id': user_id
-    'family_id': family_id
+    'user': ('guardian','admin'),
+    'user_id': user_id,
+    'family_id': family_id,
+    'class_id': class_id
 } (all str)
 '''
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
-        return render_template('flask_templates/guardian/index.html')
+        if request.cookies.get('user') == 'guardian':
+            return render_template('flask_templates/guardian/index.html')
+        else:
+            return render_template('flask_templates/admin/index.html')
     else:
         return redirect('login')
 
@@ -54,18 +58,40 @@ def login():
         if 'phone' in request.json and 'pwd' in request.json:
             phone = request.json['phone']
             pwd = request.json['pwd']
-            guardian_json = requests.get(REST_API + '/guardian/phone/' + phone).json()
-            if 'phone' in guardian_json.keys() and guardian_json['pwd'] == pwd:
-                res_json['data']['object'] = 'guardian'
-                res_json['msg'] = 'Logged in successfully!'
-                res = jsonify(res_json)
 
-                family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_json['id']).json()[0]['id']
-                expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
-                res.set_cookie(key='login', value="1", expires=expire_date)
-                res.set_cookie(key='guardian_id', value=str(guardian_json['id']), expires=expire_date)
-                res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
-                return res
+            guardian_query = requests.get(REST_API + '/guardian/phone/' + phone)
+            admin_query = requests.get(REST_API + '/teacher/phone/' + phone)
+
+            if guardian_query.status_code == 200:
+                if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd:
+                    res_json['data']['object'] = 'guardian'
+                    res_json['msg'] = 'Logged in successfully!'
+                    res = jsonify(res_json)
+
+                    family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_query.json()['id']).json()[0]['id']
+                    expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
+                    res.set_cookie(key='login', value="1", expires=expire_date)
+                    res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=expire_date)
+                    res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
+                    return res
+                else:
+                    res_json['status'] = 1
+                    res_json['msg'] = 'Incorrect phone number or password!'
+            elif admin_query.status_code == 200:
+                if 'phone' in admin_query.json().keys() and admin_query.json()['pwd'] == pwd:
+                    res_json['data']['object'] = 'admin'
+                    res_json['msg'] = 'Logged in successfully!'
+                    res = jsonify(res_json)
+
+                    # classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
+                    expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
+                    res.set_cookie(key='login', value="1", expires=expire_date)
+                    res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=expire_date)
+                    # res.set_cookie(key='classes_id', value=str(classes_id), expires=expire_date)
+                    return res
+                else:
+                    res_json['status'] = 1
+                    res_json['msg'] = 'Incorrect phone number or password!'
             else:
                 res_json['status'] = 1
                 res_json['msg'] = 'Incorrect phone number or password!'
@@ -82,8 +108,10 @@ def logout():
     res['msg'] = 'Successfully logout!'
     res = jsonify(res)
     res.delete_cookie('login')
-    res.delete_cookie('guardian_id')
+    res.delete_cookie('user_id')
     res.delete_cookie('family_id')
+    res.delete_cookie('class_id')
+    res.delete_cookie('user')
     return res
 
 

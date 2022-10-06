@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign in</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="./sdk/sdk.css" />
+    <link rel="stylesheet" href="./sdk/helper.css" />
+    <link rel="stylesheet" href="./sdk/iconfont.css" />
+    <style>
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src=" ./sdk/sdk.js"></script>
+    <script type="text/javascript">
+      (function () {
+        let amis = amisRequire('amis/embed');
+        let amisJSON = {
+          "type": "page",
+          "body": {
+            "type": "flex",
+            "items": [
+              {
+                "type": "form",
+                "title": "Sign in",
+                "submitText": "Sign in",
+                "api": "post:{{ url_for('login') }}",
+                "className": "w-lg",
+                "body": [
+                  {
+                    "type": "input-text",
+                    "name": "phone",
+                    "label": false,
+                    "placeholder": "Enter your phone number",
+                    "required": true
+                  },
+                  {
+                    "type": "input-password",
+                    "name": "pwd",
+                    "label": false,
+                    "placeholder": "Enter your pwd",
+                    "required": true
+                  }
+                ],
+                "onEvent": {
+                  "submitSucc": {
+                    "actions": [
+                      {
+                        "actionType": "link",
+                        "expression": "event.data.result.data.object === 'guardian'",
+                        "args": {
+                          "link": "{{ url_for('index') }}"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        };
+        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
+      })();
+    </script>
+  </body>
+</html>

@@ -49,7 +49,7 @@
                       "args": {
                         "api": {
                           "method": "post",
-                          "url": "http://54.245.168.231:5002/logout"
+                          "url": "{{ url_for('logout') }}"
                         }
                       }
                     },
@@ -57,7 +57,7 @@
                       "actionType": "link",
                       "expression": "event.data.responseResult.responseStatus === 0",
                       "args": {
-                        "link": "../sign_in.html"
+                        "link": "{{ url_for('index') }}"
                       }
                     }
                   ]
