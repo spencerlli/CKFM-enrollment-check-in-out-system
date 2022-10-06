@@ -75,7 +75,7 @@
                       "type": "button",
                       "label": "Enrollment / 注册",
                       "actionType": "link",
-                      "link": "./form.html",
+                      "link": "{{ url_for('enrollPage') }}",
                       "size": "lg",
                       "block": true,
                       "level": "light"
@@ -85,14 +85,14 @@
                       "label": "Management / 管理",
                       "actionType": "link",
                       "size": "lg",
-                      "link": "./management.html",
+                      "link": "{{ url_for('adminManagePage') }}",
                       "block": true
                     },
                     {
                       "type": "button",
                       "label": "Check in / 签到",
                       "actionType": "link",
-                      "link": "./check_in_barcode.html",
+                      "link": "{{ url_for('checkInPage') }}",
                       "size": "lg",
                       "block": true,
                       "level": "light"
@@ -102,7 +102,7 @@
                       "label": "Check out / 签出",
                       "actionType": "link",
                       "size": "lg",
-                      "link": "./check_out_barcode.html",
+                      "link": "{{ url_for('checkOutPage') }}",
                       "block": true
                     }
                   ]
@@ -130,7 +130,7 @@
                       "type": "button",
                       "label": "Communication / 留言",
                       "actionType": "link",
-                      "link": "../general/communication.html",
+                      "link": "{{ url_for('msgBoardPage') }}",
                       "size": "lg",
                       "block": true
                     },

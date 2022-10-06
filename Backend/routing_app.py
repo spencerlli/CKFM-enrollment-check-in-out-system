@@ -60,7 +60,7 @@ def login():
             pwd = request.json['pwd']
 
             guardian_query = requests.get(REST_API + '/guardian/phone/' + phone)
-            admin_query = requests.get(REST_API + '/teacher/phone/' + phone)
+            admin_query = requests.get(REST_API + '/admin/phone/' + phone)
 
             if guardian_query.status_code == 200:
                 if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd:
@@ -86,7 +86,7 @@ def login():
                     # classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
                     expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
                     res.set_cookie(key='login', value="1", expires=expire_date)
-                    res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=expire_date)
+                    res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=expire_date)
                     # res.set_cookie(key='classes_id', value=str(classes_id), expires=expire_date)
                     return res
                 else:
@@ -115,10 +115,9 @@ def logout():
     return res
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    msg = ''
-    return render_template('flask_templates/guardian/form.html', msg=msg)
+@app.route('/enrollPage', methods=['GET'])
+def enrollPage():
+    return render_template('flask_templates/guardian/form.html')
 
 
 @app.route('/enrollFamily', methods=['GET', 'POST', 'OPTIONS'])
@@ -207,6 +206,11 @@ def enrollFamily():
                 family_json = family_res.json()
 
     return jsonify(res)
+
+
+@app.route('/adminManagePage', methods=['GET'])
+def adminManagePage():
+    return render_template('flask_templates/admin/management.html')
 
 
 @app.route('/admin/<object>', methods=['GET', 'POST', 'DELETE'])
@@ -424,6 +428,10 @@ def preCheckOut():
     return jsonify(res)
 
 
+@app.route('/checkInPage', methods=['GET'])
+def checkInPage():
+    return render_template('flask_templates/admin/check_in_barcode.html')
+
 
 @app.route('/checkIn', methods=['POST'])
 def checkIn():
@@ -451,7 +459,7 @@ def checkIn():
 
 @app.route('/checkOutPage', methods=['GET'])
 def checkOutPage():
-    return render_template('flask_templates/guardian/check_out_barcode.html')
+    return render_template('flask_templates/admin/check_out_barcode.html')
 
 
 @app.route('/checkOut', methods=['POST'])
@@ -490,13 +498,13 @@ def checkOut():
     return jsonify(res)
 
 
-@app.route('/firstTimeEnroll', methods=['GET', 'POST'])
-def firstTimeEnroll():
-    msg = ''
-    if request.method == 'GET':
-        return render_template('flask_templates/GuardianEnrollment.html', msg=msg)
-    else:
-        return render_template('flask_templates/StudentEnrollment.html', msg=msg)
+# @app.route('/firstTimeEnroll', methods=['GET', 'POST'])
+# def firstTimeEnroll():
+#     msg = ''
+#     if request.method == 'GET':
+#         return render_template('flask_templates/guardian/GuardianEnrollment.html', msg=msg)
+#     else:
+#         return render_template('flask_templates/StudentEnrollment.html', msg=msg)
 
 @app.route('/msgBoardPage', methods=['GET'])
 def msgBoardPage():
