@@ -28,7 +28,7 @@ AMIS_RES_TEMPLATE = {
 '''
 COOKIES: {
     'login': ('1', '0'),
-    'user': ('guardian','admin'),
+    'user_group': ('guardian','admin'),
     'user_id': user_id,
     'family_id': family_id,
     'class_id': class_id
@@ -37,8 +37,9 @@ COOKIES: {
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    print(request.cookies)
     if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
-        if request.cookies.get('user') == 'guardian':
+        if request.cookies.get('user_group') == 'guardian':
             return render_template('flask_templates/guardian/index.html')
         else:
             return render_template('flask_templates/admin/index.html')
@@ -73,6 +74,7 @@ def login():
                     res.set_cookie(key='login', value="1", expires=expire_date)
                     res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=expire_date)
                     res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
+                    res.set_cookie(key='user_group', value='guardian', expires=expire_date)
                     return res
                 else:
                     res_json['status'] = 1
@@ -87,6 +89,7 @@ def login():
                     expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
                     res.set_cookie(key='login', value="1", expires=expire_date)
                     res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=expire_date)
+                    res.set_cookie(key='user_group', value='admin', expires=expire_date)
                     # res.set_cookie(key='classes_id', value=str(classes_id), expires=expire_date)
                     return res
                 else:
@@ -111,7 +114,7 @@ def logout():
     res.delete_cookie('user_id')
     res.delete_cookie('family_id')
     res.delete_cookie('class_id')
-    res.delete_cookie('user')
+    res.delete_cookie('user_group')
     return res
 
 
@@ -261,6 +264,11 @@ def admin(object, id=None):
         res['status'] = 400
 
     return jsonify(res)
+
+
+@app.route('/userManagePage', methods=['GET'])
+def userManagePage():
+    return render_template('flask_templates/guardian/management.html')
 
 
 @app.route('/userManage', methods=['GET'])
@@ -518,27 +526,50 @@ def msgBoard():
         "msg": None,
         "data": None
     }
-    guardian_id = 1
+    user_group = request.cookies.get('user_group')
+    user_id = int(request.cookies.get('user_id'))
     
     if request.method == 'GET':
-        guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
-        fname, lname = guardian_json['fname'], guardian_json['lname']
-        
-        msg_show = []
-        msgBoard_json = requests.get(REST_API + '/msgBoard/guardian/%d' % guardian_id).json()
-        for msg in msgBoard_json:
-            if msg['send_id'] == 0:
-                msg_show.append({'id': 0, 'fname': 'Admin', 'lname': None,
-                                'msg': msg['content'], 'timestamp': msg['time']})
-            else:
-                msg_show.append({'id': guardian_id, 'fname': fname, 'lname': lname,
-                                'msg': msg['content'], 'timestamp': msg['time']})
+        if user_group == 'guardian':
+            guardian_json = requests.get(REST_API + '/guardian/%d' % user_id).json()
+            fname, lname = guardian_json['fname'], guardian_json['lname']
+            
+            msg_show = []
+            msgBoard_json = requests.get(REST_API + '/msgBoard/guardian/%d' % user_id).json()
+            for msg in msgBoard_json:
+                if msg['sender'] == 'admin':
+                    admin_json = requests.get(REST_API + '/admin/%d' % int(msg['send_id'])).json()
+                    msg_show.append({'id': msg['id'], 'fname': 'Admin - ' + admin_json['fname'], 'lname': admin_json['lname'],
+                                    'msg': msg['content'], 'timestamp': msg['time']})
+                else:
+                    msg_show.append({'id': msg['id'], 'fname': fname, 'lname': lname,
+                                    'msg': msg['content'], 'timestamp': msg['time']})
 
-        t['data'] = {'items': msg_show}
-        t["msg"] = "Successfully get historical messages!"
+            t['data'] = {'items': msg_show}
+            t["msg"] = "Successfully get historical messages!"
+        else:   # admin
+            admin_json = requests.get(REST_API + '/admin/%d' % user_id).json()
+            fname, lname = admin_json['fname'], admin_json['lname']
+            
+            msg_show = []
+            msgBoard_json = requests.get(REST_API + '/msgBoard/admin/%d' % user_id).json()
+            for msg in msgBoard_json:
+                if msg['sender'] == 'guardian':
+                    guardian_json = requests.get(REST_API + '/guardian/%d' % int(msg['send_id'])).json()
+                    msg_show.append({'id': msg['id'], 'fname': 'Guardian - ' + guardian_json['fname'], 'lname': guardian_json['lname'],
+                                    'msg': msg['content'], 'timestamp': msg['time']})
+                else:
+                    msg_show.append({'id': msg['id'], 'fname': fname, 'lname': lname,
+                                    'msg': msg['content'], 'timestamp': msg['time']})
+
+            t['data'] = {'items': msg_show}
+            t["msg"] = "Successfully get historical messages!"
     else:
-        msg_json = {'send_id': guardian_id, 'receive_id': 0,
-                    'content': request.json['msg'], 'time': int(datetime.datetime.now().timestamp())}
+        student_id = request.json.get('student_id')
+
+        msg_json = {'send_id': user_id, 'receive_id': 0, 'sender': request.cookies.get('user_group'),
+                    'about_student': request.json.get('student_id'), 'content': request.json['msg'], 
+                    'time': int(datetime.datetime.now().timestamp())}
         requests.post(REST_API + '/msgBoard', json=msg_json)
         # /msgBoard
         t["msg"] = "Successfully post message!"
@@ -550,26 +581,47 @@ def msgBoard():
 @app.route('/studentBriefInfo/checkInOut/<checkInOutFlag>', methods=['GET'])
 def studentBriefInfo(checkInOutFlag=None):
     res = deepcopy(AMIS_RES_TEMPLATE)
-    family_id = int(request.cookies.get('family_id'))
-    family_json = requests.get(REST_API + '/family/%d' % family_id).json()
-    # filter repeat to be unique
-    student_id_set = set()
-    # list of json objects
-    student_info_list = []
+    if request.cookies.get('user_group') == 'guardian':
+        family_id = int(request.cookies.get('family_id'))
+        family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+        # filter repeat to be unique
+        student_id_set = set()
+        # list of json objects
+        student_info_list = []
 
-    for family in family_json:
-        if family['student_id'] not in student_id_set:  # filter repeat
-            student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
-            if checkInOutFlag == 'out' and student_json['check_out'] == 0:
-                continue
-            student_info_list.append({
-                'id': student_json['id'],
-                'fname': student_json['fname'],
-                'lname': student_json['lname']
-            })
-            student_id_set.add(family['student_id'])
-        
-    res['data']['items'] = student_info_list
+        for family in family_json:
+            if family['student_id'] not in student_id_set:  # filter repeat
+                student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
+                if checkInOutFlag == 'out' and student_json['check_out'] == 0:
+                    continue
+                student_info_list.append({
+                    'id': student_json['id'],
+                    'fname': student_json['fname'],
+                    'lname': student_json['lname']
+                })
+                student_id_set.add(family['student_id'])
+            
+        res['data']['items'] = student_info_list
+    else:
+        res['data']['items'] = []
+
+        # classes_id = int(request.cookies.get('classes_id'))
+        # classes_json = requests.get(REST_API + '/classes/%d' % classes_id).json()
+        # # filter repeat to be unique
+        # student_id_set = set()
+        # # list of json objects
+        # student_info_list = []
+
+        # for classes in classes_json:
+        #     if classes['student_id'] not in student_id_set:  # filter repeat
+        #         student_json = requests.get(REST_API + '/student/%d' % classes['student_id']).json()
+        #         student_info_list.append({
+        #             'id': student_json['id'],
+        #             'fname': student_json['fname'],
+        #             'lname': student_json['lname']
+        #         })
+        #         student_id_set.add(classes['student_id'])
+        # res['data']['items'] = student_info_list
     return jsonify(res)
 
 

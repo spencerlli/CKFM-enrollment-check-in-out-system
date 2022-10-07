@@ -75,7 +75,7 @@
                       "type": "button",
                       "label": "Enrollment / 注册",
                       "actionType": "link",
-                      "link": "./form.html",
+                      "link": "{{ url_for('enrollPage') }}",
                       "icon": "fa-solid fa-user-plus",
                       "size": "lg",
                       "block": true,
@@ -85,7 +85,7 @@
                       "type": "button",
                       "label": "Enrollment Management / 注册管理",
                       "actionType": "link",
-                      "link": "./management.html",
+                      "link": "{{ url_for('userManagePage') }}",
                       "icon": "fa-solid fa-user-pen",
                       "size": "lg",
                       "block": true
@@ -94,7 +94,7 @@
                       "type": "button",
                       "label": "Communication / 留言",
                       "actionType": "link",
-                      "link": "../general/communication.html",
+                      "link": "{{ url_for('msgBoardPage') }}",
                       "icon": "fa-solid fa-comments",
                       "level": "light",
                       "size": "lg",
@@ -108,7 +108,7 @@
                       "type": "button",
                       "label": "Pre-check in / 预签到",
                       "actionType": "link",
-                      "link": "./pre_check_in.html",
+                      "link": "{{ url_for('preCheckInPage') }}",
                       "icon": "fa-solid fa-arrow-right-to-bracket",
                       "size": "lg",
                       "block": true
@@ -117,7 +117,7 @@
                       "type": "button",
                       "label": "Pre-check out / 预签出",
                       "actionType": "link",
-                      "link": "./pre_check_out.html",
+                      "link": "{{ url_for('preCheckOutPage') }}",
                       "icon": "fa-solid fa-arrow-right-from-bracket",
                       "size": "lg",
                       "level": "light",
@@ -134,7 +134,7 @@
                         "title": "Barcode",
                         "body": {
                           "type": "service",
-                          "api": "http://54.245.168.231:5002/guardian/barcode",
+                          "api": "{{ url_for('guardianBarcode') }}",
                           "body": {
                             "type": "barcode",
                             "name": "barcode"

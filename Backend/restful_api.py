@@ -367,7 +367,9 @@ class MsgBoardListResource(Resource):
             send_id=request.json['send_id'],
             receive_id=request.json['receive_id'],
             content=request.json['content'],
-            time=request.json['time']
+            time=request.json['time'],
+            about_student=request.json['about_student'],
+            sender=request.json['sender']
         )
         db.session.add(new_msg)
         db.session.commit()
@@ -392,8 +394,18 @@ class MsgBoardGuardianResource(Resource):
     def get(self, guardian_id):
         # get one by id
         msg_record = MsgBoard.query.filter(
-            ((MsgBoard.send_id == 0) & (MsgBoard.receive_id == guardian_id)) |
-            ((MsgBoard.send_id == guardian_id) & (MsgBoard.receive_id == 0))
+            ((MsgBoard.sender == 'admin') & (MsgBoard.receive_id == guardian_id)) |
+            ((MsgBoard.send_id == guardian_id) & (MsgBoard.sender == 'guardian'))
+        ).all()
+        return msg_records_schema.dump(msg_record)
+
+
+class MsgBoardAdminResource(Resource):
+    def get(self, admin_id):
+        # get one by id
+        msg_record = MsgBoard.query.filter(
+            ((MsgBoard.sender == 'guardian') & (MsgBoard.receive_id == admin_id)) |
+            ((MsgBoard.send_id == admin_id) & (MsgBoard.sender == 'admin'))
         ).all()
         return msg_records_schema.dump(msg_record)
 ###### MsgBoard ######
@@ -481,6 +493,8 @@ api.add_resource(MsgBoardListResource, '/msgBoard')
 api.add_resource(MsgBoardResource, '/msgBoard/<int:id>')
 api.add_resource(MsgBoardGuardianResource,
                  '/msgBoard/guardian/<int:guardian_id>')
+api.add_resource(MsgBoardAdminResource,
+                 '/msgBoard/admin/<int:admin_id>')
 api.add_resource(AdminListResource, '/admin')
 api.add_resource(AdminResource, '/admin/<int:id>')
 api.add_resource(AdminPhoneResource, '/admin/phone/<phone>')

@@ -1,0 +1,157 @@
+{
+  "guardians": [
+    {
+      "merged": true,
+      "fname": "FN",
+      "lname": "LN",
+      "phone": "PN",
+      "email": "email@test.com",
+      "relationship": "father",
+      "street": "st",
+      "city": "city",
+      "state": "state",
+      "zip": "zip",
+      "method": "barcode",
+      "insurance": "nomi",
+      "insurance_number": "mip",
+      "insurance_phone": "ip",
+      "physician": "pfp",
+      "physician_phone": "pp",
+      "group": "group",
+      "friday": "table",
+      "sunday": "table"
+    },
+    {
+      "fname": "fn2",
+      "lname": "ln2",
+      "phone": "pn2",
+      "email": "email2@test.com",
+      "relationship": "father2",
+      "method": "barcode"
+    },
+    {
+      "fname": "fn3",
+      "lname": "ln3",
+      "phone": "pn3",
+      "email": "email3@test.com",
+      "relationship": "mother3",
+      "method": "barcode"
+    }
+  ],
+  "students": [
+    {
+      "merged": true,
+      "fname": "sfn1",
+      "lname": "sln1",
+      "date": "1659337200",
+      "gender": "male",
+      "grade": "a",
+      "allergy": "sa1",
+      "method": "barcode",
+      "program": [
+        [
+          {
+            "label": "Program(s)",
+            "checked": true
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          }
+        ]
+      ]
+    },
+    {
+      "fname": "sfn2",
+      "lname": "sln2",
+      "date": "1659423600",
+      "gender": "male",
+      "grade": "b",
+      "allergy": "sa2",
+      "method": "barcode",
+      "program": [
+        [
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": true
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          }
+        ]
+      ]
+    },
+    {
+      "fname": "sfn3",
+      "lname": "sln3",
+      "date": "1659510000",
+      "gender": "male",
+      "program": [
+        [
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": true
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          }
+        ]
+      ],
+      "grade": "c",
+      "allergy": "sa3",
+      "method": "barcode"
+    }
+  ],
+  "pay": "123",
+  "checkbox": true
+}

@@ -1,0 +1,123 @@
+{
+  "g1_fname": "Chang1",
+  "g1_lname": "liu1",
+  "g1_phone": "0100000000",
+  "g1_email": "chang1@gmail.com",
+  "g1_relationship": "Father",
+  "g1_street": "1 st",
+  "g1_city": "1 city",
+  "g1_state": "1 state",
+  "g1_zip": "1 zip",
+  "select": "barcode",
+  "physician": "phy1",
+  "medical_insurance": "ins1",
+  "insurance_number": "pol1",
+  "physician_phone": "phyPh1",
+  "insurance_phone": "insPh1",
+  "group": "1",
+  "sunday": "table,teacher",
+  "friday": "table,snack",
+  "guardians": [
+    {
+      "g1_fname": "chang2",
+      "g1_lname": "liu2",
+      "g1_phone": "0200000000",
+      "g1_email": "chang2@gmail.com",
+      "g1_relationship": "mother",
+      "select2": "barcode"
+    },
+    {
+      "g1_fname": "chang3",
+      "g1_lname": "liu3",
+      "g1_phone": "0300000000",
+      "g1_email": "chang3@gmail.com",
+      "g1_relationship": "uncle",
+      "select2": "barcode"
+    }
+  ],
+  "s1_fname": "changjr1",
+  "s1_lname": "liu1",
+  "date": "1660114800",
+  "gender": "male",
+  "s1_grade": "A",
+  "student_select": "barcode",
+  "matrix": [
+    [
+      {
+        "label": "Program(s)",
+        "checked": true
+      },
+      {
+        "label": "Program(s)",
+        "checked": false
+      },
+      {
+        "label": "Program(s)",
+        "checked": false
+      },
+      {
+        "label": "Program(s)",
+        "checked": false
+      },
+      {
+        "label": "Program(s)",
+        "checked": false
+      },
+      {
+        "label": "Program(s)",
+        "checked": false
+      }
+    ]
+  ],
+  "students": [
+    {
+      "s1_fname": "changjr2",
+      "s1_lname": "liu2",
+      "date": "1659337200",
+      "gender": "female",
+      "s1_grade": "b",
+      "s1_allergy": "all",
+      "student_select2": "barcode"
+    },
+    {
+      "s1_fname": "chang3",
+      "s1_lname": "liu3",
+      "date": "1660028400",
+      "gender": "male",
+      "s1_grade": "c",
+      "s1_allergy": "none",
+      "student_select2": "barcode",
+      "matrix": [
+        [
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": true
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          },
+          {
+            "label": "Program(s)",
+            "checked": false
+          }
+        ]
+      ]
+    }
+  ],
+  "pay": "2",
+  "checkbox": true,
+  "special": "A,B"
+}
