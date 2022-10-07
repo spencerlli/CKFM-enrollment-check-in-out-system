@@ -9,9 +9,9 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="./sdk/sdk.css" />
-    <link rel="stylesheet" href="./sdk/helper.css" />
-    <link rel="stylesheet" href="./sdk/iconfont.css" />
+    <link rel="stylesheet" href="../sdk/sdk.css" />
+    <link rel="stylesheet" href="../sdk/helper.css" />
+    <link rel="stylesheet" href="../sdk/iconfont.css" />
     <style>
       html,
       body,
@@ -26,7 +26,7 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script src=" ./sdk/sdk.js"></script>
+    <script src=" ../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function () {
         let amis = amisRequire('amis/embed');
@@ -62,9 +62,17 @@
                     "actions": [
                       {
                         "actionType": "link",
+                        "stopPropagation": true,
                         "expression": "event.data.result.data.object === 'guardian'",
                         "args": {
-                          "link": "./guardian/index.html"
+                          "link": "../guardian/index.html"
+                        }
+                      },
+                      {
+                        "actionType": "link",
+                        "expression": "event.data.result.data.object === 'admin'",
+                        "args": {
+                          "link": "../admin/index.html"
                         }
                       }
                     ]
