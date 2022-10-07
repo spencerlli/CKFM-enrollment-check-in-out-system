@@ -36,6 +36,51 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "./index.html"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "http://54.245.168.231:5002/logout"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "../general/sign_in.html"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
           "body": {
             "type": "crud",
             "api": "http://54.245.168.231:5002/preCheckOut",
@@ -72,17 +117,18 @@
                       },
                       {
                         "actionType": "dialog",
-                        "expression": "event.data.responseResult.responseStatus === 0",
+                        "stopPropagation": true,
+                        "expression": "typeof event.data.responseResult === 'undefined' || event.data.responseResult.responseStatus !== 0",
                         "dialog": {
-                          "title": "Success",
-                          "showCloseButton": false,
+                          "title": "Failure",
+                          "showCloseButton": true,
                           "body": [
                             {
                               "type": "alert",
-                              "title": "Thank You!",
-                              "level": "success",
-                              "showIcon": true,
-                              "body": "You have successfully pre-checked out. A barcode has been generated for the following check-out. Please show it to front desk by clicking the button on the main menu."
+                              "title": "Failed to pre-check out!",
+                              "body": "Please try again later.",
+                              "level": "danger",
+                              "showIcon": true
                             }
                           ],
                           "actions": [
@@ -98,17 +144,17 @@
                       },
                       {
                         "actionType": "dialog",
-                        "expression": "typeof event.data.responseResult === 'undefined' || event.data.responseResult.responseStatus !== 0",
+                        "expression": "event.data.responseResult.responseStatus === 0",
                         "dialog": {
-                          "title": "Failure",
-                          "showCloseButton": true,
+                          "title": "Success",
+                          "showCloseButton": false,
                           "body": [
                             {
                               "type": "alert",
-                              "title": "Failed to pre-check out!",
-                              "body": "Please try again later.",
-                              "level": "danger",
-                              "showIcon": true
+                              "title": "Thank You!",
+                              "level": "success",
+                              "showIcon": true,
+                              "body": "You have successfully pre-checked out. A barcode has been generated for the following check-out. Please show it to front desk by clicking the button on the main menu."
                             }
                           ],
                           "actions": [

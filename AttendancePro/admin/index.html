@@ -32,37 +32,51 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
-          "title": "Main Menu",
           "style": {
             "fontFamily": "Times New Roman"
           },
           "toolbar": [
             {
-              "type": "button",
-              "label": "Sign out/退出账号",
-              "level": "link",
-              "onEvent": {
-                "click": {
-                  "actions": [
-                    {
-                      "actionType": "ajax",
-                      "args": {
-                        "api": {
-                          "method": "post",
-                          "url": "http://54.245.168.231:5002/logout"
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "./index.html"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "http://54.245.168.231:5002/logout"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "../general/sign_in.html"
+                          }
                         }
-                      }
-                    },
-                    {
-                      "actionType": "link",
-                      "expression": "event.data.responseResult.responseStatus === 0",
-                      "args": {
-                        "link": "../sign_in.html"
-                      }
+                      ]
                     }
-                  ]
+                  }
                 }
-              }
+              ]
             }
           ],
           "body": [
@@ -76,16 +90,18 @@
                       "label": "Enrollment / 注册",
                       "actionType": "link",
                       "link": "./form.html",
+                      "icon": "fa-solid fa-user-plus",
                       "size": "lg",
                       "block": true,
                       "level": "light"
                     },
                     {
                       "type": "button",
-                      "label": "Management / 管理",
+                      "label": "Enrollment Management / 注册管理",
                       "actionType": "link",
-                      "size": "lg",
                       "link": "./management.html",
+                      "icon": "fa-solid fa-user-pen",
+                      "size": "lg",
                       "block": true
                     },
                     {
@@ -93,6 +109,7 @@
                       "label": "Check in / 签到",
                       "actionType": "link",
                       "link": "./check_in_barcode.html",
+                      "icon": "fa-solid fa-arrow-right-to-bracket",
                       "size": "lg",
                       "block": true,
                       "level": "light"
@@ -101,8 +118,9 @@
                       "type": "button",
                       "label": "Check out / 签出",
                       "actionType": "link",
-                      "size": "lg",
                       "link": "./check_out_barcode.html",
+                      "icon": "fa-solid fa-arrow-right-from-bracket",
+                      "size": "lg",
                       "block": true
                     }
                   ]
@@ -113,7 +131,8 @@
                       "type": "button",
                       "label": "View Check in&out Log / 查看签到日志",
                       "actionType": "link",
-                      "link": "./test_log.html",
+                      "link": "./log.html",
+                      "icon": "fa-solid fa-list",
                       "size": "lg",
                       "block": true
                     },
@@ -121,7 +140,8 @@
                       "type": "button",
                       "label": "Input Daily Progress / 输入每日进展",
                       "actionType": "link",
-                      "link": "./test_log.html",
+                      "link": "./log.html",
+                      "icon" : "fa-solid fa-pen-to-square",
                       "size": "lg",
                       "level": "light",
                       "block": true
@@ -131,6 +151,7 @@
                       "label": "Communication / 留言",
                       "actionType": "link",
                       "link": "../general/communication.html",
+                      "icon": "fa-solid fa-comments",
                       "size": "lg",
                       "block": true
                     },
@@ -144,16 +165,8 @@
                       },
                       "size": "lg",
                       "link": "",
+                      "icon": "fa-solid fa-screwdriver-wrench",
                       "level": "light",
-                      "block": true,
-                      
-                    },
-                    {
-                      "type": "button",
-                      "label": "Get Attendance Report / 出勤记录",
-                      "actionType": "link",
-                      "link": "./test_log.html",
-                      "size": "lg",
                       "block": true
                     }
                   ]

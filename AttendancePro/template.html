@@ -35,8 +35,52 @@
         let amis = amisRequire('amis/embed');
         // 通过替换amisJSON中的内容来生成不同页面
         let amisJSON = {
-          type: 'page',
-          title: '表单页面',
+          "type": 'page',
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "./index.html"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "http://54.245.168.231:5002/logout"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "../general/sign_in.html"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
           body: {
             type: 'form',
             mode: 'horizontal',

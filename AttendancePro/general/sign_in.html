@@ -34,6 +34,7 @@
           "type": "page",
           "body": {
             "type": "flex",
+            "direction": "column",
             "items": [
               {
                 "type": "form",
@@ -46,14 +47,14 @@
                     "type": "input-text",
                     "name": "phone",
                     "label": false,
-                    "placeholder": "Enter your phone number",
+                    "placeholder": "Phone number",
                     "required": true
                   },
                   {
                     "type": "input-password",
                     "name": "pwd",
                     "label": false,
-                    "placeholder": "Enter your pwd",
+                    "placeholder": "Password",
                     "required": true
                   }
                 ],
@@ -78,6 +79,17 @@
                     ]
                   }
                 }
+              },
+              {
+                "type": "button",
+                "label": "Forgot password?",
+                "level": "link",
+                "className": "m-b-sm"
+              },
+              {
+                "type": "button",
+                "label": "Create an account",
+                "level": "link",
               }
             ]
           }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <!-- 下列1行：注意替换页面对应名称 -->
-    <title>Check In</title>
+    <title>Check in</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
@@ -32,12 +32,57 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "./index.html"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "http://54.245.168.231:5002/logout"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "../general/sign_in.html"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
           "body": [
             {
               "type": "form",
-              "title": "Check In",
+              "title": "Check in",
               "autoFocus": true,
-              "submitText": "",
+              "submitText": "Check in",
               "api": "post:http://54.245.168.231:5002/checkIn",
               "body": [
                 {

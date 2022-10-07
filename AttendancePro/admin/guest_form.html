@@ -32,6 +32,51 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "./index.html"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "http://54.245.168.231:5002/logout"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "../general/sign_in.html"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
 
 
 /*
@@ -42,13 +87,11 @@
 
 
           "mobile": {
-            "toolbar": [
+            "body": [
               {
                 "type": "tpl",
                 "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 13pt;\"><strong><u>CKFM GUEST ENROLLMENT</u></strong></span></p>"
-              }
-            ],
-            "body": [
+              },
               {
                 "type": "wizard",
                 "steps": [
@@ -666,14 +709,12 @@
 ===================================================================================================================================
 */
 
-
-          "toolbar": [
+       
+          "body": [
             {
               "type": "tpl",
               "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 13pt;\"><strong><u>IRVINE CANAAN CHRISTIAN COMMUNITY CHURCH - CKFM GUEST ENROLLMENT</u></strong></span></p>"
-            }
-          ],          
-          "body": [
+            },
             {
               "type": "wizard",
               "steps": [
