@@ -540,8 +540,7 @@
                               }
                             }
                           }
-                        ],
-                        "id": "u:54bcc5641ee4"
+                        ]
                       }
                     ],
                     "bulkActions": [
@@ -645,7 +644,7 @@
                       },
                       {
                         "type": "button",
-                        "label": "Print Barcode Badges",
+                        "label": "Print barcode badges",
                         "icon": "fa-solid fa-id-badge",
                         "tooltip": "Print badges for all students recently enrolled at once.",
                         "onEvent": {
@@ -674,7 +673,6 @@
                         }
                       }
                     ],
-                    "id": "u:d3d8f2c930bd",
                     "perPageAvailable": [
                       10
                     ]
@@ -1152,6 +1150,85 @@
                     "id": "u:d3d8f2c930bd",
                     "perPageAvailable": [
                       10
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Class",
+                "tab": [
+                  {
+                    "type": "crud",
+                    "api": "http://54.245.168.231:5000/admin/student",
+                    "filter": {
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "fname",
+                          "label": "First name:"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "lname",
+                          "label": "Last name:"
+                        },
+                        {
+                          "type": "select",
+                          "name": "class",
+                          "label": "Class:",
+                          "options": [
+                          ]
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "type": "button",
+                          "label": "Create a new class"
+                        },
+                        {
+                          "type": "submit",
+                          "level": "primary",
+                          "label": "Search"
+                        }
+                      ]
+                    },
+                    "headerToolbar": ["bulkActions"],
+                    "keepItemSelectionOnPageChange": true,
+                    "checkOnItemClick": true,
+                    "bulkActions": [
+                      {
+                        "type": "button",
+                        "label": "Add to class",
+                        "level": "info"
+                      },
+                      {
+                        "type": "button",
+                        "label": "Drop from class",
+                        "level": "danger"
+                      }
+                    ],
+                    "columns": [
+                      {
+                        "name": "id",
+                        "label": "ID"
+                      },
+                      {
+                        "name": "fname",
+                        "label": "First Name"
+                      },
+                      {
+                        "name": "lname",
+                        "label": "Last Name"
+                      },
+                      {
+                        "name": "grade",
+                        "label": "Grade"
+                      },
+                      {
+                        "name": "class",
+                        "value": "Not assigned",
+                        "label": "Class"
+                      }
                     ]
                   }
                 ]
