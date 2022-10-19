@@ -9,9 +9,9 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="../../sdk/sdk.css" />
-    <link rel="stylesheet" href="../../sdk/helper.css" />
-    <link rel="stylesheet" href="../../sdk/iconfont.css" />
+    <link rel="stylesheet" href="../sdk/sdk.css" />
+    <link rel="stylesheet" href="../sdk/helper.css" />
+    <link rel="stylesheet" href="../sdk/iconfont.css" />
     <style>
       html,
       body,
@@ -26,43 +26,57 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script src=" ../../sdk/sdk.js"></script>
+    <script src=" ../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function () {
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
-          "title": "Main Menu",
           "style": {
             "fontFamily": "Times New Roman"
           },
           "toolbar": [
             {
-              "type": "button",
-              "label": "Sign out/退出账号",
-              "level": "link",
-              "onEvent": {
-                "click": {
-                  "actions": [
-                    {
-                      "actionType": "ajax",
-                      "args": {
-                        "api": {
-                          "method": "post",
-                          "url": "{{ url_for('logout') }}"
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "./index.html"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "http://54.245.168.231:5002/logout"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "../general/sign_in.html"
+                          }
                         }
-                      }
-                    },
-                    {
-                      "actionType": "link",
-                      "expression": "event.data.responseResult.responseStatus === 0",
-                      "args": {
-                        "link": "{{ url_for('index') }}"
-                      }
+                      ]
                     }
-                  ]
+                  }
                 }
-              }
+              ]
             }
           ],
           "body": [
@@ -75,7 +89,7 @@
                       "type": "button",
                       "label": "Enrollment / 注册",
                       "actionType": "link",
-                      "link": "{{ url_for('enrollPage') }}",
+                      "link": "./form.html",
                       "icon": "fa-solid fa-user-plus",
                       "size": "lg",
                       "block": true,
@@ -85,7 +99,7 @@
                       "type": "button",
                       "label": "Enrollment Management / 注册管理",
                       "actionType": "link",
-                      "link": "{{ url_for('userManagePage') }}",
+                      "link": "./management.html",
                       "icon": "fa-solid fa-user-pen",
                       "size": "lg",
                       "block": true
@@ -94,7 +108,7 @@
                       "type": "button",
                       "label": "Communication / 留言",
                       "actionType": "link",
-                      "link": "{{ url_for('msgBoardPage') }}",
+                      "link": "../general/communication.html",
                       "icon": "fa-solid fa-comments",
                       "level": "light",
                       "size": "lg",
@@ -108,7 +122,7 @@
                       "type": "button",
                       "label": "Pre-check in / 预签到",
                       "actionType": "link",
-                      "link": "{{ url_for('preCheckInPage') }}",
+                      "link": "./pre_check_in.html",
                       "icon": "fa-solid fa-arrow-right-to-bracket",
                       "size": "lg",
                       "block": true
@@ -117,7 +131,7 @@
                       "type": "button",
                       "label": "Pre-check out / 预签出",
                       "actionType": "link",
-                      "link": "{{ url_for('preCheckOutPage') }}",
+                      "link": "./pre_check_out.html",
                       "icon": "fa-solid fa-arrow-right-from-bracket",
                       "size": "lg",
                       "level": "light",
@@ -134,7 +148,7 @@
                         "title": "Barcode",
                         "body": {
                           "type": "service",
-                          "api": "{{ url_for('guardianBarcode') }}",
+                          "api": "http://54.245.168.231:5002/guardian/barcode",
                           "body": {
                             "type": "barcode",
                             "name": "barcode"

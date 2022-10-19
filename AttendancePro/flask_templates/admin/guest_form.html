@@ -9,9 +9,9 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="../../sdk/sdk.css" />
-    <link rel="stylesheet" href="../../sdk/helper.css" />
-    <link rel="stylesheet" href="../../sdk/iconfont.css" />
+    <link rel="stylesheet" href="../sdk/sdk.css" />
+    <link rel="stylesheet" href="../sdk/helper.css" />
+    <link rel="stylesheet" href="../sdk/iconfont.css" />
     <style>
       html,
       body,
@@ -26,12 +26,57 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script src=" ../../sdk/sdk.js"></script>
+    <script src=" ../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function () {
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "{{ url_for('index') }}"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "{{ url_for('logout') }}"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "{{ url_for('login') }}"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
 
 
 /*
@@ -42,13 +87,11 @@
 
 
           "mobile": {
-            "toolbar": [
+            "body": [
               {
                 "type": "tpl",
                 "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 13pt;\"><strong><u>CKFM GUEST ENROLLMENT</u></strong></span></p>"
-              }
-            ],
-            "body": [
+              },
               {
                 "type": "wizard",
                 "steps": [
@@ -575,7 +618,7 @@
                               "type": "button",
                               "label": "OK",
                               "actionType": "link",
-                              "link": "./index.html",     // to index menu
+                              "link": "{{ url_for('index') }}",     // to index menu
                               "primary": true
                             }
                           ]
@@ -666,14 +709,12 @@
 ===================================================================================================================================
 */
 
-
-          "toolbar": [
+       
+          "body": [
             {
               "type": "tpl",
               "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 13pt;\"><strong><u>IRVINE CANAAN CHRISTIAN COMMUNITY CHURCH - CKFM GUEST ENROLLMENT</u></strong></span></p>"
-            }
-          ],          
-          "body": [
+            },
             {
               "type": "wizard",
               "steps": [
@@ -1316,7 +1357,7 @@
                             "type": "button",
                             "label": "OK",
                             "actionType": "link",
-                            "link": "./index.html",     // to index menu
+                            "link": "{{ url_for('index') }}",     // to index menu
                             "primary": true
                           }
                         ]

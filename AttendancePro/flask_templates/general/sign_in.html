@@ -9,9 +9,9 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="./sdk/sdk.css" />
-    <link rel="stylesheet" href="./sdk/helper.css" />
-    <link rel="stylesheet" href="./sdk/iconfont.css" />
+    <link rel="stylesheet" href="../sdk/sdk.css" />
+    <link rel="stylesheet" href="../sdk/helper.css" />
+    <link rel="stylesheet" href="../sdk/iconfont.css" />
     <style>
       html,
       body,
@@ -26,7 +26,7 @@
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script src=" ./sdk/sdk.js"></script>
+    <script src=" ../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function () {
         let amis = amisRequire('amis/embed');
@@ -34,26 +34,27 @@
           "type": "page",
           "body": {
             "type": "flex",
+            "direction": "column",
             "items": [
               {
                 "type": "form",
                 "title": "Sign in",
                 "submitText": "Sign in",
-                "api": "post:{{ url_for('login') }}",
+                "api": "post:http://54.245.168.231:5000/login",
                 "className": "w-lg",
                 "body": [
                   {
                     "type": "input-text",
                     "name": "phone",
                     "label": false,
-                    "placeholder": "Enter your phone number",
+                    "placeholder": "Phone number",
                     "required": true
                   },
                   {
                     "type": "input-password",
                     "name": "pwd",
                     "label": false,
-                    "placeholder": "Enter your pwd",
+                    "placeholder": "Password",
                     "required": true
                   }
                 ],
@@ -62,14 +63,33 @@
                     "actions": [
                       {
                         "actionType": "link",
+                        "stopPropagation": true,
                         "expression": "event.data.result.data.object === 'guardian'",
                         "args": {
-                          "link": "{{ url_for('index') }}"
+                          "link": "../guardian/index.html"
+                        }
+                      },
+                      {
+                        "actionType": "link",
+                        "expression": "event.data.result.data.object === 'admin'",
+                        "args": {
+                          "link": "../admin/index.html"
                         }
                       }
                     ]
                   }
                 }
+              },
+              {
+                "type": "button",
+                "label": "Forgot password?",
+                "level": "link",
+                "className": "m-b-sm"
+              },
+              {
+                "type": "button",
+                "label": "Create an account",
+                "level": "link",
               }
             ]
           }

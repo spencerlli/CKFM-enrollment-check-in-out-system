@@ -66,7 +66,7 @@
                 
           "type": "crud",
     "syncLocation": false,
-    "api": "http://localhost:5000/studentBriefInfo",
+    "api": "http://54.245.168.231:5002/studentBriefInfo",
     "headerToobar": ["bulkActions"],
     "bulkActions": [
       {
@@ -76,7 +76,7 @@
                         "actionType": "ajax",
                           "api": {
                             "method": "post",
-                            "url": "http://localhost:5000/msgBoard",
+                            "url": "http://54.245.168.231:5002/msgBoard",
                             "data": {
                               "msg": "${note}",
                               "student_id": "${ids}"
@@ -105,7 +105,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://localhost:5000/studentBriefInfo",
+        "url": "http://54.245.168.231:5002/studentBriefInfo",
         "responseData": {
           "s1": "${items|first}",
           "s2": "${items|nth:1}",
@@ -128,7 +128,7 @@
                 
           "type": "crud",
     "syncLocation": false,
-    "api": "http://localhost:5000/msgBoard",
+    "api": "http://54.245.168.231:5002/msgBoard",
     "columns": [
       {
         "name": "timestamp",
@@ -154,7 +154,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://localhost:5000/studentBriefInfo",
+        "url": "http://54.245.168.231:5002/studentBriefInfo",
         "responseData": {
           "s1": "${items|first}",
           "s2": "${items|nth:1}",
@@ -191,7 +191,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://localhost:5000/msgBoard",
+        "url": "http://54.245.168.231:5002/msgBoard",
         "responseData": {
           "msg1": "${items|sortBy:timestamp:numerical:desc|nth:9}",
           "msg2": "${items|sortBy:timestamp:numerical:desc|nth:8}",

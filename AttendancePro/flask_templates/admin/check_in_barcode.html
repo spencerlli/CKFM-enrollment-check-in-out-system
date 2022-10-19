@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <!-- 下列1行：注意替换页面对应名称 -->
-    <title>Check In</title>
+    <title>Check in</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <!-- 下列3行：需要注意填写对应href路径 -->
-    <link rel="stylesheet" href="../../sdk/sdk.css" />
-    <link rel="stylesheet" href="../../sdk/helper.css" />
-    <link rel="stylesheet" href="../../sdk/iconfont.css" />
+    <link rel="stylesheet" href="../sdk/sdk.css" />
+    <link rel="stylesheet" href="../sdk/helper.css" />
+    <link rel="stylesheet" href="../sdk/iconfont.css" />
     <style>
       html,
       body,
@@ -26,19 +26,64 @@
   <body>
     <div id="root" class="app-wrapper"></div>
     <!-- 下列1行：需要注意填写对应路径 -->
-    <script src=" ../../sdk/sdk.js"></script>
+    <script src=" ../sdk/sdk.js"></script>
     <script type="text/javascript">
       (function() {
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "{{ url_for('index') }}"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "{{ url_for('logout') }}"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "{{ url_for('login') }}"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
           "body": [
             {
               "type": "form",
-              "title": "Check In",
+              "title": "Check in",
               "autoFocus": true,
-              "submitText": "",
-              "api": "post:http://localhost:5002/checkIn",
+              "submitText": "Check in",
+              "api": "post:{{ url_for('checkIn') }}",
               "body": [
                 {
                   "type": "input-text",
