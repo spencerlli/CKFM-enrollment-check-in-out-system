@@ -477,6 +477,84 @@ class AdminPhoneResource(Resource):
 ###### Admin ######
 
 
+###### Classes ######
+class Classes(db.Model):
+    __tablename__ = "classes"
+    id = db.Column(db.String(256), primary_key=True)
+    admin_id = db.Column(db.Integer, db.ForeignKey(
+        'admin.id'), primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey(
+        'student.id'), primary_key=True)
+
+
+class ClassesSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'admin_id', 'student_id')
+
+
+classes_schema = ClassesSchema(many=True)
+classess_schema = ClassesSchema(many=True)
+
+
+class ClassesListResource(Resource):
+    def get(self):
+        # get all
+        classess = Classes.query.all()
+        return classess_schema.dump(classess)
+
+    def post(self):
+        # create a new classes
+        new_classes = Classes(
+            id=request.json['id'],
+            admin_id=request.json['admin_id'],
+            student_id=request.json['student_id'],
+        )
+        db.session.add(new_classes)
+        db.session.commit()
+        return classes_schema.dump(new_classes)
+
+
+class ClassesResource(Resource):
+    def get(self, id):
+        # get one by id
+        classes_got = Classes.query.filter_by(id=id).all()
+        return classes_schema.dump(classes_got)
+
+    def put(self, id):
+        # update one by id
+        classes_got = Classes.query.filter_by(id=id).first_or_404()
+
+        if 'admin_id' in request.json:
+            classes_got.admin_id = request.json['admin_id']
+        if 'student_id' in request.json:
+            classes_got.student_id = request.json['student_id']
+
+        db.session.commit()
+        return classes_schema.dump(classes_got)
+
+    def delete(self, id):
+        # delete one by id
+        classes_got = Classes.query.filter_by(id=id).first_or_404()
+        db.session.delete(classes_got)
+        db.session.commit()
+        return '', 204
+
+
+class ClassesAdminResource(Resource):
+    def get(self, admin_id):
+        # get one by id
+        classes_got = Classes.query.filter_by(admin_id=admin_id).all()
+        return classes_schema.dump(classes_got)
+
+
+class ClassesStudentResource(Resource):
+    def get(self, student_id):
+        # get one by id
+        classes_got = Classes.query.filter_by(student_id=student_id).all()
+        return classes_schema.dump(classes_got)
+###### Classes ######
+
+
 api.add_resource(GuardianListResource, '/guardian')
 api.add_resource(GuardianResource, '/guardian/<int:id>')
 api.add_resource(GuardianPhoneResource, '/guardian/phone/<phone>')
@@ -498,6 +576,10 @@ api.add_resource(MsgBoardAdminResource,
 api.add_resource(AdminListResource, '/admin')
 api.add_resource(AdminResource, '/admin/<int:id>')
 api.add_resource(AdminPhoneResource, '/admin/phone/<phone>')
+api.add_resource(ClassesListResource, '/classes')
+api.add_resource(ClassesResource, '/classes/<int:id>')
+api.add_resource(ClassesAdminResource, '/classes/admin/<int:admin_id>')
+api.add_resource(ClassesStudentResource, '/classes/student/<int:student_id>')
 
 
 if __name__ == '__main__':
