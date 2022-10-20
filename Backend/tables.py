@@ -41,7 +41,7 @@ class StudentSchema(ma.Schema):
     class Meta:
         fields = ('id', 'fname', 'lname', 'birthdate', 'gender', 'grade', 'allergies', 'check_in_method',
                   'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday', 'friday_lounge', 'friday_night',
-                  'check_in', 'check_in_time', 'check_out', 'check_out_time', 'barcode')
+                  'check_in', 'check_in_time', 'check_out', 'check_out_time', 'barcode', 'classes_id')
 
 
 class Student(db.Model):
@@ -68,6 +68,7 @@ class Student(db.Model):
     check_out_time = db.Column(db.String(256))
 
     barcode = db.Column(db.String(256))
+    classes_id = db.Column(db.String(256))
 
 
 class FamilyInfoSchema(ma.Schema):

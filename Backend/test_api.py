@@ -773,6 +773,46 @@ def attendanceReport():
     return jsonify(t)
 
 
+@app.route('/classesManage', methods=['GET', 'POST', 'DELETE', 'PUT'])
+def classesManage():
+    t = {
+        "status": 0,
+        "msg": None,
+        "data": []
+    }
+    if request.method == 'GET':
+        t["data"] = {"classes_id_list": [1, 2, 3]}
+    elif request.method == 'POST':
+        if not request.json or "classes_id" not in request.json.keys():
+            t["status"] = 1
+            t["msg"] = "No classes name sent!"
+        else:
+            t["msg"] = "Successfully add a new class!"
+    elif request.method == 'DELETE':
+        if not request.json or "classes_id" not in request.json.keys():
+            t["status"] = 1
+            t["msg"] = "No classes_id sent!"
+        else:
+            t["msg"] = "Successfully delete the class!"
+    else:  # PUT
+        if not request.json or "classes_id" not in request.json.keys() or "operation" not in request.json.keys():
+            t["status"] = 1
+            t["msg"] = "Argument missed!"
+        else:
+            if "student_id_list" not in request.json.keys():
+                t["status"] = 1
+                t["msg"] = "No student ID list!"
+            else:
+                if request.json["operation"] == "add":
+                    t["msg"] = "Successfully add students to the selected class!"
+                elif request.json["operation"] == "drop":
+                    t["msg"] = "Successfully drop students from their classes!"
+                else:
+                    t["msg"] = "Invalid operation!"
+
+    return jsonify(t)
+
+
 # @app.route('/crud', methods=['GET', 'PUT', 'POST', 'DELETE'])
 # def crud():
 #     if (request.method == 'DELETE'):

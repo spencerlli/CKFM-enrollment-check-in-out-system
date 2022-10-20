@@ -111,7 +111,10 @@ class StudentListResource(Resource):
             kid_choir=request.json['kid_choir'],
             u3_friday=request.json['u3_friday'],
             friday_lounge=request.json['friday_lounge'],
-            friday_night=request.json['friday_night']
+            friday_night=request.json['friday_night'],
+
+            # TODO: add classes_id when post student
+            classes_id=request.json['classes_id']
         )
         db.session.add(new_student)
         db.session.flush()
@@ -164,6 +167,9 @@ class StudentResource(Resource):
             student.check_out = request.json['check_out']
         if 'check_out_time' in request.json:
             student.check_out_time = request.json['check_out_time']
+
+        if 'classes_id' in request.json:
+            student.classes_id = request.json['classes_id']
 
         db.session.commit()
         return student_schema.dump(student)
