@@ -664,11 +664,13 @@ def studentBriefInfo():
                 "fname": "changTest1",
                 "lname": "liuTest1",
                 "id": "1",
+                "classes_id": "A"
             },
             {
                 "fname": "yuanTest2",
                 "lname": "zhangTest2",
-                "id": "2"
+                "id": "2",
+                "classes_id": "B"
             }
         ]
     }
@@ -696,21 +698,24 @@ def msgBoard():
                     "fname": "Chang",
                     "lname": "Liu",
                     "msg": "msg 111",
-                    "timestamp": "1661537553"
+                    "timestamp": "1661537553",
+                    "read": False
                 },
                 {
                     "id": 1,
                     "fname": "Chang",
                     "lname": "Liu",
                     "msg": "msg 222",
-                    "timestamp": "1661882133"
+                    "timestamp": "1661882133",
+                    "read": False
                 },
                 {
                     "id": 0,
                     "fname": "Admin",
                     "lname": "",
                     "msg": "msg 333",
-                    "timestamp": "1661903733"
+                    "timestamp": "1661903733",
+                    "read": True
                 }
             ]
         }
