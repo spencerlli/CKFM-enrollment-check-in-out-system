@@ -66,8 +66,8 @@
                 
           "type": "crud",
     "syncLocation": false,
-    "api": "http://54.245.168.231:5000/admin/student",
-    "source": "${items | filter:class:match:keywords}",
+    "api": "http://54.245.168.231:5002/studentBriefInfo",
+    "source": "${items | filter:classes_id:match:keywords}",
     "filter": {
         "body": [
                     {
@@ -108,9 +108,8 @@
         "label": "Last Name"
       },
       {
-        "name": "class",
-        "label": "Class",
-        "value": "N/A"
+        "name": "classes_id",
+        "label": "Class"
       }
     ]
               }
@@ -169,8 +168,8 @@
     ],
     "columns": [
       {
-        "name": "unread",
-        "label": "Unread"
+        "name": "read",
+        "label": "Read"
       },
       {
         "name": "timestamp",
