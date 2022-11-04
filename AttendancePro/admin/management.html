@@ -1161,6 +1161,10 @@
                     "type": "crud",
                     "syncLocation": false,
                     "api": "http://54.245.168.231:5000/admin/student",
+                    "loadDataOnce": true,
+                    "source": "${items | filter:fname:match:fname\
+                                       | filter:lname:match:lname\
+                                       | filter:classes_id:match:class}",
                     "filter": {
                       "body": [
                         {
@@ -1214,6 +1218,10 @@
                               }
                             }
                           }
+                        },
+                        {
+                          "type": "reset",
+                          "label": "Reset"
                         },
                         {
                           "type": "submit",
@@ -1281,19 +1289,18 @@
                       },
                       {
                         "name": "fname",
-                        "label": "First Name"
+                        "label": "First Name",
+                        "sortable": true
                       },
                       {
                         "name": "lname",
-                        "label": "Last Name"
-                      },
-                      {
-                        "name": "grade",
-                        "label": "Grade"
+                        "label": "Last Name",
+                        "sortable": true
                       },
                       {
                         "name": "classes_id",
-                        "label": "Class"
+                        "label": "Class",
+                        "sortable": true
                       }
                     ]
                   }

@@ -79,10 +79,57 @@
           ],
           "body": {
             "type": "crud",
-            "api": "http://54.245.168.231:5002/attendanceReport",
+            "api": {
+              "method": "get",
+              "url": "http://54.245.168.231:5002/attendanceReport",
+              adaptor: function (payload, response, api) {
+                function exist(p) {
+                  if (typeof p === 'undefined') {
+                    return false;
+                  }
+                  return true;
+                };
+
+                // Filter for check-in time
+                if (exist(api.query.check_in_time)) {
+                  let time = api.query.check_in_time.split(',');
+                  let start = parseInt(time[0]);
+                  if (start && exist(payload.data.items)) {
+                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) > start);
+                  }
+
+                  let end = parseInt(time[1]);
+                  if (end && exist(payload.data.items)) {
+                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) < end);
+                  }
+                }
+
+                // Filter for check-out time
+                if (exist(api.query.check_out_time)) {
+                  let time = api.query.check_out_time.split(',');
+                  let start = parseInt(time[0]);
+                  if (start && exist(payload.data.items)) {
+                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) > start);
+                  }
+
+                  let end = parseInt(time[1]);
+                  if (end && exist(payload.data.items)) {
+                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) < end);
+                  }
+                }
+
+                return {...payload};
+              } 
+            },
             "syncLocation": false,
+            "loadDataOnce": true,
+            "source": "${items | filter:student_name:match:student_name\
+                               | filter:current_status:match:current_status\
+                               | filter:check_in_method:match:check_in_method\
+                               | filter:check_in:match:check_in\
+                               | filter:check_out:match:check_out\
+                               | filter:programs:match:programs}",
             "filter": {
-              "debug": false,
               "body": [
                 {
                   "type": "input-text",
@@ -127,7 +174,8 @@
                 {
                   "type": "input-datetime-range",
                   "name": "check_in_time",
-                  "label": "Checked in time range:"
+                  "label": "Checked in time range:",
+                  "inputFormat": "M/D/YYYY HH:mm"
                 },
                 {
                   "type": "input-text",
@@ -137,7 +185,8 @@
                 {
                   "type": "input-datetime-range",
                   "name": "check_out_time",
-                  "label": "Checked out time range:"
+                  "label": "Checked out time range:",
+                  "inputFormat": "M/D/YYYY HH:mm"
                 },
                 {
                   "type": "select",
@@ -236,12 +285,14 @@
               },
               {
                 "name": "student_name",
-                "label": "Student Name"
+                "label": "Student Name",
+                "sortable": true
               },
               {
                 "name": "current_status",
                 "type": "mapping",
                 "label": "Current Status",
+                "sortable": true,
                 "map": {
                   "0": "<span class='label label-warning'>Not checked in</span>",
                   "1": "<span class='label label-info'>Checked in</span>",
@@ -251,32 +302,38 @@
               },
               {
                 "name": "check_in_method",
-                "label": "Check-in/out Method"
+                "label": "Check-in/out Method",
+                "sortable": true
               },
               {
                 "name": "check_in",
-                "label": "Checked in by"
+                "label": "Checked in by",
+                "sortable": true
               },
               {
                 "type": "date",
                 "name": "check_in_time",
                 "label": "Check-in Time",
-                "format": "HH:mm, MM/DD"
+                "format": "M/D/YYYY HH:mm",
+                "sortable": true
               },
               {
                 "name": "check_out",
-                "label": "Checked out by"
+                "label": "Checked out by",
+                "sortable": true
               },
               {
                 "type": "date",
                 "name": "check_out_time",
                 "label": "Check-out Time",
-                "format": "HH:mm, MM/DD"
+                "format": "M/D/YYYY HH:mm",
+                "sortable": true
               },
               {
                 "name": "programs",
                 "type": "mapping",
                 "label": "Program(s)",
+                "sortable": true,
                 "map": {
                   "sunday_school": "<span class='label label-default'>Sunday School</span>",
                   "cm_lounge": "<span class='label label-default'>CM Parent and Child Lounge</span>",
