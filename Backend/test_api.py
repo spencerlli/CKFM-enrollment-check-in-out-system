@@ -786,7 +786,22 @@ def classesManage():
         "data": []
     }
     if request.method == 'GET':
-        t["data"] = {"classes_id_list": [1, 2, 3]}
+        t["data"] = {
+            "options": [  # need to use "options" as the key
+                {
+                    "label": "A",
+                    "value": "A"
+                },
+                {
+                    "label": "B",
+                    "value": "B"
+                },
+                {
+                    "label": "C",
+                    "value": "C"
+                }
+            ]
+        }
     elif request.method == 'POST':
         if not request.json or "classes_id" not in request.json.keys():
             t["status"] = 1
