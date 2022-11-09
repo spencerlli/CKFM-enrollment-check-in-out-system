@@ -699,7 +699,7 @@ def msgBoard():
                     "lname": "Liu",
                     "msg": "msg 111",
                     "timestamp": "1661537553",
-                    "read": False
+                    "read": 'No'
                 },
                 {
                     "id": 1,
@@ -707,7 +707,7 @@ def msgBoard():
                     "lname": "Liu",
                     "msg": "msg 222",
                     "timestamp": "1661882133",
-                    "read": False
+                    "read": 'No'
                 },
                 {
                     "id": 0,
@@ -715,7 +715,7 @@ def msgBoard():
                     "lname": "",
                     "msg": "msg 333",
                     "timestamp": "1661903733",
-                    "read": True
+                    "read": 'Yes'
                 }
             ]
         }
