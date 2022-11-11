@@ -226,51 +226,51 @@
                   "type": "reset",
                   "label": "Reset"
                 },
-                {
-                  "type": "button",
-                  "label": "Get achievement report",
-                  "actionType": "ajax",
-                  "required": ["student_name", "check_out_time", "programs"],
-                  "api": {
-                    "method": "get",
-                    "url": "test",
-                    "responseType": "blob",
-                    "data": {
-                      "&": "$$",
-                      "achievement_report": true
-                    }
-                  }
-                },
-                {
-                  "type": "button",
-                  "label": "Get attendance rate",
-                  "actionType": "ajax",
-                  "required": ["check_out_time", "programs"],
-                  "api": {
-                    "method": "get",
-                    "url": "test",
-                    "responseType": "blob",
-                    "data": {
-                      "&": "$$",
-                      "attendance_rate": true
-                    }
-                  }
-                },
-                {
-                  "type": "button",
-                  "label": "Get attendance report",
-                  "actionType": "ajax",
-                  "required": ["programs"],
-                  "api": {
-                    "method": "get",
-                    "url": "test",
-                    "responseType": "blob",
-                    "data": {
-                      "&": "$$",
-                      "attendance_report": true
-                    }
-                  }
-                },
+                // {
+                //   "type": "button",
+                //   "label": "Get achievement report",
+                //   "actionType": "ajax",
+                //   "required": ["student_name", "check_out_time", "programs"],
+                //   "api": {
+                //     "method": "get",
+                //     "url": "test",
+                //     "responseType": "blob",
+                //     "data": {
+                //       "&": "$$",
+                //       "achievement_report": true
+                //     }
+                //   }
+                // },
+                // {
+                //   "type": "button",
+                //   "label": "Get attendance rate",
+                //   "actionType": "ajax",
+                //   "required": ["check_out_time", "programs"],
+                //   "api": {
+                //     "method": "get",
+                //     "url": "test",
+                //     "responseType": "blob",
+                //     "data": {
+                //       "&": "$$",
+                //       "attendance_rate": true
+                //     }
+                //   }
+                // },
+                // {
+                //   "type": "button",
+                //   "label": "Get attendance report",
+                //   "actionType": "ajax",
+                //   "required": ["programs"],
+                //   "api": {
+                //     "method": "get",
+                //     "url": "test",
+                //     "responseType": "blob",
+                //     "data": {
+                //       "&": "$$",
+                //       "attendance_report": true
+                //     }
+                //   }
+                // },
                 {
                   "type": "submit",
                   "level": "primary",
@@ -278,6 +278,23 @@
                 }
               ]
             },
+            "headerToolbar": [
+              {
+                "type": "export-excel",
+                "label": "Export to Excel",
+                "filename": "log",
+                "columns": [
+                  "student_name",
+                  "current_status",
+                  "check_in_method",
+                  "check_in",
+                  "check_in_time",
+                  "check_out",
+                  "check_out_time",
+                  "programs"
+                ]
+              }
+            ],
             "columns": [
               {
                 "name": "id",
