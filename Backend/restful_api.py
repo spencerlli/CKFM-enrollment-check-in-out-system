@@ -376,7 +376,6 @@ class MsgBoardListResource(Resource):
             time=request.json['time'],
             about_student=request.json['about_student'],
             sender=request.json['sender'],
-            refer_msg=request.json['refer_msg'],
             been_read=request.json['been_read'],
         )
         db.session.add(new_msg)
@@ -392,8 +391,6 @@ class MsgBoardResource(Resource):
 
     def put(self, id):
         msg_record = MsgBoard.query.filter_by(id=id).first_or_404()
-        if 'refer_msg' in request.json:
-            msg_record.refer_msg = request.json['refer_msg']
         if 'been_read' in request.json:
             msg_record.been_read = request.json['been_read']
         db.session.commit()
