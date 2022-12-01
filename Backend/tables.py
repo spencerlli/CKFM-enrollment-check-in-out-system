@@ -102,7 +102,8 @@ class FamilyInfo(db.Model):
 
 class MsgBoardSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'send_id', 'receive_id', 'content', 'time', 'about_student', 'sender', 'been_read')
+        fields = ('id', 'send_id', 'receive_id', 'content',
+                  'time', 'about_student', 'sender', 'been_read')
 
 
 class MsgBoard(db.Model):
@@ -145,6 +146,26 @@ class Admin(db.Model):
 #     db.Column('admin_id', db.Integer, db.ForeignKey('admin.id'), primary_key=True),
 #     db.Column('student_id', db.Integer, db.ForeignKey('student.id'), primary_key=True),
 # )
+
+
+class LogSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'student_id', 'current_status', 'check_method', 'check_in_by', 'check_in_time',
+                  'check_out_by', 'check_out_time', 'program', 'daily_progess')
+
+
+class Log(db.Model):
+    __tablename__ = "log"
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer)
+    current_status = db.Column(db.String(256))
+    check_method = db.Column(db.String(256))
+    check_in_by = db.Column(db.Integer)
+    check_in_time = db.Column(db.String(256))
+    check_out_by = db.Column(db.Integer)
+    check_out_time = db.Column(db.String(256))
+    program = db.Column(db.String(256))
+    daily_progress = db.Column(db.String(256))
 
 
 if __name__ == '__main__':

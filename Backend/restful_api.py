@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource, Api
 from tables import Guardian, GuardianSchema, Student, StudentSchema, \
     FamilyInfo, FamilyInfoSchema, MsgBoard, MsgBoardSchema, app, db, ma
-from tables import Admin, AdminSchema
+from tables import Admin, AdminSchema, Log, LogSchema
 
 api = Api(app)
 
@@ -569,31 +569,109 @@ class ClassesStudentResource(Resource):
 ###### Classes ######
 
 
+###### Logs ######
+log_schema = LogSchema()
+logs_schema = LogSchema(many=True)
+
+
+class LogListResource(Resource):
+    def get(self):
+        # get all
+        logs = Log.query.all()
+        return logs_schema.dump(logs)
+
+    def post(self):
+        # create a new one
+        new_log = Log(
+            student_id=request.json['student_id'],
+            current_status=request.json['current_status'],
+            check_method=request.json['check_method'],
+            check_in_by=request.json['check_in_by'],
+            check_in_time=request.json['check_in_time'],
+            check_out_by=request.json['check_out_by'],
+            check_out_time=request.json['check_out_time'],
+            program=request.json['program'],
+            daily_progress=request.json['daily_progress']
+        )
+        db.session.add(new_log)
+        db.session.flush()
+        db.session.commit()
+        return log_schema.dump(new_log)
+
+
+class LogResource(Resource):
+    def get(self, id):
+        # get one by id
+        log = Log.query.filter_by(id=id).first_or_404()
+        return log_schema.dump(log)
+
+    def put(self, id):
+        # update one by id
+        log = Log.query.filter_by(id=id).first_or_404()
+        if 'student_id' in request.json:
+            log.student_id = request.json['student_id']
+        if 'current_status' in request.json:
+            log.current_status = request.json['current_status']
+        if 'check_method' in request.json:
+            log.check_method = request.json['check_method']
+        if 'check_in_by' in request.json:
+            log.check_in_by = request.json['check_in_by']
+        if 'check_in_time' in request.json:
+            log.check_in_time = request.json['check_in_time']
+        if 'check_out_by' in request.json:
+            log.check_out_by = request.json['check_out_by']
+        if 'check_out_time' in request.json:
+            log.check_out_time = request.json['check_out_time']
+        if 'program' in request.json:
+            log.program = request.json['program']
+        if 'daily_progress' in request.json:
+            log.daily_progress = request.json['daily_progress']
+
+        db.session.commit()
+        return log_schema.dump(log)
+
+    def delete(self, id):
+        # delete one by id
+        log = Log.query.filter_by(id=id).first_or_404()
+        db.session.delete(log)
+        db.session.commit()
+        return '', 204
+###### Logs ######
+
+
 api.add_resource(GuardianListResource, '/guardian')
 api.add_resource(GuardianResource, '/guardian/<int:id>')
 api.add_resource(GuardianPhoneResource, '/guardian/phone/<phone>')
 api.add_resource(GuardianBarcodeResource, '/guardian/barcode/<barcode>')
+
 api.add_resource(StudentListResource, '/student')
 api.add_resource(StudentResource, '/student/<int:id>')
 api.add_resource(StudentBarcodeResource, '/student/barcode/<barcode>')
+
 api.add_resource(FamilyInfoListResource, '/familyInfo')
 api.add_resource(FamilyInfoResource, '/familyInfo/<int:id>')
 api.add_resource(FamilyListResource, '/family')
 api.add_resource(FamilyResource, '/family/<int:id>')
 api.add_resource(FamilyGuardianResource, '/family/guardian/<int:guardian_id>')
+
 api.add_resource(MsgBoardListResource, '/msgBoard')
 api.add_resource(MsgBoardResource, '/msgBoard/<int:id>')
 api.add_resource(MsgBoardGuardianResource,
                  '/msgBoard/guardian/<int:guardian_id>')
 api.add_resource(MsgBoardAdminResource,
                  '/msgBoard/admin/<int:admin_id>')
+
 api.add_resource(AdminListResource, '/admin')
 api.add_resource(AdminResource, '/admin/<int:id>')
 api.add_resource(AdminPhoneResource, '/admin/phone/<phone>')
+
 api.add_resource(ClassesListResource, '/classes')
 api.add_resource(ClassesResource, '/classes/<int:id>')
 api.add_resource(ClassesAdminResource, '/classes/admin/<int:admin_id>')
 api.add_resource(ClassesStudentResource, '/classes/student/<int:student_id>')
+
+api.add_resource(LogListResource, '/log')
+api.add_resource(LogResource, '/log/<int:id>')
 
 
 if __name__ == '__main__':
