@@ -590,7 +590,6 @@ class LogListResource(Resource):
             check_in_time=request.json['check_in_time'],
             check_out_by=request.json['check_out_by'],
             check_out_time=request.json['check_out_time'],
-            program=request.json['program'],
             daily_progress=request.json['daily_progress']
         )
         db.session.add(new_log)
@@ -622,8 +621,6 @@ class LogResource(Resource):
             log.check_out_by = request.json['check_out_by']
         if 'check_out_time' in request.json:
             log.check_out_time = request.json['check_out_time']
-        if 'program' in request.json:
-            log.program = request.json['program']
         if 'daily_progress' in request.json:
             log.daily_progress = request.json['daily_progress']
 

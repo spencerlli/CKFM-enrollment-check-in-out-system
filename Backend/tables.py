@@ -150,8 +150,8 @@ class Admin(db.Model):
 
 class LogSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'student_id', 'current_status', 'check_method', 'check_in_by', 'check_in_time',
-                  'check_out_by', 'check_out_time', 'program', 'daily_progess')
+        fields = ('id', 'student_id', 'current_status', 'check_method', 'check_in_by', 
+                  'check_in_time', 'check_out_by', 'check_out_time', 'daily_progess')
 
 
 class Log(db.Model):
@@ -164,7 +164,6 @@ class Log(db.Model):
     check_in_time = db.Column(db.String(256))
     check_out_by = db.Column(db.Integer)
     check_out_time = db.Column(db.String(256))
-    program = db.Column(db.String(256))
     daily_progress = db.Column(db.String(256))
 
 
