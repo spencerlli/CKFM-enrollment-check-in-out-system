@@ -85,9 +85,17 @@
               },
               {
                 "type": "button",
-                "label": "Forgot password?",  // todo
+                "label": "Forgot password?",
                 "level": "link",
-                "className": "m-b-sm"
+                "className": "m-b-sm",
+                "actionType": "dialog",
+                "dialog": {
+                  "title": "Forgot password?",
+                  "body": {
+                    "type": "tpl",
+                    "tpl": "Please contact the administrator."
+                  }
+                }
               },
               {
                 "type": "button",
