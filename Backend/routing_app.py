@@ -352,7 +352,6 @@ def preCheckIn():
     else:   # POST
         guardian_id = 0
         student_list = []
-        print(request.json)
         for object_json in request.json.get('items'):
             if object_json['object'] == 'guardian':  # selected guardian
                 guardian_id = object_json['id']
@@ -634,6 +633,16 @@ def guardianBarcode():
     return jsonify(res)
 
 
+@app.route('/log', methods=['GET'])
+def logPage():
+    return render_template('flask_templates/admin/log.html')
+
+
+@app.route('/log', methods=['OPTIONS', 'POST', 'PUT', 'DELETE'])
+def log():
+    pass
+
+
 def generate_random_str(randomLength=8):
     random_str = ''
     base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789'
@@ -645,3 +654,4 @@ def generate_random_str(randomLength=8):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+    
