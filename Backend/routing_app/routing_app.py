@@ -12,8 +12,8 @@ import datetime
 
 # pymysql.install_as_MySQLdb()
 
-template_dir = os.path.abspath('../AttendancePro')
-static_dir = os.path.abspath('../AttendancePro/sdk')
+template_dir = os.path.abspath('../../AttendancePro')
+static_dir = os.path.abspath('../../AttendancePro/sdk')
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 app.secret_key = '123456'
 
@@ -653,5 +653,5 @@ def generate_random_str(randomLength=8):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(port=5000, debug=True)
     
