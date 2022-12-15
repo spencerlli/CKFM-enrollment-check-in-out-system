@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
-import config
+from .. import config
 from flask_cors import CORS
 import pymysql
 
@@ -167,5 +167,5 @@ class Log(db.Model):
     daily_progress = db.Column(db.String(256))
 
 
-if __name__ == '__main__':
-    db.create_all()
+# if __name__ == '__main__':
+#     db.create_all()

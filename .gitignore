@@ -12,5 +12,6 @@ Backend/config.py
 flask-crud-application-with-mysql-master/config.py
 Backend/*.json
 Backend/data
+*/__pycache__
 
 # AttendancePro/flask_templates/*
