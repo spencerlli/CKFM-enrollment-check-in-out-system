@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
-from .. import config
+import config
 from flask_cors import CORS
 import pymysql
 

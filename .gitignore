@@ -1,5 +1,4 @@
 slick-crud-app-master
-Backend/__pycache__
 Backend/app.py
 AttendancePro/dev/
 #AttendancePro/sdk/
@@ -8,10 +7,10 @@ AttendancePro/dev/
 .DS_Store
 AttendancePro/.DS_Store
 
-Backend/config.py
+config.py
 flask-crud-application-with-mysql-master/config.py
 Backend/*.json
 Backend/data
-*/__pycache__
+__pycache__
 
 # AttendancePro/flask_templates/*
