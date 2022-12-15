@@ -1,7 +1,6 @@
 import json
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import requests
 
 app = Flask(__name__)
 CORS(app, resources=r'/*', supports_credentials=True)
@@ -725,7 +724,7 @@ def msgBoard():
     return jsonify(t)
 
 
-@app.route('/attendanceReport', methods=['GET', 'POST'])
+@app.route('/attendanceReport', methods=['GET', 'POST', 'PUT'])
 def attendanceReport():
     t = {
         "status": 0,
@@ -734,7 +733,9 @@ def attendanceReport():
     }
     if request.method == 'POST':
         t["msg"] = "Successfully post message!"
-    else:
+    elif request.method == 'PUT':
+        t["msg"] = "Successfully edited daily progress!"
+    else:   # GET
         t["data"] = {
             "items": [
                 {
@@ -746,7 +747,8 @@ def attendanceReport():
                     "check_in_time": "1661882133",
                     "check_out": "Father Malone",
                     "check_out_time": "1661903733",
-                    "programs": ["sunday_school", "cm_lounge"]
+                    "programs": ["sunday_school", "cm_lounge"],
+                    "daily_progress": ["Being on time", "Brought a friend", "Wearing uniform", "Brought workbook"]
                 },
                 {
                     "id": 2,
@@ -757,7 +759,8 @@ def attendanceReport():
                     "check_in_time": "1661537553",
                     "check_out": None,
                     "check_out_time": None,
-                    "programs": ["kid_choir", "u3_friday"]
+                    "programs": ["kid_choir", "u3_friday"],
+                    "daily_progress": ["Wearing uniform", "Brought workbook"]
                 },
                 {
                     "id": 3,
@@ -768,7 +771,8 @@ def attendanceReport():
                     "check_in_time": None,
                     "check_out": None,
                     "check_out_time": None,
-                    "programs": ["friday_lounge", "friday_night"]
+                    "programs": ["friday_lounge", "friday_night"],
+                    "daily_progress": []
                 }
             ]
         }
@@ -833,69 +837,21 @@ def classesManage():
     return jsonify(t)
 
 
-# @app.route('/crud', methods=['GET', 'PUT', 'POST', 'DELETE'])
-# def crud():
-#     if (request.method == 'DELETE'):
-#         return {"status": 0,
-#                 "msg": "Successfully get crud items!",
-#                 "data": {}}, 200
-#     t = {
-#         "status": 0,
-#         "msg": "Successfully get crud items!",
-#         "data": {
-#             "items": [
-#                 {
-#                     "id": 1,
-#                     "fname": "Yuan JR",
-#                     "lname": "Zhang",
-#                     "birthdate": "2022-07-27",
-#                     "gender": "M",
-#                     "school": "UC",
-#                     "grade": "A",
-#                     "allergies": None,
-#                     "allergies_medications": None,
-#                     "medications": None,
-#                     "emergency": "Yuan Zhang",
-#                     "emergency_phone": "001",
-#                     "insurance": "UC SHIP"
-#                 },
-#                 {
-#                     "id": 2,
-#                     "fname": "Lingxin JR",
-#                     "lname": "Li",
-#                     "birthdate": "2022-07-27",
-#                     "gender": "F",
-#                     "school": "UC",
-#                     "grade": "A",
-#                     "allergies": None,
-#                     "allergies_medications": None,
-#                     "medications": None,
-#                     "emergency": "Lingxin Li",
-#                     "emergency_phone": "002",
-#                     "insurance": "UC SHIP"
-#                 },
-#                 {
-#                     "id": 3,
-#                     "fname": "Chang JR",
-#                     "lname": "Liu",
-#                     "birthdate": "2022-07-27",
-#                     "gender": "M",
-#                     "school": "UC",
-#                     "grade": "A",
-#                     "allergies": None,
-#                     "allergies_medications": None,
-#                     "medications": None,
-#                     "emergency": "Yuan Zhang",
-#                     "emergency_phone": "001",
-#                     "insurance": "UC SHIP"
-#                 }
-#             ],
-#             "hasNext": True
-#         }
-#     }
+@app.route('/accountControl', methods=['POST', 'DELETE', 'PUT'])
+def accountControl():
+    t = {
+        "status": 0,
+        "msg": "",
+        "data": {}
+    }
+    if request.method == 'POST':
+        t["msg"] = 'Successfully create account!'
+    elif request.method == 'PUT':
+        t["msg"] = 'Successfully change password!'
+    else:   # DELETE
+        t["msg"] = 'Successfully delete account'
 
-#     return jsonify(t)
-
+    return jsonify(t)
 
 @app.route('/requestForm', methods=['GET', 'POST', 'OPTIONS'])
 def requestForm():
