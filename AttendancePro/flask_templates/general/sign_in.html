@@ -40,7 +40,7 @@
                 "type": "form",
                 "title": "Sign in",
                 "submitText": "Sign in",
-                "api": "post:http://54.245.168.231:5000/login",
+                "api": "post:http://localhost:5000/login",
                 "className": "w-lg",
                 "body": [
                   {
@@ -69,14 +69,14 @@
                         "stopPropagation": true,
                         "expression": "event.data.result.data.object === 'guardian'",
                         "args": {
-                          "link": "../guardian/index.html"
+                          "link": "{{ url_for('index') }}"
                         }
                       },
                       {
                         "actionType": "link",
                         "expression": "event.data.result.data.object === 'admin'",
                         "args": {
-                          "link": "../admin/index.html"
+                          "link": "{{ url_for('index') }}"
                         }
                       }
                     ]

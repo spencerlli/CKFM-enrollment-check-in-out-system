@@ -46,7 +46,7 @@
                   "icon": "fa-solid fa-house",
                   "className": "m-l-sm",
                   "actionType": "link",
-                  "link": "./index.html"
+                  "link": "{{url_for('index')}}"
                 },
                 {
                   "type": "button",
@@ -69,7 +69,7 @@
                           "actionType": "link",
                           "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
                           "args": {
-                            "link": "../general/sign_in.html"
+                            "link": "{{url_for('login')}}"
                           }
                         }
                       ]
@@ -89,7 +89,7 @@
                       "type": "button",
                       "label": "Enrollment / 注册",
                       "actionType": "link",
-                      "link": "./form.html",
+                      "link": "{{url_for('enrollPage')}}",
                       "icon": "fa-solid fa-user-plus",
                       "size": "lg",
                       "block": true,
@@ -99,7 +99,7 @@
                       "type": "button",
                       "label": "Enrollment Management / 注册管理",
                       "actionType": "link",
-                      "link": "./management.html",
+                      "link": "{{url_for('userManagePage')}}",
                       "icon": "fa-solid fa-user-pen",
                       "size": "lg",
                       "block": true
@@ -108,7 +108,7 @@
                       "type": "button",
                       "label": "Communication / 留言",
                       "actionType": "link",
-                      "link": "../general/communication.html",
+                      "link": "{{url_for('msgBoardPage')}}",
                       "icon": "fa-solid fa-comments",
                       "level": "light",
                       "size": "lg",
@@ -122,7 +122,7 @@
                       "type": "button",
                       "label": "Pre-check in / 预签到",
                       "actionType": "link",
-                      "link": "./pre_check_in.html",
+                      "link": "{{url_for('preCheckInPage')}}",
                       "icon": "fa-solid fa-arrow-right-to-bracket",
                       "size": "lg",
                       "block": true
@@ -131,7 +131,7 @@
                       "type": "button",
                       "label": "Pre-check out / 预签出",
                       "actionType": "link",
-                      "link": "./pre_check_out.html",
+                      "link": "{{url_for('preCheckOutPage')}}",
                       "icon": "fa-solid fa-arrow-right-from-bracket",
                       "size": "lg",
                       "level": "light",
