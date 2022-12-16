@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 import os
 from flask_cors import CORS
 import requests
-from config import REST_API
+from routing_config import REST_API
 from copy import deepcopy
 import datetime
 

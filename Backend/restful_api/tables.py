@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
-import config
+import restful_config
 from flask_cors import CORS
 import pymysql
 
@@ -11,7 +11,7 @@ pymysql.install_as_MySQLdb()
 app = Flask(__name__)
 app.secret_key = '654321'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s:%s/%s' % (
-    config.MYSQL_USER, config.MYSQL_PASSWORD, config.MYSQL_HOST, config.MYSQL_PORT, config.MYSQL_DB)
+    restful_config.MYSQL_USER, restful_config.MYSQL_PASSWORD, restful_config.MYSQL_HOST, restful_config.MYSQL_PORT, restful_config.MYSQL_DB)
 
 db = SQLAlchemy(app)
 CORS(app, resources=r'/*', supports_credentials=True)
