@@ -36,9 +36,54 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "./index.html"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "http://54.245.168.231:5002/logout"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "../general/sign_in.html"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
           "body": {
             "type": "crud",
-            "api": "{{url_for('preCheckOut')}}",
+            "api": "http://54.245.168.231:5002/preCheckOut",
             "mode": "cards",
             "card": {
               "header": {
@@ -63,11 +108,38 @@
                         "args": {
                           "api": {
                             "method": "post",
-                            "url": "{{url_for('preCheckOut')}}",
+                            "url": "http://54.245.168.231:5002/preCheckOut",
                             "data": {
                               "items": "${selectedItems}"
                             }
                           }
+                        }
+                      },
+                      {
+                        "actionType": "dialog",
+                        "stopPropagation": true,
+                        "expression": "typeof event.data.responseResult === 'undefined' || event.data.responseResult.responseStatus !== 0",
+                        "dialog": {
+                          "title": "Failure",
+                          "showCloseButton": true,
+                          "body": [
+                            {
+                              "type": "alert",
+                              "title": "Failed to pre-check out!",
+                              "body": "Please try again later.",
+                              "level": "danger",
+                              "showIcon": true
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "type": "button",
+                              "label": "OK",
+                              "actionType": "link",
+                              "link": "./index.html",
+                              "primary": true
+                            }
+                          ]
                         }
                       },
                       {
@@ -90,33 +162,7 @@
                               "type": "button",
                               "label": "OK",
                               "actionType": "link",
-                              "link": "{{url_for('index')}}",
-                              "primary": true
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "actionType": "dialog",
-                        "expression": "typeof event.data.responseResult === 'undefined' || event.data.responseResult.responseStatus !== 0",
-                        "dialog": {
-                          "title": "Failure",
-                          "showCloseButton": true,
-                          "body": [
-                            {
-                              "type": "alert",
-                              "title": "Failed to pre-check out!",
-                              "body": "Please try again later.",
-                              "level": "danger",
-                              "showIcon": true
-                            }
-                          ],
-                          "actions": [
-                            {
-                              "type": "button",
-                              "label": "OK",
-                              "actionType": "link",
-                              "link": "{{url_for('index')}}",
+                              "link": "./index.html",
                               "primary": true
                             }
                           ]

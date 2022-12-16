@@ -633,7 +633,7 @@ def guardianBarcode():
     return jsonify(res)
 
 
-@app.route('/log', methods=['GET'])
+@app.route('/logPage', methods=['GET'])
 def logPage():
     return render_template('flask_templates/admin/log.html')
 
@@ -653,5 +653,5 @@ def generate_random_str(randomLength=8):
 
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5000)
     

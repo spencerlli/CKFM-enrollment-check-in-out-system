@@ -46,7 +46,7 @@
                   "icon": "fa-solid fa-house",
                   "className": "m-l-sm",
                   "actionType": "link",
-                  "link": "./index.html"
+                  "link": "{{ url_for('index') }}"
                 },
                 {
                   "type": "button",
@@ -69,7 +69,7 @@
                           "actionType": "link",
                           "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
                           "args": {
-                            "link": "../general/sign_in.html"
+                            "link": "{{ url_for('login') }}"
                           }
                         }
                       ]
@@ -89,7 +89,7 @@
                       "type": "button",
                       "label": "Enrollment / 注册",
                       "actionType": "link",
-                      "link": "./form.html",
+                      "link": "{{ url_for('enrollPage') }}",
                       "icon": "fa-solid fa-user-plus",
                       "size": "lg",
                       "block": true,
@@ -99,7 +99,7 @@
                       "type": "button",
                       "label": "Enrollment Management / 注册管理",
                       "actionType": "link",
-                      "link": "./management.html",
+                      "link": "{{ url_for('adminManagePage') }}",
                       "icon": "fa-solid fa-user-pen",
                       "size": "lg",
                       "block": true
@@ -108,7 +108,7 @@
                       "type": "button",
                       "label": "Check in / 签到",
                       "actionType": "link",
-                      "link": "./check_in_barcode.html",
+                      "link": "{{ url_for('checkInPage') }}",
                       "icon": "fa-solid fa-arrow-right-to-bracket",
                       "size": "lg",
                       "block": true,
@@ -118,7 +118,7 @@
                       "type": "button",
                       "label": "Check out / 签出",
                       "actionType": "link",
-                      "link": "./check_out_barcode.html",
+                      "link": "{{ url_for('checkOutPage') }}",
                       "icon": "fa-solid fa-arrow-right-from-bracket",
                       "size": "lg",
                       "block": true
@@ -131,7 +131,7 @@
                       "type": "button",
                       "label": "View Check in&out Log / 查看签到日志",
                       "actionType": "link",
-                      "link": "./log.html",
+                      "link": "{{ url_for('logPage') }}",
                       "icon": "fa-solid fa-list",
                       "size": "lg",
                       "block": true
@@ -140,7 +140,7 @@
                       "type": "button",
                       "label": "Input Daily Progress / 输入每日进展",
                       "actionType": "link",
-                      "link": "./log.html",
+                      "link": "{{ url_for('logPage') }}",
                       "icon" : "fa-solid fa-pen-to-square",
                       "size": "lg",
                       "level": "light",
@@ -150,7 +150,7 @@
                       "type": "button",
                       "label": "Communication / 留言",
                       "actionType": "link",
-                      "link": "./admin_communication.html",
+                      "link": "{{ url_for('msgBoardPage') }}",
                       "icon": "fa-solid fa-comments",
                       "size": "lg",
                       "block": true

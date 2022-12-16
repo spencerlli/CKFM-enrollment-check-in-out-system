@@ -48,10 +48,7 @@
                     "name": "phone",
                     "label": false,
                     "placeholder": "Phone number",
-                    "required": true,
-                    "validations": {
-                      "isTelNumber": true
-                    }
+                    "required": true
                   },
                   {
                     "type": "input-password",
@@ -87,61 +84,12 @@
                 "type": "button",
                 "label": "Forgot password?",
                 "level": "link",
-                "className": "m-b-sm",
-                "actionType": "dialog",
-                "dialog": {
-                  "title": "Forgot password?",
-                  "body": {
-                    "type": "tpl",
-                    "tpl": "Please contact the administrator."
-                  }
-                }
+                "className": "m-b-sm"
               },
               {
                 "type": "button",
                 "label": "Create an account",
                 "level": "link",
-                "actionType": "dialog",
-                "dialog": {
-                  "title": "Create an account",
-                  "body": {
-                    "type": "form",
-                    "api": "", // todo
-                    "body": [
-                      {
-                        "type": "input-text",
-                        "name": "phone",
-                        "label": false,
-                        "placeholder": "Phone number",
-                        "required": true,
-                        "validations": {
-                          "isTelNumber": true
-                        }
-                      },
-                      {
-                        "type": "input-password",
-                        "name": "password",
-                        "label": false,
-                        "placeholder": "Password",
-                        "required": true
-                      },
-                      {
-                        "type": "input-password",
-                        "name": "confirm_password",
-                        "label": false,
-                        "placeholder": "Confirm password",
-                        "required": true,
-                        "validations": {
-                          "equalsField": "password"
-                        },
-                        "validationErrors": {
-                          "equalsField": "passord doesn't match!"
-                        },
-                        "validateOnChange": true
-                      }
-                    ]
-                  }
-                }
               }
             ]
           }

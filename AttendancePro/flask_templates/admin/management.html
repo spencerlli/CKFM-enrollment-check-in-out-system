@@ -1159,7 +1159,12 @@
                 "tab": [
                   {
                     "type": "crud",
+                    "syncLocation": false,
                     "api": "http://54.245.168.231:5000/admin/student",
+                    "loadDataOnce": true,
+                    "source": "${items | filter:fname:match:fname\
+                                       | filter:lname:match:lname\
+                                       | filter:classes_id:match:class}",
                     "filter": {
                       "body": [
                         {
@@ -1176,8 +1181,8 @@
                           "type": "select",
                           "name": "class",
                           "label": "Class:",
-                          "source": "" // use REST api for getting class names
-                                       // https://baidu.github.io/amis/zh-CN/components/form/options#%E8%BF%9C%E7%A8%8B%E6%8B%89%E5%8F%96
+                          "source": "http://54.245.168.231:5002/classesManage" // use REST api for getting class names
+                          // https://baidu.github.io/amis/zh-CN/components/form/options#%E8%BF%9C%E7%A8%8B%E6%8B%89%E5%8F%96
                         }
                       ],
                       "actions": [
@@ -1187,8 +1192,13 @@
                           "level": "danger",
                           "required": ["class"],
                           "actionType": "ajax",
-                          "confirmText": "Do you want to delete this class?",
-                          "api": { // todo
+                          "confirmText": "Do you want to delete class ${class}?",
+                          "api": {
+                            "method": "delete",
+                            "url": "http://54.245.168.231:5002/classesManage",
+                            "data": {
+                              "classes_id": "${class}"
+                            }
                           }
                         },
                         {
@@ -1199,14 +1209,19 @@
                             "title": "Create a new class",
                             "body": {
                               "type": "form",
-                              "api": "test", // todo
+                              "api": "http://54.245.168.231:5002/classesManage",
                               "body": {
                                 "type": "input-text",
-                                "name": "class",
-                                "label": "Class name:"
+                                "name": "classes_id",
+                                "label": "Class name:",
+                                "required": true
                               }
                             }
                           }
+                        },
+                        {
+                          "type": "reset",
+                          "label": "Reset"
                         },
                         {
                           "type": "submit",
@@ -1220,45 +1235,34 @@
                     "checkOnItemClick": true,
                     "bulkActions": [
                       {
-                        "type": "button",
-                        "label": "Add to class",
+                        "actionType": "dialog",
+                        "label": "Move to class",
                         "level": "info",
-                        "onEvent": {
-                          "click": {
-                            "actions": [
-                              {
-                                "actionType": "dialog",
-                                "dialog": {
-                                  "title": "Add to class",
-                                  "data": {
-                                    "items": "${selectedItems}"
-                                  },
-                                  "body": [
-                                    {
-                                      "type": "form",
-                                      "api": {
-                                        "method": "post",
-                                        "url": "test",
-                                        "data": {
-                                          "&": "$$",
-                                          "items": "${items}"
-                                        }
-                                      },
-                                      "body": [
-                                        {
-                                          "type": "select",
-                                          "name": "class",
-                                          "label": "Class:",
-                                          "required": true,
-                                          "source": "" // todo
-                                        }
-                                      ]
-                                    }
-                                  ]
+                        "dialog": {
+                          "title": "Move to class",
+                          "body": [
+                            {
+                              "type": "form",
+                              "api": {
+                                "method": "put",
+                                "url": "http://54.245.168.231:5002/classesManage",
+                                "data": {
+                                  "operation": "add",
+                                  "classes_id": "${class}",
+                                  "student_id_list": "${selectedItems|pick:id}"
                                 }
-                              }
-                            ]
-                          }
+                              },
+                              "body": [
+                                {
+                                  "type": "select",
+                                  "name": "class",
+                                  "label": "Class:",
+                                  "required": true,
+                                  "source": "http://54.245.168.231:5002/classesManage"
+                                }
+                              ]
+                            }
+                          ]
                         }
                       },
                       {
@@ -1268,10 +1272,12 @@
                         "actionType": "ajax",
                         "confirmText": "Do you want to drop selected students from their current class?",
                         "api": {
-                          "method": "delete",
-                          "url": "test",  // todo
+                          "method": "put",
+                          "url": "http://54.245.168.231:5002/classesManage",
                           "data": {
-                            "items": "${selectedItems}"
+                            "operation": "drop",
+                            "classes_id": "${selectedItems|pick:classes_id}",
+                            "student_id_list": "${selectedItems|pick:id}"
                           }
                         }
                       }
@@ -1283,20 +1289,18 @@
                       },
                       {
                         "name": "fname",
-                        "label": "First Name"
+                        "label": "First Name",
+                        "sortable": true
                       },
                       {
                         "name": "lname",
-                        "label": "Last Name"
+                        "label": "Last Name",
+                        "sortable": true
                       },
                       {
-                        "name": "grade",
-                        "label": "Grade"
-                      },
-                      {
-                        "name": "class",
-                        "value": "Not assigned",
-                        "label": "Class"
+                        "name": "classes_id",
+                        "label": "Class",
+                        "sortable": true
                       }
                     ]
                   }

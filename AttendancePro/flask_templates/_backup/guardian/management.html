@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Enrollment Update</title>
+    <title>Enrollment Management</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta
       name="viewport"
@@ -32,86 +32,51 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
-          // sample api data
-          // "data": {
-          //   "items": [
-          //     {
-          //       "object": "familyInfo",
-          //       //"checkbox": True,
-          //       "city": "cityTest1",
-          //       "friday_night": "table",
-          //       "group": 1,
-          //       "id": 1,
-          //       "insurance": "insuranceTest1",
-          //       "insurance_phone": "policyTest1",
-          //       "insurance_policy": "insPhoneTest1",
-          //       "pay": 1,
-          //       "physician": "physicianTest1",
-          //       "physician_phone": "phyPhoneTest1",
-          //       "special_events": "A",
-          //       "state": "stateTest1",
-          //       "street": "streetTest1",
-          //       "sunday_school": "table",
-          //       "zip": "00001"
-          //     },
-          //     {
-          //       "object": "guardian",
-          //       "fname": "changTest1",
-          //       "lname": "liuTest1",
-          //       "email": "chang1@test.com",
-          //       "check_in_method": "barcode", 
-          //       "id": 1,
-          //       "pwd": "123456",
-          //       "phone": "0000000001",
-          //       "relationship": "Father"
-          //     },
-          //     {
-          //         "check_in_method": "barcode",
-          //         "email": "chang2@test.com",
-          //         "fname": "changTest2",
-          //         "id": 2,
-          //         "lname": "liuTest2",
-          //         "object": "guardian",
-          //         "pwd": "123456",
-          //         "phone": "0000000002",
-          //         "relationship": "Mother"
-          //     },
-          //     {
-          //         //"cm_lounge": False,
-          //         //"u3_friday": False,
-          //         "allergies": "ibuprofen",
-          //         "birthdate": "1659337200",
-          //         "check_in_method": "barcode",
-          //         "fname": "changJRTest1",
-          //         // "friday_lounge": False,
-          //         // "friday_night": False,
-          //         "gender": "male",
-          //         "grade": "1",
-          //         "id": 1,
-          //         // "kid_choir": False,
-          //         "lname": "liuTest1",
-          //         "object": "student",
-          //         // "sunday_school": True
-          //     },
-          //     {
-          //         // "cm_lounge": True,
-          //         // "u3_friday": False,
-          //         "allergies": "none",
-          //         "birthdate": "1659423600",
-          //         "check_in_method": "barcode",
-          //         "fname": "changJRTest2",
-          //         // "friday_lounge": False,
-          //         // "friday_night": False,
-          //         "gender": "female",
-          //         "grade": "2",
-          //         "id": 2,
-          //         // "kid_choir": False,
-          //         "lname": "liuTest2",
-          //         "object": "student",
-          //         // "sunday_school": False
-          //     }
-          //   ]
-          // },
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "./index.html"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "http://54.245.168.231:5002/logout"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "../general/sign_in.html"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
           "body": {
             "type": "crud",
             "api": "http://54.245.168.231:5002/userManage",

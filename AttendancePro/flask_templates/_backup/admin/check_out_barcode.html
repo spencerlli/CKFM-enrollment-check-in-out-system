@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Check Out</title>
+    <title>Check out</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
@@ -29,13 +29,58 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "{{ url_for('index') }}"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "{{ url_for('logout') }}"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "{{ url_for('login') }}"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
           "body": {
             "type": "wizard",
             "steps": [
               {
                 "title": "Scan Guardian's Barcode",
                 "autoFocus": true,
-                "api": "post:http://localhost:5000/checkOut",
+                "api": "post:{{ url_for('checkOut') }}",
                 "body": [
                   {
                     "type": "input-text",
@@ -51,13 +96,13 @@
               },
               {
                 "title": "Scan Student's Barcode",
-                "initApi": "http://localhost:5000/studentBriefInfo/checkInOut/out",
+                "initApi": "{{ url_for('preCheckIn') }}",
                 "body": {
                   "type": "cards",
                   "card": {
                     "header": {
                       "title": "${fname} ${lname}",
-                      // "subTitle": "${CAPITALIZE(object)}",
+                      "subTitle": "${CAPITALIZE(object)}",
                       "avatarText": "${fname|first|upperCase}${lname|first|upperCase}"
                     },
                     "body": {
@@ -79,14 +124,14 @@
                           "body": "Successfully Checked out!",
                           "level": "success",
                           "showIcon": true,
-                          "visibleOn": "typeof key !== 'undefined' && key === this.id"
+                          "visibleOn": "typeof this.key !== 'undefined' && this.key === this.id"
                         },
                         {
                           "type": "button",
                           "label": "Submit",
                           "level": "info",
                           "actionType": "submit",
-                          "api": "post:http://localhost:5000/checkOut"
+                          "api": "post:{{ url_for('checkOut') }}"
                         }
                       ]
                     }

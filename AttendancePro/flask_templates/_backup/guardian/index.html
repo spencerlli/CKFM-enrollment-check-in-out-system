@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Administrator's Main Menu</title>
+    <title>Guardian's Main Menu</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta
       name="viewport"
@@ -106,20 +106,11 @@
                     },
                     {
                       "type": "button",
-                      "label": "Check in / 签到",
+                      "label": "Communication / 留言",
                       "actionType": "link",
-                      "link": "./check_in_barcode.html",
-                      "icon": "fa-solid fa-arrow-right-to-bracket",
-                      "size": "lg",
-                      "block": true,
-                      "level": "light"
-                    },
-                    {
-                      "type": "button",
-                      "label": "Check out / 签出",
-                      "actionType": "link",
-                      "link": "./check_out_barcode.html",
-                      "icon": "fa-solid fa-arrow-right-from-bracket",
+                      "link": "../general/communication.html",
+                      "icon": "fa-solid fa-comments",
+                      "level": "light",
                       "size": "lg",
                       "block": true
                     }
@@ -127,47 +118,43 @@
                 },
                 {
                   "body": [
-                  {
+                    {
                       "type": "button",
-                      "label": "View Check in&out Log / 查看签到日志",
+                      "label": "Pre-check in / 预签到",
                       "actionType": "link",
-                      "link": "./log.html",
-                      "icon": "fa-solid fa-list",
+                      "link": "./pre_check_in.html",
+                      "icon": "fa-solid fa-arrow-right-to-bracket",
                       "size": "lg",
                       "block": true
                     },
                     {
                       "type": "button",
-                      "label": "Input Daily Progress / 输入每日进展",
+                      "label": "Pre-check out / 预签出",
                       "actionType": "link",
-                      "link": "./log.html",
-                      "icon" : "fa-solid fa-pen-to-square",
+                      "link": "./pre_check_out.html",
+                      "icon": "fa-solid fa-arrow-right-from-bracket",
                       "size": "lg",
                       "level": "light",
                       "block": true
                     },
                     {
                       "type": "button",
-                      "label": "Communication / 留言",
-                      "actionType": "link",
-                      "link": "./admin_communication.html",
-                      "icon": "fa-solid fa-comments",
+                      "label": "Show Barcode / 出示条形码",
+                      "icon": "fa-solid fa-barcode",
                       "size": "lg",
-                      "block": true
-                    },
-                    {
-                      "type": "button",
-                      "label": "Customize / 自定义",
-                      "actionType": "link",
+                      "block": true,
+                      "actionType": "dialog",
                       "dialog": {
-                        "title": "系统提示",
-                        "body": "对你点击了"
-                      },
-                      "size": "lg",
-                      "link": "",
-                      "icon": "fa-solid fa-screwdriver-wrench",
-                      "level": "light",
-                      "block": true
+                        "title": "Barcode",
+                        "body": {
+                          "type": "service",
+                          "api": "http://54.245.168.231:5002/guardian/barcode",
+                          "body": {
+                            "type": "barcode",
+                            "name": "barcode"
+                          }
+                        }
+                      }
                     }
                   ]
                 }

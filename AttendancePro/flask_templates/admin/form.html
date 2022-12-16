@@ -44,7 +44,7 @@
                   "icon": "fa-solid fa-house",
                   "className": "m-l-sm",
                   "actionType": "link",
-                  "link": "{{ url_for('html') }}"
+                  "link": "./index.html"
                 },
                 {
                   "type": "button",
@@ -59,7 +59,7 @@
                           "args": {
                             "api": {
                               "method": "post",
-                              "url": "{{ url_for('logout') }}"
+                              "url": "http://54.245.168.231:5002/logout"
                             }
                           }
                         },
@@ -67,7 +67,7 @@
                           "actionType": "link",
                           "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
                           "args": {
-                            "link": "{{ url_for('login') }}"
+                            "link": "../general/sign_in.html"
                           }
                         }
                       ]
@@ -993,7 +993,7 @@
                               "type": "button",
                               "label": "OK",
                               "actionType": "link",
-                              "link": "{{ url_for('index') }}",
+                              "link": "./index.html",
                               "primary": true
                             }
                           ]
@@ -1004,7 +1004,7 @@
                 },
                 "api": {
                   "method": "post",
-                  "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+                  "url": "",  // todo: save form api
                   requestAdaptor: function (api) {
                     function exist(p) {
                       if (typeof p === 'undefined') {
@@ -2346,7 +2346,7 @@
                             "type": "button",
                             "label": "OK",
                             "actionType": "link",
-                            "link": "{{ url_for('index') }}",
+                            "link": "./index.html",
                             "primary": true
                           }
                         ]
@@ -2357,7 +2357,7 @@
               },
               "api": {
                 "method": "post",
-                "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+                "url": "",  // todo: save form api
                 requestAdaptor: function (api) {
                   function exist(p) {
                     if (typeof p === 'undefined') {

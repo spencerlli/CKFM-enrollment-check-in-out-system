@@ -41,7 +41,7 @@
                   "icon": "fa-solid fa-house",
                   "className": "m-l-sm",
                   "actionType": "link",
-                  "link": "{{ url_for('index') }}"
+                  "link": "./index.html"
                 },
                 {
                   "type": "button",
@@ -56,7 +56,7 @@
                           "args": {
                             "api": {
                               "method": "post",
-                              "url": "{{ url_for('logout') }}"
+                              "url": "http://54.245.168.231:5002/logout"
                             }
                           }
                         },
@@ -64,7 +64,7 @@
                           "actionType": "link",
                           "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
                           "args": {
-                            "link": "{{ url_for('login') }}"
+                            "link": "../general/sign_in.html"
                           }
                         }
                       ]
@@ -80,7 +80,7 @@
               {
                 "title": "Scan Guardian's Barcode",
                 "autoFocus": true,
-                "api": "post:{{ url_for('checkOut') }}",
+                "api": "post:http://54.245.168.231:5002/checkOut",
                 "body": [
                   {
                     "type": "input-text",
@@ -96,7 +96,7 @@
               },
               {
                 "title": "Scan Student's Barcode",
-                "initApi": "{{ url_for('preCheckIn') }}",
+                "initApi": "",  // todo: get checked-in kids
                 "body": {
                   "type": "cards",
                   "card": {
@@ -131,7 +131,7 @@
                           "label": "Submit",
                           "level": "info",
                           "actionType": "submit",
-                          "api": "post:{{ url_for('checkOut') }}"
+                          "api": "post:http://54.245.168.231:5002/checkOut"
                         }
                       ]
                     }

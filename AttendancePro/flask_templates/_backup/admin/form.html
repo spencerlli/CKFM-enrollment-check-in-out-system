@@ -32,6 +32,51 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "toolbar": [
+            {
+              "type": "flex",
+              "justify": "space-between",
+              "className": "bg-light",
+              "style": { "fontFamily": "Times New Roman" },
+              "items": [
+                {
+                  "type": "button",
+                  "icon": "fa-solid fa-house",
+                  "className": "m-l-sm",
+                  "actionType": "link",
+                  "link": "{{ url_for('html') }}"
+                },
+                {
+                  "type": "button",
+                  "label": "Sign out/退出账号",
+                  "className": "m-r-md",
+                  "level": "link",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "ajax",
+                          "args": {
+                            "api": {
+                              "method": "post",
+                              "url": "{{ url_for('logout') }}"
+                            }
+                          }
+                        },
+                        {
+                          "actionType": "link",
+                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                          "args": {
+                            "link": "{{ url_for('login') }}"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
 
 
 /*
@@ -42,13 +87,11 @@
 
 
           "mobile": {
-            "toolbar": [
+            "body": [
               {
                 "type": "tpl",
                 "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 13pt;\"><strong><u>CKFM REGISTRATION</u></strong></span></p>"
-              }
-            ],
-            "body": [
+              },
               {
                 "type": "wizard",
                 "steps": [
@@ -950,7 +993,7 @@
                               "type": "button",
                               "label": "OK",
                               "actionType": "link",
-                              "link": "../check_in_out/index.html",
+                              "link": "{{ url_for('index') }}",
                               "primary": true
                             }
                           ]
@@ -1137,13 +1180,11 @@
 */
 
 
-          "toolbar": [
+          "body": [
             {
               "type": "tpl",
               "tpl": "<p style=\"text-align: center;\"><span style=\"font-family: 'times new roman', times, serif; font-size: 13pt;\"><strong><u>IRVINE CANAAN CHRISTIAN COMMUNITY CHURCH - CKFM REGISTRATION - JULY, 2022 ~ JUNE, 2023</u></strong></span></p>\n<p style=\"text-align: center;\"><strong><span style=\"font-family: 'times new roman', times, serif; font-size: 10pt;\"><u>FAMILIES MUST REREGISTER ANNUALLY * ENGLISH PREVAILS, MANDARIN IS ADVISORY</u></span></strong></p>"
-            }
-          ],
-          "body": [
+            },
             {
               "type": "wizard",
               "className": "m-r m-l",
@@ -2305,7 +2346,7 @@
                             "type": "button",
                             "label": "OK",
                             "actionType": "link",
-                            "link": "../check_in_out/index.html",
+                            "link": "{{ url_for('index') }}",
                             "primary": true
                           }
                         ]

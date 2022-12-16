@@ -47,7 +47,7 @@
       "body": [
         {
           "type": "property",
-          "title": "Send Message to Administrator",
+          "title": "Send Message to Students",
           "items": [
             {
               "label": "Message",
@@ -67,11 +67,21 @@
           "type": "crud",
     "syncLocation": false,
     "api": "http://54.245.168.231:5002/studentBriefInfo",
+    "source": "${items | filter:classes_id:match:keywords}",
+    "filter": {
+        "body": [
+                    {
+                        "type": "input-text",
+                        "name": "keywords",
+                        "label": "Class"
+                    }
+                ]
+                },
     "headerToobar": ["bulkActions"],
     "bulkActions": [
       {
                 "type": "button",
-                "label": "Send Message to Administrator",
+                "label": "Send Message to Students",
 
                         "actionType": "ajax",
                           "api": {
@@ -96,6 +106,10 @@
       {
         "name": "lname",
         "label": "Last Name"
+      },
+      {
+        "name": "classes_id",
+        "label": "Class"
       }
     ]
               }
@@ -105,12 +119,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/studentBriefInfo",
-        "responseData": {
-          "s1": "${items|first}",
-          "s2": "${items|nth:1}",
-          "s3": "${items|nth:2}"
-        }
+        "url": "http://54.245.168.231:5000/admin/student"
       },
       "submitText": ""
     },
@@ -122,6 +131,17 @@
           "type": "property",
           "title": "",
           "items": [
+          {
+              "label": "Reply Message",
+              "content": {
+                "type": "textarea",
+                "required": true,
+                "name": "note2",
+                "placeholder": "Enter...",
+                "className": "Panel--primary"
+              },
+              "span": 3
+            },
             {
               "label": "Message History",
               "content":{
@@ -129,7 +149,28 @@
           "type": "crud",
     "syncLocation": false,
     "api": "http://54.245.168.231:5002/msgBoard",
+    "headerToobar": ["bulkActions"],
+    "bulkActions": [
+      {
+                "type": "button",
+                "label": "Reply Message to Parent",
+
+                        "actionType": "ajax",
+                          "api": {
+                            "method": "post",
+                            "url": "http://54.245.168.231:5002/msgBoard",
+                            "data": {
+                              "msg": "${note2}",
+                              "student_id": "${ids}"
+                            }
+                          }
+      }
+    ],
     "columns": [
+      {
+        "name": "read",
+        "label": "Read"
+      },
       {
         "type": "date",
         "name": "timestamp",
@@ -147,6 +188,10 @@
       {
         "name": "lname",
         "label": "Last Name"
+      },
+      {
+        "name": "id",
+     "label": "ID"
       }
     ]
               }
@@ -156,12 +201,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/studentBriefInfo",
-        "responseData": {
-          "s1": "${items|first}",
-          "s2": "${items|nth:1}",
-          "s3": "${items|nth:2}"
-        }
+        "url": "http://54.245.168.231:5002/studentBriefInfo"
       },
       "submitText": ""
     }
@@ -193,20 +233,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/msgBoard",
-        "responseData": {
-          "msg1": "${items|sortBy:timestamp:numerical:desc|nth:9}",
-          "msg2": "${items|sortBy:timestamp:numerical:desc|nth:8}",
-          "msg3": "${items|sortBy:timestamp:numerical:desc|nth:7}",
-          "msg4": "${items|sortBy:timestamp:numerical:desc|nth:6}",
-          "msg5": "${items|sortBy:timestamp:numerical:desc|nth:5}",
-          "msg6": "${items|sortBy:timestamp:numerical:desc|nth:4}",
-          "msg7": "${items|sortBy:timestamp:numerical:desc|nth:3}",
-          "msg8": "${items|sortBy:timestamp:numerical:desc|nth:2}",
-          "msg9": "${items|sortBy:timestamp:numerical:desc|nth:1}",
-          "msg10": "${items|sortBy:timestamp:numerical:desc|nth:0}",
-
-        }
+        "url": "http://54.245.168.231:5002/msgBoard"
       },
       "submitText": ""
     }

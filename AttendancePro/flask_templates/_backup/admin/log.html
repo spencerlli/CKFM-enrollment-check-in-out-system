@@ -79,57 +79,10 @@
           ],
           "body": {
             "type": "crud",
-            "api": {
-              "method": "get",
-              "url": "http://54.245.168.231:5002/attendanceReport",
-              adaptor: function (payload, response, api) {
-                function exist(p) {
-                  if (typeof p === 'undefined') {
-                    return false;
-                  }
-                  return true;
-                };
-
-                // Filter for check-in time
-                if (exist(api.query.check_in_time)) {
-                  let time = api.query.check_in_time.split(',');
-                  let start = parseInt(time[0]);
-                  if (start && exist(payload.data.items)) {
-                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) > start);
-                  }
-
-                  let end = parseInt(time[1]);
-                  if (end && exist(payload.data.items)) {
-                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) < end);
-                  }
-                }
-
-                // Filter for check-out time
-                if (exist(api.query.check_out_time)) {
-                  let time = api.query.check_out_time.split(',');
-                  let start = parseInt(time[0]);
-                  if (start && exist(payload.data.items)) {
-                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) > start);
-                  }
-
-                  let end = parseInt(time[1]);
-                  if (end && exist(payload.data.items)) {
-                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) < end);
-                  }
-                }
-
-                return {...payload};
-              } 
-            },
+            "api": "http://54.245.168.231:5002/attendanceReport",
             "syncLocation": false,
-            "loadDataOnce": true,
-            "source": "${items | filter:student_name:match:student_name\
-                               | filter:current_status:match:current_status\
-                               | filter:check_in_method:match:check_in_method\
-                               | filter:check_in:match:check_in\
-                               | filter:check_out:match:check_out\
-                               | filter:programs:match:programs}",
             "filter": {
+              "debug": false,
               "body": [
                 {
                   "type": "input-text",
@@ -174,8 +127,7 @@
                 {
                   "type": "input-datetime-range",
                   "name": "check_in_time",
-                  "label": "Checked in time range:",
-                  "inputFormat": "M/D/YYYY HH:mm"
+                  "label": "Checked in time range:"
                 },
                 {
                   "type": "input-text",
@@ -185,8 +137,7 @@
                 {
                   "type": "input-datetime-range",
                   "name": "check_out_time",
-                  "label": "Checked out time range:",
-                  "inputFormat": "M/D/YYYY HH:mm"
+                  "label": "Checked out time range:"
                 },
                 {
                   "type": "select",
@@ -226,51 +177,51 @@
                   "type": "reset",
                   "label": "Reset"
                 },
-                // {
-                //   "type": "button",
-                //   "label": "Get achievement report",
-                //   "actionType": "ajax",
-                //   "required": ["student_name", "check_out_time", "programs"],
-                //   "api": {
-                //     "method": "get",
-                //     "url": "test",
-                //     "responseType": "blob",
-                //     "data": {
-                //       "&": "$$",
-                //       "achievement_report": true
-                //     }
-                //   }
-                // },
-                // {
-                //   "type": "button",
-                //   "label": "Get attendance rate",
-                //   "actionType": "ajax",
-                //   "required": ["check_out_time", "programs"],
-                //   "api": {
-                //     "method": "get",
-                //     "url": "test",
-                //     "responseType": "blob",
-                //     "data": {
-                //       "&": "$$",
-                //       "attendance_rate": true
-                //     }
-                //   }
-                // },
-                // {
-                //   "type": "button",
-                //   "label": "Get attendance report",
-                //   "actionType": "ajax",
-                //   "required": ["programs"],
-                //   "api": {
-                //     "method": "get",
-                //     "url": "test",
-                //     "responseType": "blob",
-                //     "data": {
-                //       "&": "$$",
-                //       "attendance_report": true
-                //     }
-                //   }
-                // },
+                {
+                  "type": "button",
+                  "label": "Get achievement report",
+                  "actionType": "ajax",
+                  "required": ["student_name", "check_out_time", "programs"],
+                  "api": {
+                    "method": "get",
+                    "url": "test",
+                    "responseType": "blob",
+                    "data": {
+                      "&": "$$",
+                      "achievement_report": true
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "Get attendance rate",
+                  "actionType": "ajax",
+                  "required": ["check_out_time", "programs"],
+                  "api": {
+                    "method": "get",
+                    "url": "test",
+                    "responseType": "blob",
+                    "data": {
+                      "&": "$$",
+                      "attendance_rate": true
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "Get attendance report",
+                  "actionType": "ajax",
+                  "required": ["programs"],
+                  "api": {
+                    "method": "get",
+                    "url": "test",
+                    "responseType": "blob",
+                    "data": {
+                      "&": "$$",
+                      "attendance_report": true
+                    }
+                  }
+                },
                 {
                   "type": "submit",
                   "level": "primary",
@@ -278,23 +229,6 @@
                 }
               ]
             },
-            "headerToolbar": [
-              {
-                "type": "export-excel",
-                "label": "Export to Excel",
-                "filename": "log",
-                "columns": [
-                  "student_name",
-                  "current_status",
-                  "check_in_method",
-                  "check_in",
-                  "check_in_time",
-                  "check_out",
-                  "check_out_time",
-                  "programs"
-                ]
-              }
-            ],
             "columns": [
               {
                 "name": "id",
@@ -302,14 +236,12 @@
               },
               {
                 "name": "student_name",
-                "label": "Student Name",
-                "sortable": true
+                "label": "Student Name"
               },
               {
                 "name": "current_status",
                 "type": "mapping",
                 "label": "Current Status",
-                "sortable": true,
                 "map": {
                   "0": "<span class='label label-warning'>Not checked in</span>",
                   "1": "<span class='label label-info'>Checked in</span>",
@@ -319,38 +251,32 @@
               },
               {
                 "name": "check_in_method",
-                "label": "Check-in/out Method",
-                "sortable": true
+                "label": "Check-in/out Method"
               },
               {
                 "name": "check_in",
-                "label": "Checked in by",
-                "sortable": true
+                "label": "Checked in by"
               },
               {
                 "type": "date",
                 "name": "check_in_time",
                 "label": "Check-in Time",
-                "format": "M/D/YYYY HH:mm",
-                "sortable": true
+                "format": "HH:mm, MM/DD"
               },
               {
                 "name": "check_out",
-                "label": "Checked out by",
-                "sortable": true
+                "label": "Checked out by"
               },
               {
                 "type": "date",
                 "name": "check_out_time",
                 "label": "Check-out Time",
-                "format": "M/D/YYYY HH:mm",
-                "sortable": true
+                "format": "HH:mm, MM/DD"
               },
               {
                 "name": "programs",
                 "type": "mapping",
                 "label": "Program(s)",
-                "sortable": true,
                 "map": {
                   "sunday_school": "<span class='label label-default'>Sunday School</span>",
                   "cm_lounge": "<span class='label label-default'>CM Parent and Child Lounge</span>",
@@ -379,24 +305,14 @@
                             "type": "checkboxes",
                             "name": "daily_progress",
                             "label": "Checklist",
-                            "inline": false,
-                            "creatable": true,
                             "options": [
                               {
                                 "label": "Being on time",
                                 "value": "on_time"
                               },
                               {
-                                "label": "Brought a friend",
+                                "label": "Bring a friend",
                                 "value": "bring_friend"
-                              },
-                              {
-                                "label": "Wearing uniform",
-                                "value": "uniform"
-                              },
-                              {
-                                "label": "Brought workbook",
-                                "value": "workbook"
                               }
                             ]
                           }
