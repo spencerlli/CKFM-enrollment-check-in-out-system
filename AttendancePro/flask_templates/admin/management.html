@@ -44,7 +44,7 @@
                   "icon": "fa-solid fa-house",
                   "className": "m-l-sm",
                   "actionType": "link",
-                  "link": "./index.html"
+                  "link": "{{url_for('index')}}"
                 },
                 {
                   "type": "button",
@@ -67,7 +67,7 @@
                           "actionType": "link",
                           "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
                           "args": {
-                            "link": "../general/sign_in.html"
+                            "link": "{{url_for('login')}}"
                           }
                         }
                       ]
