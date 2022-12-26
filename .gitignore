@@ -14,5 +14,6 @@ Backend/data
 __pycache__
 .ipynb_checkpoints
 .vscode
+.github
 
 # AttendancePro/flask_templates/*
