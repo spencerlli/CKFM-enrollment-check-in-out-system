@@ -515,7 +515,11 @@ def checkOut():
 
 @app.route('/msgBoardPage', methods=['GET'])
 def msgBoardPage():
-    return render_template('flask_templates/general/communication.html')
+    user_group = request.cookies.get('user_group')
+    if user_group == 'guardian':
+        return render_template('flask_templates/guardian/communication.html')
+    else:
+        return render_template('flask_templates/admin/admin_communication.html')
 
 
 @app.route('/msgBoard', methods=['GET', 'POST'])
@@ -556,10 +560,10 @@ def msgBoard():
                 if msg['sender'] == 'guardian':
                     guardian_json = requests.get(REST_API + '/guardian/%d' % int(msg['send_id'])).json()
                     msg_show.append({'id': msg['id'], 'fname': 'Guardian - ' + guardian_json['fname'], 'lname': guardian_json['lname'],
-                                    'msg': msg['content'], 'timestamp': msg['time']})
+                                    'msg': msg['content'], 'timestamp': msg['time'], 'read': 'Yes' if msg['been_read'] else 'No'})
                 else:
                     msg_show.append({'id': msg['id'], 'fname': fname, 'lname': lname,
-                                    'msg': msg['content'], 'timestamp': msg['time']})
+                                    'msg': msg['content'], 'timestamp': msg['time'], 'read': 'Yes' if msg['been_read'] else 'No'})
 
             t['data'] = {'items': msg_show}
             t["msg"] = "Successfully get historical messages!"

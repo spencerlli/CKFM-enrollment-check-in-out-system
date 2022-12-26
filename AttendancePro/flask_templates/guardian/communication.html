@@ -76,7 +76,7 @@
                         "actionType": "ajax",
                           "api": {
                             "method": "post",
-                            "url": "http://54.245.168.231:5002/msgBoard",
+                            "url": "{{url_for('msgBoard')}}",
                             "data": {
                               "msg": "${note}",
                               "student_id": "${ids}"
@@ -128,7 +128,7 @@
                 
           "type": "crud",
     "syncLocation": false,
-    "api": "http://54.245.168.231:5002/msgBoard",
+    "api": "{{url_for('msgBoard')}}",
     "columns": [
       {
         "type": "date",
@@ -184,7 +184,7 @@
       "api": {
         "method": "post",
         "convertKeyToPath": false,
-        "url": "http://54.245.168.231:5002/msgBoard",
+        "url": "{{url_for('msgBoard')}}",
         "data": {
           "msg": "${msgBoard2}"
         }
@@ -193,7 +193,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/msgBoard",
+        "url": "{{url_for('msgBoard')}}",
         "responseData": {
           "msg1": "${items|sortBy:timestamp:numerical:desc|nth:9}",
           "msg2": "${items|sortBy:timestamp:numerical:desc|nth:8}",
