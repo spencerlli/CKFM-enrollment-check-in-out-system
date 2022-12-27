@@ -540,7 +540,7 @@ def msgBoard():
             msg_show = []
             msgBoard_json = requests.get(REST_API + '/msgBoard/guardian/%d' % user_id).json()
             for msg in msgBoard_json:
-                if msg['sender'] == 'admin':
+                if msg['sender_group'] == 'admin':
                     admin_json = requests.get(REST_API + '/admin/%d' % int(msg['send_id'])).json()
                     msg_show.append({'id': msg['id'], 'fname': 'Admin - ' + admin_json['fname'], 'lname': admin_json['lname'],
                                     'msg': msg['content'], 'timestamp': msg['time']})
@@ -557,7 +557,7 @@ def msgBoard():
             msg_show = []
             msgBoard_json = requests.get(REST_API + '/msgBoard/admin/%d' % user_id).json()
             for msg in msgBoard_json:
-                if msg['sender'] == 'guardian':
+                if msg['sender_group'] == 'guardian':
                     guardian_json = requests.get(REST_API + '/guardian/%d' % int(msg['send_id'])).json()
                     msg_show.append({'id': msg['id'], 'fname': 'Guardian - ' + guardian_json['fname'], 'lname': guardian_json['lname'],
                                     'msg': msg['content'], 'timestamp': msg['time'], 'read': 'Yes' if msg['been_read'] else 'No'})
@@ -568,13 +568,15 @@ def msgBoard():
             t['data'] = {'items': msg_show}
             t["msg"] = "Successfully get historical messages!"
     else:
-        student_id = request.json.get('student_id')
+        if user_group == 'guardian':
+            student_id = request.json.get('student_id')
+            msg_json = {'send_id': user_id, 'receive_id': 0, 'sender_group': user_group,
+                        'about_student': student_id, 'content': request.json['msg'], 
+                        'time': int(datetime.datetime.now().timestamp()), 'been_read': False}
+            requests.post(REST_API + '/msgBoard', json=msg_json)
+        else:   # admin send
+            pass
 
-        msg_json = {'send_id': user_id, 'receive_id': 0, 'sender': request.cookies.get('user_group'),
-                    'about_student': request.json.get('student_id'), 'content': request.json['msg'], 
-                    'time': int(datetime.datetime.now().timestamp())}
-        requests.post(REST_API + '/msgBoard', json=msg_json)
-        # /msgBoard
         t["msg"] = "Successfully post message!"
 
     return jsonify(t)
