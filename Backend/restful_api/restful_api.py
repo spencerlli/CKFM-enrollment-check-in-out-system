@@ -375,7 +375,7 @@ class MsgBoardListResource(Resource):
             content=request.json['content'],
             time=request.json['time'],
             about_student=request.json['about_student'],
-            sender=request.json['sender'],
+            sender_group=request.json['sender_group'],
             been_read=request.json['been_read'],
         )
         db.session.add(new_msg)
@@ -408,8 +408,8 @@ class MsgBoardGuardianResource(Resource):
     def get(self, guardian_id):
         # get one by id
         msg_record = MsgBoard.query.filter(
-            ((MsgBoard.sender == 'admin') & (MsgBoard.receive_id == guardian_id)) |
-            ((MsgBoard.send_id == guardian_id) & (MsgBoard.sender == 'guardian'))
+            ((MsgBoard.sender_group == 'admin') & (MsgBoard.receive_id == guardian_id)) |
+            ((MsgBoard.send_id == guardian_id) & (MsgBoard.sender_group == 'guardian'))
         ).all()
         return msg_records_schema.dump(msg_record)
 
@@ -418,8 +418,8 @@ class MsgBoardAdminResource(Resource):
     def get(self, admin_id):
         # get one by id
         msg_record = MsgBoard.query.filter(
-            ((MsgBoard.sender == 'guardian') & (MsgBoard.receive_id == admin_id)) |
-            ((MsgBoard.send_id == admin_id) & (MsgBoard.sender == 'admin'))
+            ((MsgBoard.sender_group == 'guardian') & (MsgBoard.receive_id == admin_id)) |
+            ((MsgBoard.send_id == admin_id) & (MsgBoard.sender_group == 'admin'))
         ).all()
         return msg_records_schema.dump(msg_record)
 ###### MsgBoard ######
