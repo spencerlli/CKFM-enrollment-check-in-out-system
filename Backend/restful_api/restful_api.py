@@ -353,6 +353,13 @@ class FamilyGuardianResource(Resource):
         # get one by id
         family_got = Family.query.filter_by(guardian_id=guardian_id).all()
         return family_schema.dump(family_got)
+
+
+class FamilyStudentResource(Resource):
+    def get(self, student_id):
+        # get one by id
+        family_got = Family.query.filter_by(student_id=student_id).all()
+        return family_schema.dump(family_got)
 ###### Family ######
 
 
@@ -369,9 +376,10 @@ class MsgBoardListResource(Resource):
 
     def post(self):
         # create a new msg record
+        print(request.json)
         new_msg = MsgBoard(
-            send_id=request.json['send_id'],
-            receive_id=request.json['receive_id'],
+            sender_id=request.json['sender_id'],
+            receiver_id=request.json['receiver_id'],
             content=request.json['content'],
             time=request.json['time'],
             about_student=request.json['about_student'],
@@ -408,8 +416,8 @@ class MsgBoardGuardianResource(Resource):
     def get(self, guardian_id):
         # get one by id
         msg_record = MsgBoard.query.filter(
-            ((MsgBoard.sender_group == 'admin') & (MsgBoard.receive_id == guardian_id)) |
-            ((MsgBoard.send_id == guardian_id) & (MsgBoard.sender_group == 'guardian'))
+            ((MsgBoard.sender_group == 'admin') & (MsgBoard.receiver_id == guardian_id)) |
+            ((MsgBoard.sender_id == guardian_id) & (MsgBoard.sender_group == 'guardian'))
         ).all()
         return msg_records_schema.dump(msg_record)
 
@@ -418,8 +426,8 @@ class MsgBoardAdminResource(Resource):
     def get(self, admin_id):
         # get one by id
         msg_record = MsgBoard.query.filter(
-            ((MsgBoard.sender_group == 'guardian') & (MsgBoard.receive_id == admin_id)) |
-            ((MsgBoard.send_id == admin_id) & (MsgBoard.sender_group == 'admin'))
+            ((MsgBoard.sender_group == 'guardian') & (MsgBoard.receiver_id == admin_id)) |
+            ((MsgBoard.sender_id == admin_id) & (MsgBoard.sender_group == 'admin'))
         ).all()
         return msg_records_schema.dump(msg_record)
 ###### MsgBoard ######
@@ -650,6 +658,7 @@ api.add_resource(FamilyInfoResource, '/familyInfo/<int:id>')
 api.add_resource(FamilyListResource, '/family')
 api.add_resource(FamilyResource, '/family/<int:id>')
 api.add_resource(FamilyGuardianResource, '/family/guardian/<int:guardian_id>')
+api.add_resource(FamilyStudentResource, '/family/student/<int:student_id>')
 
 api.add_resource(MsgBoardListResource, '/msgBoard')
 api.add_resource(MsgBoardResource, '/msgBoard/<int:id>')

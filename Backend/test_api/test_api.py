@@ -687,8 +687,11 @@ def msgBoard():
         if 'student_id' not in request.json:
             t['status'] = 1
             t["msg"] = "Please select a student related to the message!"
+            print(request.json)
         else:
             t["msg"] = "Successfully post message! JSON: " + str(request.json)
+            print(request.json)
+            print(request.cookies)
     else:
         t["data"] = {
             "items": [

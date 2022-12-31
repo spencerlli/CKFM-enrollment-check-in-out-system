@@ -102,15 +102,15 @@ class FamilyInfo(db.Model):
 
 class MsgBoardSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'send_id', 'receive_id', 'content',
+        fields = ('id', 'sender_id', 'receiver_id', 'content',
                   'time', 'about_student', 'sender_group', 'been_read')
 
 
 class MsgBoard(db.Model):
     __tablename__ = "msgBoard"
     id = db.Column(db.Integer, primary_key=True)
-    send_id = db.Column(db.Integer)
-    receive_id = db.Column(db.Integer)
+    sender_id = db.Column(db.Integer)
+    receiver_id = db.Column(db.Integer)
     content = db.Column(db.String(256))
     time = db.Column(db.String(256)) 
     about_student = db.Column(db.Integer)

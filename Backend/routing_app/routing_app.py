@@ -541,7 +541,7 @@ def msgBoard():
             msgBoard_json = requests.get(REST_API + '/msgBoard/guardian/%d' % user_id).json()
             for msg in msgBoard_json:
                 if msg['sender_group'] == 'admin':
-                    admin_json = requests.get(REST_API + '/admin/%d' % int(msg['send_id'])).json()
+                    admin_json = requests.get(REST_API + '/admin/%d' % int(msg['sender_id'])).json()
                     msg_show.append({'id': msg['id'], 'fname': 'Admin - ' + admin_json['fname'], 'lname': admin_json['lname'],
                                     'msg': msg['content'], 'timestamp': msg['time']})
                 else:
@@ -558,7 +558,7 @@ def msgBoard():
             msgBoard_json = requests.get(REST_API + '/msgBoard/admin/%d' % user_id).json()
             for msg in msgBoard_json:
                 if msg['sender_group'] == 'guardian':
-                    guardian_json = requests.get(REST_API + '/guardian/%d' % int(msg['send_id'])).json()
+                    guardian_json = requests.get(REST_API + '/guardian/%d' % int(msg['sender_id'])).json()
                     msg_show.append({'id': msg['id'], 'fname': 'Guardian - ' + guardian_json['fname'], 'lname': guardian_json['lname'],
                                     'msg': msg['content'], 'timestamp': msg['time'], 'read': 'Yes' if msg['been_read'] else 'No'})
                 else:
@@ -567,15 +567,40 @@ def msgBoard():
 
             t['data'] = {'items': msg_show}
             t["msg"] = "Successfully get historical messages!"
-    else:
+    else:   # POST
         if user_group == 'guardian':
-            student_id = request.json.get('student_id')
-            msg_json = {'send_id': user_id, 'receive_id': 0, 'sender_group': user_group,
-                        'about_student': student_id, 'content': request.json['msg'], 
-                        'time': int(datetime.datetime.now().timestamp()), 'been_read': False}
-            requests.post(REST_API + '/msgBoard', json=msg_json)
+            student_id_list = list(map(int, request.json.get('student_id').split(',')))
+            for student_id in student_id_list:
+                # query admin corresponding to student
+                admin_id = requests.get(REST_API + '/classes/student/%d' % student_id).json()[0].get('admin_id')   
+                msg_json = {'sender_id': user_id, 'receiver_id': admin_id, 'sender_group': user_group,
+                            'about_student': student_id, 'content': request.json['msg'], 
+                            'time': int(datetime.datetime.now().timestamp()), 'been_read': False}
+                requests.post(REST_API + '/msgBoard', json=msg_json)
         else:   # admin send
-            pass
+            if 'reply_msg_id' in request.json.keys():
+                reply_msg_id_list = list(map(int, request.json.get('reply_msg_id').split(',')))
+                for reply_msg_id in reply_msg_id_list:
+                    requests.put(REST_API + '/msgBoard/%d' % reply_msg_id, json={'been_read': True})
+
+                    reply_msg_json = requests.get(REST_API + '/msgBoard/%d' % reply_msg_id).json()
+
+                    student_id = reply_msg_json.get('about_student')
+                    guardian_id = reply_msg_json.get('sender_id')
+
+                    msg_json = {'sender_id': user_id, 'receiver_id': guardian_id, 'sender_group': user_group,
+                                'about_student': student_id, 'content': request.json['msg'], 
+                                'time': int(datetime.datetime.now().timestamp()), 'been_read': True}
+                    requests.post(REST_API + '/msgBoard', json=msg_json)
+            else:   # TODO: sending to multiple students, should specify which student related to
+                student_id_list = list(map(int, request.json.get('student_id').split(',')))
+                for student_id in student_id_list:
+                    family_json = requests.get(REST_API + '/family/student/%d' % student_id).json()
+                    for family in family_json:
+                        msg_json = {'sender_id': user_id, 'receiver_id': family['guardian_id'], 'sender_group': user_group,
+                                    'about_student': student_id, 'content': request.json['msg'], 
+                                    'time': int(datetime.datetime.now().timestamp()), 'been_read': True}
+                        requests.post(REST_API + '/msgBoard', json=msg_json)
 
         t["msg"] = "Successfully post message!"
 
