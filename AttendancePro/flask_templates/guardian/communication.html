@@ -66,7 +66,7 @@
                 
           "type": "crud",
     "syncLocation": false,
-    "api": "http://54.245.168.231:5002/studentBriefInfo",
+    "api": "{{url_for('studentBriefInfo')}}",
     "headerToobar": ["bulkActions"],
     "bulkActions": [
       {
@@ -105,7 +105,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/studentBriefInfo",
+        "url": "{{url_for('studentBriefInfo')}}",
         "responseData": {
           "s1": "${items|first}",
           "s2": "${items|nth:1}",
@@ -156,7 +156,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/studentBriefInfo",
+        "url": "{{url_for('studentBriefInfo')}}",
         "responseData": {
           "s1": "${items|first}",
           "s2": "${items|nth:1}",

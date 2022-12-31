@@ -37,7 +37,6 @@ COOKIES: {
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print(request.cookies)
     if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
         if request.cookies.get('user_group') == 'guardian':
             return render_template('flask_templates/guardian/index.html')
@@ -85,12 +84,12 @@ def login():
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
 
-                    # classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
+                    classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
                     expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
                     res.set_cookie(key='login', value="1", expires=expire_date)
                     res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=expire_date)
+                    res.set_cookie(key='classes_id', value=str(classes_id), expires=expire_date)
                     res.set_cookie(key='user_group', value='admin', expires=expire_date)
-                    # res.set_cookie(key='classes_id', value=str(classes_id), expires=expire_date)
                     return res
                 else:
                     res_json['status'] = 1
@@ -608,8 +607,7 @@ def msgBoard():
 
 
 @app.route('/studentBriefInfo', methods=['GET'])
-@app.route('/studentBriefInfo/checkInOut/<checkInOutFlag>', methods=['GET'])
-def studentBriefInfo(checkInOutFlag=None):
+def studentBriefInfo():
     res = deepcopy(AMIS_RES_TEMPLATE)
     if request.cookies.get('user_group') == 'guardian':
         family_id = int(request.cookies.get('family_id'))
@@ -622,36 +620,32 @@ def studentBriefInfo(checkInOutFlag=None):
         for family in family_json:
             if family['student_id'] not in student_id_set:  # filter repeat
                 student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
-                if checkInOutFlag == 'out' and student_json['check_out'] == 0:
-                    continue
                 student_info_list.append({
                     'id': student_json['id'],
                     'fname': student_json['fname'],
                     'lname': student_json['lname']
                 })
                 student_id_set.add(family['student_id'])
-            
         res['data']['items'] = student_info_list
-    else:
-        res['data']['items'] = []
+    else:   # admin
+        classes_id = request.cookies.get('classes_id')
+        classes_json = requests.get(REST_API + '/classes/%s' % classes_id).json()
+        # filter repeat to be unique
+        student_id_set = set()
+        # list of json objects
+        student_info_list = []
 
-        # classes_id = int(request.cookies.get('classes_id'))
-        # classes_json = requests.get(REST_API + '/classes/%d' % classes_id).json()
-        # # filter repeat to be unique
-        # student_id_set = set()
-        # # list of json objects
-        # student_info_list = []
-
-        # for classes in classes_json:
-        #     if classes['student_id'] not in student_id_set:  # filter repeat
-        #         student_json = requests.get(REST_API + '/student/%d' % classes['student_id']).json()
-        #         student_info_list.append({
-        #             'id': student_json['id'],
-        #             'fname': student_json['fname'],
-        #             'lname': student_json['lname']
-        #         })
-        #         student_id_set.add(classes['student_id'])
-        # res['data']['items'] = student_info_list
+        for classes in classes_json:
+            if classes['student_id'] not in student_id_set:  # filter repeat
+                student_json = requests.get(REST_API + '/student/%d' % classes['student_id']).json()
+                student_info_list.append({
+                    'id': student_json['id'],
+                    'fname': student_json['fname'],
+                    'lname': student_json['lname'],
+                    'classes_id': student_json['classes_id'],
+                })
+                student_id_set.add(classes['student_id'])
+        res['data']['items'] = student_info_list
     return jsonify(res)
 
 

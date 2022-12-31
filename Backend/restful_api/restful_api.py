@@ -672,7 +672,7 @@ api.add_resource(AdminResource, '/admin/<int:id>')
 api.add_resource(AdminPhoneResource, '/admin/phone/<phone>')
 
 api.add_resource(ClassesListResource, '/classes')
-api.add_resource(ClassesResource, '/classes/<int:id>')
+api.add_resource(ClassesResource, '/classes/<id>')
 api.add_resource(ClassesAdminResource, '/classes/admin/<int:admin_id>')
 api.add_resource(ClassesStudentResource, '/classes/student/<int:student_id>')
 

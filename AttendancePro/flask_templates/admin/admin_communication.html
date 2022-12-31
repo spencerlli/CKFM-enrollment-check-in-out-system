@@ -66,7 +66,7 @@
                 
           "type": "crud",
     "syncLocation": false,
-    "api": "http://54.245.168.231:5002/studentBriefInfo",
+    "api": "{{url_for('studentBriefInfo')}}",
     "source": "${items | filter:classes_id:match:keywords}",
     "filter": {
         "body": [
@@ -201,7 +201,7 @@
       ],
       "initApi": {
         "method": "get",
-        "url": "http://54.245.168.231:5002/studentBriefInfo"
+        "url": "{{url_for('studentBriefInfo')}}"
       },
       "submitText": ""
     }
