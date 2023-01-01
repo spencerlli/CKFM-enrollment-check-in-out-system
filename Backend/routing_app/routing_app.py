@@ -661,12 +661,18 @@ def studentBriefInfo():
     return jsonify(res)
 
 
-@app.route('/guardian/barcode', methods=['GET'])
-def guardianBarcode():
+@app.route('/barcode/<object>', methods=['GET'])
+def barcode(object):
     res = deepcopy(AMIS_RES_TEMPLATE)
-    guardian_id = int(request.cookies.get('guardian_id'))
-    guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
-    res['data']['barcode'] = guardian_json.get('barcode')
+    if object == 'guardian':
+        guardian_id = int(request.cookies.get('user_id'))
+        guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
+        res['data']['barcode'] = guardian_json.get('barcode')
+    elif object == 'student':
+        student_id = int(request.args.get('id'))
+        student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+        res['data']['barcode'] = student_json.get('barcode')
+
     return jsonify(res)
 
 

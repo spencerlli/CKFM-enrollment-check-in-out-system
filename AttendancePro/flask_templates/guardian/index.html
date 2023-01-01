@@ -148,7 +148,7 @@
                         "title": "Barcode",
                         "body": {
                           "type": "service",
-                          "api": "http://54.245.168.231:5002/guardian/barcode",
+                          "api": "{{url_for('barcode', object='guardian')}}",
                           "body": {
                             "type": "barcode",
                             "name": "barcode"
