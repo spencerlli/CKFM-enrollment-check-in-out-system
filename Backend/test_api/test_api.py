@@ -194,7 +194,6 @@ def familyInfo(id=None):
         "data": {
             "items": [
                 {
-                    "friday_night": "table",
                     "city": "cityTest1",
                     "zip": "00001",
                     "state": "stateTest1",
@@ -204,15 +203,13 @@ def familyInfo(id=None):
                     "insurance": "insuranceTest1",
                     "group": 1,
                     "checkbox": True,
-                    "special_events": "A",
-                    "sunday_school": "table",
+                    "programs": ["sunday_school", "cm_lounge"],
                     "insurance_policy": "insPhoneTest1",
                     "physician": "physicianTest1",
                     "insurance_phone": "policyTest1",
                     "physician_phone": "phyPhoneTest1"
                 },
                 {
-                    "friday_night": "snack",
                     "city": "cityTest3",
                     "zip": "00003",
                     "state": "stateTest3",
@@ -222,8 +219,7 @@ def familyInfo(id=None):
                     "insurance": "insuranceTest3",
                     "group": 3,
                     "checkbox": True,
-                    "special_events": "B",
-                    "sunday_school": "teacher",
+                    "programs": ["kid_choir", "u3_friday"],
                     "insurance_policy": "insPhoneTest3",
                     "physician": "physicianTest3",
                     "insurance_phone": "policyTest3",
