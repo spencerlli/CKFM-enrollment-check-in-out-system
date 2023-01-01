@@ -349,6 +349,7 @@ def preCheckIn():
                 student_list.append(student_json)
 
         for student_json in student_list:
+            student_json['check_out'] = 0
             student_json['check_in'] = guardian_id
             requests.put(REST_API + '/student/%d' % student_id, json=student_json)
         res['msg'] = 'Successfully pre-check in student!'
@@ -439,6 +440,7 @@ def checkIn():
                 res['status'] = 1
                 res['msg'] = "Student has not been pre-checked in!"
             else:
+                student_json['check_out_time'] = 0  # once checked in, set last check out time to 0
                 student_json['check_in_time'] = int(datetime.datetime.now().timestamp())
                 requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
                 res['msg'] = "Successfully check in!"
@@ -452,39 +454,65 @@ def checkOutPage():
     return render_template('flask_templates/admin/check_out_barcode.html')
 
 
-@app.route('/checkOut', methods=['POST'])
+@app.route('/checkOut', methods=['GET', 'POST'])
 def checkOut():
     res = deepcopy(AMIS_RES_TEMPLATE)
-    if len(request.json.keys()) == 1:
-        guardian_barcode = request.json.get('barcode')
-        guardian_query = requests.get(REST_API + '/guardian/barcode/' + guardian_barcode)
-        if guardian_query.status_code == 404:
-            res['status'] = 1
-            res['msg'] = "Barcode doesn't match!"
-        else:
-            guardian_id = guardian_query.json().get('id')
-            family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_id).json()[0].get('guardian_id')
-            expire_date = int((datetime.datetime.now() + datetime.timedelta(minutes=5)).timestamp())
-            res['msg'] = 'Verified guardian barcode!'
-            res = jsonify(res)
-            res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
-            return res
-    else:
-        student_barcode = request.json['barcode']
-        student_query = requests.get(REST_API + '/student/barcode/' + student_barcode)
-        if student_query.status_code == 404:
-            res['status'] = 1
-            res['msg'] = "Barcode doesn't match!"
-        else:
-            student_json = student_query.json()
-            if student_json['check_out'] == 0:
+    if request.method == 'POST':
+        if len(request.json.keys()) == 1:
+            guardian_barcode = request.json.get('barcode')
+            guardian_query = requests.get(REST_API + '/guardian/barcode/' + guardian_barcode)
+            if guardian_query.status_code == 404:
                 res['status'] = 1
-                res['msg'] = "Student has not been pre-checked out!"
+                res['msg'] = "Barcode doesn't match!"
             else:
-                student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
-                requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
-                res['data']['key'] = student_json['id']
-                res['msg'] = "Successfully check out!"
+                guardian_id = guardian_query.json().get('id')
+                family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_id).json()[0].get('guardian_id')
+                expire_date = int((datetime.datetime.now() + datetime.timedelta(minutes=5)).timestamp())
+                res['msg'] = 'Verified guardian barcode!'
+                res = jsonify(res)
+                res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
+                return res
+        else:
+            student_barcode = request.json['barcode']
+            student_query = requests.get(REST_API + '/student/barcode/' + student_barcode)
+            if student_query.status_code == 404:
+                res['status'] = 1
+                res['msg'] = "Barcode doesn't match!"
+            else:
+                student_json = student_query.json()
+                if student_json['check_out'] == 0:
+                    res['status'] = 1
+                    res['msg'] = "Student has not been pre-checked out!"
+                else:
+                    student_json['check_in_time'] = 0  #  once checked out, set last check in time to 0
+                    student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
+                    requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+                    res['data']['key'] = student_json['id']
+                    res['msg'] = "Successfully check out!"
+    else:   # GET
+        family_id = int(request.cookies.get('family_id'))
+        family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+        # filter repeat to be unique
+        student_id_set = set()
+        # list of json objects
+        student_info_list = []
+
+        for family in family_json:
+            if family['student_id'] not in student_id_set:  # filter repeat
+                student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
+                if student_json['check_in'] == 0 and student_json['check_in_time'] != '0' and student_json['check_out'] != 0:
+                    student_info_list.append({
+                        'id': student_json['id'],
+                        'fname': student_json['fname'],
+                        'lname': student_json['lname']
+                    })
+                    student_id_set.add(family['student_id'])
+        if len(student_info_list) > 0:
+            res['data']['items'] = student_info_list
+        else:
+            res['status'] = 1
+            res['msg'] = "No pre-checked out student!"
+
     return jsonify(res)
 
 

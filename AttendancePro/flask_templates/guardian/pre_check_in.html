@@ -83,7 +83,7 @@
           ],
           "body": {
             "type": "crud",
-            "api": "http://54.245.168.231:5002/preCheckIn",
+            "api": "{{url_for('preCheckIn')}}",
             "mode": "cards",
             "card": {
               "header": {
@@ -108,7 +108,7 @@
                         "args": {
                           "api": {
                             "method": "post",
-                            "url": "http://54.245.168.231:5002/preCheckIn",
+                            "url": "{{url_for('preCheckIn')}}",
                             "data": {
                               "items": "${selectedItems}"
                             }

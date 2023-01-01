@@ -80,7 +80,7 @@
               {
                 "title": "Scan Guardian's Barcode",
                 "autoFocus": true,
-                "api": "post:http://54.245.168.231:5002/checkOut",
+                "api": "post:{{url_for('checkOut')}}",
                 "body": [
                   {
                     "type": "input-text",
@@ -96,7 +96,7 @@
               },
               {
                 "title": "Scan Student's Barcode",
-                "initApi": "",  // todo: get checked-in kids
+                "initApi": "{{url_for('checkOut')}}",
                 "body": {
                   "type": "cards",
                   "card": {
@@ -131,7 +131,7 @@
                           "label": "Submit",
                           "level": "info",
                           "actionType": "submit",
-                          "api": "post:http://54.245.168.231:5002/checkOut"
+                          "api": "post:{{url_for('checkOut')}}"
                         }
                       ]
                     }
