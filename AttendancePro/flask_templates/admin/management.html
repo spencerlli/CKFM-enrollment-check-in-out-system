@@ -99,7 +99,7 @@
                     },
                     "api": {
                       "method": "get",
-                      "url": "http://54.245.168.231:5000/admin/guardian"
+                      "url": "{{url_for('adminManage', object='guardian')}}"
                     },
                     "columns": [
                       {
@@ -155,7 +155,7 @@
                             "confirmText": "确定要删除？",
                             "api": {
                               "method": "delete",
-                              "url": "http://54.245.168.231:5000/admin/guardian"
+                              "url": "{{url_for('adminManage', object='guardian', id='${id}')}}"
                             },
                             "id": "u:0af9a2d5843f"
                           },
@@ -168,7 +168,7 @@
                               "title": "编辑",
                               "body": {
                                 "type": "form",
-                                "api": "put:http://54.245.168.231:5000/admin/guardian/${id}",
+                                "api": "put:{{url_for('adminManage', object='guardian')}}",
                                 "body": [
                                 {
                         "name": "id",
@@ -242,7 +242,7 @@
                             "type": "form",
                             "api": {
                               "method": "post",
-                              "url": "http://54.245.168.231:5000/admin/guardian"
+                              "url": "{{url_for('adminManage', object='guardian')}}"
                             },
                             "body": [
                       {
@@ -314,7 +314,7 @@
                     },
                     "api": {
                       "method": "get",
-                      "url": "http://54.245.168.231:5000/admin/student"
+                      "url": "{{url_for('adminManage', object='student')}}"
                     },
                     "columns": [
                       {
@@ -420,7 +420,7 @@
                             "confirmText": "确定要删除？",
                             "api": {
                               "method": "delete",
-                              "url": "http://54.245.168.231:5000/admin/student"
+                              "url": "{{url_for('adminManage', object='student')}}"
                             },
                             "id": "u:0af9a2d5843f"
                           },
@@ -433,7 +433,7 @@
                               "title": "编辑",
                               "body": {
                                 "type": "form",
-                                "api": "put:http://54.245.168.231:5000/admin/student/${id}",
+                                "api": "put:{{url_for('adminManage', object='student')}}",
                                 "body": [
                                 {
                         "name": "id",
@@ -566,7 +566,7 @@
                             "type": "form",
                             "api": {
                               "method": "post",
-                              "url": "http://54.245.168.231:5000/admin/student"
+                              "url": "{{url_for('adminManage', object='student')}}"
                             },
                             "body": [
                             {
@@ -697,7 +697,7 @@
                     },
                     "api": {
                       "method": "get",
-                      "url": "http://54.245.168.231:5000/admin/familyInfo"
+                      "url": "{{url_for('adminManage', object='familyInfo')}}"
                     },
                     "columns": [
                       {
@@ -793,7 +793,7 @@
                             "confirmText": "确定要删除？",
                             "api": {
                               "method": "delete",
-                              "url": "http://54.245.168.231:5000/admin/familyInfo"
+                              "url": "{{url_for('adminManage', object='familyInfo')}}"
                             },
                             "id": "u:0af9a2d5843f"
                           },
@@ -806,7 +806,7 @@
                               "title": "编辑",
                               "body": {
                                 "type": "form",
-                                "api": "put:http://54.245.168.231:5000/admin/familyInfo/${id}",
+                                "api": "put:{{url_for('adminManage', object='familyInfo')}}",
                                 "body": [
                                 {
                         "name": "id",
@@ -920,7 +920,7 @@
                             "type": "form",
                             "api": {
                               "method": "post",
-                              "url": "http://54.245.168.231:5000/admin/familyInfo"
+                              "url": "{{url_for('adminManage', object='familyInfo')}}"
                             },
                             "body": [
                             {
@@ -1032,7 +1032,7 @@
                     },
                     "api": {
                       "method": "get",
-                      "url": "http://54.245.168.231:5000/admin/family"
+                      "url": "{{url_for('adminManage', object='family')}}"
                     },
                     "columns": [
                       {
@@ -1063,7 +1063,7 @@
                             "confirmText": "确定要删除？",
                             "api": {
                               "method": "delete",
-                              "url": "http://54.245.168.231:5000/admin/family"
+                              "url": "{{url_for('adminManage', object='family')}}"
                             },
                             "id": "u:0af9a2d5843f"
                           },
@@ -1076,7 +1076,7 @@
                               "title": "编辑",
                               "body": {
                                 "type": "form",
-                                "api": "put:http://54.245.168.231:5000/admin/family/${id}",
+                                "api": "put:{{url_for('adminManage', object='family')}}",
                                 "body": [
                                 {
                         "name": "id",
@@ -1125,7 +1125,7 @@
                             "type": "form",
                             "api": {
                               "method": "post",
-                              "url": "http://54.245.168.231:5000/admin/family"
+                              "url": "{{url_for('adminManage', object='family')}}"
                             },
                             "body": [
                             {
@@ -1160,7 +1160,7 @@
                   {
                     "type": "crud",
                     "syncLocation": false,
-                    "api": "http://54.245.168.231:5000/admin/student",
+                    "api": "{{url_for('adminManage', object='student')}}",
                     "loadDataOnce": true,
                     "source": "${items | filter:fname:match:fname\
                                        | filter:lname:match:lname\

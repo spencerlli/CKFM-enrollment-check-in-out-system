@@ -215,9 +215,8 @@ def adminManagePage():
     return render_template('flask_templates/admin/management.html')
 
 
-@app.route('/admin/<object>', methods=['GET', 'POST', 'DELETE'])
-@app.route('/admin/<object>/<id>', methods=['PUT', 'DELETE'])
-def admin(object, id=None):
+@app.route('/adminManage/<object>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def adminManage(object):
     res = {
         'status': 0,
         'msg': None,
@@ -226,37 +225,22 @@ def admin(object, id=None):
             'hasNext': False
         }
     }
-
     if request.method == 'GET':
-        # guardian_json = requests.get(REST_API + '/guardian').json()
-        # student_json = requests.get(REST_API + '/student').json()
-        # familyInfo_json = requests.get(REST_API + '/familyInfo').json()
-        # family_json = requests.get(REST_API + '/family').json()
         object_json = requests.get(REST_API + '/' + object).json()
-
-
-        # get_json['guardian'] = guardian_json
-        # get_json['student'] = student_json
-        # get_json['familyInfo'] = familyInfo_json
-        # get_json['family'] = family_json
-
         res['data']['items'] = object_json
         res['msg'] = 'Successfully get data!'
-    elif request.method == 'PUT' or 'POST':
+    elif request.method == 'PUT' or request.method == 'POST':
         object_json = dict(request.json)
         if request.method == 'PUT':
-            requests.put(REST_API + '/' + object + '/' + id, json=object_json)
+            requests.put(REST_API + '/' + object + '/' + str(object_json['id']), json=object_json)
             res['msg'] = 'Successfully update!'
         else:
             requests.post(REST_API + '/' + object, json=object_json)
             res['msg'] = 'Successfully add!'
-    else:
-        if id:
-            requests.delete(REST_API + '/' + object + '/' + id)
-            res['msg'] = 'Successfully delete!'
-        else:
-            pass
-            # requests.delete(REST_API + '/' + object)
+    else:   # DELETE
+        requests.delete(REST_API + '/' + object + '/' + request.args.get('id'))
+        res['msg'] = 'Successfully delete!'
+    
 
     if not res['msg']:
         res['msg'] = 'Error happened.'
