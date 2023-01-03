@@ -148,6 +148,47 @@
                         "buttons": [
                           {
                             "type": "button",
+                            "label": "改密码",
+                            "level": "link",
+                            "actionType": "dialog",
+                            "dialog": {
+                              "title": "改密码",
+                              "body": {
+                              "type": "form",
+                              "api": "put:{{url_for('adminManage', object='guardian')}}", 
+                              "body": [
+                                  {
+                                    "type": "input-text",
+                                    "name": "phone",
+                                    "label": false
+                                  },
+                                  {
+                                    "type": "input-password",
+                                    "name": "password",
+                                    "label": false,
+                                    "placeholder": "Password",
+                                    "required": true
+                                  },
+                                  {
+                                    "type": "input-password",
+                                    "name": "confirm_password",
+                                    "label": false,
+                                    "placeholder": "Confirm password",
+                                    "required": true,
+                                    "validations": {
+                                      "equalsField": "password"
+                                    },
+                                    "validationErrors": {
+                                      "equalsField": "passord doesn't match!"
+                                    },
+                                    "validateOnChange": true
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "type": "button",
                             "label": "删除",
                             "actionType": "ajax",
                             "level": "link",
@@ -155,7 +196,7 @@
                             "confirmText": "确定要删除？",
                             "api": {
                               "method": "delete",
-                              "url": "{{url_for('adminManage', object='guardian', id='${id}')}}"
+                              "url": "{{url_for('adminManage', object='guardian')}}"
                             },
                             "id": "u:0af9a2d5843f"
                           },
@@ -521,7 +562,7 @@
                                   {
                                     "actionType": "ajax",
                                     "args": {
-                                      "api": "{{url_for('barcode', object='student', id='${id}')}}"
+                                      "api": "{{url_for('barcode', object='student')}}"
                                     }
                                   },
                                   {
@@ -685,13 +726,47 @@
                   {
                     "type": "crud",
                     "syncLocation": false,
-                    "source": "${items | filter:id:match:keywords}",
+                    "loadDataOnce": true,
+                    "source": "${items | filter:id:match:id\
+                                       | filter:programs:match:programs}",
                     "filter": {
                       "body": [
                         {
                           "type": "input-text",
-                          "name": "keywords",
+                          "name": "id",
                           "label": "ID"
+                        },
+                        {
+                          "type": "select",
+                          "name": "programs",
+                          "label": "Program(s):",
+                          "multiple": true,
+                          "options": [
+                            {
+                              "label": "Sunday School",
+                              "value": "sunday_school"
+                            },
+                            {
+                              "label": "CM Parent and Child Lounge",
+                              "value": "cm_lounge"
+                            },
+                            {
+                              "label": "Canaan Kid's Choir/Art",
+                              "value": "kid_choir"
+                            },
+                            {
+                              "label": "U3 Friday Night",
+                              "value": "u3_friday"
+                            },
+                            {
+                              "label": "Friday Night CKFM and Chlid Lounge",
+                              "value": "friday_lounge"
+                            },
+                            {
+                              "label": "Friday Night",
+                              "value": "friday_night"
+                            }
+                          ]
                         }
                       ]
                     },
@@ -756,19 +831,18 @@
                         "label": "GROUP"
                       },
                       {
-                        "type": "text",
-                        "name": "sunday_school",
-                        "label": "SUNDAY SCHOOL"
-                      },
-                      {
-                        "type": "text",
-                        "name": "friday_night",
-                        "label": "FRIDAY NIGHT"
-                      },
-                      {
-                        "type": "text",
-                        "name": "special_events",
-                        "label": "SPECIAL EVENTS"
+                        "name": "programs",
+                        "type": "mapping",
+                        "label": "Program(s)",
+                        "sortable": true,
+                        "map": {
+                          "sunday_school": "<span class='label label-default'>Sunday School</span>",
+                          "cm_lounge": "<span class='label label-default'>CM Parent and Child Lounge</span>",
+                          "kid_choir": "<span class='label label-default'>Canaan Kid's Choir/Art</span>",
+                          "u3_friday": "<span class='label label-default'>U3 Friday Night</span>",
+                          "friday_lounge": "<span class='label label-default'>Friday Night CKFM and Chlid Lounge</span>",
+                          "friday_night": "<span class='label label-default'>Friday Night</span>",
+                        }
                       },
                       {
                         "type": "text",
