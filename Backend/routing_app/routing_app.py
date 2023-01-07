@@ -254,10 +254,8 @@ def userManagePage():
     return render_template('flask_templates/guardian/management.html')
 
 
-@app.route('/userManage', methods=['GET'])
-@app.route('/userManage/<object>', methods=['POST', 'DELETE'])
-@app.route('/userManage/<object>/<id>', methods=['PUT', 'DELETE'])
-def userManage(object=None, id=None):
+@app.route('/userManage', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def userManage():
     res = {
         'status': 0,
         'msg': None,
@@ -267,25 +265,65 @@ def userManage(object=None, id=None):
         }
     }
 
-    # family_id = session['family_id']
-    family_id = 1
-    family_json = requests.get(REST_API + '/family/%d' % family_id).json()
-    guardian_ids, student_ids = set(), set()
-    for family in family_json:
-        guardian_ids.add(family['guardian_id'])
-        student_ids.add(family['student_id'])
+    if request.method == 'GET':
+        family_id = int(request.cookies.get('family_id'))
+        family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+        guardian_ids, student_ids = set(), set()
+        for family in family_json:
+            guardian_ids.add(family['guardian_id'])
+            student_ids.add(family['student_id'])
 
-    familyInfo_json = requests.get(REST_API + '/familyInfo/%d' % family_id).json()
-    familyInfo_json['object'] = 'familyInfo'
-    res['data']['items'].append(familyInfo_json)
-    for guardian_id in guardian_ids:
-        guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
-        guardian_json['object'] = 'guardian'
-        res['data']['items'].append(guardian_json)
-    for student_id in student_ids:
-        student_json = requests.get(REST_API + '/student/%d' % student_id).json()
-        student_json['object'] = 'student'
-        res['data']['items'].append(student_json)
+        familyInfo_json = requests.get(REST_API + '/familyInfo/%d' % family_id).json()
+        familyInfo_json['object'] = 'familyInfo'
+        res['data']['items'].append(familyInfo_json)
+        for guardian_id in guardian_ids:
+            guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
+            guardian_json['object'] = 'guardian'
+            res['data']['items'].append(guardian_json)
+        for student_id in student_ids:
+            student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+            student_json['object'] = 'student'
+            res['data']['items'].append(student_json)
+    else:
+        object = request.args.get('object')
+        object_json = request.json
+        if request.method == 'POST':
+            object_json = request.json
+            # check duplicate guardian
+            if object == 'guardian' and \
+                    requests.get(REST_API + '/phone/%s' % object_json['phone']).status_code == 200:
+                res['status'] = 1
+                res['msg'] = 'Guardian phone number cannot be duplicated!'
+            else:
+                object_id = requests.post(REST_API + '/%s' % object, json=object_json).json()['id']
+                
+                if object == 'guardian' or object == 'student':
+                    object_json['pwd'] = 123456
+                    family_id = int(request.cookies.get('family_id'))
+                    family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+                    guardian_ids, student_ids = set(), set()
+                    for family in family_json:
+                        guardian_ids.add(family['guardian_id'])
+                        student_ids.add(family['student_id'])
+
+                    if object == 'guardian':
+                        for student_id in student_ids:
+                            new_family_json = {'id': family_id, 'guardian_id': object_id, 'student_id': student_id}
+                            requests.post(REST_API + '/family', json=new_family_json)
+                    else:   # object == student
+                        for guardian_id in guardian_ids:
+                            new_family_json = {'id': family_id, 'guardian_id': guardian_id, 'student_id': object_id}
+                            requests.post(REST_API + '/family', json=new_family_json)
+                
+                res['msg'] = 'Successfully add new %s!' % object
+        elif request.method == 'PUT':
+            object_id = request.args.get('id')
+            requests.put(REST_API + '/%s/%s' % (object, object_id), json=object_json)
+            res['msg'] = 'Successfully update %s!' % object
+        else:   # DELETE
+            object_id = request.args.get('id')
+            requests.delete(REST_API + '/%s/%s' % (object, object_id))
+            res['msg'] = 'Successfully delete %s!' % object
     
     return jsonify(res)
 

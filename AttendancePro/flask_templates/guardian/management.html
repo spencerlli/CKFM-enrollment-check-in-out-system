@@ -79,7 +79,7 @@
           ],
           "body": {
             "type": "crud",
-            "api": "http://54.245.168.231:5002/userManage",
+            "api": "{{url_for('userManage')}}",
             "mode": "cards",
             "card": {
               "header": {
@@ -97,7 +97,7 @@
                     "title": "Edit ${CAPITALIZE(object)}",
                     "body": {
                       "type": "form",
-                      "api": "put:http://54.245.168.231:5002/userManage/${object}/${id}",
+                      "api": "put:{{url_for('userManage', object='${object}', id='${id}') | safe}}",
                       "body": [
                         {
                           "type": "collapse-group",
@@ -496,7 +496,7 @@
                   "label": "Delete",
                   "icon": "fa fa-trash",
                   "confirmText": "Do you want to delete all the data of ${fname|default:'Family Information'} ${lname}?",
-                  "api": "delete:http://54.245.168.231:5002/userManage/${object}/${id}"
+                  "api": "delete:{{url_for('userManage', object='${object}', id='${id}')}}"
                 }
               ]
             },
@@ -511,7 +511,7 @@
                     "title": "Add Family Information",
                     "body": {
                       "type": "form",
-                      "api": "post:http://54.245.168.231:5002/userManage/familyInfo",
+                      "api": "post:{{url_for('userManage', object='familyInfo')}}",
                       "body": {
                         "type": "collapse-group",
                         "activeKey": "1",
@@ -725,7 +725,7 @@
                     "title": "Add Guardian",
                     "body": {
                       "type": "form",
-                      "api": "post:http://54.245.168.231:5002/userManage/guardian",
+                      "api": "post:{{url_for('userManage', object='guardian')}}",
                       "body": [
                         {
                           "type": "collapse",
@@ -804,7 +804,7 @@
                     "title": "Add Student",
                     "body": {
                       "type": "form",
-                      "api": "post:http://54.245.168.231:5002/userManage/student",
+                      "api": "post:{{url_for('userManage', object='student')}}",
                       "body": {
                         "type": "collapse-group",
                         "activeKey": "1",

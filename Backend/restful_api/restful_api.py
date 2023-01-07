@@ -98,23 +98,23 @@ class StudentListResource(Resource):
     def post(self):
         # create a new one
         new_student = Student(
-            fname=request.json['fname'],
-            lname=request.json['lname'],
-            birthdate=request.json['birthdate'],
-            gender=request.json['gender'],
-            grade=request.json['grade'],
-            allergies=request.json['allergies'],
-            check_in_method=request.json['check_in_method'],
+            fname=request.json.get('fname'),
+            lname=request.json.get('lname'),
+            birthdate=request.json.get('birthdate'),
+            gender=request.json.get('gender'),
+            grade=request.json.get('grade'),
+            allergies=request.json.get('allergies'),
+            check_in_method=request.json.get('check_in_method'),
 
-            sunday_school=request.json['sunday_school'],
-            cm_lounge=request.json['cm_lounge'],
-            kid_choir=request.json['kid_choir'],
-            u3_friday=request.json['u3_friday'],
-            friday_lounge=request.json['friday_lounge'],
-            friday_night=request.json['friday_night'],
+            sunday_school=request.json.get('sunday_school'),
+            cm_lounge=request.json.get('cm_lounge'),
+            kid_choir=request.json.get('kid_choir'),
+            u3_friday=request.json.get('u3_friday'),
+            friday_lounge=request.json.get('friday_lounge'),
+            friday_night=request.json.get('friday_night'),
 
             # TODO: add classes_id when post student
-            classes_id=request.json['classes_id']
+            # classes_id=request.json['classes_id']
         )
         db.session.add(new_student)
         db.session.flush()
@@ -300,7 +300,7 @@ class FamilySchema(ma.Schema):
         fields = ('id', 'guardian_id', 'student_id')
 
 
-family_schema = FamilySchema(many=True)
+family_schema = FamilySchema()
 familys_schema = FamilySchema(many=True)
 
 
@@ -326,7 +326,7 @@ class FamilyResource(Resource):
     def get(self, id):
         # get one by id
         family_got = Family.query.filter_by(id=id).all()
-        return family_schema.dump(family_got)
+        return familys_schema.dump(family_got)
 
     def put(self, id):
         # update one by id
