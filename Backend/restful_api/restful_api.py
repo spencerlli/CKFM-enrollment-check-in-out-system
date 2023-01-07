@@ -191,14 +191,14 @@ class StudentBarcodeResource(Resource):
 
 ###### FamilyInfo ######
 family_info_schema = FamilyInfoSchema()
-familys_info_schema = FamilyInfoSchema(many=True)
+families_info_schema = FamilyInfoSchema(many=True)
 
 
 class FamilyInfoListResource(Resource):
     def get(self):
         # get all
-        familys_info = FamilyInfo.query.all()
-        return familys_info_schema.dump(familys_info)
+        families_info = FamilyInfo.query.all()
+        return families_info_schema.dump(families_info)
 
     def post(self):
         # create a new one
@@ -231,49 +231,49 @@ class FamilyInfoListResource(Resource):
 class FamilyInfoResource(Resource):
     def get(self, id):
         # get one by id
-        familys_info = FamilyInfo.query.filter_by(id=id).first_or_404()
-        return family_info_schema.dump(familys_info)
+        family_info = FamilyInfo.query.filter_by(id=id).first_or_404()
+        return family_info_schema.dump(family_info)
 
     def put(self, id):
         # update one by id
-        familys_info = FamilyInfo.query.filter_by(id=id).first_or_404()
+        family_info = FamilyInfo.query.filter_by(id=id).first_or_404()
 
         if 'street' in request.json:
-            familys_info.street = request.json['street']
+            family_info.street = request.json['street']
         if 'city' in request.json:
-            familys_info.city = request.json['city']
+            family_info.city = request.json['city']
         if 'state' in request.json:
-            familys_info.state = request.json['state']
+            family_info.state = request.json['state']
         if 'zip' in request.json:
-            familys_info.zip = request.json['zip']
+            family_info.zip = request.json['zip']
 
         if 'physician' in request.json:
-            familys_info.physician = request.json['physician']
+            family_info.physician = request.json['physician']
         if 'physician_phone' in request.json:
-            familys_info.physician_phone = request.json['physician_phone']
+            family_info.physician_phone = request.json['physician_phone']
         if 'insurance' in request.json:
-            familys_info.insurance = request.json['insurance']
+            family_info.insurance = request.json['insurance']
         if 'insurance_phone' in request.json:
-            familys_info.insurance_phone = request.json['insurance_phone']
+            family_info.insurance_phone = request.json['insurance_phone']
         if 'insurance_policy' in request.json:
-            familys_info.insurance = request.json['insurance_policy']
+            family_info.insurance = request.json['insurance_policy']
         if 'group' in request.json:
-            familys_info.group_num = request.json['group']
+            family_info.group_num = request.json['group']
 
         if 'sunday_school' in request.json:
-            familys_info.sunday_school = request.json['sunday_school']
+            family_info.sunday_school = request.json['sunday_school']
         if 'friday_night' in request.json:
-            familys_info.friday_night = request.json['friday_night']
+            family_info.friday_night = request.json['friday_night']
         if 'special_events' in request.json:
-            familys_info.special_events = request.json['special_events']
+            family_info.special_events = request.json['special_events']
 
         if 'pay' in request.json:
-            familys_info.pay = request.json['pay']
+            family_info.pay = request.json['pay']
         if 'checkbox' in request.json:
-            familys_info.checkbox = request.json['checkbox']
+            family_info.checkbox = request.json['checkbox']
 
         db.session.commit()
-        return family_info_schema.dump(familys_info)
+        return family_info_schema.dump(family_info)
 
     def delete(self, id):
         # delete one by id
@@ -301,14 +301,14 @@ class FamilySchema(ma.Schema):
 
 
 family_schema = FamilySchema()
-familys_schema = FamilySchema(many=True)
+families_schema = FamilySchema(many=True)
 
 
 class FamilyListResource(Resource):
     def get(self):
         # get all
-        familys = Family.query.all()
-        return familys_schema.dump(familys)
+        families_got = Family.query.all()
+        return families_schema.dump(families_got)
 
     def post(self):
         # create a new family
@@ -325,8 +325,8 @@ class FamilyListResource(Resource):
 class FamilyResource(Resource):
     def get(self, id):
         # get one by id
-        family_got = Family.query.filter_by(id=id).all()
-        return familys_schema.dump(family_got)
+        families_got = Family.query.filter_by(id=id).all()
+        return families_schema.dump(families_got)
 
     def put(self, id):
         # update one by id
@@ -351,15 +351,15 @@ class FamilyResource(Resource):
 class FamilyGuardianResource(Resource):
     def get(self, guardian_id):
         # get one by id
-        family_got = Family.query.filter_by(guardian_id=guardian_id).all()
-        return family_schema.dump(family_got)
+        families_got = Family.query.filter_by(guardian_id=guardian_id).all()
+        return families_schema.dump(families_got)
 
 
 class FamilyStudentResource(Resource):
     def get(self, student_id):
         # get one by id
-        family_got = Family.query.filter_by(student_id=student_id).all()
-        return family_schema.dump(family_got)
+        families_got = Family.query.filter_by(student_id=student_id).all()
+        return families_schema.dump(families_got)
 ###### Family ######
 
 
