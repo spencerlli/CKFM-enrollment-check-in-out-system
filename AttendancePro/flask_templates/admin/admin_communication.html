@@ -35,210 +35,256 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "body": [
-    {
-      "type": "form",
-      "id": "u:4ee00812167b",
-      "title": "",
-      "body": [
-      {
-      "type": "form",
-      "title": "",
-      "body": [
-        {
-          "type": "property",
-          "title": "Send Message to Students",
-          "items": [
-            {
-              "label": "Message",
-              "content": {
-                "type": "textarea",
-                "required": true,
-                "name": "note",
-                "placeholder": "Enter...",
-                "className": "Panel--primary"
-              },
-              "span": 3
-            },
-            {
-              "label": "Select Student",
-              "content":{
-                
-          "type": "crud",
-    "syncLocation": false,
-    "api": "{{url_for('studentBriefInfo')}}",
-    "source": "${items | filter:classes_id:match:keywords}",
-    "filter": {
-        "body": [
-                    {
-                        "type": "input-text",
-                        "name": "keywords",
-                        "label": "Class"
-                    }
-                ]
-                },
-    "headerToobar": ["bulkActions"],
-    "bulkActions": [
-      {
-                "type": "button",
-                "label": "Send Message to Students",
-
-                        "actionType": "ajax",
-                          "api": {
-                            "method": "post",
-                            "url": "{{url_for('msgBoard')}}",
-                            "data": {
-                              "msg": "${note}",
-                              "student_id": "${ids}"
-                            }
-                          }
-      }
-    ],
-    "columns": [
-      {
-        "name": "id",
-        "label": "ID"
-      },
-      {
-        "name": "fname",
-        "label": "First Name"
-      },
-      {
-        "name": "lname",
-        "label": "Last Name"
-      },
-      {
-        "name": "classes_id",
-        "label": "Class"
-      }
-    ]
-              }
-            }
-          ]
-          }
-      ],
-      "initApi": {
-        "method": "get",
-        "url": "{{url_for('studentBriefInfo')}}"
-      },
-      "submitText": ""
-    },
-    {
-      "type": "form",
-      "title": "",
-      "body": [
-        {
-          "type": "property",
-          "title": "",
-          "items": [
+        "toolbar": [
           {
-              "label": "Reply Message",
-              "content": {
-                "type": "textarea",
-                "required": true,
-                "name": "note2",
-                "placeholder": "Enter...",
-                "className": "Panel--primary"
-              },
-              "span": 3
-            },
-            {
-              "label": "Message History",
-              "content":{
-                
-          "type": "crud",
-    "syncLocation": false,
-    "api": "{{url_for('msgBoard')}}",
-    "headerToobar": ["bulkActions"],
-    "bulkActions": [
-      {
+            "type": "flex",
+            "justify": "space-between",
+            "className": "bg-light",
+            "style": { "fontFamily": "Times New Roman" },
+            "items": [
+              {
                 "type": "button",
-                "label": "Reply Message to Parent",
-
+                "icon": "fa-solid fa-house",
+                "className": "m-l-sm",
+                "actionType": "link",
+                "link": "{{url_for('index')}}"
+              },
+              {
+                "type": "button",
+                "label": "Sign out/退出账号",
+                "className": "m-r-md",
+                "level": "link",
+                "onEvent": {
+                  "click": {
+                    "actions": [
+                      {
                         "actionType": "ajax",
+                        "args": {
                           "api": {
                             "method": "post",
-                            "url": "{{url_for('msgBoard')}}",
-                            "data": {
-                              "msg": "${note2}",
-                              "reply_msg_id": "${ids}"
-                            }
+                            "url": "{{url_for('logout')}}"
                           }
-      }
-    ],
-    "columns": [
-      {
-        "name": "read",
-        "label": "Read"
-      },
-      {
-        "type": "date",
-        "name": "timestamp",
-        "label": "Time",
-        "format": "M/D/YYYY HH:mm"
-      },
-      {
-        "name": "msg",
-        "label": "Message"
-      },
-      {
-        "name": "fname",
-        "label": "First Name"
-      },
-      {
-        "name": "lname",
-        "label": "Last Name"
-      },
-      {
-        "name": "id",
-     "label": "ID"
-      }
-    ]
+                        }
+                      },
+                      {
+                        "actionType": "link",
+                        "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                        "args": {
+                          "link": "{{url_for('login')}}"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "body": [
+          {
+            "type": "form",
+            "id": "u:4ee00812167b",
+            "title": "",
+            "body": [
+              {
+                "type": "form",
+                "title": "",
+                "body": [
+                  {
+                    "type": "property",
+                    "title": "Send Message to Students",
+                    "items": [
+                      {
+                        "label": "Message",
+                        "content": {
+                          "type": "textarea",
+                          "required": true,
+                          "name": "note",
+                          "placeholder": "Enter...",
+                          "className": "Panel--primary"
+                        },
+                        "span": 3
+                      },
+                      {
+                        "label": "Select Student",
+                        "content":{
+                          
+                    "type": "crud",
+              "syncLocation": false,
+              "checkOnItemClick": true,
+              "api": "{{url_for('studentBriefInfo')}}",
+              "source": "${items | filter:classes_id:match:keywords}",
+              "filter": {
+                  "body": [
+                              {
+                                  "type": "input-text",
+                                  "name": "keywords",
+                                  "label": "Class"
+                              }
+                          ]
+                          },
+              "headerToobar": ["bulkActions"],
+              "bulkActions": [
+                {
+                          "type": "button",
+                          "label": "Send Message to Students",
+
+                                  "actionType": "ajax",
+                                    "api": {
+                                      "method": "post",
+                                      "url": "{{url_for('msgBoard')}}",
+                                      "data": {
+                                        "msg": "${note}",
+                                        "student_id": "${ids}"
+                                      }
+                                    }
+                }
+              ],
+              "columns": [
+                {
+                  "name": "id",
+                  "label": "ID"
+                },
+                {
+                  "name": "fname",
+                  "label": "First Name"
+                },
+                {
+                  "name": "lname",
+                  "label": "Last Name"
+                },
+                {
+                  "name": "classes_id",
+                  "label": "Class"
+                }
+              ]
+                        }
+                      }
+                    ]
+                    }
+                ],
+                "initApi": {
+                  "method": "get",
+                  "url": "{{url_for('studentBriefInfo')}}"
+                },
+                "submitText": ""
+              },
+              {
+                "type": "form",
+                "title": "",
+                "body": [
+                  {
+                    "type": "property",
+                    "title": "",
+                    "items": [
+                    {
+                        "label": "Reply Message",
+                        "content": {
+                          "type": "textarea",
+                          "required": true,
+                          "name": "note2",
+                          "placeholder": "Enter...",
+                          "className": "Panel--primary"
+                        },
+                        "span": 3
+                      },
+                      {
+                        "label": "Message History",
+                        "content":{
+                          
+                    "type": "crud",
+              "syncLocation": false,
+              "checkOnItemClick": true,
+              "api": "{{url_for('msgBoard')}}",
+              "headerToobar": ["bulkActions"],
+              "bulkActions": [
+                {
+                          "type": "button",
+                          "label": "Reply Message to Parent",
+
+                                  "actionType": "ajax",
+                                    "api": {
+                                      "method": "post",
+                                      "url": "{{url_for('msgBoard')}}",
+                                      "data": {
+                                        "msg": "${note2}",
+                                        "reply_msg_id": "${ids}"
+                                      }
+                                    }
+                }
+              ],
+              "columns": [
+                {
+                  "name": "read",
+                  "label": "Read"
+                },
+                {
+                  "type": "date",
+                  "name": "timestamp",
+                  "label": "Time",
+                  "format": "M/D/YYYY HH:mm"
+                },
+                {
+                  "name": "msg",
+                  "label": "Message"
+                },
+                {
+                  "name": "fname",
+                  "label": "First Name"
+                },
+                {
+                  "name": "lname",
+                  "label": "Last Name"
+                },
+                {
+                  "name": "id",
+              "label": "ID"
+                }
+              ]
+                        }
+                      }
+                    ]
+                    }
+                ],
+                "initApi": {
+                  "method": "get",
+                  "url": "{{url_for('studentBriefInfo')}}"
+                },
+                "submitText": ""
+              }
+              /*
+              {
+            "type": "form",
+            "title": "",
+            "body": [
+              {
+                "type": "textarea",
+                "label": "",
+                "name": "msgBoard2",
+                "id": "u:3ec513061fa7",
+                "minRows": 3,
+                "maxRows": 20
+              }
+            ],
+            "id": "u:6ab05083482c",
+            "submitText": "Send Message to Administrator",
+            "api": {
+              "method": "post",
+              "convertKeyToPath": false,
+              "url": "{{url_for('msgBoard')}}",
+              "data": {
+                "msg": "${msgBoard2}"
               }
             }
-          ]
+          }*/
+            ],
+            "initApi": {
+              "method": "get",
+              "url": "{{url_for('msgBoard')}}"
+            },
+            "submitText": ""
           }
-      ],
-      "initApi": {
-        "method": "get",
-        "url": "{{url_for('studentBriefInfo')}}"
-      },
-      "submitText": ""
-    }
-        /*
-        {
-      "type": "form",
-      "title": "",
-      "body": [
-        {
-          "type": "textarea",
-          "label": "",
-          "name": "msgBoard2",
-          "id": "u:3ec513061fa7",
-          "minRows": 3,
-          "maxRows": 20
-        }
-      ],
-      "id": "u:6ab05083482c",
-      "submitText": "Send Message to Administrator",
-      "api": {
-        "method": "post",
-        "convertKeyToPath": false,
-        "url": "{{url_for('msgBoard')}}",
-        "data": {
-          "msg": "${msgBoard2}"
-        }
-      }
-    }*/
-      ],
-      "initApi": {
-        "method": "get",
-        "url": "{{url_for('msgBoard')}}"
-      },
-      "submitText": ""
-    }
-  ],
-  "id": "u:437f36f638f1"
+        ]
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();

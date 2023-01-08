@@ -35,183 +35,229 @@
       // 通过替换amisJSON中的内容来生成不同页面
       let amisJSON = {
         "type": "page",
-  "body": [
-    {
-      "type": "form",
-      "id": "u:4ee00812167b",
-      "title": "",
-      "body": [
-      {
-      "type": "form",
-      "title": "",
-      "body": [
-        {
-          "type": "property",
-          "title": "Send Message to Administrator",
-          "items": [
-            {
-              "label": "Message",
-              "content": {
-                "type": "textarea",
-                "required": true,
-                "name": "note",
-                "placeholder": "Enter...",
-                "className": "Panel--primary"
-              },
-              "span": 3
-            },
-            {
-              "label": "Select Student",
-              "content":{
-                
-          "type": "crud",
-    "syncLocation": false,
-    "api": "{{url_for('studentBriefInfo')}}",
-    "headerToobar": ["bulkActions"],
-    "bulkActions": [
-      {
+        "toolbar": [
+          {
+            "type": "flex",
+            "justify": "space-between",
+            "className": "bg-light",
+            "style": { "fontFamily": "Times New Roman" },
+            "items": [
+              {
                 "type": "button",
-                "label": "Send Message to Administrator",
-
+                "icon": "fa-solid fa-house",
+                "className": "m-l-sm",
+                "actionType": "link",
+                "link": "{{url_for('index')}}"
+              },
+              {
+                "type": "button",
+                "label": "Sign out/退出账号",
+                "className": "m-r-md",
+                "level": "link",
+                "onEvent": {
+                  "click": {
+                    "actions": [
+                      {
                         "actionType": "ajax",
+                        "args": {
                           "api": {
                             "method": "post",
-                            "url": "{{url_for('msgBoard')}}",
-                            "data": {
-                              "msg": "${note}",
-                              "student_id": "${ids}"
-                            }
+                            "url": "{{url_for('logout')}}"
                           }
-      }
-    ],
-    "columns": [
-      {
-        "name": "id",
-        "label": "ID"
-      },
-      {
-        "name": "fname",
-        "label": "First Name"
-      },
-      {
-        "name": "lname",
-        "label": "Last Name"
-      }
-    ]
+                        }
+                      },
+                      {
+                        "actionType": "link",
+                        "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
+                        "args": {
+                          "link": "{{url_for('login')}}"
+                        }
+                      }
+                    ]
+                  }
+                }
               }
-            }
-          ]
+            ]
           }
-      ],
-      "initApi": {
-        "method": "get",
-        "url": "{{url_for('studentBriefInfo')}}",
-        "responseData": {
-          "s1": "${items|first}",
-          "s2": "${items|nth:1}",
-          "s3": "${items|nth:2}"
-        }
-      },
-      "submitText": ""
-    },
-    {
-      "type": "form",
-      "title": "",
-      "body": [
-        {
-          "type": "property",
-          "title": "",
-          "items": [
+        ],
+        "body": [
+          {
+            "type": "form",
+            "id": "u:4ee00812167b",
+            "title": "",
+            "body": [
             {
-              "label": "Message History",
-              "content":{
-                
-          "type": "crud",
-    "syncLocation": false,
-    "api": "{{url_for('msgBoard')}}",
-    "columns": [
-      {
-        "type": "date",
-        "name": "timestamp",
-        "label": "Time",
-        "format": "M/D/YYYY HH:mm"
-      },
-      {
-        "name": "msg",
-        "label": "Message"
-      },
-      {
-        "name": "fname",
-        "label": "First Name"
-      },
-      {
-        "name": "lname",
-        "label": "Last Name"
-      }
-    ]
-              }
+            "type": "form",
+            "title": "",
+            "body": [
+              {
+                "type": "property",
+                "title": "Send Message to Administrator",
+                "items": [
+                  {
+                    "label": "Message",
+                    "content": {
+                      "type": "textarea",
+                      "required": true,
+                      "name": "note",
+                      "placeholder": "Enter...",
+                      "className": "Panel--primary"
+                    },
+                    "span": 3
+                  },
+                  {
+                    "label": "Select Student",
+                    "content":{
+                      
+                "type": "crud",
+          "syncLocation": false,
+          "checkOnItemClick": true,
+          "api": "{{url_for('studentBriefInfo')}}",
+          "headerToobar": ["bulkActions"],
+          "bulkActions": [
+            {
+                      "type": "button",
+                      "label": "Send Message to Administrator",
+
+                              "actionType": "ajax",
+                                "api": {
+                                  "method": "post",
+                                  "url": "{{url_for('msgBoard')}}",
+                                  "data": {
+                                    "msg": "${note}",
+                                    "student_id": "${ids}"
+                                  }
+                                }
+            }
+          ],
+          "columns": [
+            {
+              "name": "id",
+              "label": "ID"
+            },
+            {
+              "name": "fname",
+              "label": "First Name"
+            },
+            {
+              "name": "lname",
+              "label": "Last Name"
             }
           ]
+                    }
+                  }
+                ]
+                }
+            ],
+            "initApi": {
+              "method": "get",
+              "url": "{{url_for('studentBriefInfo')}}",
+              "responseData": {
+                "s1": "${items|first}",
+                "s2": "${items|nth:1}",
+                "s3": "${items|nth:2}"
+              }
+            },
+            "submitText": ""
+          },
+          {
+            "type": "form",
+            "title": "",
+            "body": [
+              {
+                "type": "property",
+                "title": "",
+                "items": [
+                  {
+                    "label": "Message History",
+                    "content":{
+                      
+                "type": "crud",
+          "syncLocation": false,
+          "checkOnItemClick": true,
+          "api": "{{url_for('msgBoard')}}",
+          "columns": [
+            {
+              "type": "date",
+              "name": "timestamp",
+              "label": "Time",
+              "format": "M/D/YYYY HH:mm"
+            },
+            {
+              "name": "msg",
+              "label": "Message"
+            },
+            {
+              "name": "fname",
+              "label": "First Name"
+            },
+            {
+              "name": "lname",
+              "label": "Last Name"
+            }
+          ]
+                    }
+                  }
+                ]
+                }
+            ],
+            "initApi": {
+              "method": "get",
+              "url": "{{url_for('studentBriefInfo')}}",
+              "responseData": {
+                "s1": "${items|first}",
+                "s2": "${items|nth:1}",
+                "s3": "${items|nth:2}"
+              }
+            },
+            "submitText": ""
           }
-      ],
-      "initApi": {
-        "method": "get",
-        "url": "{{url_for('studentBriefInfo')}}",
-        "responseData": {
-          "s1": "${items|first}",
-          "s2": "${items|nth:1}",
-          "s3": "${items|nth:2}"
-        }
-      },
-      "submitText": ""
-    }
-        /*
-        {
-      "type": "form",
-      "title": "",
-      "body": [
-        {
-          "type": "textarea",
-          "label": "",
-          "name": "msgBoard2",
-          "id": "u:3ec513061fa7",
-          "minRows": 3,
-          "maxRows": 20
-        }
-      ],
-      "id": "u:6ab05083482c",
-      "submitText": "Send Message to Administrator",
-      "api": {
-        "method": "post",
-        "convertKeyToPath": false,
-        "url": "{{url_for('msgBoard')}}",
-        "data": {
-          "msg": "${msgBoard2}"
-        }
-      }
-    }*/
-      ],
-      "initApi": {
-        "method": "get",
-        "url": "{{url_for('msgBoard')}}",
-        "responseData": {
-          "msg1": "${items|sortBy:timestamp:numerical:desc|nth:9}",
-          "msg2": "${items|sortBy:timestamp:numerical:desc|nth:8}",
-          "msg3": "${items|sortBy:timestamp:numerical:desc|nth:7}",
-          "msg4": "${items|sortBy:timestamp:numerical:desc|nth:6}",
-          "msg5": "${items|sortBy:timestamp:numerical:desc|nth:5}",
-          "msg6": "${items|sortBy:timestamp:numerical:desc|nth:4}",
-          "msg7": "${items|sortBy:timestamp:numerical:desc|nth:3}",
-          "msg8": "${items|sortBy:timestamp:numerical:desc|nth:2}",
-          "msg9": "${items|sortBy:timestamp:numerical:desc|nth:1}",
-          "msg10": "${items|sortBy:timestamp:numerical:desc|nth:0}",
+              /*
+              {
+            "type": "form",
+            "title": "",
+            "body": [
+              {
+                "type": "textarea",
+                "label": "",
+                "name": "msgBoard2",
+                "id": "u:3ec513061fa7",
+                "minRows": 3,
+                "maxRows": 20
+              }
+            ],
+            "id": "u:6ab05083482c",
+            "submitText": "Send Message to Administrator",
+            "api": {
+              "method": "post",
+              "convertKeyToPath": false,
+              "url": "{{url_for('msgBoard')}}",
+              "data": {
+                "msg": "${msgBoard2}"
+              }
+            }
+          }*/
+            ],
+            "initApi": {
+              "method": "get",
+              "url": "{{url_for('msgBoard')}}",
+              "responseData": {
+                "msg1": "${items|sortBy:timestamp:numerical:desc|nth:9}",
+                "msg2": "${items|sortBy:timestamp:numerical:desc|nth:8}",
+                "msg3": "${items|sortBy:timestamp:numerical:desc|nth:7}",
+                "msg4": "${items|sortBy:timestamp:numerical:desc|nth:6}",
+                "msg5": "${items|sortBy:timestamp:numerical:desc|nth:5}",
+                "msg6": "${items|sortBy:timestamp:numerical:desc|nth:4}",
+                "msg7": "${items|sortBy:timestamp:numerical:desc|nth:3}",
+                "msg8": "${items|sortBy:timestamp:numerical:desc|nth:2}",
+                "msg9": "${items|sortBy:timestamp:numerical:desc|nth:1}",
+                "msg10": "${items|sortBy:timestamp:numerical:desc|nth:0}",
 
-        }
-      },
-      "submitText": ""
-    }
-  ],
-  "id": "u:437f36f638f1"
+              }
+            },
+            "submitText": ""
+          }
+        ]
       };
       let amisScoped = amis.embed('#root', amisJSON);
     })();
