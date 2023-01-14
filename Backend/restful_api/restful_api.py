@@ -21,13 +21,13 @@ class GuardianListResource(Resource):
     def post(self):
         # create a new one
         new_guardian = Guardian(
-            pwd='123456',
-            fname=request.json['fname'],
-            lname=request.json['lname'],
-            phone=request.json['phone'],
-            email=request.json['email'],
-            relationship=request.json['relationship'],
-            check_in_method=request.json['check_in_method'],
+            pwd=request.json.get('password', '123456'),
+            fname=request.json.get('fname'),
+            lname=request.json.get('lname'),
+            phone=request.json.get('phone'),
+            email=request.json.get('email'),
+            relationship=request.json.get('relationship'),
+            check_in_method=request.json.get('check_in_method'),
         )
         db.session.add(new_guardian)
         db.session.flush()
@@ -113,6 +113,7 @@ class StudentListResource(Resource):
             friday_lounge=request.json.get('friday_lounge'),
             friday_night=request.json.get('friday_night'),
 
+            barcode=request.json.get('barcode')
             # TODO: add classes_id when post student
             # classes_id=request.json['classes_id']
         )

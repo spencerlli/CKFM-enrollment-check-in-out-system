@@ -25,6 +25,8 @@ AMIS_RES_TEMPLATE = {
     'data': {}
 }
 
+COOKIE_EXPIRE_TIME = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
+
 '''
 COOKIES: {
     'login': ('1', '0'),
@@ -35,11 +37,36 @@ COOKIES: {
 } (all str)
 '''
 
+@app.route('/guardianSignUp', methods=['POST'])
+def guardianSignUp():
+    res = deepcopy(AMIS_RES_TEMPLATE)
+    if request.json['password'] != request.json['confirm_password']:
+        res['status'] = 1
+        res['msg'] = "Confirmed password doesn't match!"
+        return jsonify(res)
+    
+    guardian_json = {'phone': request.json['phone'], 'pwd': request.json['password']}
+    if requests.get(REST_API + '/guardian/phone/%s' % guardian_json['phone']).status_code == 200:
+        # duplicate phone number
+        res['status'] = 1
+        res['msg'] = 'Account already existed! Please use the phone number to login.'
+        return jsonify(res)
+    else:
+        requests.post(REST_API + '/guardian', json=guardian_json)
+        res['msg'] = 'Successfully create an account! Please use your account to login.'
+        res = jsonify(res)
+        res.set_cookie('phone', guardian_json['phone'])
+        return res
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
         if request.cookies.get('user_group') == 'guardian':
-            return render_template('flask_templates/guardian/index.html')
+            if not request.cookies.get('family_id'):    # guardian has not enroll family yet
+                return redirect('enrollPage')
+            else:
+                return render_template('flask_templates/guardian/index.html')
         else:
             return render_template('flask_templates/admin/index.html')
     else:
@@ -68,12 +95,15 @@ def login():
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
 
-                    family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_query.json()['id']).json()[0]['id']
-                    expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
-                    res.set_cookie(key='login', value="1", expires=expire_date)
-                    res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=expire_date)
-                    res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
-                    res.set_cookie(key='user_group', value='guardian', expires=expire_date)
+                    res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='user_group', value='guardian', expires=COOKIE_EXPIRE_TIME)
+
+                    family_json = requests.get(REST_API + '/family/guardian/%d' % guardian_query.json()['id']).json()
+                    if len(family_json) != 0:
+                        family_id = family_json[0]['id']
+                        res.set_cookie(key='family_id', value=str(family_id), expires=COOKIE_EXPIRE_TIME)
+                    
                     return res
                 else:
                     res_json['status'] = 1
@@ -85,11 +115,10 @@ def login():
                     res = jsonify(res_json)
 
                     classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
-                    expire_date = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
-                    res.set_cookie(key='login', value="1", expires=expire_date)
-                    res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=expire_date)
-                    res.set_cookie(key='classes_id', value=str(classes_id), expires=expire_date)
-                    res.set_cookie(key='user_group', value='admin', expires=expire_date)
+                    res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
                     return res
                 else:
                     res_json['status'] = 1
@@ -122,29 +151,32 @@ def enrollPage():
     return render_template('flask_templates/guardian/form.html')
 
 
-@app.route('/enrollFamily', methods=['GET', 'POST', 'OPTIONS'])
+@app.route('/enrollFamily', methods=['POST'])
 def enrollFamily():
-    res = {
-        'status': 0,
-        'msg': 'Successfully enrolled!',
-        'data': {}
-    }
+    res = deepcopy(AMIS_RES_TEMPLATE)
 
+    # TODO: fault tolerant: what if user exit during enrollment process
     if request.method == 'POST':
         # guardian
         guardian_list = []
-        for guardian in request.json['guardians']:
+        for i, guardian in enumerate(request.json['guardians']):
             guardian_json = {}
             guardian_json['fname'] = guardian['fname']
             guardian_json['lname'] = guardian['lname']
             guardian_json['check_in_method'] = guardian['method']
 
-            guardian_json['phone'] = guardian.get('phone')
+            guardian_json['phone'] = guardian.get('phone',
+                requests.get(REST_API + '/guardian/%s' % request.cookies['user_id']).json()['phone'])
             guardian_json['email'] = guardian.get('email')
             guardian_json['relationship'] = guardian.get('relationship')
+            guardian_json['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
 
-            guardian_res = requests.post(
-                REST_API + '/guardian', json=guardian_json)
+            if i == 0:
+                guardian_res = requests.put(
+                    REST_API + '/guardian/%s' % request.cookies['user_id'], json=guardian_json)
+            else:
+                guardian_res = requests.post(
+                    REST_API + '/guardian', json=guardian_json)
             guardian_list.append(guardian_res.json())
 
         # student
@@ -159,9 +191,10 @@ def enrollFamily():
             student_json['gender'] = student.get('gender')
             student_json['grade'] = student.get('grade')
             student_json['allergies'] = student.get('allergy')
+            student_json['barcode'] = student['fname'][0].upper() + student['lname'][0].upper() + generate_random_str(5)
 
             programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                        'U3_friday', 'friday_lounge', 'friday_night']
+                        'u3_friday', 'friday_lounge', 'friday_night']
             for i, program in enumerate(programs):
                 student_json[program] = student['program'][0][i]['checked']
 
@@ -187,8 +220,8 @@ def enrollFamily():
         familyInfo_json['friday_night'] = request.json['guardians'][0]['friday']
         familyInfo_json['special_events'] = request.json['guardians'][0].get('special')
 
-        familyInfo_json['pay'] = request.json['pay']
-        familyInfo_json['checkbox'] = request.json['checkbox']
+        familyInfo_json['pay'] = request.json.get('pay')
+        familyInfo_json['checkbox'] = request.json.get('checkbox')  # TODO: must be selected
 
         familyInfo_res = requests.post(
             REST_API + '/familyInfo', json=familyInfo_json)
@@ -207,6 +240,7 @@ def enrollFamily():
                     REST_API + '/family', json=family_json)
                 family_json = family_res.json()
 
+    res['msg'] = 'Successfully enrolled family!'
     return jsonify(res)
 
 
@@ -505,10 +539,9 @@ def checkOut():
             else:
                 guardian_id = guardian_query.json().get('id')
                 family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_id).json()[0].get('guardian_id')
-                expire_date = int((datetime.datetime.now() + datetime.timedelta(minutes=5)).timestamp())
                 res['msg'] = 'Verified guardian barcode!'
                 res = jsonify(res)
-                res.set_cookie(key='family_id', value=str(family_id), expires=expire_date)
+                res.set_cookie(key='family_id', value=str(family_id), expires=COOKIE_EXPIRE_TIME)
                 return res
         else:
             student_barcode = request.json['barcode']
