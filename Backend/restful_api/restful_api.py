@@ -343,8 +343,8 @@ class FamilyResource(Resource):
 
     def delete(self, id):
         # delete one by id
-        family_got = Family.query.filter_by(id=id).first_or_404()
-        db.session.delete(family_got)
+        families_got = Family.query.filter_by(id=id).all()
+        db.session.delete(families_got)
         db.session.commit()
         return '', 204
 
@@ -355,12 +355,28 @@ class FamilyGuardianResource(Resource):
         families_got = Family.query.filter_by(guardian_id=guardian_id).all()
         return families_schema.dump(families_got)
 
+    def delete(self, guardian_id):
+        # delete one by id
+        families_got = Family.query.filter_by(guardian_id=guardian_id).all()
+        for family_got in families_got:
+            db.session.delete(family_got)
+        db.session.commit()
+        return '', 204
+
 
 class FamilyStudentResource(Resource):
     def get(self, student_id):
         # get one by id
         families_got = Family.query.filter_by(student_id=student_id).all()
         return families_schema.dump(families_got)
+
+    def delete(self, student_id):
+        # delete one by id
+        families_got = Family.query.filter_by(student_id=student_id).all()
+        for family_got in families_got:
+            db.session.delete(family_got)
+        db.session.commit()
+        return '', 204
 ###### Family ######
 
 
@@ -575,6 +591,14 @@ class ClassesStudentResource(Resource):
         # get one by id
         classes_got = Classes.query.filter_by(student_id=student_id).all()
         return classes_schema.dump(classes_got)
+
+    def delete(self, student_id):
+        # delete one by id
+        classes_got = Classes.query.filter_by(student_id=student_id).all()
+        for class_got in classes_got:
+            db.session.delete(class_got)
+        db.session.commit()
+        return '', 204
 ###### Classes ######
 
 

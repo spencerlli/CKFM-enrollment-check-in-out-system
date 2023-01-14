@@ -320,7 +320,6 @@ def userManage():
             res['data']['items'].append(student_json)
     else:
         object = request.args.get('object')
-        object_json = request.json
         if request.method == 'POST':
             object_json = request.json
             # check duplicate guardian
@@ -352,10 +351,13 @@ def userManage():
                 res['msg'] = 'Successfully add new %s!' % object
         elif request.method == 'PUT':
             object_id = request.args.get('id')
-            requests.put(REST_API + '/%s/%s' % (object, object_id), json=object_json)
+            requests.put(REST_API + '/%s/%s' % (object, object_id), json=request.json)
             res['msg'] = 'Successfully update %s!' % object
         else:   # DELETE
             object_id = request.args.get('id')
+            requests.delete(REST_API + '/family/%s/%s' % (object, object_id))
+            if object == 'student' and requests.get(REST_API + '/classes/%s/%s' % (object, object_id)).status_code == 200:
+                requests.delete(REST_API + '/classes/%s/%s' % (object, object_id))
             requests.delete(REST_API + '/%s/%s' % (object, object_id))
             res['msg'] = 'Successfully delete %s!' % object
     
