@@ -629,7 +629,7 @@
                 },
                 "api": {
                   "method": "post",
-                  "url": "",  // todo: save form api
+                  "url": "{{url_for('guestEnroll')}}",  // todo: save form api
                   requestAdaptor: function (api) {
                     function exist(p) {
                       if (typeof p === 'undefined') {
@@ -1368,7 +1368,7 @@
               },
               "api": {
                 "method": "post",
-                "url": "",  // todo: save form api
+                "url": "{{url_for('guestEnroll')}}",  // todo: save form api
                 requestAdaptor: function (api) {
                   function exist(p) {
                     if (typeof p === 'undefined') {

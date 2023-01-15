@@ -28,6 +28,8 @@ class GuardianListResource(Resource):
             email=request.json.get('email'),
             relationship=request.json.get('relationship'),
             check_in_method=request.json.get('check_in_method'),
+
+            is_guest=request.json.get('is_guest', 0)
         )
         db.session.add(new_guardian)
         db.session.flush()
@@ -113,9 +115,11 @@ class StudentListResource(Resource):
             friday_lounge=request.json.get('friday_lounge'),
             friday_night=request.json.get('friday_night'),
 
-            barcode=request.json.get('barcode')
+            barcode=request.json.get('barcode'),
             # TODO: add classes_id when post student
             # classes_id=request.json['classes_id']
+
+            is_guest=request.json.get('is_guest', 0)
         )
         db.session.add(new_student)
         db.session.flush()
@@ -204,24 +208,26 @@ class FamilyInfoListResource(Resource):
     def post(self):
         # create a new one
         new_family_info = FamilyInfo(
-            street=request.json['street'],
-            city=request.json['city'],
-            state=request.json['state'],
-            zip=request.json['zip'],
+            street=request.json.get('street'),
+            city=request.json.get('city'),
+            state=request.json.get('state'),
+            zip=request.json.get('zip'),
 
-            physician=request.json['physician'],
-            physician_phone=request.json['physician_phone'],
-            insurance=request.json['insurance'],
-            insurance_phone=request.json['insurance_phone'],
-            insurance_policy=request.json['insurance_policy'],
-            group=request.json['group'],
+            physician=request.json.get('physician'),
+            physician_phone=request.json.get('physician_phone'),
+            insurance=request.json.get('insurance'),
+            insurance_phone=request.json.get('insurance_phone'),
+            insurance_policy=request.json.get('insurance_policy'),
+            group=request.json.get('group'),
 
-            sunday_school=request.json['sunday_school'],
-            friday_night=request.json['friday_night'],
-            special_events=request.json['special_events'],
+            sunday_school=request.json.get('sunday_school'),
+            friday_night=request.json.get('friday_night'),
+            special_events=request.json.get('special_events'),
 
-            pay=request.json['pay'],
-            checkbox=request.json['checkbox']
+            pay=request.json.get('pay'),
+            checkbox=request.json.get('checkbox'),
+
+            is_guest=request.json.get('is_guest')
         )
         db.session.add(new_family_info)
         db.session.flush()
@@ -294,11 +300,12 @@ class Family(db.Model):
         'guardian.id'), primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey(
         'student.id'), primary_key=True)
+    is_guest = db.Column(db.Boolean)
 
 
 class FamilySchema(ma.Schema):
     class Meta:
-        fields = ('id', 'guardian_id', 'student_id')
+        fields = ('id', 'guardian_id', 'student_id', 'is_guest')
 
 
 family_schema = FamilySchema()
@@ -317,6 +324,7 @@ class FamilyListResource(Resource):
             id=request.json['id'],
             guardian_id=request.json['guardian_id'],
             student_id=request.json['student_id'],
+            is_guest=request.json.get('is_guest', False)
         )
         db.session.add(new_family)
         db.session.commit()

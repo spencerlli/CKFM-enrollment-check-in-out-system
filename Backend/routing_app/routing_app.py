@@ -759,6 +759,71 @@ def log():
     pass
 
 
+@app.route('/guestEnrollPage', methods=['GET'])
+def guestEnrollPage():
+    return render_template('flask_templates/guardian/guest_form.html')
+
+
+@app.route('/guestEnroll', methods=['POST'])
+def guestEnroll():
+    # TODO: replicate check
+    res = deepcopy(AMIS_RES_TEMPLATE)
+
+    if request.method == 'POST':
+        # guardian
+        guardian_list = []
+        for i, guardian in enumerate(request.json['guardians']):
+            guardian_json = {}
+            guardian_json['fname'] = guardian['fname']
+            guardian_json['lname'] = guardian['lname']
+            guardian_json['phone'] = guardian['phone']
+            guardian_json['check_in_method'] = guardian['method']
+            guardian_json['is_guest'] = True
+
+            guardian_res = requests.post(REST_API + '/guardian', json=guardian_json)
+            guardian_list.append(guardian_res.json())
+
+        # student
+        student_list = []
+        for student in request.json['students']:
+            student_json = {}
+            student_json['fname'] = student['fname']
+            student_json['lname'] = student['lname']
+            student_json['check_in_method'] = student['method']
+
+            programs = ['sunday_school', 'cm_lounge', 'kid_choir',
+                        'u3_friday', 'friday_lounge', 'friday_night']
+            for i, program in enumerate(programs):
+                student_json[program] = student['program'][0][i]['checked']
+
+            student_json['is_guest'] = True
+
+            student_res = requests.post(
+                REST_API + '/student', json=student_json)
+            student_list.append(student_res.json())
+
+        # familyInfo
+        familyInfo_json = {'is_guest': True}
+        familyInfo_res = requests.post(REST_API + '/familyInfo', json=familyInfo_json)
+        familyInfo_json = familyInfo_res.json()
+
+        # family
+        family_json = {}
+        family_json['id'] = familyInfo_json['id']
+        for guardian in guardian_list:
+            for student in student_list:
+                family_json['guardian_id'] = guardian['id']
+                family_json['student_id'] = student['id']
+                family_json['is_guest'] = True
+
+                family_res = requests.post(
+                    REST_API + '/family', json=family_json)
+                family_json = family_res.json()
+
+    res['msg'] = 'Successfully enrolled guest family!'
+    return jsonify(res)
+
+
 def generate_random_str(randomLength=8):
     random_str = ''
     base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789'

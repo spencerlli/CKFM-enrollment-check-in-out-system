@@ -21,7 +21,7 @@ ma = Marshmallow(app)
 class GuardianSchema(ma.Schema):
     class Meta:
         fields = ('id', 'pwd', 'fname', 'lname', 'phone',
-                  'email', 'relationship', 'check_in_method', 'barcode')
+                  'email', 'relationship', 'check_in_method', 'barcode', 'is_guest')
 
 
 class Guardian(db.Model):
@@ -36,12 +36,14 @@ class Guardian(db.Model):
     check_in_method = db.Column(db.String(256))
     barcode = db.Column(db.String(256))
 
+    is_guest = db.Column(db.Boolean)
+
 
 class StudentSchema(ma.Schema):
     class Meta:
         fields = ('id', 'fname', 'lname', 'birthdate', 'gender', 'grade', 'allergies', 'check_in_method',
                   'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday', 'friday_lounge', 'friday_night',
-                  'check_in', 'check_in_time', 'check_out', 'check_out_time', 'barcode', 'classes_id')
+                  'check_in', 'check_in_time', 'check_out', 'check_out_time', 'barcode', 'classes_id', 'is_guest')
 
 
 class Student(db.Model):
@@ -70,11 +72,13 @@ class Student(db.Model):
     barcode = db.Column(db.String(256))
     classes_id = db.Column(db.String(256))
 
+    is_guest = db.Column(db.Boolean)
+
 
 class FamilyInfoSchema(ma.Schema):
     class Meta:
         fields = ('id', 'street', 'city', 'state', 'zip', 'physician', 'physician_phone', 'insurance', 'insurance_phone',
-                  'insurance_policy', 'group', 'sunday_school', 'friday_night', 'special_events', 'pay', 'checkbox')
+                  'insurance_policy', 'group', 'sunday_school', 'friday_night', 'special_events', 'pay', 'checkbox', 'is_guest')
 
 
 class FamilyInfo(db.Model):
@@ -98,6 +102,8 @@ class FamilyInfo(db.Model):
 
     pay = db.Column(db.Integer)
     checkbox = db.Column(db.Boolean)
+
+    is_guest = db.Column(db.Boolean)
 
 
 class MsgBoardSchema(ma.Schema):
