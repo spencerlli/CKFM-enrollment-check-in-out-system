@@ -33,7 +33,7 @@ COOKIES: {
     'user_group': ('guardian','admin'),
     'user_id': user_id,
     'family_id': family_id,
-    'class_id': class_id
+    'classes_id': classes_id
 } (all str)
 '''
 
@@ -141,7 +141,7 @@ def logout():
     res.delete_cookie('login')
     res.delete_cookie('user_id')
     res.delete_cookie('family_id')
-    res.delete_cookie('class_id')
+    res.delete_cookie('classes_id')
     res.delete_cookie('user_group')
     return res
 
