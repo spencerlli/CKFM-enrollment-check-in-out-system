@@ -44,6 +44,7 @@ amisRequire('amis').registerLocale('de-DE', {
   'CRUD.invalidArray': '"data.items" muss ein Array sein',
   'CRUD.invalidData': '"data" ist leer',
   'CRUD.loadMore': 'Weitere laden',
+  'CRUD.loadMoreDisableTip': 'Keine Daten oder letzte Seite',
   'CRUD.perPage': 'Pro Seite',
   'CRUD.stat': '{{page}} von {{lastPage}} insgesamt: {{total}}.',
   'CRUD.paginationGoText': 'Wechseln zu',
@@ -130,12 +131,13 @@ amisRequire('amis').registerLocale('de-DE', {
   'File.failed': 'Fehlerhafte Dateien',
   'File.invalidType': '{{files}} entspricht nicht Typ `{{accept}}`',
   'File.maxSize':
-    '{{filename}} überschreitet die maximale Größe von {{maxsize}} (in Byte)',
+    '{{filename}} überschreitet die maximale Größe von {{maxSize}}',
   'File.pause': 'Hochladen anhalten',
   'File.repick': 'Erneut suswählen',
   'File.result':
     'Erfolgreich hochgeladene Dateien: {{uploaded}}, nicht hochgeladene Dateien: {{failed}}',
   'File.retry': 'Wiederholen',
+  'File.sizeLimit': 'Die maximale Dateigröße ist {{maxSize}}',
   'File.start': 'Hochladen beginnen',
   'File.upload': 'Hochladen',
   'Image.upload': 'Hochladen',
@@ -151,6 +153,9 @@ amisRequire('amis').registerLocale('de-DE', {
   'Form.unique': 'Aktueller Wert ist nicht eindeutig',
   'Form.validateFailed': 'Fehler bei der Überprüfung der Formulareingabe',
   'Form.nestedError': 'Form kann nicht als Nachkomme von Form erscheinen',
+  'Iframe.invalid': 'Ungültige Iframe-URL',
+  'Iframe.invalidProtocol':
+    'HTTP-URL-Iframe kann nicht in https verwendet werden',
   'Image.configError':
     'Es können nur eine Beschneidung oder mehrere festgelegt werden',
   'Image.crop': 'Bild beschneiden',
@@ -195,6 +200,7 @@ amisRequire('amis').registerLocale('de-DE', {
   'Quarter.placeholder': 'Quartal auswählen',
   'Repeat.pre': 'Pro',
   'reset': 'Zurücksetzen',
+  'save': 'Konservierung',
   'saveFailed': 'Fehler beim Speichern',
   'saveSuccess': 'Erfolgreich gespeichert',
   'search': 'Suchen',
@@ -280,6 +286,10 @@ amisRequire('amis').registerLocale('de-DE', {
     'Kontrollieren Sie die Länge des Inhalts. Geben Sie nicht mehr als $1 Buchstaben ein.',
   'validate.minimum': 'Der Eingabewert ist kleiner als der Mindestwert von $1.',
   'validate.minLength': 'Geben Sie weitere Zeichen ein, mindestens $1.',
+  'validate.array.minLength':
+    'Bitte fügen Sie weitere Mitglieder hinzu, mindestens $1 Mitglieder',
+  'validate.array.maxLength':
+    'Bitte kontrollieren Sie die Anzahl der Mitglieder, die $1 nicht überschreiten darf',
   'validate.notEmptyString': 'Geben Sie nicht nur Leerzeichen ein.',
   'validate.isDateTimeSame':
     'Der aktuelle Datumswert ist ungültig, bitte geben Sie denselben Datumswert wie $1 ein',
@@ -305,6 +315,8 @@ amisRequire('amis').registerLocale('de-DE', {
     'Der aktuelle Zeitwert ist ungültig. Bitte geben Sie einen Zeitwert ein, der gleich oder nach $1 ist',
   'validate.isTimeBetween':
     'Der aktuelle Zeitwert ist ungültig, bitte geben Sie einen Zeitwert zwischen $1 und $2 ein',
+  'validate.isVariableName':
+    'Bitte geben Sie einen gültigen Variablennamen ein',
   'validateFailed': 'Fehler bei der Überprüfung',
   'Wizard.configError': 'Konfigurationsfehler',
   'Wizard.finish': 'Ende',
@@ -325,6 +337,7 @@ amisRequire('amis').registerLocale('de-DE', {
   'Condition.not': 'nicht',
   'Condition.and': 'und',
   'Condition.or': 'oder',
+  'Condition.collapse': 'entfalten',
   'Condition.add_cond': 'und Bedingung',
   'Condition.add_cond_group': 'Bedingungsgruppe hinzufügen',
   'Condition.delete_cond_group': 'Konditionsgruppe löschen',
@@ -353,6 +366,7 @@ amisRequire('amis').registerLocale('de-DE', {
   'Condition.expression': 'Ausdruck',
   'Condition.formula_placeholder': 'Bitte geben Sie eine Formel ein',
   'Condition.fun_error': 'Funktion ist undefiniert',
+  'Condition.configured': 'Konfiguriert',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Falten',
   'Timeline.expandText': 'Entfalten',
@@ -374,6 +388,7 @@ amisRequire('amis').registerLocale('de-DE', {
   'UserSelect.resultSort': 'Ergebnissortierung auswählen',
   'UserSelect.selected': 'Ausgewählt',
   'UserSelect.clear': 'leer',
+  'UserSelect.sure': 'Submit',
   'SchemaType.string': 'String',
   'SchemaType.number': 'Number',
   'SchemaType.integer': 'integer',
