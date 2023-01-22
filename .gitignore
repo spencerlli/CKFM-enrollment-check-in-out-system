@@ -3,10 +3,6 @@ Backend/app.py
 
 # Folders
 AttendancePro/dev/
-AttendancePro/admin/
-AttendancePro/general/
-AttendancePro/guardian/
-#AttendancePro/sdk/
 
 # Files
 .DS_Store
