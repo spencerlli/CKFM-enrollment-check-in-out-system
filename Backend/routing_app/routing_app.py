@@ -98,6 +98,7 @@ def login():
                     res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
                     res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
                     res.set_cookie(key='user_group', value='guardian', expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='phone', value=phone, expires=COOKIE_EXPIRE_TIME)
 
                     family_json = requests.get(REST_API + '/family/guardian/%d' % guardian_query.json()['id']).json()
                     if len(family_json) != 0:
@@ -143,12 +144,13 @@ def logout():
     res.delete_cookie('family_id')
     res.delete_cookie('classes_id')
     res.delete_cookie('user_group')
+    res.delete_cookie('phone')
     return res
 
 
 @app.route('/enrollPage', methods=['GET'])
 def enrollPage():
-    return render_template('flask_templates/guardian/form.html')
+    return render_template('flask_templates/general/form.html')
 
 
 @app.route('/enrollFamily', methods=['POST'])
@@ -221,7 +223,7 @@ def enrollFamily():
         familyInfo_json['special_events'] = request.json['guardians'][0].get('special')
 
         familyInfo_json['pay'] = request.json.get('pay')
-        familyInfo_json['checkbox'] = request.json.get('checkbox')  # TODO: must be selected
+        familyInfo_json['checkbox'] = request.json.get('checkbox')
 
         familyInfo_res = requests.post(
             REST_API + '/familyInfo', json=familyInfo_json)
@@ -240,6 +242,9 @@ def enrollFamily():
                     REST_API + '/family', json=family_json)
                 family_json = family_res.json()
 
+    # likely got an error before this line
+    # failed to get family info in the table
+    res.set_cookie(key='family_id', value=family_json['id'])    # add id cookie for later checkings
     res['msg'] = 'Successfully enrolled family!'
     return jsonify(res)
 
