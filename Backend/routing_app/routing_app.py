@@ -158,95 +158,93 @@ def enrollFamily():
     res = deepcopy(AMIS_RES_TEMPLATE)
 
     # TODO: fault tolerant: what if user exit during enrollment process
-    if request.method == 'POST':
-        # guardian
-        guardian_list = []
-        for i, guardian in enumerate(request.json['guardians']):
-            guardian_json = {}
-            guardian_json['fname'] = guardian['fname']
-            guardian_json['lname'] = guardian['lname']
-            guardian_json['check_in_method'] = guardian['method']
+    # guardian
+    guardian_list = []
+    for i, guardian in enumerate(request.json['guardians']):
+        guardian_json = {}
+        guardian_json['fname'] = guardian['fname']
+        guardian_json['lname'] = guardian['lname']
+        guardian_json['check_in_method'] = guardian['method']
 
-            guardian_json['phone'] = guardian.get('phone',
-                requests.get(REST_API + '/guardian/%s' % request.cookies['user_id']).json()['phone'])
-            guardian_json['email'] = guardian.get('email')
-            guardian_json['relationship'] = guardian.get('relationship')
-            guardian_json['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
+        guardian_json['phone'] = guardian.get('phone',
+            requests.get(REST_API + '/guardian/%s' % request.cookies['user_id']).json()['phone'])
+        guardian_json['email'] = guardian.get('email')
+        guardian_json['relationship'] = guardian.get('relationship')
+        guardian_json['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
 
-            if i == 0:
-                guardian_res = requests.put(
-                    REST_API + '/guardian/%s' % request.cookies['user_id'], json=guardian_json)
-            else:
-                guardian_res = requests.post(
-                    REST_API + '/guardian', json=guardian_json)
-            guardian_list.append(guardian_res.json())
+        if i == 0:
+            guardian_res = requests.put(
+                REST_API + '/guardian/%s' % request.cookies['user_id'], json=guardian_json)
+        else:
+            guardian_res = requests.post(
+                REST_API + '/guardian', json=guardian_json)
+        guardian_list.append(guardian_res.json())
 
-        # student
-        student_list = []
-        for student in request.json['students']:
-            student_json = {}
-            student_json['fname'] = student['fname']
-            student_json['lname'] = student['lname']
-            student_json['check_in_method'] = student['method']
+    # student
+    student_list = []
+    for student in request.json['students']:
+        student_json = {}
+        student_json['fname'] = student['fname']
+        student_json['lname'] = student['lname']
+        student_json['check_in_method'] = student['method']
 
-            student_json['birthdate'] = student.get('date')
-            student_json['gender'] = student.get('gender')
-            student_json['grade'] = student.get('grade')
-            student_json['allergies'] = student.get('allergy')
-            student_json['barcode'] = student['fname'][0].upper() + student['lname'][0].upper() + generate_random_str(5)
+        student_json['birthdate'] = student.get('date')
+        student_json['gender'] = student.get('gender')
+        student_json['grade'] = student.get('grade')
+        student_json['allergies'] = student.get('allergy')
+        student_json['barcode'] = student['fname'][0].upper() + student['lname'][0].upper() + generate_random_str(5)
 
-            programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                        'u3_friday', 'friday_lounge', 'friday_night']
-            for i, program in enumerate(programs):
-                student_json[program] = student['program'][0][i]['checked']
+        programs = ['sunday_school', 'cm_lounge', 'kid_choir',
+                    'u3_friday', 'friday_lounge', 'friday_night']
+        for i, program in enumerate(programs):
+            student_json[program] = student['program'][0][i]['checked']
 
-            student_res = requests.post(
-                REST_API + '/student', json=student_json)
-            student_list.append(student_res.json())
+        student_res = requests.post(
+            REST_API + '/student', json=student_json)
+        student_list.append(student_res.json())
 
-        # familyInfo
-        familyInfo_json = {}
-        familyInfo_json['street'] = request.json['guardians'][0].get('street')
-        familyInfo_json['city'] = request.json['guardians'][0].get('city')
-        familyInfo_json['state'] = request.json['guardians'][0].get('state')
-        familyInfo_json['zip'] = request.json['guardians'][0].get('zip')
+    # familyInfo
+    familyInfo_json = {}
+    familyInfo_json['street'] = request.json['guardians'][0].get('street')
+    familyInfo_json['city'] = request.json['guardians'][0].get('city')
+    familyInfo_json['state'] = request.json['guardians'][0].get('state')
+    familyInfo_json['zip'] = request.json['guardians'][0].get('zip')
 
-        familyInfo_json['physician'] = request.json['guardians'][0].get('physician')
-        familyInfo_json['physician_phone'] = request.json['guardians'][0].get('physician_phone')
-        familyInfo_json['insurance'] = request.json['guardians'][0].get('insurance')
-        familyInfo_json['insurance_phone'] = request.json['guardians'][0].get('insurance_phone')
-        familyInfo_json['insurance_policy'] = request.json['guardians'][0].get('insurance_number')
-        familyInfo_json['group'] = request.json['guardians'][0].get('group')
+    familyInfo_json['physician'] = request.json['guardians'][0].get('physician')
+    familyInfo_json['physician_phone'] = request.json['guardians'][0].get('physician_phone')
+    familyInfo_json['insurance'] = request.json['guardians'][0].get('insurance')
+    familyInfo_json['insurance_phone'] = request.json['guardians'][0].get('insurance_phone')
+    familyInfo_json['insurance_policy'] = request.json['guardians'][0].get('insurance_number')
+    familyInfo_json['group'] = request.json['guardians'][0].get('group')
 
-        familyInfo_json['sunday_school'] = request.json['guardians'][0]['sunday']
-        familyInfo_json['friday_night'] = request.json['guardians'][0]['friday']
-        familyInfo_json['special_events'] = request.json['guardians'][0].get('special')
+    familyInfo_json['sunday_school'] = request.json['guardians'][0]['sunday']
+    familyInfo_json['friday_night'] = request.json['guardians'][0]['friday']
+    familyInfo_json['special_events'] = request.json['guardians'][0].get('special')
 
-        familyInfo_json['pay'] = request.json.get('pay')
-        familyInfo_json['checkbox'] = request.json.get('checkbox')
+    familyInfo_json['pay'] = request.json.get('pay')
+    familyInfo_json['checkbox'] = request.json.get('checkbox')
 
-        familyInfo_res = requests.post(
-            REST_API + '/familyInfo', json=familyInfo_json)
-        familyInfo_json = familyInfo_res.json()
+    familyInfo_res = requests.post(
+        REST_API + '/familyInfo', json=familyInfo_json)
+    familyInfo_json = familyInfo_res.json()
 
-        # family
-        family_json = {}
-        family_json['id'] = familyInfo_json['id']
-        for guardian in guardian_list:
-            for student in student_list:
+    # family
+    family_json = {}
+    family_json['id'] = familyInfo_json['id']
+    for guardian in guardian_list:
+        for student in student_list:
 
-                family_json['guardian_id'] = guardian['id']
-                family_json['student_id'] = student['id']
+            family_json['guardian_id'] = guardian['id']
+            family_json['student_id'] = student['id']
 
-                family_res = requests.post(
-                    REST_API + '/family', json=family_json)
-                family_json = family_res.json()
+            family_res = requests.post(
+                REST_API + '/family', json=family_json)
+            family_json = family_res.json()
 
-    # likely got an error before this line
-    # failed to get family info in the table
-    res.set_cookie(key='family_id', value=family_json['id'])    # add id cookie for later checkings
     res['msg'] = 'Successfully enrolled family!'
-    return jsonify(res)
+    res = jsonify(res)
+    res.set_cookie(key='family_id', value=str(family_json['id']))    # add id cookie for later checkings
+    return res
 
 
 @app.route('/adminManagePage', methods=['GET'])
