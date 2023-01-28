@@ -94,7 +94,7 @@ class FamilyInfo(db.Model):
     insurance = db.Column(db.String(256))
     insurance_phone = db.Column(db.String(256))
     insurance_policy = db.Column(db.String(256))
-    group = db.Column(db.Integer)
+    group = db.Column(db.String(256))
 
     sunday_school = db.Column(db.String(256))
     friday_night = db.Column(db.String(256))
