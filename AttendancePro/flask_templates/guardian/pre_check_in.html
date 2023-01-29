@@ -14,7 +14,12 @@
       "avatarTextBackground": ["#04c1ba", "#108cee"]
     }
   },
-  "headerToolbar": ["*Note: Please select only one guardian and at least one student to pre-check in."],
+  "headerToolbar": [
+    {
+      "type": "tpl",
+      "tpl": "<p><em><span style=\"color: rgb(224, 62, 45);\">*Please note that only one guardian and a minimum of one student must be selected for pre-check-in.</span></em></p>"
+    }
+  ],
   "footerToolbar": ["bulkActions"],
   "bulkActions": [
     {
@@ -47,8 +52,8 @@
                 "body": [
                   {
                     "type": "alert",
-                    "title": "Failed to pre-check in!",
-                    "body": "Please try again later.",
+                    "title": "Pre-check-in Failure",
+                    "body": "Please attempt again at a later time.",
                     "level": "danger",
                     "showIcon": true
                   }
@@ -76,7 +81,7 @@
                     "title": "Thank You!",
                     "level": "success",
                     "showIcon": true,
-                    "body": "You have successfully pre-checked in."
+                    "body": "Congratulations, pre-check-in process completed successfully."
                   }
                 ],
                 "actions": [

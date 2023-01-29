@@ -14,7 +14,12 @@
       "avatarTextBackground": ["#04c1ba", "#108cee"]
     }
   },
-  "headerToolbar": ["*Note: Please select only one guardian and at least one student to pre-check out."],
+  "headerToolbar": [
+    {
+      "type": "tpl",
+      "tpl": "<p><em><span style=\"color: rgb(224, 62, 45);\">*Please note that only one guardian and a minimum of one student must be selected for pre-check-out.</span></em></p>"
+    }
+  ],
   "footerToolbar": ["bulkActions"],
   "bulkActions": [
     {
@@ -47,8 +52,8 @@
                 "body": [
                   {
                     "type": "alert",
-                    "title": "Failed to pre-check out!",
-                    "body": "Please try again later.",
+                    "title": "Pre-check-out Failure",
+                    "body": "Please attempt again at a later time.",
                     "level": "danger",
                     "showIcon": true
                   }
@@ -76,7 +81,7 @@
                     "title": "Thank You!",
                     "level": "success",
                     "showIcon": true,
-                    "body": "You have successfully pre-checked out. A barcode has been generated for the following check-out. Please show it to front desk by clicking the button on the main menu."
+                    "body": "You have successfully completed the pre-check-out process. A barcode has been generated for your upcoming check-out. Please present it to the front desk by selecting the appropriate button on the homepage."
                   }
                 ],
                 "actions": [
