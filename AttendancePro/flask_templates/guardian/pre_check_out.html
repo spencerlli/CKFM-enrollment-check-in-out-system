@@ -1,183 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Pre-check out</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="../sdk/sdk.css" />
-    <link rel="stylesheet" href="../sdk/helper.css" />
-    <link rel="stylesheet" href="../sdk/iconfont.css" />
-    <style>
-      html,
-      body,
-      .app-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+{% extends "layout.html" %}
+{% block title %}Pre-check-out{% endblock %}
 
-      .amis-scope .cxd-Cards-actions {
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root" class="app-wrapper"></div>
-    <script src=" ../sdk/sdk.js"></script>
-    <script type="text/javascript">
-      (function () {
-        let amis = amisRequire('amis/embed');
-        let amisJSON = {
-          "type": "page",
-          "toolbar": [
+{% block body %}
+{
+  "type": "crud",
+  "api": "{{url_for('preCheckOut')}}",
+  "mode": "cards",
+  "card": {
+    "header": {
+      "title": "${fname} ${lname}",
+      "subTitle": "${CAPITALIZE(object)}",
+      "avatarText": "${fname|first|upperCase}",
+      "avatarTextBackground": ["#04c1ba", "#108cee"]
+    }
+  },
+  "headerToolbar": ["*Note: Please select only one guardian and at least one student to pre-check out."],
+  "footerToolbar": ["bulkActions"],
+  "bulkActions": [
+    {
+      "type": "button",
+      "label": "Pre-check out",
+      "level": "primary",
+      "disabledOn": "this.selectedItems.filter(item => item.object === 'guardian').length != 1 || !this.selectedItems.some(item => item.object === 'student')",
+      "onEvent": {
+        "click": {
+          "actions": [
             {
-              "type": "flex",
-              "justify": "space-between",
-              "className": "bg-light",
-              "style": { "fontFamily": "Times New Roman" },
-              "items": [
-                {
-                  "type": "button",
-                  "icon": "fa-solid fa-house",
-                  "className": "m-l-sm",
-                  "actionType": "link",
-                  "link": "{{url_for('index')}}"
-                },
-                {
-                  "type": "button",
-                  "label": "Sign out/退出账号",
-                  "className": "m-r-md",
-                  "level": "link",
-                  "onEvent": {
-                    "click": {
-                      "actions": [
-                        {
-                          "actionType": "ajax",
-                          "args": {
-                            "api": {
-                              "method": "post",
-                              "url": "{{url_for('logout')}}"
-                            }
-                          }
-                        },
-                        {
-                          "actionType": "link",
-                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
-                          "args": {
-                            "link": "{{url_for('login')}}"
-                          }
-                        }
-                      ]
-                    }
+              "actionType": "ajax",
+              "args": {
+                "api": {
+                  "method": "post",
+                  "url": "{{url_for('preCheckOut')}}",
+                  "data": {
+                    "items": "${selectedItems}"
                   }
                 }
-              ]
-            }
-          ],
-          "body": {
-            "type": "crud",
-            "api": "{{url_for('preCheckOut')}}",
-            "mode": "cards",
-            "card": {
-              "header": {
-                "title": "${fname} ${lname}",
-                "subTitle": "${CAPITALIZE(object)}",
-                "avatarText": "${fname|first|upperCase}",
-                "avatarTextBackground": ["#04c1ba", "#108cee"]
               }
             },
-            "headerToolbar": ["*Note: Please select only one guardian and at least one student to pre-check out."],
-            "footerToolbar": ["bulkActions"],
-            "bulkActions": [
-              {
-                "type": "button",
-                "label": "Pre-check out",
-                "level": "primary",
-                "disabledOn": "this.selectedItems.filter(item => item.object === 'guardian').length != 1 || !this.selectedItems.some(item => item.object === 'student')",
-                "onEvent": {
-                  "click": {
-                    "actions": [
-                      {
-                        "actionType": "ajax",
-                        "args": {
-                          "api": {
-                            "method": "post",
-                            "url": "{{url_for('preCheckOut')}}",
-                            "data": {
-                              "items": "${selectedItems}"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "actionType": "dialog",
-                        "stopPropagation": true,
-                        "expression": "typeof event.data.responseResult === 'undefined' || event.data.responseResult.responseStatus !== 0",
-                        "dialog": {
-                          "title": "Failure",
-                          "showCloseButton": true,
-                          "body": [
-                            {
-                              "type": "alert",
-                              "title": "Failed to pre-check out!",
-                              "body": "Please try again later.",
-                              "level": "danger",
-                              "showIcon": true
-                            }
-                          ],
-                          "actions": [
-                            {
-                              "type": "button",
-                              "label": "OK",
-                              "actionType": "link",
-                              "link": "{{url_for('index')}}",
-                              "primary": true
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "actionType": "dialog",
-                        "expression": "event.data.responseResult.responseStatus === 0",
-                        "dialog": {
-                          "title": "Success",
-                          "showCloseButton": false,
-                          "body": [
-                            {
-                              "type": "alert",
-                              "title": "Thank You!",
-                              "level": "success",
-                              "showIcon": true,
-                              "body": "You have successfully pre-checked out. A barcode has been generated for the following check-out. Please show it to front desk by clicking the button on the main menu."
-                            }
-                          ],
-                          "actions": [
-                            {
-                              "type": "button",
-                              "label": "OK",
-                              "actionType": "link",
-                              "link": "{{url_for('index')}}",
-                              "primary": true
-                            }
-                          ]
-                        }
-                      }
-                    ]
+            {
+              "actionType": "dialog",
+              "stopPropagation": true,
+              "expression": "typeof event.data.responseResult === 'undefined' || event.data.responseResult.responseStatus !== 0",
+              "dialog": {
+                "title": "Failure",
+                "showCloseButton": true,
+                "body": [
+                  {
+                    "type": "alert",
+                    "title": "Failed to pre-check out!",
+                    "body": "Please try again later.",
+                    "level": "danger",
+                    "showIcon": true
                   }
-                }
+                ],
+                "actions": [
+                  {
+                    "type": "button",
+                    "label": "OK",
+                    "actionType": "link",
+                    "link": "{{url_for('index')}}",
+                    "primary": true
+                  }
+                ]
               }
-            ]
-          }
-        };
-        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
-      })();
-    </script>
-  </body>
-</html>
+            },
+            {
+              "actionType": "dialog",
+              "expression": "event.data.responseResult.responseStatus === 0",
+              "dialog": {
+                "title": "Success",
+                "showCloseButton": false,
+                "body": [
+                  {
+                    "type": "alert",
+                    "title": "Thank You!",
+                    "level": "success",
+                    "showIcon": true,
+                    "body": "You have successfully pre-checked out. A barcode has been generated for the following check-out. Please show it to front desk by clicking the button on the main menu."
+                  }
+                ],
+                "actions": [
+                  {
+                    "type": "button",
+                    "label": "OK",
+                    "actionType": "link",
+                    "link": "{{url_for('index')}}",
+                    "primary": true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+{% endblock %}

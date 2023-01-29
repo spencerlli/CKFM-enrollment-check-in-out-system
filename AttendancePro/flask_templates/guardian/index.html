@@ -1,159 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Guardian's Main Menu</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="../sdk/sdk.css" />
-    <link rel="stylesheet" href="../sdk/helper.css" />
-    <link rel="stylesheet" href="../sdk/iconfont.css" />
-    <style>
-      html,
-      body,
-      .app-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root" class="app-wrapper"></div>
-    <script src=" ../sdk/sdk.js"></script>
-    <script type="text/javascript">
-      (function () {
-        let amis = amisRequire('amis/embed');
-        let amisJSON = {
-          "type": "page",
-          "style": {
-            "fontFamily": "Times New Roman"
+{% extends "layout.html" %}
+{% block title %}Guardian's Homepage{% endblock %}
+
+{% block body %}
+[
+  {
+    "type": "grid",
+    "columns": [
+      {
+        "body": [
+          {
+            "type": "button",
+            "label": "Enrollment Management / 注册管理",
+            "actionType": "link",
+            "link": "{{url_for('userManagePage')}}",
+            "icon": "fa-solid fa-user-pen",
+            "size": "lg",
+            "block": true
           },
-          "toolbar": [
-            {
-              "type": "flex",
-              "justify": "space-between",
-              "className": "bg-light",
-              "items": [
-                {
-                  "type": "button",
-                  "icon": "fa-solid fa-house",
-                  "className": "m-l-sm",
-                  "actionType": "link",
-                  "link": "{{url_for('index')}}"
-                },
-                {
-                  "type": "button",
-                  "label": "Sign out/退出账号",
-                  "className": "m-r-md",
-                  "level": "link",
-                  "onEvent": {
-                    "click": {
-                      "actions": [
-                        {
-                          "actionType": "ajax",
-                          "args": {
-                            "api": {
-                              "method": "post",
-                              "url": "{{url_for('logout')}}"
-                            }
-                          }
-                        },
-                        {
-                          "actionType": "link",
-                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
-                          "args": {
-                            "link": "{{url_for('login')}}"
-                          }
-                        }
-                      ]
-                    }
-                  }
+          {
+            "type": "button",
+            "label": "Communication / 留言",
+            "actionType": "link",
+            "link": "{{url_for('msgBoardPage')}}",
+            "icon": "fa-solid fa-comments",
+            "level": "light",
+            "size": "lg",
+            "block": true
+          }
+        ]
+      },
+      {
+        "body": [
+          {
+            "type": "button",
+            "label": "Pre-check-in / 预签到",
+            "actionType": "link",
+            "link": "{{url_for('preCheckInPage')}}",
+            "icon": "fa-solid fa-arrow-right-to-bracket",
+            "size": "lg",
+            "block": true
+          },
+          {
+            "type": "button",
+            "label": "Pre-check-out / 预签出",
+            "actionType": "link",
+            "link": "{{url_for('preCheckOutPage')}}",
+            "icon": "fa-solid fa-arrow-right-from-bracket",
+            "size": "lg",
+            "level": "light",
+            "block": true
+          },
+          {
+            "type": "button",
+            "label": "Show Barcode / 出示条形码",
+            "icon": "fa-solid fa-barcode",
+            "size": "lg",
+            "block": true,
+            "actionType": "dialog",
+            "dialog": {
+              "title": "Barcode",
+              "body": {
+                "type": "service",
+                "api": "{{url_for('barcode', object='guardian')}}",
+                "body": {
+                  "type": "barcode",
+                  "name": "barcode"
                 }
-              ]
+              }
             }
-          ],
-          "body": [
-            {
-              "type": "grid",
-              "columns": [
-                {
-                  "body": [
-                    {
-                      "type": "button",
-                      "label": "Enrollment Management / 注册管理",
-                      "actionType": "link",
-                      "link": "{{url_for('userManagePage')}}",
-                      "icon": "fa-solid fa-user-pen",
-                      "size": "lg",
-                      "block": true
-                    },
-                    {
-                      "type": "button",
-                      "label": "Communication / 留言",
-                      "actionType": "link",
-                      "link": "{{url_for('msgBoardPage')}}",
-                      "icon": "fa-solid fa-comments",
-                      "level": "light",
-                      "size": "lg",
-                      "block": true
-                    }
-                  ]
-                },
-                {
-                  "body": [
-                    {
-                      "type": "button",
-                      "label": "Pre-check in / 预签到",
-                      "actionType": "link",
-                      "link": "{{url_for('preCheckInPage')}}",
-                      "icon": "fa-solid fa-arrow-right-to-bracket",
-                      "size": "lg",
-                      "block": true
-                    },
-                    {
-                      "type": "button",
-                      "label": "Pre-check out / 预签出",
-                      "actionType": "link",
-                      "link": "{{url_for('preCheckOutPage')}}",
-                      "icon": "fa-solid fa-arrow-right-from-bracket",
-                      "size": "lg",
-                      "level": "light",
-                      "block": true
-                    },
-                    {
-                      "type": "button",
-                      "label": "Show Barcode / 出示条形码",
-                      "icon": "fa-solid fa-barcode",
-                      "size": "lg",
-                      "block": true,
-                      "actionType": "dialog",
-                      "dialog": {
-                        "title": "Barcode",
-                        "body": {
-                          "type": "service",
-                          "api": "{{url_for('barcode', object='guardian')}}",
-                          "body": {
-                            "type": "barcode",
-                            "name": "barcode"
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        };
-        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
-      })();
-    </script>
-  </body>
-</html>
+          }
+        ]
+      }
+    ]
+  }
+]
+{% endblock %}
