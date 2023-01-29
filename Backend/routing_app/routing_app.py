@@ -329,30 +329,47 @@ def userManage():
                 res['status'] = 1
                 res['msg'] = 'Guardian phone number cannot be duplicated!'
             else:
+                if object == 'guardian':
+                    object_json['pwd'] = object_json['phone']
+                else:   # object == student
+                    object_json['barcode'] = object_json['fname'][0].upper() + object_json['lname'][0].upper() + generate_random_str(5)
+                    programs = ['sunday_school', 'cm_lounge', 'kid_choir',
+                                'u3_friday', 'friday_lounge', 'friday_night']
+                    for i, program in enumerate(programs):
+                        object_json[program] = object_json['program'][0][i]['checked']
+                
                 object_id = requests.post(REST_API + '/%s' % object, json=object_json).json()['id']
                 
-                if object == 'guardian' or object == 'student':
-                    object_json['pwd'] = 123456
-                    family_id = int(request.cookies.get('family_id'))
-                    family_json = requests.get(REST_API + '/family/%d' % family_id).json()
-                    guardian_ids, student_ids = set(), set()
-                    for family in family_json:
-                        guardian_ids.add(family['guardian_id'])
-                        student_ids.add(family['student_id'])
+                family_id = int(request.cookies.get('family_id'))
+                family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+                guardian_ids, student_ids = set(), set()
+                for family in family_json:
+                    guardian_ids.add(family['guardian_id'])
+                    student_ids.add(family['student_id'])
 
-                    if object == 'guardian':
-                        for student_id in student_ids:
-                            new_family_json = {'id': family_id, 'guardian_id': object_id, 'student_id': student_id}
-                            requests.post(REST_API + '/family', json=new_family_json)
-                    else:   # object == student
-                        for guardian_id in guardian_ids:
-                            new_family_json = {'id': family_id, 'guardian_id': guardian_id, 'student_id': object_id}
-                            requests.post(REST_API + '/family', json=new_family_json)
-                
+                if object == 'guardian':
+                    for student_id in student_ids:
+                        new_family_json = {'id': family_id, 'guardian_id': object_id, 'student_id': student_id}
+                        requests.post(REST_API + '/family', json=new_family_json)
+                else:   # object == student
+                    for guardian_id in guardian_ids:
+                        new_family_json = {'id': family_id, 'guardian_id': guardian_id, 'student_id': object_id}
+                        requests.post(REST_API + '/family', json=new_family_json)
+            
                 res['msg'] = 'Successfully add new %s!' % object
+
         elif request.method == 'PUT':
             object_id = request.args.get('id')
-            requests.put(REST_API + '/%s/%s' % (object, object_id), json=request.json)
+            object_json = request.json
+
+            if object == 'student':
+                object_json['barcode'] = object_json['fname'][0].upper() + object_json['lname'][0].upper() + generate_random_str(5)
+                programs = ['sunday_school', 'cm_lounge', 'kid_choir',
+                            'u3_friday', 'friday_lounge', 'friday_night']
+                for i, program in enumerate(programs):
+                    object_json[program] = object_json['program'][0][i]['checked']
+
+            requests.put(REST_API + '/%s/%s' % (object, object_id), json=object_json)
             res['msg'] = 'Successfully update %s!' % object
         else:   # DELETE
             object_id = request.args.get('id')
