@@ -165,9 +165,7 @@ def enrollFamily():
         guardian_json['fname'] = guardian['fname']
         guardian_json['lname'] = guardian['lname']
         guardian_json['check_in_method'] = guardian['method']
-
-        guardian_json['phone'] = guardian.get('phone',
-            requests.get(REST_API + '/guardian/%s' % request.cookies['user_id']).json()['phone'])
+        guardian_json['phone'] = guardian['phone']  # allow non-primary guardians to have their phone numbers
         guardian_json['email'] = guardian.get('email')
         guardian_json['relationship'] = guardian.get('relationship')
         guardian_json['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
