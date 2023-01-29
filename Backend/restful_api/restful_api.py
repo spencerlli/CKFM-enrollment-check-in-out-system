@@ -28,8 +28,6 @@ class GuardianListResource(Resource):
             email=request.json.get('email'),
             relationship=request.json.get('relationship'),
             check_in_method=request.json.get('check_in_method'),
-
-            is_guest=request.json.get('is_guest', False)
         )
         db.session.add(new_guardian)
         db.session.flush()
@@ -118,8 +116,6 @@ class StudentListResource(Resource):
             barcode=request.json.get('barcode'),
             # TODO: add classes_id when post student
             # classes_id=request.json['classes_id']
-
-            is_guest=request.json.get('is_guest', False)
         )
         db.session.add(new_student)
         db.session.flush()
@@ -226,8 +222,6 @@ class FamilyInfoListResource(Resource):
 
             pay=request.json.get('pay'),
             checkbox=request.json.get('checkbox'), 
-
-            is_guest=request.json.get('is_guest', False)
         )
         db.session.add(new_family_info)
         db.session.flush()
@@ -300,7 +294,7 @@ class Family(db.Model):
         'guardian.id'), primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey(
         'student.id'), primary_key=True)
-    is_guest = db.Column(db.Boolean)
+    is_guest = db.Column(db.Boolean, default=False)
 
 
 class FamilySchema(ma.Schema):
@@ -324,7 +318,6 @@ class FamilyListResource(Resource):
             id=request.json['id'],
             guardian_id=request.json['guardian_id'],
             student_id=request.json['student_id'],
-            is_guest=request.json.get('is_guest', False)
         )
         db.session.add(new_family)
         db.session.commit()

@@ -36,7 +36,7 @@ class Guardian(db.Model):
     check_in_method = db.Column(db.String(256))
     barcode = db.Column(db.String(256))
 
-    is_guest = db.Column(db.Boolean)
+    is_guest = db.Column(db.Boolean, default=False)
 
 
 class StudentSchema(ma.Schema):
@@ -64,15 +64,15 @@ class Student(db.Model):
     friday_lounge = db.Column(db.Boolean)
     friday_night = db.Column(db.Boolean)
 
-    check_in = db.Column(db.Integer)
-    check_in_time = db.Column(db.String(256))
-    check_out = db.Column(db.Integer)
-    check_out_time = db.Column(db.String(256))
+    check_in = db.Column(db.Integer, default=0)
+    check_in_time = db.Column(db.String(256), default='0')
+    check_out = db.Column(db.Integer, default=0)
+    check_out_time = db.Column(db.String(256), default='0')
 
     barcode = db.Column(db.String(256))
     classes_id = db.Column(db.String(256))
 
-    is_guest = db.Column(db.Boolean)
+    is_guest = db.Column(db.Boolean, default=False)
 
 
 class FamilyInfoSchema(ma.Schema):
@@ -101,9 +101,9 @@ class FamilyInfo(db.Model):
     special_events = db.Column(db.String(256))
 
     pay = db.Column(db.Integer)
-    checkbox = db.Column(db.Boolean)
+    checkbox = db.Column(db.Boolean, default=False)
 
-    is_guest = db.Column(db.Boolean)
+    is_guest = db.Column(db.Boolean, default=False)
 
 
 class MsgBoardSchema(ma.Schema):
