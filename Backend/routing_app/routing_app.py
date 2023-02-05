@@ -779,7 +779,7 @@ def log():
 
 @app.route('/guestEnrollPage', methods=['GET'])
 def guestEnrollPage():
-    return render_template('flask_templates/guardian/guest_form.html')
+    return render_template('flask_templates/scanner/guest_form.html')
 
 
 @app.route('/guestEnroll', methods=['POST'])

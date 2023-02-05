@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% macro title %}Scanner's Homepage{% endblock %}
+
+{% block body %}
+[
+  {
+    "type": "tpl",
+    "tpl": "<h2>Scanner's Homepage<\h2>"
+  },
+  {
+    "type": "grid",
+    "columns": [
+      {
+        "body": [
+          {
+            "type": "button",
+            "label": "Check in / 签到",
+            "actionType": "link",
+            "link": "{{url_for('checkInPage')}}",
+            "icon": "fa-solid fa-arrow-right-to-bracket",
+            "size": "lg",
+            "block": true,
+            "level": "light"
+          },
+          {
+            "type": "button",
+            "label": "Check out / 签出",
+            "actionType": "link",
+            "link": "{{url_for('checkOutPage')}}",
+            "icon": "fa-solid fa-arrow-right-from-bracket",
+            "size": "lg",
+            "block": true
+          }
+        ]
+      },
+      {
+        "body": [
+          {
+            "type": "button",
+            "label": "Guest Enrollment / 来宾注册",
+            "actionType": "link",
+            "link": "{{url_for('guestEnrollPage')}}",
+            "icon": "fa-solid fa-user-plus",
+            "size": "lg",
+            "block": true,
+            "level": "light"
+          }
+        ]
+      }
+    ]
+  }
+]
+{% endblock %}
