@@ -28,6 +28,7 @@ class GuardianListResource(Resource):
             email=request.json.get('email'),
             relationship=request.json.get('relationship'),
             check_in_method=request.json.get('check_in_method'),
+            is_guest=request.json.get('is_guest')
         )
         db.session.add(new_guardian)
         db.session.flush()
@@ -105,6 +106,7 @@ class StudentListResource(Resource):
             grade=request.json.get('grade'),
             allergies=request.json.get('allergies'),
             check_in_method=request.json.get('check_in_method'),
+            is_guest=request.json.get('is_guest'),
 
             sunday_school=request.json.get('sunday_school'),
             cm_lounge=request.json.get('cm_lounge'),
@@ -222,6 +224,7 @@ class FamilyInfoListResource(Resource):
 
             pay=request.json.get('pay'),
             checkbox=request.json.get('checkbox'), 
+            is_guest=request.json.get('is_guest')
         )
         db.session.add(new_family_info)
         db.session.flush()
@@ -318,6 +321,7 @@ class FamilyListResource(Resource):
             id=request.json['id'],
             guardian_id=request.json['guardian_id'],
             student_id=request.json['student_id'],
+            is_guest=request.json.get('is_guest')
         )
         db.session.add(new_family)
         db.session.commit()
