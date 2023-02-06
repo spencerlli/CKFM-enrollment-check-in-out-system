@@ -791,33 +791,14 @@ def guestEnroll():
         # guardian
         guardian_list = []
         for i, guardian in enumerate(request.json['guardians']):
-            guardian_json = {}
-            guardian_json['fname'] = guardian['fname']
-            guardian_json['lname'] = guardian['lname']
-            guardian_json['phone'] = guardian['phone']
-            guardian_json['check_in_method'] = guardian['method']
-            guardian_json['is_guest'] = True
-
-            guardian_res = requests.post(REST_API + '/guardian', json=guardian_json)
+            guardian_res = requests.post(REST_API + '/guardian', json=guardian)
             guardian_list.append(guardian_res.json())
 
         # student
         student_list = []
-        for student in request.json['students']:
-            student_json = {}
-            student_json['fname'] = student['fname']
-            student_json['lname'] = student['lname']
-            student_json['check_in_method'] = student['method']
-
-            programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                        'u3_friday', 'friday_lounge', 'friday_night']
-            for i, program in enumerate(programs):
-                student_json[program] = student['program'][0][i]['checked']
-
-            student_json['is_guest'] = True
-
+        for student in request.json['children']:
             student_res = requests.post(
-                REST_API + '/student', json=student_json)
+                REST_API + '/student', json=student)
             student_list.append(student_res.json())
 
         # familyInfo

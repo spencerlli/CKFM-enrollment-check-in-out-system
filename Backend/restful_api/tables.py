@@ -42,7 +42,7 @@ class Guardian(db.Model):
 class StudentSchema(ma.Schema):
     class Meta:
         fields = ('id', 'fname', 'lname', 'birthdate', 'gender', 'grade', 'allergies', 'check_in_method',
-                  'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday', 'friday_lounge', 'friday_night',
+                  'programs', 'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday', 'friday_lounge', 'friday_night',
                   'check_in', 'check_in_time', 'check_out', 'check_out_time', 'barcode', 'classes_id', 'is_guest')
 
 
@@ -57,6 +57,7 @@ class Student(db.Model):
     allergies = db.Column(db.String(256))
     check_in_method = db.Column(db.String(256))
 
+    programs = db.Column(db.String(256))
     sunday_school = db.Column(db.Boolean)
     cm_lounge = db.Column(db.Boolean)
     kid_choir = db.Column(db.Boolean)

@@ -108,6 +108,7 @@ class StudentListResource(Resource):
             check_in_method=request.json.get('check_in_method'),
             is_guest=request.json.get('is_guest'),
 
+            programs=request.json.get('programs'),
             sunday_school=request.json.get('sunday_school'),
             cm_lounge=request.json.get('cm_lounge'),
             kid_choir=request.json.get('kid_choir'),
