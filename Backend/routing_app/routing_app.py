@@ -91,7 +91,6 @@ def login():
 
             if guardian_query.status_code == 200:
                 if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd:
-                    res_json['data']['object'] = 'guardian'
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
 
@@ -111,7 +110,6 @@ def login():
                     res_json['msg'] = 'Incorrect phone number or password!'
             elif admin_query.status_code == 200:
                 if 'phone' in admin_query.json().keys() and admin_query.json()['pwd'] == pwd:
-                    res_json['data']['object'] = 'admin'
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
 

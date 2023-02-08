@@ -399,6 +399,24 @@
                         "label": "ALLERGIES"
                       },
                       {
+                        "type": "mapping",
+                        "name": "${programs | split}",
+                        "label": "Program",
+                        "itemSchema": {
+                          "type": "tag",
+                          "label": "${item}",
+                          "className": "m-b-xs"
+                        },
+                        "map": {
+                          "sunday_school": "Sunday School",
+                          "cm_lounge": "CM Parent and Child Lounge",
+                          "kid_choir": "Canaan Kid's Choir/Art",
+                          "u3_friday": "U3 Friday Night",
+                          "friday_lounge": "Friday Night CKFM and Chlid Lounge",
+                          "friday_night": "Friday Night",
+                        }
+                      },
+                      {
                         "type": "text",
                         "name": "sunday_school",
                         "label": "SUNDAY SCHOOL"
@@ -427,26 +445,6 @@
                         "type": "text",
                         "name": "friday_night",
                         "label": "FRIDAY NIGHT"
-                      },
-                      {
-                        "type": "text",
-                        "name": "check_in",
-                        "label": "CHECK IN"
-                      },
-                      {
-                        "type": "text",
-                        "name": "check_in_time",
-                        "label": "CHECK IN TIME"
-                      },
-                      {
-                        "type": "text",
-                        "name": "check_out",
-                        "label": "CHECK OUT"
-                      },
-                      {
-                        "type": "text",
-                        "name": "check_out_time",
-                        "label": "CHECK OUT TIME"
                       },
                       {
                         "type": "operation",
@@ -560,21 +558,13 @@
                               "click": {
                                 "actions": [
                                   {
-                                    "actionType": "ajax",
-                                    "args": {
-                                      "api": "{{url_for('barcode', object='student')}}"
-                                    }
-                                  },
-                                  {
                                     "actionType": "custom",
-                                    "script": "sessionStorage.setItem('myData', JSON.stringify(event.data.responseData.items));",
-                                    "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0"
+                                    "script": "let myData = [event.data];sessionStorage.setItem('myData', JSON.stringify(myData));"
                                   },
                                   {
                                     "actionType": "url",
-                                    "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0",
                                     "args": {
-                                      "url": "../lib/print_badge.html"
+                                      "url": "lib/print_badge.html"
                                     }
                                   }
                                 ]

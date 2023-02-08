@@ -40,7 +40,8 @@
                 "type": "form",
                 "title": "Sign in",
                 "submitText": "Sign in",
-                "api": "post:{{ url_for('login') }}",
+                "api": "{{ url_for('login') }}",
+                "redirect": "{{ url_for('index') }}",  // Redirect on successful post request
                 "className": "w-lg",
                 "body": [
                   {
@@ -60,28 +61,7 @@
                     "placeholder": "Password",
                     "required": true
                   }
-                ],
-                "onEvent": {
-                  "submitSucc": {
-                    "actions": [
-                      {
-                        "actionType": "link",
-                        "stopPropagation": true,
-                        "expression": "event.data.result.data.object === 'guardian'",
-                        "args": {
-                          "link": "{{ url_for('index') }}"
-                        }
-                      },
-                      {
-                        "actionType": "link",
-                        "expression": "event.data.result.data.object === 'admin'",
-                        "args": {
-                          "link": "{{ url_for('index') }}"
-                        }
-                      }
-                    ]
-                  }
-                }
+                ]
               },
               {
                 "type": "button",
@@ -106,7 +86,7 @@
                   "title": "Create an account",
                   "body": {
                     "type": "form",
-                    "api": "{{url_for('guardianSignUp')}}",
+                    "api": "{{ url_for('guardianSignUp') }}",
                     "body": [
                       {
                         "type": "input-text",
@@ -136,8 +116,7 @@
                         },
                         "validationErrors": {
                           "equalsField": "passord doesn't match!"
-                        },
-                        "validateOnChange": true
+                        }
                       }
                     ]
                   }
