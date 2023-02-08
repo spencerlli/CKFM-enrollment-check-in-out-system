@@ -81,7 +81,7 @@
             "type": "crud",
             "api": {
               "method": "get",
-              "url": "http://54.245.168.231:5002/attendanceReport",
+              "url": "http://localhost:5000/log",
               adaptor: function (payload, response, api) {
                 function exist(p) {
                   if (typeof p === 'undefined') {
@@ -139,7 +139,7 @@
                 {
                   "type": "select",
                   "name": "status",
-                  "label": "Current status:",
+                  "label": "Status:",
                   "size": "sm",
                   "options": [
                     {
@@ -310,7 +310,7 @@
               {
                 "name": "status",
                 "type": "mapping",
-                "label": "Current Status",
+                "label": "Status",
                 "sortable": true,
                 "map": {
                   "0": "<span class='label label-warning'>Not checked in</span>",

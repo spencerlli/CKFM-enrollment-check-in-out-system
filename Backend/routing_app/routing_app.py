@@ -27,6 +27,9 @@ AMIS_RES_TEMPLATE = {
 
 COOKIE_EXPIRE_TIME = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
 
+PROGRAMS = ['sunday_school', 'cm_lounge', 'kid_choir',
+            'u3_friday', 'friday_lounge', 'friday_night']
+
 '''
 COOKIES: {
     'login': ('1', '0'),
@@ -190,9 +193,7 @@ def enrollFamily():
         student_json['allergies'] = student.get('allergy')
         student_json['barcode'] = student['fname'][0].upper() + student['lname'][0].upper() + generate_random_str(5)
 
-        programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                    'u3_friday', 'friday_lounge', 'friday_night']
-        for i, program in enumerate(programs):
+        for i, program in enumerate(PROGRAMS):
             student_json[program] = student['program'][0][i]['checked']
 
         student_res = requests.post(
@@ -331,9 +332,7 @@ def userManage():
                     object_json['pwd'] = object_json['phone']
                 else:   # object == student
                     object_json['barcode'] = object_json['fname'][0].upper() + object_json['lname'][0].upper() + generate_random_str(5)
-                    programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                                'u3_friday', 'friday_lounge', 'friday_night']
-                    for i, program in enumerate(programs):
+                    for i, program in enumerate(PROGRAMS):
                         object_json[program] = object_json['program'][0][i]['checked']
                 
                 object_id = requests.post(REST_API + '/%s' % object, json=object_json).json()['id']
@@ -362,9 +361,7 @@ def userManage():
 
             if object == 'student':
                 object_json['barcode'] = object_json['fname'][0].upper() + object_json['lname'][0].upper() + generate_random_str(5)
-                programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                            'u3_friday', 'friday_lounge', 'friday_night']
-                for i, program in enumerate(programs):
+                for i, program in enumerate(PROGRAMS):
                     object_json[program] = object_json['program'][0][i]['checked']
 
             requests.put(REST_API + '/%s/%s' % (object, object_id), json=object_json)
@@ -770,10 +767,41 @@ def logPage():
     return render_template('flask_templates/admin/log.html')
 
 
-@app.route('/log', methods=['OPTIONS', 'POST', 'PUT', 'DELETE'])
-def log():
-    pass
-
+@app.route('/log', methods=['GET', 'POST'])
+@app.route('/log/<id>', methods=['PUT', 'DELETE'])
+def log(id=None):
+    res = deepcopy(AMIS_RES_TEMPLATE)
+    if request.method == 'GET':
+        logs_json = requests.get(REST_API + '/log').json()
+        logs = []
+        for log in logs_json:
+            student_id = log.pop('student_id')
+            student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+            log['student_name'] = student_json['fname'] + ' ' + student_json['lname']
+            log['check_in_method'] = student_json['check_in_method']
+            if log['check_in']:
+                guardian_json = requests.get(REST_API + '/guardian/%s' % log['check_in']).json()
+                log['check_in'] = guardian_json['fname'] + ' ' + guardian_json['lname']
+            elif log['check_out']:
+                guardian_json = requests.get(REST_API + '/guardian/%s' % log['check_out']).json()
+                log['check_out'] = guardian_json['fname'] + ' ' + guardian_json['lname']
+        
+            log['programs'] = []
+            for _, program in enumerate(PROGRAMS):
+                if student_json[program] == 1:
+                    log['programs'].append(program)
+            if log['daily_progress']:
+                log['daily_progress'] = log['daily_progress'].split(',')
+            logs.append(log)
+        res['data']['items'] = logs
+        res['msg'] = 'Successfully get logs!'
+    elif request.method == 'POST':
+        pass
+    elif request.method == 'PUT':
+        pass
+    elif request.method == 'DELETE':
+        pass
+    return jsonify(res)
 
 @app.route('/guestEnrollPage', methods=['GET'])
 def guestEnrollPage():
