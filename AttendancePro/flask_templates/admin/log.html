@@ -81,7 +81,7 @@
             "type": "crud",
             "api": {
               "method": "get",
-              "url": "http://localhost:5000/log",
+              "url": "{{url_for('log')}}",
               adaptor: function (payload, response, api) {
                 function exist(p) {
                   if (typeof p === 'undefined') {
@@ -375,7 +375,7 @@
                       "title": "Enter daily progress",
                       "body": {
                         "type": "form",
-                        "api": "post:api${id}",
+                        "api": "put:{{url_for('log', id='${id}')}}",
                         "body": [
                           {
                             "type": "checkboxes",
@@ -386,19 +386,19 @@
                             "options": [
                               {
                                 "label": "Being on time",
-                                "value": "on_time"
+                                "value": "Being on time"
                               },
                               {
                                 "label": "Brought a friend",
-                                "value": "bring_friend"
+                                "value": "Brought a friend"
                               },
                               {
                                 "label": "Wearing uniform",
-                                "value": "uniform"
+                                "value": "Wearing uniform"
                               },
                               {
                                 "label": "Brought workbook",
-                                "value": "workbook"
+                                "value": "Brought workbook"
                               }
                             ]
                           }

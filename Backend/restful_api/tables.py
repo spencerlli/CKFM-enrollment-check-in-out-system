@@ -157,7 +157,7 @@ class Admin(db.Model):
 
 class LogSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'student_id', 'student_name', 'status', 'check_method', 'check_in', 
+        fields = ('id', 'student_id', 'status', 'check_in_method', 'check_in', 
                   'check_in_time', 'check_out', 'check_out_time', 'daily_progress')
 
 
@@ -165,9 +165,8 @@ class Log(db.Model):
     __tablename__ = "log"
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer)
-    student_name = db.Column(db.String(256))
     status = db.Column(db.Integer, default=0)
-    check_method = db.Column(db.String(256))
+    check_in_method = db.Column(db.String(256))
     check_in = db.Column(db.Integer)
     check_in_time = db.Column(db.String(256))
     check_out = db.Column(db.Integer)

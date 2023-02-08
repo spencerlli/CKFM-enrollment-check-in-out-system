@@ -530,6 +530,7 @@ def checkIn():
                 student_json['check_out_time'] = 0  # once checked in, set last check out time to 0
                 student_json['check_in_time'] = int(datetime.datetime.now().timestamp())
                 requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+                requests.post('http://localhost:5000/log', json=student_json)
                 res['msg'] = "Successfully check in!"
         return jsonify(res)
 
@@ -573,6 +574,7 @@ def checkOut():
                     student_json['check_in_time'] = 0  #  once checked out, set last check in time to 0
                     student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
                     requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+                    requests.post('http://localhost:5000/log', json=student_json)
                     res['data']['key'] = student_json['id']
                     res['msg'] = "Successfully check out!"
     else:   # GET
@@ -767,9 +769,8 @@ def logPage():
     return render_template('flask_templates/admin/log.html')
 
 
-@app.route('/log', methods=['GET', 'POST'])
-@app.route('/log/<id>', methods=['PUT', 'DELETE'])
-def log(id=None):
+@app.route('/log', methods=['GET', 'POST', 'PUT'])
+def log():
     res = deepcopy(AMIS_RES_TEMPLATE)
     if request.method == 'GET':
         logs_json = requests.get(REST_API + '/log').json()
@@ -796,11 +797,27 @@ def log(id=None):
         res['data']['items'] = logs
         res['msg'] = 'Successfully get logs!'
     elif request.method == 'POST':
-        pass
-    elif request.method == 'PUT':
-        pass
-    elif request.method == 'DELETE':
-        pass
+        student_json = request.json
+        log_json = {'check_in_method': student_json['check_in_method']}        
+        log_json['student_id'] = student_json['id']
+        log_json['status'] = 1 if int(student_json['check_in']) != 0 else 2
+
+        if log_json['status'] == 1:
+            log_json['check_in'] = student_json['check_in']
+            log_json['check_in_time'] = student_json['check_in_time']
+            log_json['check_out'], log_json['check_out_time'] = None, None
+        else:
+            log_json['check_out'] = student_json['check_out']
+            log_json['check_out_time'] = student_json['check_out_time']
+            log_json['check_in'], log_json['check_in_time'] = None, None
+
+        log_json['daily_progress'] = None
+        requests.post(REST_API + '/log', json=log_json)
+        res['msg'] = 'Successfully post a log!'
+    elif request.method == 'PUT':   # only for update daily progress
+        log_id = int(request.args.get('id'))
+        requests.put(REST_API + '/log/%d' % log_id, json=request.json)
+        res['msg'] = 'Successfully update daily progress!'
     return jsonify(res)
 
 @app.route('/guestEnrollPage', methods=['GET'])

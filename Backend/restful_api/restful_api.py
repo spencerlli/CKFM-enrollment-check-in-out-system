@@ -624,7 +624,7 @@ class LogListResource(Resource):
         new_log = Log(
             student_id=request.json['student_id'],
             status=request.json['status'],
-            check_method=request.json['check_method'],
+            check_in_method=request.json['check_in_method'],
             check_in=request.json['check_in'],
             check_in_time=request.json['check_in_time'],
             check_out=request.json['check_out'],
@@ -650,8 +650,8 @@ class LogResource(Resource):
             log.student_id = request.json['student_id']
         if 'status' in request.json:
             log.status = request.json['status']
-        if 'check_method' in request.json:
-            log.check_method = request.json['check_method']
+        if 'check_in_method' in request.json:
+            log.check_in_method = request.json['check_in_method']
         if 'check_in' in request.json:
             log.check_in = request.json['check_in_by']
         if 'check_in_time' in request.json:
