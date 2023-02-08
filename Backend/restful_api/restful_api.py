@@ -623,7 +623,7 @@ class LogListResource(Resource):
         # create a new one
         new_log = Log(
             student_id=request.json['student_id'],
-            current_status=request.json['current_status'],
+            status=request.json['status'],
             check_method=request.json['check_method'],
             check_in_by=request.json['check_in_by'],
             check_in_time=request.json['check_in_time'],
@@ -648,8 +648,8 @@ class LogResource(Resource):
         log = Log.query.filter_by(id=id).first_or_404()
         if 'student_id' in request.json:
             log.student_id = request.json['student_id']
-        if 'current_status' in request.json:
-            log.current_status = request.json['current_status']
+        if 'status' in request.json:
+            log.status = request.json['status']
         if 'check_method' in request.json:
             log.check_method = request.json['check_method']
         if 'check_in_by' in request.json:

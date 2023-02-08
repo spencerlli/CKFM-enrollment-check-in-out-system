@@ -124,7 +124,7 @@
             "syncLocation": false,
             "loadDataOnce": true,
             "source": "${items | filter:student_name:match:student_name\
-                               | filter:current_status:match:current_status\
+                               | filter:status:match:status\
                                | filter:check_in_method:match:check_in_method\
                                | filter:check_in:match:check_in\
                                | filter:check_out:match:check_out\
@@ -138,7 +138,7 @@
                 },
                 {
                   "type": "select",
-                  "name": "current_status",
+                  "name": "status",
                   "label": "Current status:",
                   "size": "sm",
                   "options": [
@@ -287,7 +287,7 @@
                 "filename": "log",
                 "columns": [
                   "student_name",
-                  "current_status",
+                  "status",
                   "check_in_method",
                   "check_in",
                   "check_in_time",
@@ -308,7 +308,7 @@
                 "sortable": true
               },
               {
-                "name": "current_status",
+                "name": "status",
                 "type": "mapping",
                 "label": "Current Status",
                 "sortable": true,
