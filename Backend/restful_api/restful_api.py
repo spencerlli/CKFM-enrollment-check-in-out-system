@@ -475,7 +475,8 @@ class AdminListResource(Resource):
             lname=request.json['lname'],
             phone=request.json['phone'],
             email=request.json['email'],
-            classes=request.json['classes']
+            classes=request.json['classes'],
+            privilege=request.json['privilege']
         )
         db.session.add(new_admin)
         db.session.flush()

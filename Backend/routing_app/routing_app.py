@@ -70,8 +70,10 @@ def index():
                 return redirect('enrollPage')
             else:
                 return render_template('flask_templates/guardian/index.html')
-        else:
+        elif request.cookies.get('user_group') == 'admin':
             return render_template('flask_templates/admin/index.html')
+        elif request.cookies.get('user_group') == 'scanner':
+            return render_template('flask_templates/scanner/index.html')
     else:
         return redirect('login')
 
@@ -115,12 +117,15 @@ def login():
                 if 'phone' in admin_query.json().keys() and admin_query.json()['pwd'] == pwd:
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
-
-                    classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
                     res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
+    
+                    if admin_query.json()['privilege'] == 0:    # logged in as a scanner account
+                        res.set_cookie(key='user_group', value='scanner', expires=COOKIE_EXPIRE_TIME)
+                    else:
+                        res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
+                        classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
+                        res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
+                        res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
                     return res
                 else:
                     res_json['status'] = 1
