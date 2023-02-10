@@ -740,7 +740,7 @@ def attendanceReport():
                 {
                     "id": 1,
                     "student_name": "Chang Liu",
-                    "current_status": "2",
+                    "status": "2",
                     "check_in_method": "barcode",
                     "check_in": "Father Malone",
                     "check_in_time": "1661882133",
@@ -752,7 +752,7 @@ def attendanceReport():
                 {
                     "id": 2,
                     "student_name": "John Smith",
-                    "current_status": "1",
+                    "status": "1",
                     "check_in_method": "barcode",
                     "check_in": "Bob Smith",
                     "check_in_time": "1661537553",
@@ -764,7 +764,7 @@ def attendanceReport():
                 {
                     "id": 3,
                     "student_name": "Alex Smell",
-                    "current_status": "0",
+                    "status": "0",
                     "check_in_method": "barcode",
                     "check_in": None,
                     "check_in_time": None,

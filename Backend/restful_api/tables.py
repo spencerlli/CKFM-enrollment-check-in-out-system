@@ -134,7 +134,7 @@ class MsgBoard(db.Model):
 
 class AdminSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'pwd', 'fname', 'lname', 'phone', 'email', 'classes')
+        fields = ('id', 'pwd', 'fname', 'lname', 'phone', 'email', 'classes', 'privilege')
 
 
 class Admin(db.Model):
@@ -147,6 +147,9 @@ class Admin(db.Model):
     email = db.Column(db.String(256), unique=True)
     classes = db.Column(db.String(256))
 
+    # for now there are only admin and scanner, no normal teacher
+    privilege = db.Column(db.Integer)   # 0: scanner, 1: teacher, 2: admin
+
 
 # classes = db.Table('classes',
 #     db.Column('id', db.String(256), primary_key=True),
@@ -157,19 +160,19 @@ class Admin(db.Model):
 
 class LogSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'student_id', 'current_status', 'check_method', 'check_in_by', 
-                  'check_in_time', 'check_out_by', 'check_out_time', 'daily_progess')
+        fields = ('id', 'student_id', 'status', 'check_in_method', 'check_in', 
+                  'check_in_time', 'check_out', 'check_out_time', 'daily_progress')
 
 
 class Log(db.Model):
     __tablename__ = "log"
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer)
-    current_status = db.Column(db.String(256))
-    check_method = db.Column(db.String(256))
-    check_in_by = db.Column(db.Integer)
+    status = db.Column(db.Integer, default=0)
+    check_in_method = db.Column(db.String(256))
+    check_in = db.Column(db.Integer)
     check_in_time = db.Column(db.String(256))
-    check_out_by = db.Column(db.Integer)
+    check_out = db.Column(db.Integer)
     check_out_time = db.Column(db.String(256))
     daily_progress = db.Column(db.String(256))
 

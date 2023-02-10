@@ -81,7 +81,7 @@
             "type": "crud",
             "api": {
               "method": "get",
-              "url": "http://54.245.168.231:5002/attendanceReport",
+              "url": "{{url_for('log')}}",
               adaptor: function (payload, response, api) {
                 function exist(p) {
                   if (typeof p === 'undefined') {
@@ -124,7 +124,7 @@
             "syncLocation": false,
             "loadDataOnce": true,
             "source": "${items | filter:student_name:match:student_name\
-                               | filter:current_status:match:current_status\
+                               | filter:status:match:status\
                                | filter:check_in_method:match:check_in_method\
                                | filter:check_in:match:check_in\
                                | filter:check_out:match:check_out\
@@ -138,8 +138,8 @@
                 },
                 {
                   "type": "select",
-                  "name": "current_status",
-                  "label": "Current status:",
+                  "name": "status",
+                  "label": "Status:",
                   "size": "sm",
                   "options": [
                     {
@@ -287,7 +287,7 @@
                 "filename": "log",
                 "columns": [
                   "student_name",
-                  "current_status",
+                  "status",
                   "check_in_method",
                   "check_in",
                   "check_in_time",
@@ -308,9 +308,9 @@
                 "sortable": true
               },
               {
-                "name": "current_status",
+                "name": "status",
                 "type": "mapping",
-                "label": "Current Status",
+                "label": "Status",
                 "sortable": true,
                 "map": {
                   "0": "<span class='label label-warning'>Not checked in</span>",
@@ -375,7 +375,7 @@
                       "title": "Enter daily progress",
                       "body": {
                         "type": "form",
-                        "api": "post:api${id}",
+                        "api": "put:{{url_for('log', id='${id}')}}",
                         "body": [
                           {
                             "type": "checkboxes",
@@ -386,19 +386,19 @@
                             "options": [
                               {
                                 "label": "Being on time",
-                                "value": "on_time"
+                                "value": "Being on time"
                               },
                               {
                                 "label": "Brought a friend",
-                                "value": "bring_friend"
+                                "value": "Brought a friend"
                               },
                               {
                                 "label": "Wearing uniform",
-                                "value": "uniform"
+                                "value": "Wearing uniform"
                               },
                               {
                                 "label": "Brought workbook",
-                                "value": "workbook"
+                                "value": "Brought workbook"
                               }
                             ]
                           }

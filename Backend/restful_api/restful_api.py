@@ -475,7 +475,8 @@ class AdminListResource(Resource):
             lname=request.json['lname'],
             phone=request.json['phone'],
             email=request.json['email'],
-            classes=request.json['classes']
+            classes=request.json['classes'],
+            privilege=request.json['privilege']
         )
         db.session.add(new_admin)
         db.session.flush()
@@ -526,10 +527,8 @@ class AdminPhoneResource(Resource):
 class Classes(db.Model):
     __tablename__ = "classes"
     id = db.Column(db.String(256), primary_key=True)
-    admin_id = db.Column(db.Integer, db.ForeignKey(
-        'admin.id'), primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey(
-        'student.id'), primary_key=True)
+    admin_id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, primary_key=True)
 
 
 class ClassesSchema(ma.Schema):
@@ -537,7 +536,7 @@ class ClassesSchema(ma.Schema):
         fields = ('id', 'admin_id', 'student_id')
 
 
-classes_schema = ClassesSchema(many=True)
+classes_schema = ClassesSchema()
 classess_schema = ClassesSchema(many=True)
 
 
@@ -623,11 +622,11 @@ class LogListResource(Resource):
         # create a new one
         new_log = Log(
             student_id=request.json['student_id'],
-            current_status=request.json['current_status'],
-            check_method=request.json['check_method'],
-            check_in_by=request.json['check_in_by'],
+            status=request.json['status'],
+            check_in_method=request.json['check_in_method'],
+            check_in=request.json['check_in'],
             check_in_time=request.json['check_in_time'],
-            check_out_by=request.json['check_out_by'],
+            check_out=request.json['check_out'],
             check_out_time=request.json['check_out_time'],
             daily_progress=request.json['daily_progress']
         )
@@ -648,16 +647,16 @@ class LogResource(Resource):
         log = Log.query.filter_by(id=id).first_or_404()
         if 'student_id' in request.json:
             log.student_id = request.json['student_id']
-        if 'current_status' in request.json:
-            log.current_status = request.json['current_status']
-        if 'check_method' in request.json:
-            log.check_method = request.json['check_method']
-        if 'check_in_by' in request.json:
-            log.check_in_by = request.json['check_in_by']
+        if 'status' in request.json:
+            log.status = request.json['status']
+        if 'check_in_method' in request.json:
+            log.check_in_method = request.json['check_in_method']
+        if 'check_in' in request.json:
+            log.check_in = request.json['check_in_by']
         if 'check_in_time' in request.json:
             log.check_in_time = request.json['check_in_time']
-        if 'check_out_by' in request.json:
-            log.check_out_by = request.json['check_out_by']
+        if 'check_out' in request.json:
+            log.check_out = request.json['check_out']
         if 'check_out_time' in request.json:
             log.check_out_time = request.json['check_out_time']
         if 'daily_progress' in request.json:

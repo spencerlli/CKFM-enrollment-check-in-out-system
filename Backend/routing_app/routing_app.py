@@ -27,6 +27,9 @@ AMIS_RES_TEMPLATE = {
 
 COOKIE_EXPIRE_TIME = int((datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
 
+PROGRAMS = ['sunday_school', 'cm_lounge', 'kid_choir',
+            'u3_friday', 'friday_lounge', 'friday_night']
+
 '''
 COOKIES: {
     'login': ('1', '0'),
@@ -67,8 +70,10 @@ def index():
                 return redirect('enrollPage')
             else:
                 return render_template('flask_templates/guardian/index.html')
-        else:
+        elif request.cookies.get('user_group') == 'admin':
             return render_template('flask_templates/admin/index.html')
+        elif request.cookies.get('user_group') == 'scanner':
+            return render_template('flask_templates/scanner/index.html')
     else:
         return redirect('login')
 
@@ -112,12 +117,16 @@ def login():
                 if 'phone' in admin_query.json().keys() and admin_query.json()['pwd'] == pwd:
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
-
-                    classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
                     res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
+    
+                    if admin_query.json()['privilege'] == 0:    # logged in as a scanner account
+                        res.set_cookie(key='user_group', value='scanner', expires=COOKIE_EXPIRE_TIME)
+                    else:
+                        # TODO: bug when admin login
+                        res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
+                        classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
+                        res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
+                        res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
                     return res
                 else:
                     res_json['status'] = 1
@@ -190,9 +199,7 @@ def enrollFamily():
         student_json['allergies'] = student.get('allergy')
         student_json['barcode'] = student['fname'][0].upper() + student['lname'][0].upper() + generate_random_str(5)
 
-        programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                    'u3_friday', 'friday_lounge', 'friday_night']
-        for i, program in enumerate(programs):
+        for i, program in enumerate(PROGRAMS):
             student_json[program] = student['program'][0][i]['checked']
 
         student_res = requests.post(
@@ -267,7 +274,11 @@ def adminManage(object):
         if request.method == 'PUT':
             requests.put(REST_API + '/' + object + '/' + str(object_json['id']), json=object_json)
             res['msg'] = 'Successfully update!'
-        else:
+        else:   # TODO: classes page should display corresponding teacher
+            if object == 'classes':
+                object_json['id'] = object_json.pop('classes_id')
+                object_json['admin_id'] = -1
+                object_json['student_id'] = -1
             requests.post(REST_API + '/' + object, json=object_json)
             res['msg'] = 'Successfully add!'
     else:   # DELETE
@@ -331,9 +342,7 @@ def userManage():
                     object_json['pwd'] = object_json['phone']
                 else:   # object == student
                     object_json['barcode'] = object_json['fname'][0].upper() + object_json['lname'][0].upper() + generate_random_str(5)
-                    programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                                'u3_friday', 'friday_lounge', 'friday_night']
-                    for i, program in enumerate(programs):
+                    for i, program in enumerate(PROGRAMS):
                         object_json[program] = object_json['program'][0][i]['checked']
                 
                 object_id = requests.post(REST_API + '/%s' % object, json=object_json).json()['id']
@@ -362,9 +371,7 @@ def userManage():
 
             if object == 'student':
                 object_json['barcode'] = object_json['fname'][0].upper() + object_json['lname'][0].upper() + generate_random_str(5)
-                programs = ['sunday_school', 'cm_lounge', 'kid_choir',
-                            'u3_friday', 'friday_lounge', 'friday_night']
-                for i, program in enumerate(programs):
+                for i, program in enumerate(PROGRAMS):
                     object_json[program] = object_json['program'][0][i]['checked']
 
             requests.put(REST_API + '/%s/%s' % (object, object_id), json=object_json)
@@ -533,6 +540,7 @@ def checkIn():
                 student_json['check_out_time'] = 0  # once checked in, set last check out time to 0
                 student_json['check_in_time'] = int(datetime.datetime.now().timestamp())
                 requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+                requests.post('http://localhost:5000/log', json=student_json)
                 res['msg'] = "Successfully check in!"
         return jsonify(res)
 
@@ -576,6 +584,7 @@ def checkOut():
                     student_json['check_in_time'] = 0  #  once checked out, set last check in time to 0
                     student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
                     requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+                    requests.post('http://localhost:5000/log', json=student_json)
                     res['data']['key'] = student_json['id']
                     res['msg'] = "Successfully check out!"
     else:   # GET
@@ -770,10 +779,56 @@ def logPage():
     return render_template('flask_templates/admin/log.html')
 
 
-@app.route('/log', methods=['OPTIONS', 'POST', 'PUT', 'DELETE'])
+@app.route('/log', methods=['GET', 'POST', 'PUT'])
 def log():
-    pass
+    res = deepcopy(AMIS_RES_TEMPLATE)
+    if request.method == 'GET':
+        logs_json = requests.get(REST_API + '/log').json()
+        logs = []
+        for log in logs_json:
+            student_id = log.pop('student_id')
+            student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+            log['student_name'] = student_json['fname'] + ' ' + student_json['lname']
+            log['check_in_method'] = student_json['check_in_method']
+            if log['check_in']:
+                guardian_json = requests.get(REST_API + '/guardian/%s' % log['check_in']).json()
+                log['check_in'] = guardian_json['fname'] + ' ' + guardian_json['lname']
+            elif log['check_out']:
+                guardian_json = requests.get(REST_API + '/guardian/%s' % log['check_out']).json()
+                log['check_out'] = guardian_json['fname'] + ' ' + guardian_json['lname']
+        
+            log['programs'] = []
+            for _, program in enumerate(PROGRAMS):
+                if student_json[program] == 1:
+                    log['programs'].append(program)
+            if log['daily_progress']:
+                log['daily_progress'] = log['daily_progress'].split(',')
+            logs.append(log)
+        res['data']['items'] = logs
+        res['msg'] = 'Successfully get logs!'
+    elif request.method == 'POST':
+        student_json = request.json
+        log_json = {'check_in_method': student_json['check_in_method']}        
+        log_json['student_id'] = student_json['id']
+        log_json['status'] = 1 if int(student_json['check_in']) != 0 else 2
 
+        if log_json['status'] == 1:
+            log_json['check_in'] = student_json['check_in']
+            log_json['check_in_time'] = student_json['check_in_time']
+            log_json['check_out'], log_json['check_out_time'] = None, None
+        else:
+            log_json['check_out'] = student_json['check_out']
+            log_json['check_out_time'] = student_json['check_out_time']
+            log_json['check_in'], log_json['check_in_time'] = None, None
+
+        log_json['daily_progress'] = None
+        requests.post(REST_API + '/log', json=log_json)
+        res['msg'] = 'Successfully post a log!'
+    elif request.method == 'PUT':   # only for update daily progress
+        log_id = int(request.args.get('id'))
+        requests.put(REST_API + '/log/%d' % log_id, json=request.json)
+        res['msg'] = 'Successfully update daily progress!'
+    return jsonify(res)
 
 @app.route('/guestEnrollPage', methods=['GET'])
 def guestEnrollPage():
@@ -820,6 +875,10 @@ def guestEnroll():
     res['msg'] = 'Successfully enrolled guest family!'
     return jsonify(res)
 
+
+@app.route('/printBagePage', methods=['GET'])
+def printBagePage():
+    return render_template('lib/print_badge.html')
 
 def generate_random_str(randomLength=8):
     random_str = ''
