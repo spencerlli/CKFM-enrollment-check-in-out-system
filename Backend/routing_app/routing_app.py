@@ -122,6 +122,7 @@ def login():
                     if admin_query.json()['privilege'] == 0:    # logged in as a scanner account
                         res.set_cookie(key='user_group', value='scanner', expires=COOKIE_EXPIRE_TIME)
                     else:
+                        # TODO: bug when admin login
                         res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
                         classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
                         res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
@@ -273,7 +274,11 @@ def adminManage(object):
         if request.method == 'PUT':
             requests.put(REST_API + '/' + object + '/' + str(object_json['id']), json=object_json)
             res['msg'] = 'Successfully update!'
-        else:
+        else:   # TODO: classes page should display corresponding teacher
+            if object == 'classes':
+                object_json['id'] = object_json.pop('classes_id')
+                object_json['admin_id'] = -1
+                object_json['student_id'] = -1
             requests.post(REST_API + '/' + object, json=object_json)
             res['msg'] = 'Successfully add!'
     else:   # DELETE
@@ -870,6 +875,10 @@ def guestEnroll():
     res['msg'] = 'Successfully enrolled guest family!'
     return jsonify(res)
 
+
+@app.route('/printBagePage', methods=['GET'])
+def printBagePage():
+    return render_template('lib/print_badge.html')
 
 def generate_random_str(randomLength=8):
     random_str = ''

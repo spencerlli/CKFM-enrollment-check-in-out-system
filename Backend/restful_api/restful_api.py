@@ -527,10 +527,8 @@ class AdminPhoneResource(Resource):
 class Classes(db.Model):
     __tablename__ = "classes"
     id = db.Column(db.String(256), primary_key=True)
-    admin_id = db.Column(db.Integer, db.ForeignKey(
-        'admin.id'), primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey(
-        'student.id'), primary_key=True)
+    admin_id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, primary_key=True)
 
 
 class ClassesSchema(ma.Schema):
@@ -538,7 +536,7 @@ class ClassesSchema(ma.Schema):
         fields = ('id', 'admin_id', 'student_id')
 
 
-classes_schema = ClassesSchema(many=True)
+classes_schema = ClassesSchema()
 classess_schema = ClassesSchema(many=True)
 
 
