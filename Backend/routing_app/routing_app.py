@@ -43,10 +43,6 @@ COOKIES: {
 @app.route('/guardianSignUp', methods=['POST'])
 def guardianSignUp():
     res = deepcopy(AMIS_RES_TEMPLATE)
-    if request.json['password'] != request.json['confirm_password']:
-        res['status'] = 1
-        res['msg'] = "Confirmed password doesn't match!"
-        return jsonify(res)
     
     guardian_json = {'phone': request.json['phone'], 'pwd': request.json['password']}
     if requests.get(REST_API + '/guardian/phone/%s' % guardian_json['phone']).status_code == 200:

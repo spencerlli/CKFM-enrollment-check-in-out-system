@@ -48,32 +48,59 @@
                   "link": "{{url_for('index')}}"
                 },
                 {
-                  "type": "button",
-                  "label": "Sign out/退出账号",
-                  "className": "m-r-md",
-                  "level": "link",
-                  "onEvent": {
-                    "click": {
-                      "actions": [
-                        {
-                          "actionType": "ajax",
-                          "args": {
-                            "api": {
-                              "method": "post",
-                              "url": "{{url_for('logout')}}"
+                  "type": "dropdown-button",
+                  "icon": "fa fa-user",
+                  "align": "right",
+                  "className": "m-r",
+                  "buttons": [
+                    {
+                      "type": "button",
+                      "actionType": "dialog",
+                      "label": "Change password",
+                      "dialog": {
+                        "title": "Change password",
+                        "body": {
+                          "type": "form",
+                          "api": "TODO", // TODO: change password api
+                          "mode": "horizontal",
+                          "horizontal": { "justify": true },
+                          "body": [
+                            {
+                              "type": "input-password",
+                              "name": "current_password",
+                              "label": "Current password:",
+                              "required": true
+                            },
+                            {
+                              "type": "input-password",
+                              "name": "new_password",
+                              "label": "New password:",
+                              "required": true
+                            },
+                            {
+                              "type": "input-password",
+                              "name": "confirm_new_password",
+                              "label": "Confirm new password:",
+                              "required": true,
+                              "validations": {
+                                "equalsField": "new_password"
+                              },
+                              "validationErrors": {
+                                "equalsField": "new password doesn't match!"
+                              }
                             }
-                          }
-                        },
-                        {
-                          "actionType": "link",
-                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
-                          "args": {
-                            "link": "{{url_for('login')}}"
-                          }
+                          ]
                         }
-                      ]
+                      }
+                    },
+                    {
+                      "type": "button",
+                      "actionType": "ajax",
+                      "label": "Sign out",
+                      "api": "{{ url_for('logout') }}",
+                      "redirect": "{{ url_for('login') }}"
                     }
-                  }
+                  ]
                 }
               ]
             }
