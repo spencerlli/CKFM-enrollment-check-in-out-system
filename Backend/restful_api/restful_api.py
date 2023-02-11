@@ -28,6 +28,7 @@ class GuardianListResource(Resource):
             email=request.json.get('email'),
             relationship=request.json.get('relationship'),
             check_in_method=request.json.get('check_in_method'),
+            is_primary=request.json.get('is_primary'),
             is_guest=request.json.get('is_guest')
         )
         db.session.add(new_guardian)

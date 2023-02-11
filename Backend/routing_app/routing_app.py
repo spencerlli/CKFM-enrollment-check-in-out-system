@@ -177,6 +177,7 @@ def enrollFamily():
         guardian_json['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
 
         if i == 0:
+            guardian_json['is_primary'] = True
             guardian_res = requests.put(
                 REST_API + '/guardian/%s' % request.cookies['user_id'], json=guardian_json)
         else:
