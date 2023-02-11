@@ -66,8 +66,7 @@ class GuardianResource(Resource):
 
     def delete(self, id):
         # delete one by id
-        guardian = Guardian.query.filter_by(id=id).first_or_404()
-        db.session.delete(guardian)
+        Guardian.query.filter_by(id=id).delete()
         db.session.commit()
         return '', 204
 
@@ -180,8 +179,7 @@ class StudentResource(Resource):
 
     def delete(self, id):
         # delete by id
-        student = Student.query.filter_by(id=id).first_or_404()
-        db.session.delete(student)
+        student = Student.query.filter_by(id=id).delete()
         db.session.commit()
         return '', 204
 
@@ -282,8 +280,7 @@ class FamilyInfoResource(Resource):
 
     def delete(self, id):
         # delete one by id
-        family_got = FamilyInfo.query.filter_by(id=id).first_or_404()
-        db.session.delete(family_got)
+        FamilyInfo.query.filter_by(id=id).delete()
         db.session.commit()
         return '', 204
 ###### FamilyInfo ######
@@ -336,9 +333,8 @@ class FamilyResource(Resource):
         return families_schema.dump(families_got)
     
     def delete(self, id):
-        # delete one by id
-        families_got = Family.query.filter_by(id=id).all()
-        db.session.delete(families_got)
+        # delete all records with matched id
+        Family.query.filter_by(id=id).delete()
         db.session.commit()
         return '', 204
 

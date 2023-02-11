@@ -254,8 +254,9 @@ def adminManagePage():
     return render_template('flask_templates/admin/management.html')
 
 
-@app.route('/adminManage/<object>', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def adminManage(object):
+@app.route('/adminManage/<object>', methods=['GET', 'POST', 'PUT'])
+@app.route('/adminManage/<object>/<id>', methods=['DELETE'])
+def adminManage(object, id=None):
     res = {
         'status': 0,
         'msg': None,
@@ -281,7 +282,7 @@ def adminManage(object):
             requests.post(REST_API + '/' + object, json=object_json)
             res['msg'] = 'Successfully add!'
     else:   # DELETE
-        requests.delete(REST_API + '/' + object + '/' + request.args.get('id'))
+        requests.delete(REST_API + '/' + object + '/' + id)
         res['msg'] = 'Successfully delete!'
     
 

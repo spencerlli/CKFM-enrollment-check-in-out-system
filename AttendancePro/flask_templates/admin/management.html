@@ -114,16 +114,11 @@
                 },
                 {
                   "type": "button",
-                  "label": "删除",
                   "actionType": "ajax",
-                  "level": "link",
-                  "className": "text-danger",
+                  "label": "Delete",
+                  "level": "danger",
                   "confirmText": "确定要删除？",
-                  "api": {
-                    "method": "delete",
-                    "url": "{{url_for('adminManage', object='guardian')}}"
-                  },
-                  "id": "u:0af9a2d5843f"
+                  "api": "delete:{{ url_for('adminManage', object='guardian') }}/${id}"
                 },
                 {
                   "label": "编辑",
@@ -188,12 +183,6 @@
           "bulkActions": [
           ],
           "itemActions": [
-          ],
-          "features": [
-            "filter",
-            "create",
-            "delete",
-            "update"
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
@@ -342,51 +331,16 @@
               }
             },
             {
-              "type": "text",
-              "name": "sunday_school",
-              "label": "SUNDAY SCHOOL"
-            },
-            {
-              "type": "text",
-              "name": "cm_lounge",
-              "label": "CM LOUNGE"
-            },
-            {
-              "type": "text",
-              "name": "kid_choir",
-              "label": "KID CHOIR"
-            },
-            {
-              "type": "text",
-              "name": "u3_friday",
-              "label": "U3 FRIDAY"
-            },
-            {
-              "type": "text",
-              "name": "friday_lounge",
-              "label": "FRIDAY LOUNGE"
-            },
-            {
-              "type": "text",
-              "name": "friday_night",
-              "label": "FRIDAY NIGHT"
-            },
-            {
               "type": "operation",
               "label": "操作",
               "buttons": [
                 {
                   "type": "button",
-                  "label": "删除",
                   "actionType": "ajax",
-                  "level": "link",
-                  "className": "text-danger",
+                  "label": "Delete",
+                  "level": "danger",
                   "confirmText": "确定要删除？",
-                  "api": {
-                    "method": "delete",
-                    "url": "{{url_for('adminManage', object='student')}}"
-                  },
-                  "id": "u:0af9a2d5843f"
+                  "api": "delete:{{ url_for('adminManage', object='student') }}/${id}"
                 },
                 {
                   "label": "编辑",
@@ -502,12 +456,6 @@
           "bulkActions": [
           ],
           "itemActions": [
-          ],
-          "features": [
-            "filter",
-            "create",
-            "delete",
-            "update"
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
@@ -775,16 +723,11 @@
               "buttons": [
                 {
                   "type": "button",
-                  "label": "删除",
                   "actionType": "ajax",
-                  "level": "link",
-                  "className": "text-danger",
+                  "label": "Delete",
+                  "level": "danger",
                   "confirmText": "确定要删除？",
-                  "api": {
-                    "method": "delete",
-                    "url": "{{url_for('adminManage', object='familyInfo')}}"
-                  },
-                  "id": "u:0af9a2d5843f"
+                  "api": "delete:{{ url_for('adminManage', object='familyInfo') }}/${id}"
                 },
                 {
                   "label": "编辑",
@@ -889,12 +832,6 @@
           "bulkActions": [
           ],
           "itemActions": [
-          ],
-          "features": [
-            "filter",
-            "create",
-            "delete",
-            "update"
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
@@ -1045,16 +982,12 @@
               "buttons": [
                 {
                   "type": "button",
-                  "label": "删除",
                   "actionType": "ajax",
-                  "level": "link",
-                  "className": "text-danger",
+                  "label": "Delete",
+                  "level": "danger",
                   "confirmText": "确定要删除？",
-                  "api": {
-                    "method": "delete",
-                    "url": "{{url_for('adminManage', object='family')}}"
-                  },
-                  "id": "u:0af9a2d5843f"
+                  "api": "delete:{{ url_for('adminManage', object='family') }}/${id}"
+
                 },
                 {
                   "label": "编辑",
@@ -1094,12 +1027,6 @@
           "bulkActions": [
           ],
           "itemActions": [
-          ],
-          "features": [
-            "filter",
-            "create",
-            "delete",
-            "update"
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
