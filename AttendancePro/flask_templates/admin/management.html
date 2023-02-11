@@ -1097,7 +1097,7 @@
                 "type": "select",
                 "name": "class",
                 "label": "Class:",
-                "source": "http://54.245.168.231:5002/classesManage" // use REST api for getting class names
+                "source": "{{url_for('adminManage', object='classes')}}" // use REST api for getting class names
                 // https://baidu.github.io/amis/zh-CN/components/form/options#%E8%BF%9C%E7%A8%8B%E6%8B%89%E5%8F%96
               }
             ],
@@ -1111,7 +1111,7 @@
                 "confirmText": "Do you want to delete class ${class}?",
                 "api": {
                   "method": "delete",
-                  "url": "http://54.245.168.231:5002/classesManage",
+                  "url": "{{url_for('adminManage', object='classes')}}",
                   "data": {
                     "classes_id": "${class}"
                   }
@@ -1125,7 +1125,7 @@
                   "title": "Create a new class",
                   "body": {
                     "type": "form",
-                    "api": "http://54.245.168.231:5002/classesManage",
+                    "api": "{{url_for('adminManage', object='classes')}}",
                     "mode": "horizontal",
                     "horizontal": { "justify": true },
                     "body": [
@@ -1171,7 +1171,7 @@
                     "type": "form",
                     "api": {
                       "method": "put",
-                      "url": "http://54.245.168.231:5002/classesManage",
+                      "url": "{{url_for('adminManage', object='classes')}}",
                       "data": {
                         "operation": "add",
                         "classes_id": "${class}",
@@ -1184,7 +1184,7 @@
                         "name": "class",
                         "label": "Class:",
                         "required": true,
-                        "source": "http://54.245.168.231:5002/classesManage"
+                        "source": "{{url_for('adminManage', object='classes')}}"
                       }
                     ]
                   }
@@ -1199,7 +1199,7 @@
               "confirmText": "Do you want to drop selected students from their current class?",
               "api": {
                 "method": "put",
-                "url": "http://54.245.168.231:5002/classesManage",
+                "url": "{{url_for('adminManage', object='classes')}}",
                 "data": {
                   "operation": "drop",
                   "classes_id": "${selectedItems|pick:classes_id}",

@@ -276,12 +276,32 @@ def adminManage(object, id=None):
             requests.put(REST_API + '/' + object + '/' + str(object_json['id']), json=object_json)
             res['msg'] = 'Successfully update!'
         else:   # TODO: classes page should display corresponding teacher
+            # TODO: when add guardian, required to input 'is_primary'
             if object == 'classes':
                 object_json['id'] = object_json.pop('classes_id')
-                object_json['admin_id'] = -1
                 object_json['student_id'] = -1
-            requests.post(REST_API + '/' + object, json=object_json)
-            res['msg'] = 'Successfully add!'
+
+                admin_name = object_json.pop('name').split(' ')
+                if len(admin_name) != 2:
+                    res['status'] = 1
+                    res['msg'] = "Please correctly input teacher's first and last name, splited by one space."
+                    return jsonify(res)
+                admin_query = requests.get(REST_API + '/admin/name/%s/%s' % tuple(admin_name))
+                if admin_query.status_code == 200:
+                    admin_id = int(admin_query.json()['id'])
+                    # TODO: can one admin manage multiple classes?
+                    # TODO: filter repeated classes
+                    object_json['admin_id'] = admin_id
+                    requests.put(REST_API + '/admin/%d' % admin_id, json={'classes': object_json['id']})
+                    requests.post(REST_API + '/classes', json=object_json)
+                    res['msg'] = 'Successfully add new class!'
+                else:
+                    res['status'] = 1
+                    res['msg'] = 'No matched teacher found. Please check teacher name.'
+                    return jsonify(res)
+            else:
+                requests.post(REST_API + '/' + object, json=object_json)
+                res['msg'] = 'Successfully add new %s!' % object
     else:   # DELETE
         requests.delete(REST_API + '/' + object + '/' + id)
         res['msg'] = 'Successfully delete!'

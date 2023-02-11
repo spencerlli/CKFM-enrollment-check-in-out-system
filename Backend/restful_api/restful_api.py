@@ -529,6 +529,12 @@ class AdminPhoneResource(Resource):
     def get(self, phone):
         admin = Admin.query.filter_by(phone=phone).first_or_404()
         return admin_schema.dump(admin)
+    
+
+class AdminNameResource(Resource):
+    def get(self, fname, lname):
+        admin = Admin.query.filter_by(fname=fname, lname=lname).first_or_404()
+        return admin_schema.dump(admin)
 ###### Admin ######
 
 
@@ -716,6 +722,7 @@ api.add_resource(MsgBoardAdminResource,
 api.add_resource(AdminListResource, '/admin')
 api.add_resource(AdminResource, '/admin/<int:id>')
 api.add_resource(AdminPhoneResource, '/admin/phone/<phone>')
+api.add_resource(AdminNameResource, '/admin/name/<fname>/<lname>')
 
 api.add_resource(ClassesListResource, '/classes')
 api.add_resource(ClassesResource, '/classes/<id>')
