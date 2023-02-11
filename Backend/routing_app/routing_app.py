@@ -95,7 +95,7 @@ def login():
             admin_query = requests.get(REST_API + '/admin/phone/' + phone)
 
             if guardian_query.status_code == 200:
-                if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd:
+                if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd and guardian_query.json()['is_primary']==True:
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
 
