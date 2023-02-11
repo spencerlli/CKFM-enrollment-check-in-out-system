@@ -334,10 +334,23 @@ class FamilyResource(Resource):
         # get one by id
         families_got = Family.query.filter_by(id=id).all()
         return families_schema.dump(families_got)
+    
+    def delete(self, id):
+        # delete one by id
+        families_got = Family.query.filter_by(id=id).all()
+        db.session.delete(families_got)
+        db.session.commit()
+        return '', 204
 
-    def put(self, id):
-        # update one by id
-        family_got = Family.query.filter_by(id=id).first_or_404()
+
+class FamilySingleResource(Resource):
+    def get(self, id, guardian_id, student_id):
+        # get one by id
+        family_got = Family.query.filter_by(id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
+        return family_schema.dump(family_got)
+
+    def put(self, id, guardian_id, student_id):
+        family_got = Family.query.filter_by(id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
 
         if 'guardian_id' in request.json:
             family_got.guardian_id = request.json['guardian_id']
@@ -347,10 +360,9 @@ class FamilyResource(Resource):
         db.session.commit()
         return family_schema.dump(family_got)
 
-    def delete(self, id):
-        # delete one by id
-        families_got = Family.query.filter_by(id=id).all()
-        db.session.delete(families_got)
+    def delete(self, id, guardian_id, student_id):
+        family_got = Family.query.filter_by(id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
+        db.session.delete(family_got)
         db.session.commit()
         return '', 204
 
@@ -536,8 +548,8 @@ class ClassesSchema(ma.Schema):
         fields = ('id', 'admin_id', 'student_id')
 
 
-classes_schema = ClassesSchema()
-classess_schema = ClassesSchema(many=True)
+classes_schema = ClassesSchema()    # named classes in case of confliction with preserve keyword 'class'
+classess_schema = ClassesSchema(many=True)  # one more 's' for multiple records
 
 
 class ClassesListResource(Resource):
@@ -561,12 +573,18 @@ class ClassesListResource(Resource):
 class ClassesResource(Resource):
     def get(self, id):
         # get one by id
-        classes_got = Classes.query.filter_by(id=id).all()
+        classess_got = Classes.query.filter_by(id=id).all()
+        return classess_schema.dump(classess_got)
+
+
+class ClassesSingleResource(Resource):
+    def get(self, id, admin_id, student_id):
+        classes_got = Classes.query.filter_by(id=id, admin_id=admin_id, student_id=student_id).first_or_404()
         return classes_schema.dump(classes_got)
 
-    def put(self, id):
+    def put(self, id, admin_id, student_id):
         # update one by id
-        classes_got = Classes.query.filter_by(id=id).first_or_404()
+        classes_got = Classes.query.filter_by(id=id, admin_id=admin_id, student_id=student_id).first_or_404()
 
         if 'admin_id' in request.json:
             classes_got.admin_id = request.json['admin_id']
@@ -576,9 +594,9 @@ class ClassesResource(Resource):
         db.session.commit()
         return classes_schema.dump(classes_got)
 
-    def delete(self, id):
+    def delete(self, id, admin_id, student_id):
         # delete one by id
-        classes_got = Classes.query.filter_by(id=id).first_or_404()
+        classes_got = Classes.query.filter_by(id=id, admin_id=admin_id, student_id=student_id).first_or_404()
         db.session.delete(classes_got)
         db.session.commit()
         return '', 204
@@ -587,8 +605,8 @@ class ClassesResource(Resource):
 class ClassesAdminResource(Resource):
     def get(self, admin_id):
         # get one by id
-        classes_got = Classes.query.filter_by(admin_id=admin_id).all()
-        return classes_schema.dump(classes_got)
+        classess_got = Classes.query.filter_by(admin_id=admin_id).all()
+        return classess_schema.dump(classess_got)
 
 
 class ClassesStudentResource(Resource):
@@ -689,6 +707,7 @@ api.add_resource(FamilyListResource, '/family')
 api.add_resource(FamilyResource, '/family/<int:id>')
 api.add_resource(FamilyGuardianResource, '/family/guardian/<int:guardian_id>')
 api.add_resource(FamilyStudentResource, '/family/student/<int:student_id>')
+api.add_resource(FamilySingleResource, '/family/single/<int:id>/<int:guardian_id>/<int:student_id>')
 
 api.add_resource(MsgBoardListResource, '/msgBoard')
 api.add_resource(MsgBoardResource, '/msgBoard/<int:id>')
@@ -705,6 +724,7 @@ api.add_resource(ClassesListResource, '/classes')
 api.add_resource(ClassesResource, '/classes/<id>')
 api.add_resource(ClassesAdminResource, '/classes/admin/<int:admin_id>')
 api.add_resource(ClassesStudentResource, '/classes/student/<int:student_id>')
+api.add_resource(ClassesSingleResource, '/classes/single/<id>/<int:admin_id>/<int:student_id>')
 
 api.add_resource(LogListResource, '/log')
 api.add_resource(LogResource, '/log/<int:id>')

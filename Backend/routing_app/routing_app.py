@@ -122,7 +122,6 @@ def login():
                     if admin_query.json()['privilege'] == 0:    # logged in as a scanner account
                         res.set_cookie(key='user_group', value='scanner', expires=COOKIE_EXPIRE_TIME)
                     else:
-                        # TODO: bug when admin login
                         res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
                         classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
                         res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
