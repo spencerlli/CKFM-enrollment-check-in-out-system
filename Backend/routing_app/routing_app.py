@@ -95,7 +95,7 @@ def login():
             admin_query = requests.get(REST_API + '/admin/phone/' + phone)
 
             if guardian_query.status_code == 200:
-                if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd:
+                if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd and guardian_query.json()['is_primary']==True:
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
 
@@ -177,6 +177,7 @@ def enrollFamily():
         guardian_json['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
 
         if i == 0:
+            guardian_json['is_primary'] = True
             guardian_res = requests.put(
                 REST_API + '/guardian/%s' % request.cookies['user_id'], json=guardian_json)
         else:
