@@ -465,7 +465,7 @@ def preCheckIn():
         for student_json in student_list:
             student_json['check_out'] = 0
             student_json['check_in'] = guardian_id
-            requests.put(REST_API + '/student/%d' % student_id, json=student_json)
+            requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
         res['msg'] = 'Successfully pre-check in student!'
 
     return jsonify(res)
@@ -527,7 +527,7 @@ def preCheckOut():
         for student_json in student_list:
             student_json['check_in'] = 0
             student_json['check_out'] = guardian_id
-            requests.put(REST_API + '/student/%d' % student_id, json=student_json)
+            requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
         res['msg'] = 'Successfully pre-check out student!'
 
     return jsonify(res)
@@ -581,7 +581,7 @@ def checkOut():
                 res['msg'] = "Barcode doesn't match!"
             else:
                 guardian_id = guardian_query.json().get('id')
-                family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_id).json()[0].get('guardian_id')
+                family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_id).json()[0].get('id')
                 res['msg'] = 'Verified guardian barcode!'
                 res = jsonify(res)
                 res.set_cookie(key='family_id', value=str(family_id), expires=COOKIE_EXPIRE_TIME)
