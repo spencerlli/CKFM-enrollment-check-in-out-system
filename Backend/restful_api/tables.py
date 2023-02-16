@@ -135,7 +135,7 @@ class MsgBoard(db.Model):
 
 class AdminSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'pwd', 'fname', 'lname', 'phone', 'email', 'classes', 'privilege')
+        fields = ('id', 'pwd', 'fname', 'lname', 'phone', 'email', 'classes_id', 'privilege')
 
 
 class Admin(db.Model):
@@ -146,7 +146,7 @@ class Admin(db.Model):
     lname = db.Column(db.String(256))
     phone = db.Column(db.String(256), unique=True)
     email = db.Column(db.String(256), unique=True)
-    classes = db.Column(db.String(256))
+    classes_id = db.Column(db.String(256))
 
     # for now there are only admin and scanner, no normal teacher
     privilege = db.Column(db.Integer)   # 0: scanner, 1: teacher, 2: admin

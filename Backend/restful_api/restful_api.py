@@ -484,7 +484,7 @@ class AdminListResource(Resource):
             lname=request.json['lname'],
             phone=request.json['phone'],
             email=request.json['email'],
-            classes=request.json['classes'],
+            classes_id=request.json['classes_id'],
             privilege=request.json['privilege']
         )
         db.session.add(new_admin)
@@ -512,8 +512,8 @@ class AdminResource(Resource):
             admin.phone = request.json['phone']
         if 'email' in request.json:
             admin.email = request.json['email']
-        if 'classes' in request.json:
-            admin.classes = request.json['classes']
+        if 'classes_id' in request.json:
+            admin.classes_id = request.json['classes_id']
         db.session.commit()
         return admin_schema.dump(admin)
 
@@ -534,6 +534,12 @@ class AdminPhoneResource(Resource):
 class AdminNameResource(Resource):
     def get(self, fname, lname):
         admin = Admin.query.filter_by(fname=fname, lname=lname).first_or_404()
+        return admin_schema.dump(admin)
+    
+
+class AdminClassesResource(Resource):
+    def get(self, classes_id):
+        admin = Admin.query.filter_by(classes_id=classes_id).first_or_404()
         return admin_schema.dump(admin)
 ###### Admin ######
 
@@ -723,12 +729,13 @@ api.add_resource(AdminListResource, '/admin')
 api.add_resource(AdminResource, '/admin/<int:id>')
 api.add_resource(AdminPhoneResource, '/admin/phone/<phone>')
 api.add_resource(AdminNameResource, '/admin/name/<fname>/<lname>')
+api.add_resource(AdminClassesResource, '/admin/classes/<classes_id>')
 
 api.add_resource(ClassesListResource, '/classes')
 api.add_resource(ClassesResource, '/classes/<id>')
 api.add_resource(ClassesAdminResource, '/classes/admin/<int:admin_id>')
 api.add_resource(ClassesStudentResource, '/classes/student/<int:student_id>')
-api.add_resource(ClassesSingleResource, '/classes/single/<id>/<int:admin_id>/<int:student_id>')
+api.add_resource(ClassesSingleResource, '/classes/<id>/<int:admin_id>/<int:student_id>')
 
 api.add_resource(LogListResource, '/log')
 api.add_resource(LogResource, '/log/<int:id>')

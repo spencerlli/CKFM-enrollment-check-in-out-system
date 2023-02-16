@@ -118,7 +118,7 @@
                   "label": "Delete",
                   "level": "danger",
                   "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='guardian') }}/${id}"
+                  "api": "delete:{{url_for('adminManage', object='guardian', id='${id}')}}"
                 },
                 {
                   "label": "编辑",
@@ -340,7 +340,7 @@
                   "label": "Delete",
                   "level": "danger",
                   "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='student') }}/${id}"
+                  "api": "delete:{{ url_for('adminManage', object='student', id='${id}') }}"
                 },
                 {
                   "label": "编辑",
@@ -727,7 +727,7 @@
                   "label": "Delete",
                   "level": "danger",
                   "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='familyInfo') }}/${id}"
+                  "api": "delete:{{ url_for('adminManage', object='familyInfo', id='${id}') }}"
                 },
                 {
                   "label": "编辑",
@@ -986,7 +986,7 @@
                   "label": "Delete",
                   "level": "danger",
                   "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='family') }}/${id}"
+                  "api": "delete:{{ url_for('adminManage', object='family', id='${id}') }}"
 
                 },
                 {
@@ -1080,6 +1080,7 @@
           "loadDataOnce": true,
           "source": "${items | filter:fname:match:fname\
                               | filter:lname:match:lname\
+                              | filter:grade:match:grade\
                               | filter:classes_id:match:class}",
           "filter": {
             "body": [
@@ -1092,6 +1093,11 @@
                 "type": "input-text",
                 "name": "lname",
                 "label": "Last name:"
+              },
+              {
+                "type": "input-text",
+                "name": "grade",
+                "label": "Grade:"
               },
               {
                 "type": "select",
@@ -1111,10 +1117,7 @@
                 "confirmText": "Do you want to delete class ${class}?",
                 "api": {
                   "method": "delete",
-                  "url": "{{url_for('adminManage', object='classes')}}",
-                  "data": {
-                    "classes_id": "${class}"
-                  }
+                  "url": "{{url_for('adminManage', object='classes', id='${class}')}}"
                 }
               },
               {
@@ -1175,7 +1178,8 @@
                       "data": {
                         "operation": "add",
                         "classes_id": "${class}",
-                        "student_id_list": "${selectedItems|pick:id}"
+                        "student_id_list": "${selectedItems|pick:id}",
+                        "classes_id_list": "${selectedItems|pick:classes_id}"
                       }
                     },
                     "body": [
@@ -1202,8 +1206,8 @@
                 "url": "{{url_for('adminManage', object='classes')}}",
                 "data": {
                   "operation": "drop",
-                  "classes_id": "${selectedItems|pick:classes_id}",
-                  "student_id_list": "${selectedItems|pick:id}"
+                  "student_id_list": "${selectedItems|pick:id}",
+                  "classes_id_list": "${selectedItems|pick:classes_id}"
                 }
               }
             }
@@ -1221,6 +1225,11 @@
             {
               "name": "lname",
               "label": "Last Name",
+              "sortable": true
+            },
+            {
+              "name": "grade",
+              "label": "Grade",
               "sortable": true
             },
             {

@@ -251,57 +251,83 @@ def adminManagePage():
     return render_template('flask_templates/admin/management.html')
 
 
-@app.route('/adminManage/<object>', methods=['GET', 'POST', 'PUT'])
-@app.route('/adminManage/<object>/<id>', methods=['DELETE'])
-def adminManage(object, id=None):
-    res = {
-        'status': 0,
-        'msg': None,
-        'data': {
-            'items': [],
-            'hasNext': False
-        }
-    }
-    if request.method == 'GET':
-        object_json = requests.get(REST_API + '/' + object).json()
-        res['data']['items'] = object_json
-        res['msg'] = 'Successfully get data!'
-    elif request.method == 'PUT' or request.method == 'POST':
-        object_json = dict(request.json)
-        if request.method == 'PUT':
-            requests.put(REST_API + '/' + object + '/' + str(object_json['id']), json=object_json)
-            res['msg'] = 'Successfully update!'
-        else:   # TODO: classes page should display corresponding teacher
-            # TODO: when add guardian, required to input 'is_primary'
-            if object == 'classes':
-                object_json['id'] = object_json.pop('classes_id')
-                object_json['student_id'] = -1
+@app.route('/adminManage/<object>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def adminManage(object):
+    res = deepcopy(AMIS_RES_TEMPLATE)
+    if object != 'classes':
+        if request.method == 'GET':
+            object_json = requests.get(REST_API + '/' + object).json()
+            res['data']['items'] = object_json
+            res['msg'] = 'Successfully get data!'
+        elif request.method == 'PUT' or request.method == 'POST':
+            object_json = dict(request.json)
+            if request.method == 'PUT':
+                requests.put(REST_API + '/' + object + '/' + str(object_json['id']), json=object_json)
+                res['msg'] = 'Successfully update!'
+            elif request.method == 'POST':
+                # TODO: when add guardian, required to input 'is_primary'
+                requests.post(REST_API + '/' + object, json=object_json)
+                res['msg'] = 'Successfully add new %s!' % object
+        elif request.method == 'DELETE':
+            requests.delete(REST_API + '/' + object + '/' + request.args.get('id'))
+            res['msg'] = 'Successfully delete!'
+    
+    elif object == "classes":
+        if request.method == 'GET':
+            classes_json = requests.get(REST_API + '/' + object).json()
+            classes_id_set = sorted({classes['id'] for classes in classes_json})
+            res['data']['options'] = [{"label": classes_id, "value": classes_id} for classes_id in classes_id_set]
+            res['msg'] = 'Successfully get data!'
+        elif request.method == 'PUT' or request.method == 'POST':
+            if request.method == 'PUT':
+                if request.json['operation'] == 'add':
+                    # check if selected students already belong any class
+                    for selected_student_classes in request.json['classes_id_list']:
+                        if selected_student_classes:
+                            res['status'] = 1
+                            res['msg'] = 'To add student to new class, must drop them from the current class. \
+                                          Please make sure selected students not belong to any class.'
+                            return jsonify(res)
+                    classes_id = request.json['classes_id']
+                    admin_id = requests.get(REST_API + '/admin/classes/%s' % classes_id).json()['id']
+                    for student_id in request.json['student_id_list']:
+                        requests.put(REST_API + '/student/%d' % student_id, json={'classes_id': classes_id})
+                        requests.post(REST_API + '/classes', json={'id': classes_id, 'admin_id': admin_id,
+                                                                   'student_id': student_id})
+                elif request.json['operation'] == 'drop':
+                    for i, student_id in enumerate(request.json['student_id_list']):
+                        classes_id = request.json['classes_id_list'][i]
+                        admin_id = requests.get(REST_API + '/admin/classes/%s' % classes_id).json()['id']
+                        requests.put(REST_API + '/student/%s' % student_id, json={'classes_id': None})
+                        requests.delete(REST_API + '/classes/%s/%s/%s' % (classes_id, admin_id, student_id))
+                res['msg'] = 'Successfully update!'
+            elif request.method == 'POST':
+                classes_json = dict(request.json)
 
-                admin_name = object_json.pop('name').split(' ')
+                # TODO: classes page should display corresponding teacher
+                classes_json['id'] = classes_json.pop('classes_id')
+                classes_json['student_id'] = -1
+
+                admin_name = classes_json.pop('name').split(' ')
                 if len(admin_name) != 2:
                     res['status'] = 1
                     res['msg'] = "Please correctly input teacher's first and last name, splited by one space."
                     return jsonify(res)
                 admin_query = requests.get(REST_API + '/admin/name/%s/%s' % tuple(admin_name))
-                if admin_query.status_code == 200:
+                if admin_query.status_code == 200:  # create new classes
                     admin_id = int(admin_query.json()['id'])
-                    # TODO: can one admin manage multiple classes?
                     # TODO: filter repeated classes
-                    object_json['admin_id'] = admin_id
-                    requests.put(REST_API + '/admin/%d' % admin_id, json={'classes': object_json['id']})
-                    requests.post(REST_API + '/classes', json=object_json)
+                    classes_json['admin_id'] = admin_id
+                    requests.put(REST_API + '/admin/%d' % admin_id, json={'classes': classes_json['id']})
+                    requests.post(REST_API + '/classes', json=classes_json)
                     res['msg'] = 'Successfully add new class!'
                 else:
                     res['status'] = 1
                     res['msg'] = 'No matched teacher found. Please check teacher name.'
                     return jsonify(res)
-            else:
-                requests.post(REST_API + '/' + object, json=object_json)
-                res['msg'] = 'Successfully add new %s!' % object
-    else:   # DELETE
-        requests.delete(REST_API + '/' + object + '/' + id)
-        res['msg'] = 'Successfully delete!'
-    
+        elif request.method == 'DELETE':
+            requests.delete(REST_API + '/' + object + '/' + request.args.get('id'))
+            res['msg'] = 'Successfully delete!'
 
     if not res['msg']:
         res['msg'] = 'Error happened.'
