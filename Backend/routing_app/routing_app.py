@@ -318,7 +318,7 @@ def adminManage(object):
                     admin_id = int(admin_query.json()['id'])
                     # TODO: filter repeated classes
                     classes_json['admin_id'] = admin_id
-                    requests.put(REST_API + '/admin/%d' % admin_id, json={'classes': classes_json['id']})
+                    requests.put(REST_API + '/admin/%d' % admin_id, json={'classes_id': classes_json['id']})
                     requests.post(REST_API + '/classes', json=classes_json)
                     res['msg'] = 'Successfully add new class!'
                 else:
@@ -326,8 +326,13 @@ def adminManage(object):
                     res['msg'] = 'No matched teacher found. Please check teacher name.'
                     return jsonify(res)
         elif request.method == 'DELETE':
-            requests.delete(REST_API + '/' + object + '/' + request.args.get('id'))
-            res['msg'] = 'Successfully delete!'
+            classes_json = requests.get(REST_API + '/classes/%s' % request.args.get('id')).json()
+            if len(classes_json) > 1 or int(classes_json[0]['student_id']) != -1:
+                res['status'] = 1
+                res['msg'] = 'Please drop all students from the class before delete!'
+            else:
+                requests.delete(REST_API + '/classes/%s' % request.args.get('id'))
+                res['msg'] = 'Successfully delete!'
 
     if not res['msg']:
         res['msg'] = 'Error happened.'

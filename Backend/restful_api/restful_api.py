@@ -584,6 +584,13 @@ class ClassesResource(Resource):
         # get one by id
         classess_got = Classes.query.filter_by(id=id).all()
         return classess_schema.dump(classess_got)
+    
+    def delete(self, id):
+        # delete one by id
+        classes_got = Classes.query.filter_by(id=id).first_or_404()
+        db.session.delete(classes_got)
+        db.session.commit()
+        return '', 204
 
 
 class ClassesSingleResource(Resource):
