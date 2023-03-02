@@ -33,7 +33,7 @@ PROGRAMS = ['sunday_school', 'cm_lounge', 'kid_choir',
 '''
 COOKIES: {
     'login': ('1', '0'),
-    'user_group': ('guardian','admin'),
+    'user_group': ('guardian','teacher'),
     'user_id': user_id,
     'family_id': family_id,
     'classes_id': classes_id
@@ -61,15 +61,17 @@ def guardianSignUp():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'login' in request.cookies.keys() and request.cookies['login'] == "1":
-        if request.cookies.get('user_group') == 'guardian':
+        if request.cookies.get('user_group') == 'guardian': 
             if not request.cookies.get('family_id'):    # guardian has not enroll family yet
                 return redirect('enrollPage')
             else:
                 return render_template('flask_templates/guardian/index.html')
-        elif request.cookies.get('user_group') == 'admin':
-            return render_template('flask_templates/admin/index.html')
         elif request.cookies.get('user_group') == 'scanner':
             return render_template('flask_templates/scanner/index.html')
+        elif request.cookies.get('user_group') == 'teacher':
+            return render_template('flask_templates/teacher/index.html')
+        elif request.cookies.get('user_group') == 'admin':
+            return render_template('flask_templates/admin/index.html')
     else:
         return redirect('login')
 
@@ -88,7 +90,7 @@ def login():
             pwd = request.json['pwd']
 
             guardian_query = requests.get(REST_API + '/guardian/phone/' + phone)
-            admin_query = requests.get(REST_API + '/admin/phone/' + phone)
+            teacher_query = requests.get(REST_API + '/teacher/phone/' + phone)
 
             if guardian_query.status_code == 200:
                 if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd and guardian_query.json()['is_primary']==True:
@@ -109,18 +111,22 @@ def login():
                 else:
                     res_json['status'] = 1
                     res_json['msg'] = 'Incorrect phone number or password!'
-            elif admin_query.status_code == 200:
-                if 'phone' in admin_query.json().keys() and admin_query.json()['pwd'] == pwd:
+            elif teacher_query.status_code == 200:
+                if 'phone' in teacher_query.json().keys() and teacher_query.json()['pwd'] == pwd:
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
                     res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
     
-                    if admin_query.json()['privilege'] == 0:    # logged in as a scanner account
+                    if teacher_query.json()['privilege'] == 0:    # logged in as a scanner account
                         res.set_cookie(key='user_group', value='scanner', expires=COOKIE_EXPIRE_TIME)
                     else:
-                        res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
-                        classes_id = requests.get(REST_API + '/classes/admin/%d' % admin_query.json()['id']).json()[0]['id']
-                        res.set_cookie(key='user_id', value=str(admin_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
+                        if teacher_query.json()['privilege'] == 1:    # logged in as a normal teacher
+                            res.set_cookie(key='user_group', value='teacher', expires=COOKIE_EXPIRE_TIME)
+                        elif teacher_query.json()['privilege'] == 2:    # logged in as an admin
+                            res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
+                        
+                        classes_id = requests.get(REST_API + '/classes/teacher/%d' % teacher_query.json()['id']).json()[0]['id']
+                        res.set_cookie(key='user_id', value=str(teacher_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
                         res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
                     return res
                 else:
@@ -289,17 +295,17 @@ def adminManage(object):
                                           Please make sure selected students not belong to any class.'
                             return jsonify(res)
                     classes_id = request.json['classes_id']
-                    admin_id = requests.get(REST_API + '/admin/classes/%s' % classes_id).json()['id']
+                    teacher_id = requests.get(REST_API + '/teacher/classes/%s' % classes_id).json()['id']
                     for student_id in request.json['student_id_list']:
                         requests.put(REST_API + '/student/%d' % student_id, json={'classes_id': classes_id})
-                        requests.post(REST_API + '/classes', json={'id': classes_id, 'admin_id': admin_id,
+                        requests.post(REST_API + '/classes', json={'id': classes_id, 'teacher_id': teacher_id,
                                                                    'student_id': student_id})
                 elif request.json['operation'] == 'drop':
                     for i, student_id in enumerate(request.json['student_id_list']):
                         classes_id = request.json['classes_id_list'][i]
-                        admin_id = requests.get(REST_API + '/admin/classes/%s' % classes_id).json()['id']
+                        teacher_id = requests.get(REST_API + '/teacher/classes/%s' % classes_id).json()['id']
                         requests.put(REST_API + '/student/%s' % student_id, json={'classes_id': None})
-                        requests.delete(REST_API + '/classes/%s/%s/%s' % (classes_id, admin_id, student_id))
+                        requests.delete(REST_API + '/classes/%s/%s/%s' % (classes_id, teacher_id, student_id))
                 res['msg'] = 'Successfully update!'
             elif request.method == 'POST':
                 classes_json = dict(request.json)
@@ -308,17 +314,17 @@ def adminManage(object):
                 classes_json['id'] = classes_json.pop('classes_id')
                 classes_json['student_id'] = -1
 
-                admin_name = classes_json.pop('name').split(' ')
-                if len(admin_name) != 2:
+                teacher_name = classes_json.pop('name').split(' ')
+                if len(teacher_name) != 2:
                     res['status'] = 1
                     res['msg'] = "Please correctly input teacher's first and last name, splited by one space."
                     return jsonify(res)
-                admin_query = requests.get(REST_API + '/admin/name/%s/%s' % tuple(admin_name))
-                if admin_query.status_code == 200:  # create new classes
-                    admin_id = int(admin_query.json()['id'])
+                teacher_query = requests.get(REST_API + '/teacher/name/%s/%s' % tuple(teacher_name))
+                if teacher_query.status_code == 200:  # create new classes
+                    teacher_id = int(teacher_query.json()['id'])
                     # TODO: filter repeated classes
-                    classes_json['admin_id'] = admin_id
-                    requests.put(REST_API + '/admin/%d' % admin_id, json={'classes_id': classes_json['id']})
+                    classes_json['teacher_id'] = teacher_id
+                    requests.put(REST_API + '/teacher/%d' % teacher_id, json={'classes_id': classes_json['id']})
                     requests.post(REST_API + '/classes', json=classes_json)
                     res['msg'] = 'Successfully add new class!'
                 else:
@@ -566,7 +572,7 @@ def preCheckOut():
 
 @app.route('/checkInPage', methods=['GET'])
 def checkInPage():
-    return render_template('flask_templates/admin/check_in_barcode.html')
+    return render_template('flask_templates/teacher/check_in_barcode.html')
 
 
 @app.route('/checkIn', methods=['POST'])
@@ -592,12 +598,12 @@ def checkIn():
                 res['msg'] = "Successfully check in!"
         return jsonify(res)
 
-    return render_template('flask_templates/admin/check_in.html')
+    return render_template('flask_templates/teacher/check_in.html')
 
 
 @app.route('/checkOutPage', methods=['GET'])
 def checkOutPage():
-    return render_template('flask_templates/admin/check_out_barcode.html')
+    return render_template('flask_templates/teacher/check_out_barcode.html')
 
 
 @app.route('/checkOut', methods=['GET', 'POST'])
@@ -676,7 +682,7 @@ def msgBoardPage():
     if user_group == 'guardian':
         return render_template('flask_templates/guardian/communication.html')
     else:
-        return render_template('flask_templates/admin/admin_communication.html')
+        return render_template('flask_templates/teacher/teacher_communication.html')
 
 
 @app.route('/msgBoard', methods=['GET', 'POST'])
@@ -697,9 +703,9 @@ def msgBoard():
             msg_show = []
             msgBoard_json = requests.get(REST_API + '/msgBoard/guardian/%d' % user_id).json()
             for msg in msgBoard_json:
-                if msg['sender_group'] == 'admin':
-                    admin_json = requests.get(REST_API + '/admin/%d' % int(msg['sender_id'])).json()
-                    msg_show.append({'id': msg['id'], 'fname': 'Admin - ' + admin_json['fname'], 'lname': admin_json['lname'],
+                if msg['sender_group'] == 'teacher':
+                    teacher_json = requests.get(REST_API + '/teacher/%d' % int(msg['sender_id'])).json()
+                    msg_show.append({'id': msg['id'], 'fname': 'Teacher - ' + teacher_json['fname'], 'lname': teacher_json['lname'],
                                     'msg': msg['content'], 'timestamp': msg['time']})
                 else:
                     msg_show.append({'id': msg['id'], 'fname': fname, 'lname': lname,
@@ -707,12 +713,12 @@ def msgBoard():
 
             t['data'] = {'items': msg_show}
             t["msg"] = "Successfully get historical messages!"
-        else:   # admin
-            admin_json = requests.get(REST_API + '/admin/%d' % user_id).json()
-            fname, lname = admin_json['fname'], admin_json['lname']
+        else:   # teacher
+            teacher_json = requests.get(REST_API + '/teacher/%d' % user_id).json()
+            fname, lname = teacher_json['fname'], teacher_json['lname']
             
             msg_show = []
-            msgBoard_json = requests.get(REST_API + '/msgBoard/admin/%d' % user_id).json()
+            msgBoard_json = requests.get(REST_API + '/msgBoard/teacher/%d' % user_id).json()
             for msg in msgBoard_json:
                 if msg['sender_group'] == 'guardian':
                     guardian_json = requests.get(REST_API + '/guardian/%d' % int(msg['sender_id'])).json()
@@ -728,13 +734,13 @@ def msgBoard():
         if user_group == 'guardian':
             student_id_list = list(map(int, request.json.get('student_id').split(',')))
             for student_id in student_id_list:
-                # query admin corresponding to student
-                admin_id = requests.get(REST_API + '/classes/student/%d' % student_id).json()[0].get('admin_id')   
-                msg_json = {'sender_id': user_id, 'receiver_id': admin_id, 'sender_group': user_group,
+                # query teacher corresponding to student
+                teacher_id = requests.get(REST_API + '/classes/student/%d' % student_id).json()[0].get('teacher_id')   
+                msg_json = {'sender_id': user_id, 'receiver_id': teacher_id, 'sender_group': user_group,
                             'about_student': student_id, 'content': request.json['msg'], 
                             'time': int(datetime.datetime.now().timestamp()), 'been_read': False}
                 requests.post(REST_API + '/msgBoard', json=msg_json)
-        else:   # admin send
+        else:   # teacher send
             if 'reply_msg_id' in request.json.keys():
                 reply_msg_id_list = list(map(int, request.json.get('reply_msg_id').split(',')))
                 for reply_msg_id in reply_msg_id_list:
@@ -785,7 +791,7 @@ def studentBriefInfo():
                 })
                 student_id_set.add(family['student_id'])
         res['data']['items'] = student_info_list
-    else:   # admin
+    else:   # teacher
         classes_id = request.cookies.get('classes_id')
         classes_json = requests.get(REST_API + '/classes/%s' % classes_id).json()
         # filter repeat to be unique
@@ -824,7 +830,7 @@ def barcode(object):
 
 @app.route('/logPage', methods=['GET'])
 def logPage():
-    return render_template('flask_templates/admin/log.html')
+    return render_template('flask_templates/teacher/log.html')
 
 
 @app.route('/log', methods=['GET', 'POST', 'PUT'])

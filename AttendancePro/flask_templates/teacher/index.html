@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block title %}Teacher's Homepage{% endblock %}
+
+{% block body %}
+[
+  {
+    "type": "tpl",
+    "tpl": "<h2>Teacher's Homepage<\h2>"
+  },
+  {
+    "type": "grid",
+    "columns": [
+      {
+        "body": [
+          {
+            "type": "button",
+            "label": "Enrollment / 注册",
+            "actionType": "link",
+            "link": "{{url_for('enrollPage')}}",
+            "icon": "fa-solid fa-user-plus",
+            "size": "lg",
+            "block": true,
+            "level": "light"
+          },
+          {
+          "type": "button",
+          "label": "View Check in&out Log / 查看签到日志",
+          "actionType": "link",
+          "link": "{{url_for('logPage')}}",
+          "icon": "fa-solid fa-list",
+          "size": "lg",
+          "block": true,
+          "level": "light",
+          "level": "light"
+          }
+        ]
+      },
+      {
+        "body": [
+          {
+          "type": "button",
+          "label": "Check in / 签到",
+          "actionType": "link",
+          "link": "{{url_for('checkInPage')}}",
+          "icon": "fa-solid fa-arrow-right-to-bracket",
+          "size": "lg",
+          "block": true,
+          "level": "light"
+          },
+          {
+          "type": "button",
+          "label": "Check out / 签出",
+          "actionType": "link",
+          "link": "{{url_for('checkOutPage')}}",
+          "icon": "fa-solid fa-arrow-right-from-bracket",
+          "size": "lg",
+          "block": true,
+          "level": "light"
+          },
+          {
+            "type": "button",
+            "label": "Communication / 留言",
+            "actionType": "link",
+            "link": "{{url_for('msgBoardPage')}}",
+            "icon": "fa-solid fa-comments",
+            "size": "lg",
+            "block": true,
+            "level": "light"
+          }
+          // {
+          //   "type": "button",
+          //   "label": "Input Daily Progress / 输入每日进展",
+          //   "actionType": "link",
+          //   "link": "{{url_for('logPage')}}",
+          //   "icon" : "fa-solid fa-pen-to-square",
+          //   "size": "lg",
+          //   "level": "light",
+          //   "block": true
+          // },
+          // {
+          //   "type": "button",
+          //   "label": "Customize / 自定义",
+          //   "actionType": "link",
+          //   "size": "lg",
+          //   "link": "",
+          //   "icon": "fa-solid fa-screwdriver-wrench",
+          //   "level": "light",
+          //   "block": true
+          // }
+        ]
+      }
+    ]
+  }
+]
+{% endblock %}

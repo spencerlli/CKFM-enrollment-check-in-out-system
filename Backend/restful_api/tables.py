@@ -133,13 +133,13 @@ class MsgBoard(db.Model):
 # )
 
 
-class AdminSchema(ma.Schema):
+class TeacherSchema(ma.Schema):
     class Meta:
         fields = ('id', 'pwd', 'fname', 'lname', 'phone', 'email', 'classes_id', 'privilege')
 
 
-class Admin(db.Model):
-    __tablename__ = "admin"
+class Teacher(db.Model):
+    __tablename__ = "teacher"
     id = db.Column(db.Integer, primary_key=True)
     pwd = db.Column(db.String(256))
     fname = db.Column(db.String(256))
@@ -148,13 +148,13 @@ class Admin(db.Model):
     email = db.Column(db.String(256), unique=True)
     classes_id = db.Column(db.String(256))
 
-    # for now there are only admin and scanner, no normal teacher
-    privilege = db.Column(db.Integer)   # 0: scanner, 1: teacher, 2: admin
+    # for now there are only teacher and scanner, no normal teacher
+    privilege = db.Column(db.Integer)   # 0: scanner, 1: teacher, 2: teacher
 
 
 # classes = db.Table('classes',
 #     db.Column('id', db.String(256), primary_key=True),
-#     db.Column('admin_id', db.Integer, db.ForeignKey('admin.id'), primary_key=True),
+#     db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id'), primary_key=True),
 #     db.Column('student_id', db.Integer, db.ForeignKey('student.id'), primary_key=True),
 # )
 
