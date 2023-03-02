@@ -1,7 +1,7 @@
 import random
 # import MySQLdb.cursors
 # from flask_mysqldb import MySQL
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response, abort
 # import pymysql
 import os
 from flask_cors import CORS
@@ -254,6 +254,7 @@ def enrollFamily():
 
 @app.route('/adminManagePage', methods=['GET'])
 def adminManagePage():
+    if request.cookies.get('user_group') != 'admin': abort(403)
     return render_template('flask_templates/admin/management.html')
 
 
@@ -349,6 +350,7 @@ def adminManage(object):
 
 @app.route('/userManagePage', methods=['GET'])
 def userManagePage():
+    if request.cookies.get('user_group') != 'guardian': abort(403)
     return render_template('flask_templates/guardian/management.html')
 
 
@@ -443,6 +445,7 @@ def userManage():
 
 @app.route('/preCheckInPage', methods=['GET'])
 def preCheckInPage():
+    if request.cookies.get('user_group') != 'guardian': abort(403)
     return render_template('flask_templates/guardian/pre_check_in.html')
 
 
@@ -510,6 +513,7 @@ def preCheckIn():
 
 @app.route('/preCheckOutPage', methods=['GET'])
 def preCheckOutPage():
+    if request.cookies.get('user_group') != 'guardian': abort(403)
     return render_template('flask_templates/guardian/pre_check_out.html')
 
 
@@ -572,6 +576,7 @@ def preCheckOut():
 
 @app.route('/checkInPage', methods=['GET'])
 def checkInPage():
+    if request.cookies.get('user_group') not in {'admin', 'teacher'}: abort(403)
     return render_template('flask_templates/teacher/check_in_barcode.html')
 
 
@@ -603,6 +608,7 @@ def checkIn():
 
 @app.route('/checkOutPage', methods=['GET'])
 def checkOutPage():
+    if request.cookies.get('user_group') not in {'admin', 'teacher'}: abort(403)
     return render_template('flask_templates/teacher/check_out_barcode.html')
 
 
@@ -830,6 +836,7 @@ def barcode(object):
 
 @app.route('/logPage', methods=['GET'])
 def logPage():
+    if request.cookies.get('user_group') not in {'admin', 'teacher'}: abort(403)
     return render_template('flask_templates/teacher/log.html')
 
 
@@ -886,6 +893,7 @@ def log():
 
 @app.route('/guestEnrollPage', methods=['GET'])
 def guestEnrollPage():
+    if request.cookies.get('user_group') not in {'admin', 'teacher'}: abort(403)
     return render_template('flask_templates/scanner/guest_form.html')
 
 
@@ -932,6 +940,7 @@ def guestEnroll():
 
 @app.route('/printBagePage', methods=['GET'])
 def printBagePage():
+    if request.cookies.get('user_group') not in {'admin', 'teacher'}: abort(403)
     return render_template('lib/print_badge.html')
 
 def generate_random_str(randomLength=8):
