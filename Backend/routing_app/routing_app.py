@@ -269,7 +269,7 @@ def adminManage(object):
         elif request.method == 'PUT' or request.method == 'POST':
             object_json = dict(request.json)
             if request.method == 'PUT':
-                requests.put(REST_API + '/' + object + '/' + str(object_json['id']), json=object_json)
+                requests.put(REST_API + '/' + object + '/' + request.args.get('id'), json=object_json)
                 res['msg'] = 'Successfully update!'
             elif request.method == 'POST':
                 # TODO: when add guardian, required to input 'is_primary'

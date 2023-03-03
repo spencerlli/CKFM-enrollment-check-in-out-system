@@ -69,7 +69,7 @@
             },
             {
               "type": "operation",
-              "label": "操作",
+              "label": "Operation",
               "buttons": [
                 {
                   "type": "button",
@@ -113,15 +113,7 @@
                   }
                 },
                 {
-                  "type": "button",
-                  "actionType": "ajax",
-                  "label": "Delete",
-                  "level": "danger",
-                  "confirmText": "确定要删除？",
-                  "api": "delete:{{url_for('adminManage', object='guardian', id='${id}')}}"
-                },
-                {
-                  "label": "编辑",
+                  "label": "Edit",
                   "type": "button",
                   "actionType": "drawer",
                   "level": "link",
@@ -129,60 +121,57 @@
                     "title": "编辑",
                     "body": {
                       "type": "form",
-                      "api": "put:{{url_for('adminManage', object='guardian')}}",
+                      "api": "put:{{url_for('adminManage', object='guardian', id='${id}')}}",
                       "body": [
-                      {
-              "name": "id",
-              "label": "ID",
-              "type": "input-text"
-            },
-            {
-              "name": "fname",
-              "label": "FIRST NAME",
-              "type": "input-text"
-            },
-            {
-              "type": "input-text",
-              "name": "lname",
-              "label": "LAST NAME"
-            },
-            {
-              "type": "input-text",
-              "name": "phone",
-              "label": "PHONE NUMBER"
-            },
-            {
-              "type": "input-text",
-              "name": "pwd",
-              "label": "PASSWORD"
-            },
-            {
-              "type": "input-text",
-              "name": "email",
-              "label": "EMAIL"
-            },
-            {
-              "type": "input-text",
-              "name": "relationship",
-              "label": "relationship"
-            },
-            {
-              "type": "input-text",
-              "name": "check_in_method",
-              "label": "check_in_method"
-            }
+                        {
+                          "name": "fname",
+                          "label": "FIRST NAME",
+                          "type": "input-text"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "lname",
+                          "label": "LAST NAME"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "phone",
+                          "label": "PHONE NUMBER"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "pwd",
+                          "label": "PASSWORD"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "email",
+                          "label": "EMAIL"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "relationship",
+                          "label": "relationship"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "check_in_method",
+                          "label": "check_in_method"
+                        }
                       ]
                     }
-                  },
-                  "id": "u:8c58d5ef6ef5"
+                  }
+                },
+                {
+                  "type": "button",
+                  "actionType": "ajax",
+                  "label": "Delete",
+                  "level": "link",
+                  "confirmText": "确定要删除？",
+                  "api": "delete:{{url_for('adminManage', object='guardian', id='${id}')}}"
                 }
-              ],
-              "id": "u:54bcc5641ee4"
+              ]
             }
-          ],
-          "bulkActions": [
-          ],
-          "itemActions": [
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
@@ -244,7 +233,6 @@
               "type": "bulk-actions"
             }
           ],
-          "id": "u:d3d8f2c930bd",
           "perPageAvailable": [
             10
           ]
@@ -332,18 +320,10 @@
             },
             {
               "type": "operation",
-              "label": "操作",
+              "label": "Operation",
               "buttons": [
                 {
-                  "type": "button",
-                  "actionType": "ajax",
-                  "label": "Delete",
-                  "level": "danger",
-                  "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='student', id='${id}') }}"
-                },
-                {
-                  "label": "编辑",
+                  "label": "Edit",
                   "type": "button",
                   "actionType": "drawer",
                   "level": "link",
@@ -353,80 +333,79 @@
                       "type": "form",
                       "api": "put:{{url_for('adminManage', object='student')}}",
                       "body": [
-                      {
-              "name": "id",
-              "label": "ID",
-              "type": "input-text"
-            },
-            {
-              "name": "fname",
-              "label": "FIRST NAME",
-              "type": "input-text"
-            },
-            {
-              "type": "input-text",
-              "name": "lname",
-              "label": "LAST NAME"
-            },
-            {
-              "type": "input-text",
-              "name": "birthdate",
-              "label": "BIRTH DATE"
-            },
-            {
-              "type": "input-text",
-              "name": "gender",
-              "label": "GENDER"
-            },
-            {
-              "type": "input-text",
-              "name": "grade",
-              "label": "GRADE"
-            },
-            {
-              "type": "input-text",
-              "name": "check_in_method",
-              "label": "check_in_method"
-            },
-            {
-              "type": "input-text",
-              "name": "allergies",
-              "label": "ALLERGIES"
-            },
-            {
-              "type": "input-text",
-              "name": "sunday_school",
-              "label": "SUNDAY SCHOOL"
-            },
-            {
-              "type": "input-text",
-              "name": "cm_lounge",
-              "label": "CM LOUNGE"
-            },
-            {
-              "type": "input-text",
-              "name": "kid_choir",
-              "label": "KID CHOIR"
-            },
-            {
-              "type": "input-text",
-              "name": "u3_friday",
-              "label": "U3 FRIDAY"
-            },
-            {
-              "type": "input-text",
-              "name": "friday_lounge",
-              "label": "FRIDAY LOUNGE"
-            },
-            {
-              "type": "input-text",
-              "name": "friday_night",
-              "label": "FRIDAY NIGHT"
-            }
+                        {
+                          "name": "id",
+                          "label": "ID",
+                          "type": "input-text"
+                        },
+                        {
+                          "name": "fname",
+                          "label": "FIRST NAME",
+                          "type": "input-text"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "lname",
+                          "label": "LAST NAME"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "birthdate",
+                          "label": "BIRTH DATE"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "gender",
+                          "label": "GENDER"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "grade",
+                          "label": "GRADE"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "check_in_method",
+                          "label": "check_in_method"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "allergies",
+                          "label": "ALLERGIES"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "sunday_school",
+                          "label": "SUNDAY SCHOOL"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "cm_lounge",
+                          "label": "CM LOUNGE"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "kid_choir",
+                          "label": "KID CHOIR"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "u3_friday",
+                          "label": "U3 FRIDAY"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "friday_lounge",
+                          "label": "FRIDAY LOUNGE"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "friday_night",
+                          "label": "FRIDAY NIGHT"
+                        }
                       ]
                     }
-                  },
-                  "id": "u:8c58d5ef6ef5"
+                  }
                 },
                 {
                   "type": "button",
@@ -449,13 +428,18 @@
                       ]
                     }
                   }
+                },
+                {
+                  "type": "button",
+                  "actionType": "ajax",
+                  "label": "Delete",
+                  "level": "link",
+                  "className": "bg-danger",
+                  "confirmText": "确定要删除？",
+                  "api": "delete:{{ url_for('adminManage', object='student', id='${id}') }}"
                 }
               ]
             }
-          ],
-          "bulkActions": [
-          ],
-          "itemActions": [
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
@@ -719,18 +703,10 @@
             },
             {
               "type": "operation",
-              "label": "操作",
+              "label": "Operation",
               "buttons": [
                 {
-                  "type": "button",
-                  "actionType": "ajax",
-                  "label": "Delete",
-                  "level": "danger",
-                  "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='familyInfo', id='${id}') }}"
-                },
-                {
-                  "label": "编辑",
+                  "label": "Edit",
                   "type": "button",
                   "actionType": "drawer",
                   "level": "link",
@@ -740,98 +716,100 @@
                       "type": "form",
                       "api": "put:{{url_for('adminManage', object='familyInfo')}}",
                       "body": [
-                      {
-              "name": "id",
-              "label": "ID",
-              "type": "input-text"
-            },
-            {
-              "name": "street",
-              "label": "STREET",
-              "type": "input-text"
-            },
-            {
-              "type": "input-text",
-              "name": "city",
-              "label": "CITY"
-            },
-            {
-              "type": "input-text",
-              "name": "state",
-              "label": "STATE"
-            },
-            {
-              "type": "input-text",
-              "name": "zip",
-              "label": "ZIP"
-            },
-            {
-              "type": "input-text",
-              "name": "physician",
-              "label": "PHYSICIAN"
-            },
-            {
-              "type": "input-text",
-              "name": "physician_phone",
-              "label": "PHYSICIAN PHONE"
-            },
-            {
-              "type": "input-text",
-              "name": "insurance",
-              "label": "INSURANCE"
-            },
-            {
-              "type": "input-text",
-              "name": "insurance_phone",
-              "label": "INSURANCE PHONE"
-            },
-            {
-              "type": "input-text",
-              "name": "insurance_policy",
-              "label": "INSURANCE POLICY"
-            },
-            {
-              "type": "input-text",
-              "name": "group",
-              "label": "GROUP"
-            },
-            {
-              "type": "input-text",
-              "name": "sunday_school",
-              "label": "SUNDAY SCHOOL"
-            },
-            {
-              "type": "input-text",
-              "name": "friday_night",
-              "label": "FRIDAY NIGHT"
-            },
-            {
-              "type": "input-text",
-              "name": "special_events",
-              "label": "SPECIAL EVENTS"
-            },
-            {
-              "type": "input-text",
-              "name": "pay",
-              "label": "PAY"
-            },
-            {
-              "type": "input-text",
-              "name": "checkbox",
-              "label": "CHECKBOX"
-            }
+                        {
+                          "name": "id",
+                          "label": "ID",
+                          "type": "input-text"
+                        },
+                        {
+                          "name": "street",
+                          "label": "STREET",
+                          "type": "input-text"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "city",
+                          "label": "CITY"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "state",
+                          "label": "STATE"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "zip",
+                          "label": "ZIP"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "physician",
+                          "label": "PHYSICIAN"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "physician_phone",
+                          "label": "PHYSICIAN PHONE"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "insurance",
+                          "label": "INSURANCE"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "insurance_phone",
+                          "label": "INSURANCE PHONE"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "insurance_policy",
+                          "label": "INSURANCE POLICY"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "group",
+                          "label": "GROUP"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "sunday_school",
+                          "label": "SUNDAY SCHOOL"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "friday_night",
+                          "label": "FRIDAY NIGHT"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "special_events",
+                          "label": "SPECIAL EVENTS"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "pay",
+                          "label": "PAY"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "checkbox",
+                          "label": "CHECKBOX"
+                        }
                       ]
                     }
-                  },
-                  "id": "u:8c58d5ef6ef5"
+                  }
+                },
+                {
+                  "type": "button",
+                  "actionType": "ajax",
+                  "label": "Delete",
+                  "level": "link",
+                  "confirmText": "确定要删除？",
+                  "api": "delete:{{ url_for('adminManage', object='familyInfo', id='${id}') }}"
                 }
-              ],
-              "id": "u:54bcc5641ee4"
+              ]
             }
-          ],
-          "bulkActions": [
-          ],
-          "itemActions": [
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
@@ -978,19 +956,10 @@
             },
             {
               "type": "operation",
-              "label": "操作",
+              "label": "Operation",
               "buttons": [
                 {
-                  "type": "button",
-                  "actionType": "ajax",
-                  "label": "Delete",
-                  "level": "danger",
-                  "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='family', id='${id}') }}"
-
-                },
-                {
-                  "label": "编辑",
+                  "label": "Edit",
                   "type": "button",
                   "actionType": "drawer",
                   "level": "link",
@@ -1000,33 +969,35 @@
                       "type": "form",
                       "api": "put:{{url_for('adminManage', object='family')}}",
                       "body": [
-                      {
-              "name": "id",
-              "label": "ID",
-              "type": "input-text"
-            },
-            {
-              "name": "guardian_id",
-              "label": "GUARDIAN ID",
-              "type": "input-text"
-            },
-            {
-              "type": "input-text",
-              "name": "student_id",
-              "label": "STUDENT ID"
-            }
+                        {
+                          "name": "id",
+                          "label": "ID",
+                          "type": "input-text"
+                        },
+                        {
+                          "name": "guardian_id",
+                          "label": "GUARDIAN ID",
+                          "type": "input-text"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "student_id",
+                          "label": "STUDENT ID"
+                        }
                       ]
                     }
-                  },
-                  "id": "u:8c58d5ef6ef5"
+                  }
+                },
+                {
+                  "type": "button",
+                  "actionType": "ajax",
+                  "label": "Delete",
+                  "level": "link",
+                  "confirmText": "确定要删除？",
+                  "api": "delete:{{ url_for('adminManage', object='family', id='${id}') }}"
                 }
-              ],
-              "id": "u:54bcc5641ee4"
+              ]
             }
-          ],
-          "bulkActions": [
-          ],
-          "itemActions": [
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
@@ -1236,6 +1207,88 @@
               "name": "classes_id",
               "label": "Class",
               "sortable": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Teachers",
+      "tab": [
+        {
+          "type": "crud",
+          "syncLocation": false,
+          "api": "{{ url_for('adminManage', object='teacher') }}",
+          "loadDataOnce": true,
+          "columns": [
+            {
+              "name": "fname",
+              "label": "First Name",
+              "sortable": true
+            },
+            {
+              "name": "lname",
+              "label": "Last Name",
+              "sortable": true
+            },
+            {
+              "name": "email",
+              "label": "Email",
+              "sortable": true
+            },
+            {
+              "name": "classes_id",
+              "label": "Class",
+              "sortable": true
+            },
+            {
+              "type": "operation",
+              "label": "Operation",
+              "buttons": [
+                {
+                  "label": "Edit",
+                  "type": "button",
+                  "level": "link",
+                  "actionType": "drawer",
+                  "drawer": {
+                    "title": "Edit",
+                    "body": {
+                      "type": "form",
+                      "api": "put:{{ url_for('adminManage', object='teacher', id='${id}') }}",
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "fname",
+                          "label": "First Name"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "lname",
+                          "label": "Last Name"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "email",
+                          "label": "Email"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "classes_id",
+                          "label": "Class"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "actionType": "ajax",
+                  "label": "Delete",
+                  "level": "link",
+                  "confirmText": "确定要删除？",
+                  "api": "delete:{{ url_for('adminManage', object='teacher', id='${id}') }}"
+                }
+              ]
             }
           ]
         }
