@@ -180,11 +180,13 @@ def enrollFamily():
 
         if i == 0:
             guardian_json['is_primary'] = True
-            guardian_res = requests.put(
-                REST_API + '/guardian/%s' % request.cookies['user_id'], json=guardian_json)
+            if request.cookies['user_group'] == 'guardian':
+                guardian_res = requests.put(
+                    REST_API + '/guardian/%s' % request.cookies['user_id'], json=guardian_json)
+            else:
+                guardian_res = requests.post(REST_API + '/guardian', json=guardian_json)
         else:
-            guardian_res = requests.post(
-                REST_API + '/guardian', json=guardian_json)
+            guardian_res = requests.post(REST_API + '/guardian', json=guardian_json)
         guardian_list.append(guardian_res.json())
 
     # student
