@@ -1,418 +1,338 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Log</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="../sdk/sdk.css" />
-    <link rel="stylesheet" href="../sdk/helper.css" />
-    <link rel="stylesheet" href="../sdk/iconfont.css" />
-    <style>
-      html,
-      body,
-      .app-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
+{% extends "layout.html" %}
+{% block title %}Log{% endblock %}
+
+{% block body %}
+{
+  "type": "crud",
+  "api": {
+    "method": "get",
+    "url": "{{url_for('log')}}",
+    adaptor: function (payload, response, api) {
+      function exist(p) {
+        if (typeof p === 'undefined') {
+          return false;
+        }
+        return true;
+      };
+
+      // Filter for check-in time
+      if (exist(api.query.check_in_time)) {
+        let time = api.query.check_in_time.split(',');
+        let start = parseInt(time[0]);
+        if (start && exist(payload.data.items)) {
+          payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) > start);
+        }
+
+        let end = parseInt(time[1]);
+        if (end && exist(payload.data.items)) {
+          payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) < end);
+        }
       }
-    </style>
-  </head>
-  <body>
-    <div id="root" class="app-wrapper"></div>
-    <script src=" ../sdk/sdk.js"></script>
-    <script type="text/javascript">
-      (function () {
-        let amis = amisRequire('amis/embed');
-        let amisJSON = {
-          "type": "page",
-          "toolbar": [
-            {
-              "type": "flex",
-              "justify": "space-between",
-              "className": "bg-light",
-              "style": { "fontFamily": "Times New Roman" },
-              "items": [
+
+      // Filter for check-out time
+      if (exist(api.query.check_out_time)) {
+        let time = api.query.check_out_time.split(',');
+        let start = parseInt(time[0]);
+        if (start && exist(payload.data.items)) {
+          payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) > start);
+        }
+
+        let end = parseInt(time[1]);
+        if (end && exist(payload.data.items)) {
+          payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) < end);
+        }
+      }
+
+      return {...payload};
+    } 
+  },
+  "syncLocation": false,
+  "loadDataOnce": true,
+  "source": "${items | filter:student_name:match:student_name\
+                      | filter:status:match:status\
+                      | filter:check_in_method:match:check_in_method\
+                      | filter:check_in:match:check_in\
+                      | filter:check_out:match:check_out\
+                      | filter:programs:match:programs}",
+  "filter": {
+    "body": [
+      {
+        "type": "input-text",
+        "name": "student_name",
+        "label": "Student name:"
+      },
+      {
+        "type": "select",
+        "name": "status",
+        "label": "Status:",
+        "size": "sm",
+        "options": [
+          {
+            "label": "Not checked in",
+            "value": "0"
+          },
+          {
+            "label": "Checked in",
+            "value": "1"
+          },
+          {
+            "label": "Checked out",
+            "value": "2"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "name": "check_in_method",
+        "label": "Check-in/out method:",
+        "options": [
+          {
+            "label": "Barcode",
+            "value": "barcode"
+          }
+        ]
+      },
+      {
+        "type": "input-text",
+        "name": "check_in",
+        "label": "Checked in by:"
+      },
+      {
+        "type": "input-datetime-range",
+        "name": "check_in_time",
+        "label": "Checked in time range:",
+        "inputFormat": "M/D/YYYY HH:mm"
+      },
+      {
+        "type": "input-text",
+        "name": "check_out",
+        "label": "Checked out by:"
+      },
+      {
+        "type": "input-datetime-range",
+        "name": "check_out_time",
+        "label": "Checked out time range:",
+        "inputFormat": "M/D/YYYY HH:mm"
+      },
+      {
+        "type": "select",
+        "name": "programs",
+        "label": "Program(s):",
+        "multiple": true,
+        "size": "lg",
+        "options": [
+          {
+            "label": "Sunday School",
+            "value": "sunday_school"
+          },
+          {
+            "label": "CM Parent and Child Lounge",
+            "value": "cm_lounge"
+          },
+          {
+            "label": "Canaan Kid's Choir/Art",
+            "value": "kid_choir"
+          },
+          {
+            "label": "U3 Friday Night",
+            "value": "u3_friday"
+          },
+          {
+            "label": "Friday Night CKFM and Chlid Lounge",
+            "value": "friday_lounge"
+          },
+          {
+            "label": "Friday Night",
+            "value": "friday_night"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "reset",
+        "label": "Reset"
+      },
+      // {
+      //   "type": "button",
+      //   "label": "Get achievement report",
+      //   "actionType": "ajax",
+      //   "required": ["student_name", "check_out_time", "programs"],
+      //   "api": {
+      //     "method": "get",
+      //     "url": "test",
+      //     "responseType": "blob",
+      //     "data": {
+      //       "&": "$$",
+      //       "achievement_report": true
+      //     }
+      //   }
+      // },
+      // {
+      //   "type": "button",
+      //   "label": "Get attendance rate",
+      //   "actionType": "ajax",
+      //   "required": ["check_out_time", "programs"],
+      //   "api": {
+      //     "method": "get",
+      //     "url": "test",
+      //     "responseType": "blob",
+      //     "data": {
+      //       "&": "$$",
+      //       "attendance_rate": true
+      //     }
+      //   }
+      // },
+      // {
+      //   "type": "button",
+      //   "label": "Get attendance report",
+      //   "actionType": "ajax",
+      //   "required": ["programs"],
+      //   "api": {
+      //     "method": "get",
+      //     "url": "test",
+      //     "responseType": "blob",
+      //     "data": {
+      //       "&": "$$",
+      //       "attendance_report": true
+      //     }
+      //   }
+      // },
+      {
+        "type": "submit",
+        "level": "primary",
+        "label": "Search"
+      }
+    ]
+  },
+  "headerToolbar": [
+    {
+      "type": "export-excel",
+      "label": "Export to Excel",
+      "filename": "log",
+      "columns": [
+        "student_name",
+        "status",
+        "check_in_method",
+        "check_in",
+        "check_in_time",
+        "check_out",
+        "check_out_time",
+        "programs"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "student_name",
+      "label": "Student Name",
+      "sortable": true
+    },
+    {
+      "name": "status",
+      "type": "mapping",
+      "label": "Status",
+      "sortable": true,
+      "map": {
+        "0": "<span class='label label-warning'>Not checked in</span>",
+        "1": "<span class='label label-info'>Checked in</span>",
+        "2": "<span class='label label-success'>Checked out</span>",
+        "*":  "<span class='label label-default'>Other</span>"
+      }
+    },
+    {
+      "name": "check_in_method",
+      "label": "Check-in/out Method",
+      "sortable": true
+    },
+    {
+      "name": "check_in",
+      "label": "Checked in by",
+      "sortable": true
+    },
+    {
+      "type": "date",
+      "name": "check_in_time",
+      "label": "Check-in Time",
+      "format": "M/D/YYYY HH:mm",
+      "sortable": true
+    },
+    {
+      "name": "check_out",
+      "label": "Checked out by",
+      "sortable": true
+    },
+    {
+      "type": "date",
+      "name": "check_out_time",
+      "label": "Check-out Time",
+      "format": "M/D/YYYY HH:mm",
+      "sortable": true
+    },
+    {
+      "name": "programs",
+      "type": "mapping",
+      "label": "Program(s)",
+      "sortable": true,
+      "map": {
+        "sunday_school": "<span class='label label-default'>Sunday School</span>",
+        "cm_lounge": "<span class='label label-default'>CM Parent and Child Lounge</span>",
+        "kid_choir": "<span class='label label-default'>Canaan Kid's Choir/Art</span>",
+        "u3_friday": "<span class='label label-default'>U3 Friday Night</span>",
+        "friday_lounge": "<span class='label label-default'>Friday Night CKFM and Chlid Lounge</span>",
+        "friday_night": "<span class='label label-default'>Friday Night</span>",
+      }
+    },
+    {
+      "type": "operation",
+      "label": "Daily Progress",
+      "buttons": [
+        {
+          "type": "button",
+          "label": "Enter",
+          "level": "link",
+          "actionType": "dialog",
+          "dialog": {
+            "title": "Enter daily progress",
+            "body": {
+              "type": "form",
+              "api": "put:{{url_for('log', id='${id}')}}",
+              "body": [
                 {
-                  "type": "button",
-                  "icon": "fa-solid fa-house",
-                  "className": "m-l-sm",
-                  "actionType": "link",
-                  "link": "{{url_for('index')}}"
-                },
-                {
-                  "type": "button",
-                  "label": "Sign out/退出账号",
-                  "className": "m-r-md",
-                  "level": "link",
-                  "onEvent": {
-                    "click": {
-                      "actions": [
-                        {
-                          "actionType": "ajax",
-                          "args": {
-                            "api": {
-                              "method": "post",
-                              "url": "{{url_for('logout')}}"
-                            }
-                          }
-                        },
-                        {
-                          "actionType": "link",
-                          "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
-                          "args": {
-                            "link": "{{url_for('login')}}"
-                          }
-                        }
-                      ]
+                  "type": "checkboxes",
+                  "name": "daily_progress",
+                  "label": "Checklist",
+                  "inline": false,
+                  "creatable": true,
+                  "options": [
+                    {
+                      "label": "Being on time",
+                      "value": "Being on time"
+                    },
+                    {
+                      "label": "Brought a friend",
+                      "value": "Brought a friend"
+                    },
+                    {
+                      "label": "Wearing uniform",
+                      "value": "Wearing uniform"
+                    },
+                    {
+                      "label": "Brought workbook",
+                      "value": "Brought workbook"
                     }
-                  }
+                  ]
                 }
               ]
             }
-          ],
-          "body": {
-            "type": "crud",
-            "api": {
-              "method": "get",
-              "url": "{{url_for('log')}}",
-              adaptor: function (payload, response, api) {
-                function exist(p) {
-                  if (typeof p === 'undefined') {
-                    return false;
-                  }
-                  return true;
-                };
-
-                // Filter for check-in time
-                if (exist(api.query.check_in_time)) {
-                  let time = api.query.check_in_time.split(',');
-                  let start = parseInt(time[0]);
-                  if (start && exist(payload.data.items)) {
-                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) > start);
-                  }
-
-                  let end = parseInt(time[1]);
-                  if (end && exist(payload.data.items)) {
-                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) < end);
-                  }
-                }
-
-                // Filter for check-out time
-                if (exist(api.query.check_out_time)) {
-                  let time = api.query.check_out_time.split(',');
-                  let start = parseInt(time[0]);
-                  if (start && exist(payload.data.items)) {
-                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) > start);
-                  }
-
-                  let end = parseInt(time[1]);
-                  if (end && exist(payload.data.items)) {
-                    payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) < end);
-                  }
-                }
-
-                return {...payload};
-              } 
-            },
-            "syncLocation": false,
-            "loadDataOnce": true,
-            "source": "${items | filter:student_name:match:student_name\
-                               | filter:status:match:status\
-                               | filter:check_in_method:match:check_in_method\
-                               | filter:check_in:match:check_in\
-                               | filter:check_out:match:check_out\
-                               | filter:programs:match:programs}",
-            "filter": {
-              "body": [
-                {
-                  "type": "input-text",
-                  "name": "student_name",
-                  "label": "Student name:"
-                },
-                {
-                  "type": "select",
-                  "name": "status",
-                  "label": "Status:",
-                  "size": "sm",
-                  "options": [
-                    {
-                      "label": "Not checked in",
-                      "value": "0"
-                    },
-                    {
-                      "label": "Checked in",
-                      "value": "1"
-                    },
-                    {
-                      "label": "Checked out",
-                      "value": "2"
-                    }
-                  ]
-                },
-                {
-                  "type": "select",
-                  "name": "check_in_method",
-                  "label": "Check-in/out method:",
-                  "options": [
-                    {
-                      "label": "Barcode",
-                      "value": "barcode"
-                    }
-                  ]
-                },
-                {
-                  "type": "input-text",
-                  "name": "check_in",
-                  "label": "Checked in by:"
-                },
-                {
-                  "type": "input-datetime-range",
-                  "name": "check_in_time",
-                  "label": "Checked in time range:",
-                  "inputFormat": "M/D/YYYY HH:mm"
-                },
-                {
-                  "type": "input-text",
-                  "name": "check_out",
-                  "label": "Checked out by:"
-                },
-                {
-                  "type": "input-datetime-range",
-                  "name": "check_out_time",
-                  "label": "Checked out time range:",
-                  "inputFormat": "M/D/YYYY HH:mm"
-                },
-                {
-                  "type": "select",
-                  "name": "programs",
-                  "label": "Program(s):",
-                  "multiple": true,
-                  "size": "lg",
-                  "options": [
-                    {
-                      "label": "Sunday School",
-                      "value": "sunday_school"
-                    },
-                    {
-                      "label": "CM Parent and Child Lounge",
-                      "value": "cm_lounge"
-                    },
-                    {
-                      "label": "Canaan Kid's Choir/Art",
-                      "value": "kid_choir"
-                    },
-                    {
-                      "label": "U3 Friday Night",
-                      "value": "u3_friday"
-                    },
-                    {
-                      "label": "Friday Night CKFM and Chlid Lounge",
-                      "value": "friday_lounge"
-                    },
-                    {
-                      "label": "Friday Night",
-                      "value": "friday_night"
-                    }
-                  ]
-                }
-              ],
-              "actions": [
-                {
-                  "type": "reset",
-                  "label": "Reset"
-                },
-                // {
-                //   "type": "button",
-                //   "label": "Get achievement report",
-                //   "actionType": "ajax",
-                //   "required": ["student_name", "check_out_time", "programs"],
-                //   "api": {
-                //     "method": "get",
-                //     "url": "test",
-                //     "responseType": "blob",
-                //     "data": {
-                //       "&": "$$",
-                //       "achievement_report": true
-                //     }
-                //   }
-                // },
-                // {
-                //   "type": "button",
-                //   "label": "Get attendance rate",
-                //   "actionType": "ajax",
-                //   "required": ["check_out_time", "programs"],
-                //   "api": {
-                //     "method": "get",
-                //     "url": "test",
-                //     "responseType": "blob",
-                //     "data": {
-                //       "&": "$$",
-                //       "attendance_rate": true
-                //     }
-                //   }
-                // },
-                // {
-                //   "type": "button",
-                //   "label": "Get attendance report",
-                //   "actionType": "ajax",
-                //   "required": ["programs"],
-                //   "api": {
-                //     "method": "get",
-                //     "url": "test",
-                //     "responseType": "blob",
-                //     "data": {
-                //       "&": "$$",
-                //       "attendance_report": true
-                //     }
-                //   }
-                // },
-                {
-                  "type": "submit",
-                  "level": "primary",
-                  "label": "Search"
-                }
-              ]
-            },
-            "headerToolbar": [
-              {
-                "type": "export-excel",
-                "label": "Export to Excel",
-                "filename": "log",
-                "columns": [
-                  "student_name",
-                  "status",
-                  "check_in_method",
-                  "check_in",
-                  "check_in_time",
-                  "check_out",
-                  "check_out_time",
-                  "programs"
-                ]
-              }
-            ],
-            "columns": [
-              {
-                "name": "id",
-                "label": "ID"
-              },
-              {
-                "name": "student_name",
-                "label": "Student Name",
-                "sortable": true
-              },
-              {
-                "name": "status",
-                "type": "mapping",
-                "label": "Status",
-                "sortable": true,
-                "map": {
-                  "0": "<span class='label label-warning'>Not checked in</span>",
-                  "1": "<span class='label label-info'>Checked in</span>",
-                  "2": "<span class='label label-success'>Checked out</span>",
-                  "*":  "<span class='label label-default'>Other</span>"
-                }
-              },
-              {
-                "name": "check_in_method",
-                "label": "Check-in/out Method",
-                "sortable": true
-              },
-              {
-                "name": "check_in",
-                "label": "Checked in by",
-                "sortable": true
-              },
-              {
-                "type": "date",
-                "name": "check_in_time",
-                "label": "Check-in Time",
-                "format": "M/D/YYYY HH:mm",
-                "sortable": true
-              },
-              {
-                "name": "check_out",
-                "label": "Checked out by",
-                "sortable": true
-              },
-              {
-                "type": "date",
-                "name": "check_out_time",
-                "label": "Check-out Time",
-                "format": "M/D/YYYY HH:mm",
-                "sortable": true
-              },
-              {
-                "name": "programs",
-                "type": "mapping",
-                "label": "Program(s)",
-                "sortable": true,
-                "map": {
-                  "sunday_school": "<span class='label label-default'>Sunday School</span>",
-                  "cm_lounge": "<span class='label label-default'>CM Parent and Child Lounge</span>",
-                  "kid_choir": "<span class='label label-default'>Canaan Kid's Choir/Art</span>",
-                  "u3_friday": "<span class='label label-default'>U3 Friday Night</span>",
-                  "friday_lounge": "<span class='label label-default'>Friday Night CKFM and Chlid Lounge</span>",
-                  "friday_night": "<span class='label label-default'>Friday Night</span>",
-                }
-              },
-              {
-                "type": "operation",
-                "label": "Daily Progress",
-                "buttons": [
-                  {
-                    "type": "button",
-                    "label": "Enter",
-                    "level": "link",
-                    "actionType": "dialog",
-                    "dialog": {
-                      "title": "Enter daily progress",
-                      "body": {
-                        "type": "form",
-                        "api": "put:{{url_for('log', id='${id}')}}",
-                        "body": [
-                          {
-                            "type": "checkboxes",
-                            "name": "daily_progress",
-                            "label": "Checklist",
-                            "inline": false,
-                            "creatable": true,
-                            "options": [
-                              {
-                                "label": "Being on time",
-                                "value": "Being on time"
-                              },
-                              {
-                                "label": "Brought a friend",
-                                "value": "Brought a friend"
-                              },
-                              {
-                                "label": "Wearing uniform",
-                                "value": "Wearing uniform"
-                              },
-                              {
-                                "label": "Brought workbook",
-                                "value": "Brought workbook"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
           }
-        };
-        let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
-      })();
-    </script>
-  </body>
-</html>
+        }
+      ]
+    }
+  ]
+}
+{% endblock %}

@@ -1,294 +1,210 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block title %}Teacher's Communication{% endblock %}
 
-<head>
-  <meta charset="UTF-8" />
-  <!-- 下列1行：注意替换页面对应名称 -->
-  <title>COMMUNICATION</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-  <!-- 下列3行：需要注意填写对应href路径 -->
-  <link rel="stylesheet" href="../sdk/sdk.css" />
-  <link rel="stylesheet" href="../sdk/helper.css" />
-  <link rel="stylesheet" href="../sdk/iconfont.css" />
-  <style>
-    html,
-    body,
-    .app-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="root" class="app-wrapper"></div>
-  <!-- 下列1行：需要注意填写对应路径 -->
-  <script src=" ../sdk/sdk.js"></script>
-  <script type="text/javascript">
-    (function() {
-      let amis = amisRequire('amis/embed');
-      // 通过替换amisJSON中的内容来生成不同页面
-      let amisJSON = {
-        "type": "page",
-        "toolbar": [
+{% block body %}
+[
+  {
+    "type": "form",
+    "id": "u:4ee00812167b",
+    "title": "",
+    "body": [
+      {
+        "type": "form",
+        "title": "",
+        "body": [
           {
-            "type": "flex",
-            "justify": "space-between",
-            "className": "bg-light",
-            "style": { "fontFamily": "Times New Roman" },
+            "type": "property",
+            "title": "Send Message to Students",
             "items": [
               {
-                "type": "button",
-                "icon": "fa-solid fa-house",
-                "className": "m-l-sm",
-                "actionType": "link",
-                "link": "{{url_for('index')}}"
+                "label": "Message",
+                "content": {
+                  "type": "textarea",
+                  "required": true,
+                  "name": "note",
+                  "placeholder": "Enter...",
+                  "className": "Panel--primary"
+                },
+                "span": 3
               },
               {
-                "type": "button",
-                "label": "Sign out/退出账号",
-                "className": "m-r-md",
-                "level": "link",
-                "onEvent": {
-                  "click": {
-                    "actions": [
+                "label": "Select Student",
+                "content":{
+                  
+            "type": "crud",
+      "syncLocation": false,
+      "checkOnItemClick": true,
+      "api": "{{url_for('studentBriefInfo')}}",
+      "source": "${items | filter:classes_id:match:keywords}",
+      "filter": {
+          "body": [
                       {
-                        "actionType": "ajax",
-                        "args": {
-                          "api": {
-                            "method": "post",
-                            "url": "{{url_for('logout')}}"
-                          }
-                        }
-                      },
-                      {
-                        "actionType": "link",
-                        "expression": "typeof event.data.responseResult !== 'undefined' && event.data.responseResult.responseStatus === 0",
-                        "args": {
-                          "link": "{{url_for('login')}}"
-                        }
+                          "type": "input-text",
+                          "name": "keywords",
+                          "label": "Class"
                       }
-                    ]
-                  }
+                  ]
+                  },
+      "headerToobar": ["bulkActions"],
+      "bulkActions": [
+        {
+                  "type": "button",
+                  "label": "Send Message to Students",
+
+                          "actionType": "ajax",
+                            "api": {
+                              "method": "post",
+                              "url": "{{url_for('msgBoard')}}",
+                              "data": {
+                                "msg": "${note}",
+                                "student_id": "${ids}"
+                              }
+                            }
+        }
+      ],
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "fname",
+          "label": "First Name"
+        },
+        {
+          "name": "lname",
+          "label": "Last Name"
+        },
+        {
+          "name": "classes_id",
+          "label": "Class"
+        }
+      ]
                 }
               }
             ]
-          }
+            }
         ],
+        "initApi": {
+          "method": "get",
+          "url": "{{url_for('studentBriefInfo')}}"
+        },
+        "submitText": ""
+      },
+      {
+        "type": "form",
+        "title": "",
         "body": [
           {
-            "type": "form",
-            "id": "u:4ee00812167b",
+            "type": "property",
             "title": "",
-            "body": [
-              {
-                "type": "form",
-                "title": "",
-                "body": [
-                  {
-                    "type": "property",
-                    "title": "Send Message to Students",
-                    "items": [
-                      {
-                        "label": "Message",
-                        "content": {
-                          "type": "textarea",
-                          "required": true,
-                          "name": "note",
-                          "placeholder": "Enter...",
-                          "className": "Panel--primary"
-                        },
-                        "span": 3
-                      },
-                      {
-                        "label": "Select Student",
-                        "content":{
-                          
-                    "type": "crud",
-              "syncLocation": false,
-              "checkOnItemClick": true,
-              "api": "{{url_for('studentBriefInfo')}}",
-              "source": "${items | filter:classes_id:match:keywords}",
-              "filter": {
-                  "body": [
-                              {
-                                  "type": "input-text",
-                                  "name": "keywords",
-                                  "label": "Class"
-                              }
-                          ]
-                          },
-              "headerToobar": ["bulkActions"],
-              "bulkActions": [
-                {
-                          "type": "button",
-                          "label": "Send Message to Students",
-
-                                  "actionType": "ajax",
-                                    "api": {
-                                      "method": "post",
-                                      "url": "{{url_for('msgBoard')}}",
-                                      "data": {
-                                        "msg": "${note}",
-                                        "student_id": "${ids}"
-                                      }
-                                    }
-                }
-              ],
-              "columns": [
-                {
-                  "name": "id",
-                  "label": "ID"
+            "items": [
+            {
+                "label": "Reply Message",
+                "content": {
+                  "type": "textarea",
+                  "required": true,
+                  "name": "note2",
+                  "placeholder": "Enter...",
+                  "className": "Panel--primary"
                 },
-                {
-                  "name": "fname",
-                  "label": "First Name"
-                },
-                {
-                  "name": "lname",
-                  "label": "Last Name"
-                },
-                {
-                  "name": "classes_id",
-                  "label": "Class"
-                }
-              ]
-                        }
-                      }
-                    ]
-                    }
-                ],
-                "initApi": {
-                  "method": "get",
-                  "url": "{{url_for('studentBriefInfo')}}"
-                },
-                "submitText": ""
+                "span": 3
               },
               {
-                "type": "form",
-                "title": "",
-                "body": [
-                  {
-                    "type": "property",
-                    "title": "",
-                    "items": [
-                    {
-                        "label": "Reply Message",
-                        "content": {
-                          "type": "textarea",
-                          "required": true,
-                          "name": "note2",
-                          "placeholder": "Enter...",
-                          "className": "Panel--primary"
-                        },
-                        "span": 3
-                      },
-                      {
-                        "label": "Message History",
-                        "content":{
-                          
-                    "type": "crud",
-              "syncLocation": false,
-              "checkOnItemClick": true,
-              "api": "{{url_for('msgBoard')}}",
-              "headerToobar": ["bulkActions"],
-              "bulkActions": [
-                {
-                          "type": "button",
-                          "label": "Reply Message to Parent",
+                "label": "Message History",
+                "content":{
+                  
+            "type": "crud",
+      "syncLocation": false,
+      "checkOnItemClick": true,
+      "api": "{{url_for('msgBoard')}}",
+      "headerToobar": ["bulkActions"],
+      "bulkActions": [
+        {
+                  "type": "button",
+                  "label": "Reply Message to Parent",
 
-                                  "actionType": "ajax",
-                                    "api": {
-                                      "method": "post",
-                                      "url": "{{url_for('msgBoard')}}",
-                                      "data": {
-                                        "msg": "${note2}",
-                                        "reply_msg_id": "${ids}"
-                                      }
-                                    }
+                          "actionType": "ajax",
+                            "api": {
+                              "method": "post",
+                              "url": "{{url_for('msgBoard')}}",
+                              "data": {
+                                "msg": "${note2}",
+                                "reply_msg_id": "${ids}"
+                              }
+                            }
+        }
+      ],
+      "columns": [
+        {
+          "name": "read",
+          "label": "Read"
+        },
+        {
+          "type": "date",
+          "name": "timestamp",
+          "label": "Time",
+          "format": "M/D/YYYY HH:mm"
+        },
+        {
+          "name": "msg",
+          "label": "Message"
+        },
+        {
+          "name": "fname",
+          "label": "First Name"
+        },
+        {
+          "name": "lname",
+          "label": "Last Name"
+        },
+        {
+          "name": "id",
+      "label": "ID"
+        }
+      ]
                 }
-              ],
-              "columns": [
-                {
-                  "name": "read",
-                  "label": "Read"
-                },
-                {
-                  "type": "date",
-                  "name": "timestamp",
-                  "label": "Time",
-                  "format": "M/D/YYYY HH:mm"
-                },
-                {
-                  "name": "msg",
-                  "label": "Message"
-                },
-                {
-                  "name": "fname",
-                  "label": "First Name"
-                },
-                {
-                  "name": "lname",
-                  "label": "Last Name"
-                },
-                {
-                  "name": "id",
-              "label": "ID"
-                }
-              ]
-                        }
-                      }
-                    ]
-                    }
-                ],
-                "initApi": {
-                  "method": "get",
-                  "url": "{{url_for('studentBriefInfo')}}"
-                },
-                "submitText": ""
               }
-              /*
-              {
-            "type": "form",
-            "title": "",
-            "body": [
-              {
-                "type": "textarea",
-                "label": "",
-                "name": "msgBoard2",
-                "id": "u:3ec513061fa7",
-                "minRows": 3,
-                "maxRows": 20
-              }
-            ],
-            "id": "u:6ab05083482c",
-            "submitText": "Send Message to Teacher",
-            "api": {
-              "method": "post",
-              "convertKeyToPath": false,
-              "url": "{{url_for('msgBoard')}}",
-              "data": {
-                "msg": "${msgBoard2}"
-              }
+            ]
             }
-          }*/
-            ],
-            "initApi": {
-              "method": "get",
-              "url": "{{url_for('msgBoard')}}"
-            },
-            "submitText": ""
-          }
-        ]
-      };
-      let amisScoped = amis.embed('#root', amisJSON);
-    })();
-  </script>
-</body>
-
-</html>
+        ],
+        "initApi": {
+          "method": "get",
+          "url": "{{url_for('studentBriefInfo')}}"
+        },
+        "submitText": ""
+      }
+      /*
+      {
+    "type": "form",
+    "title": "",
+    "body": [
+      {
+        "type": "textarea",
+        "label": "",
+        "name": "msgBoard2",
+        "id": "u:3ec513061fa7",
+        "minRows": 3,
+        "maxRows": 20
+      }
+    ],
+    "id": "u:6ab05083482c",
+    "submitText": "Send Message to Teacher",
+    "api": {
+      "method": "post",
+      "convertKeyToPath": false,
+      "url": "{{url_for('msgBoard')}}",
+      "data": {
+        "msg": "${msgBoard2}"
+      }
+    }
+  }*/
+    ],
+    "initApi": {
+      "method": "get",
+      "url": "{{url_for('msgBoard')}}"
+    },
+    "submitText": ""
+  }
+]
+{% endblock %}
