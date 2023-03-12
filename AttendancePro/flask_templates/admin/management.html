@@ -416,13 +416,15 @@
                     "click": {
                       "actions": [
                         {
-                          "actionType": "custom",
-                          "script": "let myData = [event.data];sessionStorage.setItem('myData', JSON.stringify(myData));"
-                        },
-                        {
                           "actionType": "url",
                           "args": {
-                            "url": "lib/print_badge.html"
+                            "url": "{{ url_for('printBagePage') }}",
+                            "blank": true,
+                            "params": {
+                              "name": "${fname}" + " ${lname}",
+                              "grade": "${grade}",
+                              "barcode": "${barcode}"
+                            }
                           }
                         }
                       ]
@@ -524,45 +526,8 @@
             }
                   ]
                 }
-              },
-              "id": "u:4823d8fc3b75"
-            },
-            {
-              "type": "bulk-actions"
-            },
-            {
-              "type": "button",
-              "label": "Print barcode badges",
-              "icon": "fa-solid fa-id-badge",
-              "tooltip": "Print badges for all students recently enrolled at once.",
-              "onEvent": {
-                "click": {
-                  "actions": [
-                    {
-                      "actionType": "ajax",
-                      "args": {
-                        "api": "{{url_for('barcode', object='student')}}"
-                      }
-                    },
-                    {
-                      "actionType": "custom",
-                      "script": "sessionStorage.setItem('myData', JSON.stringify(event.data.responseData.items));",
-                      "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0"
-                    },
-                    {
-                      "actionType": "url",
-                      "expression": "event.data.responseResult.responseStatus === 0 && event.data.responseData.items.length > 0",
-                      "args": {
-                        "url": "../lib/print_badge.html"
-                      }
-                    }
-                  ]
-                }
               }
             }
-          ],
-          "perPageAvailable": [
-            10
           ]
         }
       ]
