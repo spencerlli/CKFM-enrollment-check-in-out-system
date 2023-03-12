@@ -477,7 +477,7 @@ def preCheckIn():
 
             if family['student_id'] not in student_id_set:  # filter repeat
                 student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
-                if student_json.get('check_in', 0) == 0:
+                if student_json.get('check_in', 0) == 0 and student_json.get('check_in_time', '0') == '0':
                     object_list.append({
                         'object': 'student',
                         'id': student_json['id'],
@@ -551,7 +551,7 @@ def preCheckOut():
 
             if family['student_id'] not in student_id_set:  # filter repeat
                 student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
-                if student_json.get('check_in', 0) != 0:
+                if student_json.get('check_in', 0) != 0 and student_json.get('check_in_time', '0') != '0':
                     object_list.append({
                         'object': 'student',
                         'id': student_json['id'],
