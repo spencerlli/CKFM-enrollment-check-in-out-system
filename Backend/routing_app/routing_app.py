@@ -607,7 +607,7 @@ def checkIn():
                 student_json['check_out_time'] = 0  # once checked in, set last check out time to 0
                 student_json['check_in_time'] = int(datetime.datetime.now().timestamp())
                 requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
-                requests.post('http://localhost:5000/log', json=student_json)
+                requests.post(url_for('log'), json=student_json)
                 res['msg'] = "Successfully check in!"
         return jsonify(res)
 
