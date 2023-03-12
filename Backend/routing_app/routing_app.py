@@ -13,7 +13,7 @@ import datetime
 # pymysql.install_as_MySQLdb()
 
 template_dir = os.path.abspath('../../AttendancePro')
-static_dir = os.path.abspath('../../AttendancePro/sdk')
+static_dir = os.path.abspath('../../AttendancePro/static')
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 app.secret_key = '123456'
 
@@ -943,7 +943,7 @@ def guestEnroll():
 @app.route('/printBagePage', methods=['GET'])
 def printBagePage():
     if request.cookies.get('user_group') not in {'admin', 'teacher'}: abort(403)
-    return render_template('lib/print_badge.html')
+    return render_template('static/lib/print_badge.html')
 
 def generate_random_str(randomLength=8):
     random_str = ''

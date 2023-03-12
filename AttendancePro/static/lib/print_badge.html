@@ -12,9 +12,9 @@
 	<title>Print Barcode Badge</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<script type="module">
-    import * as bpac from '../lib/bpac.js';
-		var myData = JSON.parse(sessionStorage.getItem("myData"));
-		const strPath = new URL("../lib/badge_template.lbx", document.baseURI).href;
+    import * as bpac from '/static/lib/bpac.js';
+		const urlParams = new URLSearchParams(window.location.search);
+		const strPath = new URL("/static/lib/badge_template.lbx", document.baseURI).href;
 		const objDoc = bpac.IDocument;
 
 		window.DoPrint = async function DoPrint() {
@@ -22,17 +22,17 @@
 				const ret = await objDoc.Open(strPath);
 
 				if (ret == true) {
-					for (const item of myData) {
-						const objName = await objDoc.GetObject("name");
-						objName.Text = item.fname + ' ' + item.lname;
-						const objGrade = await objDoc.GetObject("grade");
-						objGrade.Text = item.grade;
-						const objBarcode = await objDoc.GetObject("barcode");
-						objBarcode.Text = item.barcode;
+					const objName = await objDoc.GetObject("name");
+					objName.Text = urlParams.get('name');
 
-						objDoc.StartPrint("", 0);
-						objDoc.PrintOut(1, 0);
-					}
+					const objGrade = await objDoc.GetObject("grade");
+					objGrade.Text = "Grade: " + urlParams.get('grade');
+
+					const objBarcode = await objDoc.GetObject("barcode");
+					objBarcode.Text = urlParams.get('barcode');
+
+					objDoc.StartPrint("", 0);
+					objDoc.PrintOut(1, 0);
 
 					objDoc.EndPrint();
 					objDoc.Close();
