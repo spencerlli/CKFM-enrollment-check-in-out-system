@@ -652,7 +652,7 @@ def checkOut():
                     student_json['check_in_time'] = 0  #  once checked out, set last check in time to 0
                     student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
                     requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
-                    requests.post('http://localhost:5000/log', json=student_json)
+                    requests.post(url_for('log'), json=student_json)
                     res['data']['key'] = student_json['id']
                     res['msg'] = "Successfully check out!"
     else:   # GET
