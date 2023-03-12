@@ -508,6 +508,12 @@ def preCheckIn():
             student_json['check_out'] = 0
             student_json['check_in'] = guardian_id
             requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+        
+        # generate barcode for guardian
+        guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
+        requests.put(REST_API + '/guardian/%d' % guardian_id, json={
+            'barcode': guardian_json['fname'][0].upper() + guardian_json['lname'][0].upper() + generate_random_str(5)})
+
         res['msg'] = 'Successfully pre-check in student!'
 
     return jsonify(res)
