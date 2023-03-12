@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.secret_key = '654321'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s:%s/%s' % (
     restful_config.MYSQL_USER, restful_config.MYSQL_PASSWORD, restful_config.MYSQL_HOST, restful_config.MYSQL_PORT, restful_config.MYSQL_DB)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
 
 db = SQLAlchemy(app)
 CORS(app, resources=r'/*', supports_credentials=True)
