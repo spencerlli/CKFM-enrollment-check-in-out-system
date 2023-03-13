@@ -125,9 +125,12 @@ def login():
                         elif teacher_query.json()['privilege'] == 2:    # logged in as an admin
                             res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
                         
-                        classes_id = requests.get(REST_API + '/classes/teacher/%d' % teacher_query.json()['id']).json()[0]['id']
+                        classes_res = requests.get(REST_API + '/classes/teacher/%d' % teacher_query.json()['id'])
+                        if not classes_res:    # teacher/admin has asscoiated classes
+                            classes_id = classes_res[0]['id']
+                            res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
                         res.set_cookie(key='user_id', value=str(teacher_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
-                        res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
+                        
                     return res
                 else:
                     res_json['status'] = 1
