@@ -905,7 +905,7 @@ def log():
 @app.route('/guestEnrollPage', methods=['GET'])
 def guestEnrollPage():
     if request.cookies.get('user_group') not in {'admin', 'teacher'}: abort(403)
-    return render_template('flask_templates/scanner/guest_form.html')
+    return render_template('flask_templates/general/guest_form.html')
 
 
 @app.route('/guestEnroll', methods=['POST'])
