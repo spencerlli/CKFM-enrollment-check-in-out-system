@@ -44,7 +44,7 @@ COOKIES: {
 def guardianSignUp():
     res = deepcopy(AMIS_RES_TEMPLATE)
     
-    guardian_json = {'phone': request.json['phone'], 'pwd': request.json['password']}
+    guardian_json = {'phone': request.json['phone'], 'pwd': request.json['password'], 'is_primary': True}
     if requests.get(REST_API + '/guardian/phone/%s' % guardian_json['phone']).status_code == 200:
         # duplicate phone number
         res['status'] = 1
