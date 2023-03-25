@@ -609,9 +609,12 @@ def checkIn():
             else:
                 student_json['check_out_time'] = 0  # once checked in, set last check out time to 0
                 student_json['check_in_time'] = int(datetime.datetime.now().timestamp())
-                requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
-                requests.post(url_for('log'), json=student_json)
+                if os.path.exists('/.dockerenv'):    # running in docker
+                    requests.post('http://routing_app:5000/log', json=student_json)
+                else:
+                    requests.post(request.root_url + 'log', json=student_json)
                 res['msg'] = "Successfully check in!"
+                requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
         return jsonify(res)
 
     return render_template('flask_templates/teacher/check_in.html')
@@ -654,10 +657,13 @@ def checkOut():
                 else:
                     student_json['check_in_time'] = 0  #  once checked out, set last check in time to 0
                     student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
-                    requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
-                    requests.post(url_for('log'), json=student_json)
+                    if os.path.exists('/.dockerenv'):    # running in docker
+                        requests.post('http://routing_app:5000/log', json=student_json)
+                    else:
+                        requests.post(request.root_url + 'log', json=student_json)
                     res['data']['key'] = student_json['id']
                     res['msg'] = "Successfully check out!"
+                    requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
     else:   # GET
         family_id = int(request.cookies.get('family_id'))
         family_json = requests.get(REST_API + '/family/%d' % family_id).json()
@@ -880,7 +886,7 @@ def log():
         res['msg'] = 'Successfully get logs!'
     elif request.method == 'POST':
         student_json = request.json
-        log_json = {'check_in_method': student_json['check_in_method']}        
+        log_json = {'check_in_method': student_json['check_in_method']}
         log_json['student_id'] = student_json['id']
         log_json['status'] = 1 if int(student_json['check_in']) != 0 else 2
 
@@ -965,4 +971,3 @@ def generate_random_str(randomLength=8):
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
-    

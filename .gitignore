@@ -8,7 +8,7 @@ AttendancePro/dev/
 .DS_Store
 AttendancePro/.DS_Store
 
-*config.py
+Backend/restful_api/restful_config.py
 flask-crud-application-with-mysql-master/config.py
 Backend/*.json
 Backend/data

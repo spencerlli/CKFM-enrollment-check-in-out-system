@@ -9,7 +9,7 @@ services:
       dockerfile: ./Backend/routing_app/Dockerfile
     ports:
       - "5000:5000"
-    command: gunicorn -w 1 -b 0.0.0.0:5000 routing_app:app
+    command: gunicorn -k gevent -b 0.0.0.0:5000 routing_app:app
 
   restful_api:
     container_name: restful_api
@@ -17,7 +17,7 @@ services:
     build: ./restful_api
     ports:
       - "5001:5001"
-    command: gunicorn -w 1 -b 0.0.0.0:5001 restful_api:app
+    command: gunicorn -k gevent -b 0.0.0.0:5001 restful_api:app
 
   nginx:
     container_name: nginx
