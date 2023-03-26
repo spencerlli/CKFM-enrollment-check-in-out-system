@@ -57,7 +57,25 @@
             "fetchInited": {
               "actions": [
                 {
-                  "actionType": "refresh",
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "Success",
+                    "actions": [],
+                    "showCloseButton": false,
+                    "body": [
+                      {
+                        "type": "alert",
+                        "title": "Successfully Checked out!",
+                        "level": "success",
+                        "showIcon": true
+                      }
+                    ]
+                  },
+                  "expression": "!event.data.hasOwnProperty('items')"
+                },
+                {
+                  "actionType": "custom",
+                  "script": "setTimeout(function(){location.reload();}, 2000);",
                   "expression": "!event.data.hasOwnProperty('items')"
                 }
               ]
@@ -68,6 +86,15 @@
     }
   ],
   "onEvent": {
+    "stepChange": {
+      "actions": [
+        {
+          "actionType": "setValue",
+          "args": { "value": {"guardian_barcode": ""} },
+          "expression": "event.data.step == 1"
+        }
+      ]
+    },
     "submitSucc": {
       "actions": [
         {
