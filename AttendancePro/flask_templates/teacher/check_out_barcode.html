@@ -7,72 +7,76 @@
   "steps": [
     {
       "title": "Scan Guardian's Barcode",
+      "api": "post:{{ url_for('checkOut') }}",
       "autoFocus": true,
-      "api": "post:{{url_for('checkOut')}}",
       "body": [
         {
           "type": "input-text",
-          "name": "barcode",
-          "label": "Guardian's Barcode",
+          "label": "Guardian's Barcode:",
+          "name": "guardian_barcode",
+          "required": true,
           "clearable": true,
           "mode": "horizontal",
-          "horizontal": {
-            "justify": true
-          }
+          "horizontal": { "justify": true }
         }
       ]
     },
     {
       "title": "Scan Student's Barcode",
-      "initApi": "{{url_for('checkOut')}}",
-      "body": {
-        "type": "cards",
-        "card": {
-          "header": {
-            "title": "${fname} ${lname}",
-            "subTitle": "Child",
-            "avatarText": "${fname|first|upperCase}",
-            "avatarTextBackground": ["#E69F00"]
-          },
+      "api": "post:{{ url_for('checkOut') }}",
+      "autoFocus": true,
+      "body": [
+        {
+          "type": "input-text",
+          "label": "Student's Barcode:",
+          "name": "student_barcode",
+          "id": "student_barcode",
+          "required": true,
+          "validateOnChange": false,
+          "clearable": true,
+          "mode": "horizontal",
+          "horizontal": { "justify": true }
+        },
+        {
+          "type": "service",
+          "api": "get:{{ url_for('checkOut') }}",
+          "id": "students",
           "body": {
-            "type": "form",
-            "wrapWithPanel": false,
-            "body": [
-              {
-                "type": "input-text",
-                "name": "barcode",
-                "label": "Student's Barcode",
-                "clearable": true,
-                "mode": "horizontal",
-                "horizontal": {
-                  "justify": true
-                }
-              },
-              {
-                "type": "alert",
-                "body": "Successfully Checked out!",
-                "level": "success",
-                "showIcon": true,
-                "visibleOn": "typeof this.key !== 'undefined' && this.key === this.id"
-              },
-              {
-                "type": "button",
-                "label": "Submit",
-                "level": "info",
-                "actionType": "submit",
-                "api": "post:{{url_for('checkOut')}}"
+            "type": "cards",
+            "souce": "${items}",
+            "card": {
+              "header": {
+                "title": "${fname} ${lname}",
+                "subTitle": "Student",
+                "avatarText": "${fname|first|upperCase}",
+                "avatarTextBackground": ["#E69F00"]
               }
-            ]
+            }
+          },
+          "onEvent": {
+            "fetchInited": {
+              "actions": [
+                {
+                  "actionType": "refresh",
+                  "expression": "!event.data.hasOwnProperty('items')"
+                }
+              ]
+            }
           }
         }
-      }
+      ]
     }
   ],
   "onEvent": {
-    "finished": {
+    "submitSucc": {
       "actions": [
         {
-          "actionType": "refresh"
+          "actionType": "reset",
+          "componentId": "student_barcode"
+        },
+        {
+          "actionType": "reload",
+          "componentId": "students"
         }
       ]
     }

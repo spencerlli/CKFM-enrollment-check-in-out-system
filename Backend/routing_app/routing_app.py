@@ -630,8 +630,8 @@ def checkOutPage():
 def checkOut():
     res = deepcopy(AMIS_RES_TEMPLATE)
     if request.method == 'POST':
-        if len(request.json.keys()) == 1:
-            guardian_barcode = request.json.get('barcode')
+        if not request.json.get('student_barcode'):
+            guardian_barcode = request.json.get('guardian_barcode')
             guardian_query = requests.get(REST_API + '/guardian/barcode/' + guardian_barcode)
             if guardian_query.status_code == 404:
                 res['status'] = 1
@@ -644,7 +644,7 @@ def checkOut():
                 res.set_cookie(key='family_id', value=str(family_id), expires=COOKIE_EXPIRE_TIME)
                 return res
         else:
-            student_barcode = request.json['barcode']
+            student_barcode = request.json['student_barcode']
             student_query = requests.get(REST_API + '/student/barcode/' + student_barcode)
             if student_query.status_code == 404:
                 res['status'] = 1
@@ -661,7 +661,6 @@ def checkOut():
                         requests.post('http://routing_app:5000/log', json=student_json)
                     else:
                         requests.post(request.root_url + 'log', json=student_json)
-                    res['data']['key'] = student_json['id']
                     res['msg'] = "Successfully check out!"
                     requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
     else:   # GET
@@ -684,9 +683,6 @@ def checkOut():
                     student_id_set.add(family['student_id'])
         if len(student_info_list) > 0:
             res['data']['items'] = student_info_list
-        else:
-            res['status'] = 1
-            res['msg'] = "No pre-checked out student!"
 
     return jsonify(res)
 
