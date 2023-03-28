@@ -267,8 +267,19 @@ def adminManagePage():
 def adminManage(object):
     res = deepcopy(AMIS_RES_TEMPLATE)
     if object != 'classes':
-        if request.method == 'GET':
+        if request.method == 'GET':     # guardian / student / familyInfo / family / teacher
             object_json = requests.get(REST_API + '/' + object).json()
+
+            if object == 'family':
+                for i, family in enumerate(object_json):
+                    guardian_json = requests.get(REST_API + '/guardian/%s' % family.get('guardian_id')).json()
+                    student_json = requests.get(REST_API + '/student/%s' % family.get('student_id')).json()
+                    object_json[i]['guardian_name'] = guardian_json['fname'] + ' ' + guardian_json['lname']
+                    object_json[i]['guardian_phone'] = guardian_json['phone']
+                    object_json[i]['guardian_email'] = guardian_json['email']
+                    object_json[i]['guardian_relationship'] = guardian_json['relationship']
+                    object_json[i]['student_name'] = student_json['fname'] + ' ' + student_json['lname']
+
             res['data']['items'] = object_json
             res['msg'] = 'Successfully get data!'
         elif request.method == 'PUT' or request.method == 'POST':

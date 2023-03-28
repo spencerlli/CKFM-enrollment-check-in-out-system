@@ -898,33 +898,50 @@
           "columns": [
             {
               "name": "id",
-              "label": "ID",
-              "type": "text"
-            },
-            {
-              "name": "guardian_id",
-              "label": "GUARDIAN ID",
+              "label": "FAMILY ID",
               "type": "text"
             },
             {
               "type": "text",
-              "name": "student_id",
-              "label": "STUDENT ID"
+              "name": "student_name",
+              "label": "STUDENT NAME",
+              "sortable": true
             },
             {
-              "type": "operation",
-              "label": "Operation",
-              "buttons": [
-                {
-                  "type": "button",
-                  "actionType": "ajax",
-                  "label": "Delete",
-                  "level": "link",
-                  "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='family', id='${id}') }}"
-                }
-              ]
-            }
+              "name": "guardian_name",
+              "label": "GUARDIAN NAME",
+              "type": "text",
+              "sortable": true
+            },
+            {
+              "name": "guardian_phone",
+              "label": "GUARDIAN PHONE",
+              "type": "text"
+            },
+            {
+              "name": "guardian_email",
+              "label": "GUARDIAN EMAIL",
+              "type": "text"
+            },
+            {
+              "name": "guardian_relationship",
+              "label": "GUARDIAN RELATIONSHIP",
+              "type": "text"
+            },
+            // {
+            //   "type": "operation",
+            //   "label": "Operation",
+            //   "buttons": [
+            //     {
+            //       "type": "button",
+            //       "actionType": "ajax",
+            //       "label": "Delete",
+            //       "level": "link",
+            //       "confirmText": "确定要删除？",
+            //       "api": "delete:{{ url_for('adminManage', object='family', id='${id}') }}"
+            //     }
+            //   ]
+            // }
           ],
           "filterColumnCount": 13,
           "headerToolbar": [
