@@ -36,7 +36,9 @@ COOKIES: {
     'user_group': ('guardian','teacher'),
     'user_id': user_id,
     'family_id': family_id,
-    'classes_id': classes_id
+    'classes_id': classes_id,
+    'fname': first_name,
+    'lname': last_name
 } (all str)
 '''
 
@@ -93,7 +95,7 @@ def login():
             teacher_query = requests.get(REST_API + '/teacher/phone/' + phone)
 
             if guardian_query.status_code == 200:
-                if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd and guardian_query.json()['is_primary']==True:
+                if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd:
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
 
@@ -101,6 +103,8 @@ def login():
                     res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
                     res.set_cookie(key='user_group', value='guardian', expires=COOKIE_EXPIRE_TIME)
                     res.set_cookie(key='phone', value=phone, expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='fname', value=guardian_query.json()['fname'], expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='lname', value=guardian_query.json()['lname'], expires=COOKIE_EXPIRE_TIME)
 
                     family_json = requests.get(REST_API + '/family/guardian/%d' % guardian_query.json()['id']).json()
                     if len(family_json) != 0:
@@ -116,6 +120,8 @@ def login():
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
                     res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='fname', value=teacher_query.json()['fname'], expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='lname', value=teacher_query.json()['lname'], expires=COOKIE_EXPIRE_TIME)
     
                     if teacher_query.json()['privilege'] == 0:    # logged in as a scanner account
                         res.set_cookie(key='user_group', value='scanner', expires=COOKIE_EXPIRE_TIME)
@@ -156,6 +162,8 @@ def logout():
     res.delete_cookie('classes_id')
     res.delete_cookie('user_group')
     res.delete_cookie('phone')
+    res.delete_cookie('fname')
+    res.delete_cookie('lname')
     return res
 
 

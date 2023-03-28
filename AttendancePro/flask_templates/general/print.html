@@ -27,6 +27,7 @@
 						objBarcode.Text = data.students[i].barcode;
 						objDoc.PrintOut(1, 0);
 					}
+
 				} else {
 					objName.Text = data.fname + " " + data.lname;
 					objGrade.Text = data.grade === null ? "" : "Grade: " + data.grade;

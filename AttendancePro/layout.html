@@ -33,7 +33,6 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
-          "style": {"white-space": "pre"},
           "body": {% block body %}{% endblock %},
           "toolbar": [
             {
@@ -50,6 +49,7 @@
                 },
                 {
                   "type": "dropdown-button",
+                  "label": "${cookie:fname} ${cookie:lname}",
                   "icon": "fa fa-user",
                   "align": "right",
                   "className": "m-r",
