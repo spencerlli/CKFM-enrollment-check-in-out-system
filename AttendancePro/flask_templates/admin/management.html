@@ -1185,6 +1185,22 @@
           "syncLocation": false,
           "api": "{{ url_for('adminManage', object='teacher') }}",
           "loadDataOnce": true,
+          "source": "${items | filter:fname:match:fname\
+                             | filter:lname:match:lname}",
+          "filter": {
+            "body": [
+              {
+                "type": "input-text",
+                "name": "fname",
+                "label": "First name:"
+              },
+              {
+                "type": "input-text",
+                "name": "lname",
+                "label": "Last name:"
+              }
+            ]
+          },
           "columns": [
             {
               "name": "fname",
