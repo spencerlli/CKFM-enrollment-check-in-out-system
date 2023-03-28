@@ -307,12 +307,16 @@ def adminManage(object):
                         requests.post(REST_API + '/classes', json={'id': classes_id, 'teacher_id': teacher_id,
                                                                    'student_id': student_id})
                 elif request.json['operation'] == 'drop':
-                    for i, student_id in enumerate(request.json['student_id_list']):
-                        classes_id = request.json['classes_id_list'][i]
-                        teacher_id = requests.get(REST_API + '/teacher/classes/%s' % classes_id).json()['id']
-                        requests.put(REST_API + '/student/%s' % student_id, json={'classes_id': None})
-                        requests.delete(REST_API + '/classes/%s/%s/%s' % (classes_id, teacher_id, student_id))
+                    for student in request.json['students']:
+                        if student['classes_id']:   # check if selected students belong to any class
+                            student_id = student['id']
+                            classes_id = student['classes_id']
+                            teacher_id = requests.get(REST_API + '/teacher/classes/%s' % classes_id).json()['id']
+                            requests.put(REST_API + '/student/%s' % student_id, json={'classes_id': None})
+                            requests.delete(REST_API + '/classes/%s/%s/%s' % (classes_id, teacher_id, student_id))
+
                 res['msg'] = 'Successfully update!'
+
             elif request.method == 'POST':
                 classes_json = dict(request.json)
 
@@ -947,8 +951,9 @@ def guestEnroll():
                     REST_API + '/family', json=family_json)
                 family_json = family_res.json()
 
-    res['msg'] = 'Successfully enrolled guest family!'
-    return jsonify(res)
+        res['data'] = {'guardians': guardian_list, 'children': student_list}
+        res['msg'] = 'Successfully enrolled guest family!'
+        return jsonify(res)
 
 
 @app.route('/printBagePage', methods=['GET'])

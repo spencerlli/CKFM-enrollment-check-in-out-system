@@ -80,7 +80,7 @@
                     "title": "改密码",
                     "body": {
                     "type": "form",
-                    "api": "put:{{url_for('adminManage', object='guardian')}}", 
+                    "api": "put:{{ url_for('adminManage', object='guardian', id='${id}') }}", 
                     "body": [
                         {
                           "type": "input-text",
@@ -121,7 +121,7 @@
                     "title": "编辑",
                     "body": {
                       "type": "form",
-                      "api": "put:{{url_for('adminManage', object='guardian', id='${id}')}}",
+                      "api": "put:{{ url_for('adminManage', object='guardian', id='${id}') }}",
                       "body": [
                         {
                           "name": "fname",
@@ -331,7 +331,7 @@
                     "title": "编辑",
                     "body": {
                       "type": "form",
-                      "api": "put:{{url_for('adminManage', object='student')}}",
+                      "api": "put:{{ url_for('adminManage', object='student', id='${id}') }}",
                       "body": [
                         {
                           "name": "id",
@@ -416,16 +416,8 @@
                     "click": {
                       "actions": [
                         {
-                          "actionType": "url",
-                          "args": {
-                            "url": "{{ url_for('printBagePage') }}",
-                            "blank": true,
-                            "params": {
-                              "name": "${fname}" + " ${lname}",
-                              "grade": "${grade}",
-                              "barcode": "${barcode}"
-                            }
-                          }
+                          "actionType": "custom",
+                          "script": "DoPrint(event.data);"
                         }
                       ]
                     }
@@ -679,7 +671,7 @@
                     "title": "编辑",
                     "body": {
                       "type": "form",
-                      "api": "put:{{url_for('adminManage', object='familyInfo')}}",
+                      "api": "put:{{ url_for('adminManage', object='familyInfo', id='${id}') }}",
                       "body": [
                         {
                           "name": "id",
@@ -924,36 +916,6 @@
               "label": "Operation",
               "buttons": [
                 {
-                  "label": "Edit",
-                  "type": "button",
-                  "actionType": "drawer",
-                  "level": "link",
-                  "drawer": {
-                    "title": "编辑",
-                    "body": {
-                      "type": "form",
-                      "api": "put:{{url_for('adminManage', object='family')}}",
-                      "body": [
-                        {
-                          "name": "id",
-                          "label": "ID",
-                          "type": "input-text"
-                        },
-                        {
-                          "name": "guardian_id",
-                          "label": "GUARDIAN ID",
-                          "type": "input-text"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "student_id",
-                          "label": "STUDENT ID"
-                        }
-                      ]
-                    }
-                  }
-                },
-                {
                   "type": "button",
                   "actionType": "ajax",
                   "label": "Delete",
@@ -1110,7 +1072,7 @@
                     "type": "form",
                     "api": {
                       "method": "put",
-                      "url": "{{url_for('adminManage', object='classes')}}",
+                      "url": "{{ url_for('adminManage', object='classes', id='${id}') }}",
                       "data": {
                         "operation": "add",
                         "classes_id": "${class}",
@@ -1139,11 +1101,10 @@
               "confirmText": "Do you want to drop selected students from their current class?",
               "api": {
                 "method": "put",
-                "url": "{{url_for('adminManage', object='classes')}}",
+                "url": "{{ url_for('adminManage', object='classes') }}",
                 "data": {
                   "operation": "drop",
-                  "student_id_list": "${selectedItems|pick:id}",
-                  "classes_id_list": "${selectedItems|pick:classes_id}"
+                  "students": "${selectedItems}"
                 }
               }
             }
@@ -1307,4 +1268,8 @@
     }
   ]
 }
+{% endblock %}
+
+{% block printer_script %}
+{% include 'flask_templates/general/print.html' %}
 {% endblock %}
