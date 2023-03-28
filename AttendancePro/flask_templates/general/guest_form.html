@@ -100,12 +100,12 @@
         "body": [
           {
             "type": "combo",
-            "name": "children",
+            "name": "students",
             "multiple": true,
             "minLength": 1,
             "tabsMode": true,
             "tabsStyle": "radio",
-            "tabsLabelTpl": "Child ${index | plus}",
+            "tabsLabelTpl": "Student ${index | plus}",
             "value": [{}],
             "items": [
               {
@@ -227,7 +227,6 @@
     ],
     "onEvent": {
       "submitSucc": {
-        "weight": 0,
         "actions": [
           {
             "actionType": "dialog",
@@ -238,7 +237,7 @@
                 {
                   "type": "alert",
                   "title": "Thank You!",
-                  "body": "Your enrollment has been received.",
+                  "body": "Your enrollment has been received.\n Printing barcode badges...",
                   "level": "success",
                   "showIcon": true
                 }
@@ -253,10 +252,18 @@
                 }
               ]
             }
+          },
+          {
+            "actionType": "custom",
+            "script": "DoPrint(event.data.result.data);"
           }
         ]
       }
     }
   }
 ]
+{% endblock %}
+
+{% block printer_script %}
+{% include 'flask_templates/general/print.html' %}
 {% endblock %}

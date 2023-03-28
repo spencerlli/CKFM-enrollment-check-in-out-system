@@ -26,6 +26,7 @@ class GuardianListResource(Resource):
             lname=request.json.get('lname'),
             phone=request.json.get('phone'),
             email=request.json.get('email'),
+            barcode=request.json.get('barcode'),
             relationship=request.json.get('relationship'),
             check_in_method=request.json.get('check_in_method'),
             is_primary=request.json.get('is_primary'),
@@ -34,7 +35,12 @@ class GuardianListResource(Resource):
         db.session.add(new_guardian)
         db.session.flush()
         db.session.commit()
-        return guardian_schema.dump(new_guardian)
+        return {
+            'id': new_guardian.id,
+            'lname': new_guardian.lname,
+            'fname': new_guardian.fname,
+            'barcode': new_guardian.barcode
+        }
 
 
 class GuardianResource(Resource):
@@ -123,7 +129,13 @@ class StudentListResource(Resource):
         db.session.add(new_student)
         db.session.flush()
         db.session.commit()
-        return student_schema.dump(new_student)
+        return {
+            'id': new_student.id,
+            'fname': new_student.fname,
+            'lname': new_student.lname,
+            'grade': new_student.grade,
+            'barcode': new_student.barcode
+        }
 
 
 class StudentResource(Resource):

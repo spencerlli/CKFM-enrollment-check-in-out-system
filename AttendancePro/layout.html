@@ -33,6 +33,7 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "style": {"white-space": "pre"},
           "body": {% block body %}{% endblock %},
           "toolbar": [
             {
@@ -109,5 +110,6 @@
         let amisScoped = amis.embed('#root', amisJSON, {locale: 'en-US'});
       })();
     </script>
+    {% block printer_script %}{% endblock %}
   </body>
 </html>

@@ -1,0 +1,47 @@
+<script type="module">
+	import * as bpac from '../static/lib/bpac.js';
+	const strPath = new URL("../static/lib/badge_template.lbx", document.baseURI).href;
+	const objDoc = bpac.IDocument;
+
+	window.DoPrint = async function DoPrint(data) {
+		try {
+			const ret = await objDoc.Open(strPath);
+
+			if (ret == true) {
+				const objName = await objDoc.GetObject("name");
+				const objGrade = await objDoc.GetObject("grade");
+				const objBarcode = await objDoc.GetObject("barcode");
+				objDoc.StartPrint("", 0);
+
+				if (data.hasOwnProperty('guardians')) {
+					for (var i = 0; i < data.guardians.length; i++) {
+						objName.Text = data.guardians[i].fname + " " + data.guardians[i].lname;
+						objGrade.Text = "";
+						objBarcode.Text = data.guardians[i].barcode;
+						objDoc.PrintOut(1, 0);
+					}
+
+					for (var i = 0; i < data.students.length; i++) {
+						objName.Text = data.students[i].fname + " " + data.students[i].lname;
+						objGrade.Text = "";
+						objBarcode.Text = data.students[i].barcode;
+						objDoc.PrintOut(1, 0);
+					}
+				} else {
+					objName.Text = data.fname + " " + data.lname;
+					objGrade.Text = data.grade === null ? "" : "Grade: " + data.grade;
+					objBarcode.Text = data.barcode;
+					objDoc.PrintOut(1, 0);
+				}
+
+				objDoc.EndPrint();
+				objDoc.Close();
+			}
+		}
+		catch (e) {
+			console.log(e);
+			objDoc.EndPrint();
+			objDoc.Close();
+		}
+	}
+</script>

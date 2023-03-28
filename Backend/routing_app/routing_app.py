@@ -923,12 +923,14 @@ def guestEnroll():
         # guardian
         guardian_list = []
         for i, guardian in enumerate(request.json['guardians']):
+            guardian['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
             guardian_res = requests.post(REST_API + '/guardian', json=guardian)
             guardian_list.append(guardian_res.json())
 
         # student
         student_list = []
-        for student in request.json['children']:
+        for student in request.json['students']:
+            student['barcode'] = student['fname'][0].upper() + student['lname'][0].upper() + generate_random_str(5)
             student_res = requests.post(
                 REST_API + '/student', json=student)
             student_list.append(student_res.json())
@@ -951,7 +953,7 @@ def guestEnroll():
                     REST_API + '/family', json=family_json)
                 family_json = family_res.json()
 
-        res['data'] = {'guardians': guardian_list, 'children': student_list}
+        res['data'] = {'guardians': guardian_list, 'students': student_list}
         res['msg'] = 'Successfully enrolled guest family!'
         return jsonify(res)
 
