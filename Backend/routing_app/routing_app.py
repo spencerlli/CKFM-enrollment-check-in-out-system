@@ -196,7 +196,6 @@ def enrollFamily():
         guardian_json['phone'] = guardian['phone']  # allow non-primary guardians to have their phone numbers
         guardian_json['email'] = guardian.get('email')
         guardian_json['relationship'] = guardian.get('relationship')
-        guardian_json['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
 
         if i == 0:
             guardian_json['is_primary'] = True
@@ -463,6 +462,7 @@ def userManage():
             object_json = request.json
 
             if object == 'student':
+                # TODO: notice, when edit student, a new barcode will be generated and need to reprint.
                 object_json['barcode'] = object_json['fname'][0].upper() + object_json['lname'][0].upper() + generate_random_str(5)
                 for i, program in enumerate(PROGRAMS):
                     object_json[program] = object_json['program'][0][i]['checked']
@@ -970,7 +970,7 @@ def guestEnroll():
     if request.method == 'POST':
         # guardian
         guardian_list = []
-        for i, guardian in enumerate(request.json['guardians']):
+        for guardian in request.json['guardians']:
             guardian['barcode'] = guardian['fname'][0].upper() + guardian['lname'][0].upper() + generate_random_str(5)
             guardian_res = requests.post(REST_API + '/guardian', json=guardian)
             guardian_list.append(guardian_res.json())
