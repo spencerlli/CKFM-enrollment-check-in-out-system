@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 import os
 from flask_cors import CORS
 import requests
-from routing_config import REST_API
+from routing_config import REST_API, DEFAULT_PWD
 from copy import deepcopy
 import datetime
 
@@ -97,6 +97,9 @@ def login():
             if guardian_query.status_code == 200:
                 if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd:
                     res_json['msg'] = 'Logged in successfully!'
+
+                    if guardian_query.json()['pwd'] == DEFAULT_PWD:
+                        res_json['data'] = {'default_pwd': True}
                     res = jsonify(res_json)
 
                     res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)

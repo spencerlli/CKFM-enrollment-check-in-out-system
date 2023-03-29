@@ -41,7 +41,6 @@
                 "title": "Sign in",
                 "submitText": "Sign in",
                 "api": "{{ url_for('login') }}",
-                "redirect": "{{ url_for('index') }}",  // Redirect on successful post request
                 "className": "w-lg",
                 "body": [
                   {
@@ -58,7 +57,23 @@
                     "placeholder": "Password",
                     "required": true
                   }
-                ]
+                ],
+                "onEvent": {
+                  "submitSucc": {
+                    "actions": [
+                      {
+                        "actionType": "url",
+                        "args": {
+                          "url": "{{ url_for('index') }}",
+                          "blank": false,
+                          "params": {
+                            "warning": "${event.data.result.data.default_pwd}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
               },
               {
                 "type": "button",
