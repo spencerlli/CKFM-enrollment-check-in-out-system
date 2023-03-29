@@ -295,7 +295,7 @@
                                   {
                                     "type": "checkboxes",
                                     "name": "sunday",
-                                    "requiredOn": "!this.hasOwnProperty('friday') || this.friday.length == 0",
+                                    "required": true,
                                     "inline": false,
                                     "joinValues": true,
                                     "options": [
@@ -330,7 +330,6 @@
                                   {
                                     "type": "checkboxes",
                                     "name": "friday",
-                                    "requiredOn": "!this.hasOwnProperty('sunday') || this.sunday.length == 0",
                                     "inline": false,
                                     "joinValues": true,
                                     "options": [
