@@ -979,6 +979,7 @@ def guestEnroll():
         student_list = []
         for student in request.json['students']:
             student['barcode'] = student['fname'][0].upper() + student['lname'][0].upper() + generate_random_str(5)
+            student['check_in'] = guardian_list[0]['id']
             student_res = requests.post(
                 REST_API + '/student', json=student)
             student_list.append(student_res.json())

@@ -123,6 +123,7 @@ class StudentListResource(Resource):
             friday_night=request.json.get('friday_night'),
 
             barcode=request.json.get('barcode'),
+            check_in=request.json.get('check_in', 0)
             # TODO: add classes_id when post student
             # classes_id=request.json['classes_id']
         )
