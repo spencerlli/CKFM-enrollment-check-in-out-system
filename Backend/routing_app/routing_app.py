@@ -95,21 +95,27 @@ def login():
             teacher_query = requests.get(REST_API + '/teacher/phone/' + phone)
 
             if guardian_query.status_code == 200:
-                if 'phone' in guardian_query.json().keys() and guardian_query.json()['pwd'] == pwd:
+                guardian_json = guardian_query.json()
+                if 'phone' in guardian_json.keys() and guardian_json['pwd'] == pwd:
                     res_json['msg'] = 'Logged in successfully!'
 
-                    if guardian_query.json()['pwd'] == DEFAULT_PWD:
+                    if guardian_json['pwd'] == DEFAULT_PWD:
                         res_json['data'] = {'default_pwd': True}
                     res = jsonify(res_json)
 
                     res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='user_id', value=str(guardian_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='user_id', value=str(guardian_json['id']), expires=COOKIE_EXPIRE_TIME)
                     res.set_cookie(key='user_group', value='guardian', expires=COOKIE_EXPIRE_TIME)
                     res.set_cookie(key='phone', value=phone, expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='fname', value=guardian_query.json()['fname'], expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='lname', value=guardian_query.json()['lname'], expires=COOKIE_EXPIRE_TIME)
 
-                    family_json = requests.get(REST_API + '/family/guardian/%d' % guardian_query.json()['id']).json()
+                    if guardian_json.get('fname'):  # first time register not input name yet
+                        res.set_cookie(key='fname', value=guardian_json['fname'], expires=COOKIE_EXPIRE_TIME)
+                        res.set_cookie(key='lname', value=guardian_json['lname'], expires=COOKIE_EXPIRE_TIME)
+                    else:
+                        res.set_cookie(key='fname', value='New', expires=COOKIE_EXPIRE_TIME)
+                        res.set_cookie(key='lname', value='Guardian', expires=COOKIE_EXPIRE_TIME)
+
+                    family_json = requests.get(REST_API + '/family/guardian/%d' % guardian_json['id']).json()
                     if len(family_json) != 0:
                         family_id = family_json[0]['id']
                         res.set_cookie(key='family_id', value=str(family_id), expires=COOKIE_EXPIRE_TIME)
