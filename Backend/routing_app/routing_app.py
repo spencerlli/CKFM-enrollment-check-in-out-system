@@ -458,8 +458,28 @@ def userManage():
                 for i, program in enumerate(PROGRAMS):
                     object_json[program] = object_json['program'][0][i]['checked']
 
+            # change password
+            elif 'new_pwd' in object_json:
+                if object_json['current_pwd'] == object_json['new_pwd']:
+                    res['status'] = 1
+                    res['msg'] = 'New password cannot be the same as current password!'
+                    return jsonify(res)
+
+                if object == 'admin' or object == 'scanner':
+                    object = 'teacher'
+                query_res = requests.get(REST_API + '/%s/%s' % (object, object_id)).json()
+
+                if query_res['pwd'] != object_json['current_pwd']:
+                    res['status'] = 1
+                    res['msg'] = 'Current password is incorrect!'
+                    return jsonify(res)
+
+                object_json['pwd'] = object_json['new_pwd']
+
+
             requests.put(REST_API + '/%s/%s' % (object, object_id), json=object_json)
             res['msg'] = 'Successfully update %s!' % object
+
         else:   # DELETE
             object_id = request.args.get('id')
             requests.delete(REST_API + '/family/%s/%s' % (object, object_id))

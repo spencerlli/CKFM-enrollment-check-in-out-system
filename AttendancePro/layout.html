@@ -62,29 +62,29 @@
                         "title": "Change password",
                         "body": {
                           "type": "form",
-                          "api": "TODO", // TODO: change password api
+                          "api": "put:{{ url_for('userManage', object='${cookie:user_group}', id='${cookie:user_id}') | safe }}",
                           "mode": "horizontal",
                           "horizontal": { "justify": true },
                           "body": [
                             {
                               "type": "input-password",
-                              "name": "current_password",
+                              "name": "current_pwd",
                               "label": "Current password:",
                               "required": true
                             },
                             {
                               "type": "input-password",
-                              "name": "new_password",
+                              "name": "new_pwd",
                               "label": "New password:",
                               "required": true
                             },
                             {
                               "type": "input-password",
-                              "name": "confirm_new_password",
+                              "name": "confirm_pwd",
                               "label": "Confirm new password:",
                               "required": true,
                               "validations": {
-                                "equalsField": "new_password"
+                                "equalsField": "new_pwd"
                               },
                               "validationErrors": {
                                 "equalsField": "new password doesn't match!"
