@@ -1279,6 +1279,65 @@
                 }
               ]
             }
+          ],
+          "headerToolbar": [
+            {
+              "type": "button",
+              "label": "Add teacher",
+              "level": "primary",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "Add teacher",
+                "body": {
+                  "type": "form",
+                  "api": "post:{{ url_for('adminManage', object='teacher') }}",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "label": "First Name",
+                      "name": "fname",
+                      "required": true
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Last Name",
+                      "name": "lname",
+                      "required": true
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Phone Number",
+                      "name": "phone",
+                      "required": true
+                    },
+                    {
+                      "type": "input-password",
+                      "label": "Password",
+                      "name": "pwd",
+                      "required": true
+                    },
+                    {
+                      "type": "input-text",
+                      "label": "Email",
+                      "name": "email",
+                      "required": true
+                    },
+                    {
+                      "type": "select",
+                      "label": "Class",
+                      "name": "classes_id",
+                      "source": "get:{{ url_for('adminManage', object='classes') }}",
+                      "required": true
+                    },
+                    {
+                      "type": "hidden",
+                      "name": "privilege",
+                      "value": "1"
+                    }
+                  ]
+                }
+              }
+            }
           ]
         }
       ]

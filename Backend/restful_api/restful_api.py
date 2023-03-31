@@ -492,7 +492,7 @@ class TeacherListResource(Resource):
     def post(self):
         # create a new one
         new_teacher = Teacher(
-            pwd='123456',
+            pwd=request.json['pwd'],
             fname=request.json['fname'],
             lname=request.json['lname'],
             phone=request.json['phone'],
