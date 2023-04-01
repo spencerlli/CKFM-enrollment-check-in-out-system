@@ -244,8 +244,9 @@ def enrollFamily():
     familyInfo_json['insurance_policy'] = request.json['guardians'][0].get('insurance_number')
     familyInfo_json['group'] = request.json['guardians'][0].get('group')
 
-    familyInfo_json['sunday_school'] = request.json['guardians'][0]['sunday']
-    familyInfo_json['friday_night'] = request.json['guardians'][0]['friday']
+    # Sunday school is required, other two are optional
+    familyInfo_json['sunday_school'] = request.json['guardians'][0]['sunday']   
+    familyInfo_json['friday_night'] = request.json['guardians'][0].get('friday')
     familyInfo_json['special_events'] = request.json['guardians'][0].get('special')
 
     familyInfo_json['pay'] = request.json.get('pay')
