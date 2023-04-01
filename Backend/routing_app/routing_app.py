@@ -486,6 +486,9 @@ def userManage():
                     return jsonify(res)
 
                 object_json['pwd'] = object_json['new_pwd']
+                requests.put(REST_API + '/%s/%s' % (object, object_id), json=object_json)
+                res['msg'] = 'Successfully change password! Please login with new password next time.'
+                return jsonify(res)
 
 
             requests.put(REST_API + '/%s/%s' % (object, object_id), json=object_json)
