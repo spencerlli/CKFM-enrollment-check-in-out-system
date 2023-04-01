@@ -860,9 +860,12 @@ def studentBriefInfo():
                 })
                 student_id_set.add(family['student_id'])
         res['data']['items'] = student_info_list
-    else:   # teacher
-        classes_id = request.cookies.get('classes_id')
-        classes_json = requests.get(REST_API + '/classes/%s' % classes_id).json()
+    else:   # admin or teacher
+        if request.cookies.get('user_group') == 'teacher':
+            classes_id = request.cookies.get('classes_id')
+            classes_json = requests.get(REST_API + '/classes/%s' % classes_id).json()
+        else:
+            classes_json = requests.get(REST_API + '/classes').json()
         # filter repeat to be unique
         student_id_set = set()
         # list of json objects
@@ -870,6 +873,7 @@ def studentBriefInfo():
 
         for classes in classes_json:
             if classes['student_id'] not in student_id_set:  # filter repeat
+                if classes['student_id'] == -1: continue
                 student_json = requests.get(REST_API + '/student/%d' % classes['student_id']).json()
                 student_info_list.append({
                     'id': student_json['id'],
