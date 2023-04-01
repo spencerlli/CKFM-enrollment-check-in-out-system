@@ -564,10 +564,15 @@ def preCheckIn():
             student_json['check_in'] = guardian_id
             requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
         
-        # generate barcode for guardian
-        guardian_json = requests.get(REST_API + '/guardian/%d' % guardian_id).json()
-        requests.put(REST_API + '/guardian/%d' % guardian_id, json={
-            'barcode': guardian_json['fname'][0].upper() + guardian_json['lname'][0].upper() + generate_random_str(5)})
+        # generate barcode for all guardians
+        barcode = request.cookies.get('fname')[0].upper() + \
+                  request.cookies.get('lname')[0].upper() + \
+                  generate_random_str(5)
+        family_id = int(request.cookies.get('family_id'))
+        family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+        for family in family_json:
+            requests.put(REST_API + '/guardian/%d' % family['guardian_id'], 
+                         json={'barcode': barcode})
 
         res['msg'] = 'Successfully pre-check in student!'
 
@@ -682,7 +687,7 @@ def checkOutPage():
 def checkOut():
     res = deepcopy(AMIS_RES_TEMPLATE)
     if request.method == 'POST':
-        if not request.json.get('student_barcode'):
+        if not request.json.get('student_barcode'):  # scanned guardian barcode
             guardian_barcode = request.json.get('guardian_barcode')
             guardian_query = requests.get(REST_API + '/guardian/barcode/' + guardian_barcode)
             if guardian_query.status_code == 404:
