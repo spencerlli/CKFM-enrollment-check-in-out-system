@@ -33,7 +33,7 @@ PROGRAMS = ['sunday_school', 'cm_lounge', 'kid_choir',
 '''
 COOKIES: {
     'login': ('1', '0'),
-    'user_group': ('guardian','teacher'),
+    'user_group': ('guardian','scanner','teacher','admin'),
     'user_id': user_id,
     'family_id': family_id,
     'classes_id': classes_id,
@@ -125,26 +125,27 @@ def login():
                     res_json['status'] = 1
                     res_json['msg'] = 'Incorrect phone number or password!'
             elif teacher_query.status_code == 200:
-                if 'phone' in teacher_query.json().keys() and teacher_query.json()['pwd'] == pwd:
+                teacher_json = teacher_query.json()
+                if 'phone' in teacher_json.keys() and teacher_json['pwd'] == pwd:
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
                     res.set_cookie(key='login', value="1", expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='fname', value=teacher_query.json()['fname'], expires=COOKIE_EXPIRE_TIME)
-                    res.set_cookie(key='lname', value=teacher_query.json()['lname'], expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='fname', value=teacher_json['fname'], expires=COOKIE_EXPIRE_TIME)
+                    res.set_cookie(key='lname', value=teacher_json['lname'], expires=COOKIE_EXPIRE_TIME)
     
-                    if teacher_query.json()['privilege'] == 0:    # logged in as a scanner account
+                    if teacher_json['privilege'] == 0:    # logged in as a scanner account
                         res.set_cookie(key='user_group', value='scanner', expires=COOKIE_EXPIRE_TIME)
                     else:
-                        if teacher_query.json()['privilege'] == 1:    # logged in as a normal teacher
+                        if teacher_json['privilege'] == 1:    # logged in as a normal teacher
                             res.set_cookie(key='user_group', value='teacher', expires=COOKIE_EXPIRE_TIME)
-                        elif teacher_query.json()['privilege'] == 2:    # logged in as an admin
+                        elif teacher_json['privilege'] == 2:    # logged in as an admin
                             res.set_cookie(key='user_group', value='admin', expires=COOKIE_EXPIRE_TIME)
                         
-                        classes_res = requests.get(REST_API + '/classes/teacher/%d' % teacher_query.json()['id'])
-                        if not classes_res:    # teacher/admin has asscoiated classes
-                            classes_id = classes_res[0]['id']
+                        classes_json = requests.get(REST_API + '/classes/teacher/%d' % teacher_json['id']).json()
+                        if classes_json and len(classes_json) > 0:    # teacher/admin has asscoiated classes
+                            classes_id = classes_json[0]['id']
                             res.set_cookie(key='classes_id', value=str(classes_id), expires=COOKIE_EXPIRE_TIME)
-                        res.set_cookie(key='user_id', value=str(teacher_query.json()['id']), expires=COOKIE_EXPIRE_TIME)
+                        res.set_cookie(key='user_id', value=str(teacher_json['id']), expires=COOKIE_EXPIRE_TIME)
                         
                     return res
                 else:
@@ -744,14 +745,6 @@ def checkOut():
     return jsonify(res)
 
 
-# @app.route('/firstTimeEnroll', methods=['GET', 'POST'])
-# def firstTimeEnroll():
-#     msg = ''
-#     if request.method == 'GET':
-#         return render_template('flask_templates/guardian/GuardianEnrollment.html', msg=msg)
-#     else:
-#         return render_template('flask_templates/StudentEnrollment.html', msg=msg)
-
 @app.route('/msgBoardPage', methods=['GET'])
 def msgBoardPage():
     user_group = request.cookies.get('user_group')
@@ -763,11 +756,7 @@ def msgBoardPage():
 
 @app.route('/msgBoard', methods=['GET', 'POST'])
 def msgBoard():
-    t = {
-        "status": 0,
-        "msg": None,
-        "data": None
-    }
+    res = deepcopy(AMIS_RES_TEMPLATE)
     user_group = request.cookies.get('user_group')
     user_id = int(request.cookies.get('user_id'))
     
@@ -787,8 +776,8 @@ def msgBoard():
                     msg_show.append({'id': msg['id'], 'fname': fname, 'lname': lname,
                                     'msg': msg['content'], 'timestamp': msg['time']})
 
-            t['data'] = {'items': msg_show}
-            t["msg"] = "Successfully get historical messages!"
+            res['data'] = {'items': msg_show}
+            res["msg"] = "Successfully get historical messages!"
         else:   # teacher
             teacher_json = requests.get(REST_API + '/teacher/%d' % user_id).json()
             fname, lname = teacher_json['fname'], teacher_json['lname']
@@ -804,8 +793,8 @@ def msgBoard():
                     msg_show.append({'id': msg['id'], 'fname': fname, 'lname': lname,
                                     'msg': msg['content'], 'timestamp': msg['time'], 'read': 'Yes' if msg['been_read'] else 'No'})
 
-            t['data'] = {'items': msg_show}
-            t["msg"] = "Successfully get historical messages!"
+            res['data'] = {'items': msg_show}
+            res["msg"] = "Successfully get historical messages!"
     else:   # POST
         if user_group == 'guardian':
             student_id_list = list(map(int, request.json.get('student_id').split(',')))
@@ -841,9 +830,9 @@ def msgBoard():
                                     'time': int(datetime.datetime.now().timestamp()), 'been_read': True}
                         requests.post(REST_API + '/msgBoard', json=msg_json)
 
-        t["msg"] = "Successfully post message!"
+        res["msg"] = "Successfully post message!"
 
-    return jsonify(t)
+    return jsonify(res)
 
 
 @app.route('/studentBriefInfo', methods=['GET'])
@@ -914,10 +903,17 @@ def logPage():
 def log():
     res = deepcopy(AMIS_RES_TEMPLATE)
     if request.method == 'GET':
+        if request.cookies.get('user_group') == 'teacher':
+            classes_json = requests.get(REST_API + '/classes/%s' % 
+                                        request.cookies.get('classes_id')).json()
+            student_id_set = set([classes['student_id'] for classes in classes_json])
+
         logs_json = requests.get(REST_API + '/log').json()
         logs = []
         for log in logs_json:
             student_id = log.pop('student_id')
+            if request.cookies.get('user_group') == 'teacher' and student_id not in student_id_set:
+                continue
             student_json = requests.get(REST_API + '/student/%d' % student_id).json()
             log['student_name'] = student_json['fname'] + ' ' + student_json['lname']
             log['check_in_method'] = student_json['check_in_method']
@@ -1016,6 +1012,7 @@ def guestEnroll():
 def printBagePage():
     if request.cookies.get('user_group') not in {'admin', 'teacher'}: abort(403)
     return render_template('static/lib/print_badge.html')
+
 
 def generate_random_str(randomLength=8):
     random_str = ''
