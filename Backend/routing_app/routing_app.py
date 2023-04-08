@@ -310,6 +310,11 @@ def adminManage(object):
                 requests.post(REST_API + '/' + object, json=object_json)
                 res['msg'] = 'Successfully add new %s!' % object
         elif request.method == 'DELETE':
+            if object == 'guardian' or object == 'student':
+                requests.delete(REST_API + '/family/' + object + '/' + request.args.get('id'))
+                requests.delete(REST_API + '/log/' + object + '/' + request.args.get('id'))
+            if object == 'teacher' or object == 'student':
+                requests.delete(REST_API + '/classes/' + object + '/' + request.args.get('id'))
             requests.delete(REST_API + '/' + object + '/' + request.args.get('id'))
             res['msg'] = 'Successfully delete!'
     

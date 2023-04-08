@@ -379,12 +379,10 @@ class FamilySingleResource(Resource):
 
 class FamilyGuardianResource(Resource):
     def get(self, guardian_id):
-        # get one by id
         families_got = Family.query.filter_by(guardian_id=guardian_id).all()
         return families_schema.dump(families_got)
 
     def delete(self, guardian_id):
-        # delete one by id
         families_got = Family.query.filter_by(guardian_id=guardian_id).all()
         for family_got in families_got:
             db.session.delete(family_got)
@@ -718,6 +716,36 @@ class LogResource(Resource):
         db.session.delete(log)
         db.session.commit()
         return '', 204
+
+
+class LogGuardianResource(Resource):
+    def get(self, guardian_id):
+        check_in_logs = Log.query.filter_by(check_in=guardian_id).all()
+        check_out_logs = Log.query.filter_by(check_out=guardian_id).all()
+        logs = check_in_logs + check_out_logs
+        return logs_schema.dump(logs)
+
+    def delete(self, guardian_id):
+        check_in_logs = Log.query.filter_by(check_in=guardian_id).all()
+        check_out_logs = Log.query.filter_by(check_out=guardian_id).all()
+        logs = check_in_logs + check_out_logs
+        for log in logs:
+            db.session.delete(log)
+        db.session.commit()
+        return '', 204
+    
+
+class LogStudentResource(Resource):
+    def get(self, student_id):
+        logs = Log.query.filter_by(student_id=student_id).all()
+        return logs_schema.dump(logs)
+
+    def delete(self, student_id):
+        logs = Log.query.filter_by(student_id=student_id).all()
+        for log in logs:
+            db.session.delete(log)
+        db.session.commit()
+        return '', 204
 ###### Logs ######
 
 
@@ -759,6 +787,8 @@ api.add_resource(ClassesSingleResource, '/classes/<id>/<int:teacher_id>/<int:stu
 
 api.add_resource(LogListResource, '/log')
 api.add_resource(LogResource, '/log/<int:id>')
+api.add_resource(LogGuardianResource, '/log/guardian/<int:guardian_id>')
+api.add_resource(LogStudentResource, '/log/student/<int:student_id>')
 
 
 if __name__ == '__main__':
