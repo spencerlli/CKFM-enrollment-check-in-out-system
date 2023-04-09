@@ -602,67 +602,67 @@ def preCheckIn():
     return jsonify(res)
 
 
-@app.route('/preCheckOutPage', methods=['GET'])
-def preCheckOutPage():
-    if request.cookies.get('user_group') != 'guardian': abort(403)
-    return render_template('flask_templates/guardian/pre_check_out.html')
+# @app.route('/preCheckOutPage', methods=['GET'])
+# def preCheckOutPage():
+#     if request.cookies.get('user_group') != 'guardian': abort(403)
+#     return render_template('flask_templates/guardian/pre_check_out.html')
 
 
-@app.route('/preCheckOut', methods=['GET', 'POST'])
-def preCheckOut():
-    res = deepcopy(AMIS_RES_TEMPLATE)
+# @app.route('/preCheckOut', methods=['GET', 'POST'])
+# def preCheckOut():
+#     res = deepcopy(AMIS_RES_TEMPLATE)
 
-    if request.method == 'GET':
-        family_id = int(request.cookies.get('family_id'))
-        # a relation object with repeat guardians and students
-        family_json = requests.get(REST_API + '/family/%d' % family_id).json()
-        # filter repeat to be unique
-        guardian_id_set, student_id_set = set(), set()
-        # list of json objects
-        object_list = []
+#     if request.method == 'GET':
+#         family_id = int(request.cookies.get('family_id'))
+#         # a relation object with repeat guardians and students
+#         family_json = requests.get(REST_API + '/family/%d' % family_id).json()
+#         # filter repeat to be unique
+#         guardian_id_set, student_id_set = set(), set()
+#         # list of json objects
+#         object_list = []
 
-        for family in family_json:
-            if family['guardian_id'] not in guardian_id_set:    # filter repeat
-                guardian_json = requests.get(REST_API + '/guardian/%d' % family['guardian_id']).json()
-                object_list.append({
-                    'object': 'guardian',
-                    'id': guardian_json['id'],
-                    'fname': guardian_json['fname'],
-                    'lname': guardian_json['lname']
-                })
-                guardian_id_set.add(family['guardian_id'])
+#         for family in family_json:
+#             if family['guardian_id'] not in guardian_id_set:    # filter repeat
+#                 guardian_json = requests.get(REST_API + '/guardian/%d' % family['guardian_id']).json()
+#                 object_list.append({
+#                     'object': 'guardian',
+#                     'id': guardian_json['id'],
+#                     'fname': guardian_json['fname'],
+#                     'lname': guardian_json['lname']
+#                 })
+#                 guardian_id_set.add(family['guardian_id'])
 
-            if family['student_id'] not in student_id_set:  # filter repeat
-                student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
-                if student_json.get('check_in', 0) != 0 and student_json.get('check_in_time', '0') != '0':
-                    object_list.append({
-                        'object': 'student',
-                        'id': student_json['id'],
-                        'fname': student_json['fname'],
-                        'lname': student_json['lname']
-                    })
-                    student_id_set.add(family['student_id'])
-        object_list = sorted(object_list, key=lambda d: d['object'])
-        res['data']['items'] = object_list
-        res['msg'] = 'Successfully get guardians and students!'
-    else:   # POST
-        guardian_id = 0
-        student_list = []
-        for object_json in request.json.get('items'):
-            if object_json['object'] == 'guardian':  # selected guardian
-                guardian_id = object_json['id']
-            else:
-                student_id = object_json['id']
-                student_json = requests.get(REST_API + '/student/%d' % student_id).json()
-                student_list.append(student_json)
+#             if family['student_id'] not in student_id_set:  # filter repeat
+#                 student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
+#                 if student_json.get('check_in', 0) != 0 and student_json.get('check_in_time', '0') != '0':
+#                     object_list.append({
+#                         'object': 'student',
+#                         'id': student_json['id'],
+#                         'fname': student_json['fname'],
+#                         'lname': student_json['lname']
+#                     })
+#                     student_id_set.add(family['student_id'])
+#         object_list = sorted(object_list, key=lambda d: d['object'])
+#         res['data']['items'] = object_list
+#         res['msg'] = 'Successfully get guardians and students!'
+#     else:   # POST
+#         guardian_id = 0
+#         student_list = []
+#         for object_json in request.json.get('items'):
+#             if object_json['object'] == 'guardian':  # selected guardian
+#                 guardian_id = object_json['id']
+#             else:
+#                 student_id = object_json['id']
+#                 student_json = requests.get(REST_API + '/student/%d' % student_id).json()
+#                 student_list.append(student_json)
 
-        for student_json in student_list:
-            student_json['check_in'] = 0
-            student_json['check_out'] = guardian_id
-            requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
-        res['msg'] = 'Successfully pre-check out student!'
+#         for student_json in student_list:
+#             student_json['check_in'] = 0
+#             student_json['check_out'] = guardian_id
+#             requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+#         res['msg'] = 'Successfully pre-check out student!'
 
-    return jsonify(res)
+#     return jsonify(res)
 
 
 @app.route('/checkInPage', methods=['GET'])
@@ -721,6 +721,7 @@ def checkOut():
                 family_id = requests.get(REST_API + '/family/guardian/%d' % guardian_id).json()[0].get('id')
                 res['msg'] = 'Verified guardian barcode!'
                 res = jsonify(res)
+                res.set_cookie(key='guardian_id', value=str(guardian_id), expires=COOKIE_EXPIRE_TIME)
                 res.set_cookie(key='family_id', value=str(family_id), expires=COOKIE_EXPIRE_TIME)
                 return res
         else:
@@ -731,18 +732,15 @@ def checkOut():
                 res['msg'] = "Barcode doesn't match!"
             else:
                 student_json = student_query.json()
-                if student_json['check_out'] == 0:
-                    res['status'] = 1
-                    res['msg'] = "Student has not been pre-checked out!"
+                student_json['check_in_time'] = 0  #  once checked out, set last check in time to 0
+                student_json['check_out'] = int(request.cookies.get('guardian_id'))
+                student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
+                if os.path.exists('/.dockerenv'):    # running in docker
+                    requests.post('http://routing_app:5000/log', json=student_json)
                 else:
-                    student_json['check_in_time'] = 0  #  once checked out, set last check in time to 0
-                    student_json['check_out_time'] = int(datetime.datetime.now().timestamp())
-                    if os.path.exists('/.dockerenv'):    # running in docker
-                        requests.post('http://routing_app:5000/log', json=student_json)
-                    else:
-                        requests.post(request.root_url + 'log', json=student_json)
-                    res['msg'] = "Successfully check out!"
-                    requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+                    requests.post(request.root_url + 'log', json=student_json)
+                requests.put(REST_API + '/student/%d' % student_json['id'], json=student_json)
+                res['msg'] = "Successfully check out!"
     else:   # GET
         family_id = int(request.cookies.get('family_id'))
         family_json = requests.get(REST_API + '/family/%d' % family_id).json()
@@ -754,7 +752,7 @@ def checkOut():
         for family in family_json:
             if family['student_id'] not in student_id_set:  # filter repeat
                 student_json = requests.get(REST_API + '/student/%d' % family['student_id']).json()
-                if student_json['check_in'] == 0 and student_json['check_in_time'] != '0' and student_json['check_out'] != 0:
+                if student_json['check_in'] != 0 and student_json['check_in_time'] != '0':
                     student_info_list.append({
                         'id': student_json['id'],
                         'fname': student_json['fname'],
@@ -763,6 +761,9 @@ def checkOut():
                     student_id_set.add(family['student_id'])
         if len(student_info_list) > 0:
             res['data']['items'] = student_info_list
+        else:
+            res['status'] = 1
+            res['msg'] = "No checked in student!"
 
     return jsonify(res)
 
