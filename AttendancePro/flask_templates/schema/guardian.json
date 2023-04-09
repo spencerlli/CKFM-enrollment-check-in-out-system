@@ -1,121 +1,123 @@
-{% macro guardian_form(hidden="false") -%}
-{
-	"type": "grid",
-	"columns": [
-		{
-			"horizontal": {"justify": true},
-			"body": [
-				{
-					"type": "input-email",
-					"label": "Email:",
-					"name": "email",
-					"required": true,
-					"mode": "horizontal",
-					"validations": {
-						"isEmail": true
-					},
-					"validationErrors": {
-						"isEmail": "Invalid email address"
-					}
-				},
-				{
-					"type": "input-text",
-					"label": "Phone Number:",
-					"name": "phone",
-					"required": true,
-					"mode": "horizontal"
-				},
-				{
-					"type": "input-password",
-					"label": "Account Password:",
-					"name": "pwd",
-					"hidden": {{ hidden }},
-					"required": true,
-					"mode": "horizontal"
-				},
-				{
-					"type": "input-password",
-					"label": "Confirm Password:",
-					"name": "confirm_password",
-					"hidden": {{ hidden }},
-					"required": true,
-					"mode": "horizontal",
-					"validations": {
-						"equalsField": "pwd"
-					},
-					"validationErrors": {
-						"equalsField": "password doesn't match!"
-					}
-				}
-			]
-		},
-		{
-			"horizontal": { "justify": true },
-			"body": [
-				{
-					"type": "input-text",
-					"label": "First Name:",
-					"name": "fname",
-					"required": true,
-					"mode": "horizontal"
-				},
-				{
-					"type": "input-text",
-					"label": "Last Name:",
-					"name": "lname",
-					"required": true,
-					"mode": "horizontal"
-				},
-				{
-					"type": "select",
-					"label": "Relationship to Student:",
-					"name": "relationship",
-					"required": true,
-					"mode": "horizontal",
-					"options": [
-						{
-							"label": "Mother",
-							"value": "Mother"
+{% macro guardian_form(visible='false', validation='') -%}
+[
+	{
+		"type": "grid",
+		"columns": [
+			{
+				"horizontal": {"justify": true},
+				"body": [
+					{
+						"type": "input-email",
+						"label": "Email:",
+						"name": "email",
+						"required": true,
+						"mode": "horizontal",
+						"validations": {
+							"isEmail": true
 						},
-						{
-							"label": "Father",
-							"value": "Father"
-						},
-						{
-							"label": "Grandparent",
-							"value": "Grandparent"
-						},
-						{
-							"label": "Guardian",
-							"value": "Guardian"
-						},
-						{
-							"label": "Other",
-							"value": "Other"
+						"validationErrors": {
+							"isEmail": "Invalid email address"
 						}
-					]
-				},
-				{
-					"type": "select",
-					"label": "Preferred Check-in/out Method",
-					"name": "check_in_method",
-					"value": "barcode",
-					"required": true,
-					"multiple": false,
-					"mode": "horizontal",
-					"options": [
-						// {
-						//   "label": "Face ID",
-						//   "value": "face"
-						// },
-						{
-							"label": "Barcode",
-							"value": "barcode"
+					},
+					{
+						"type": "input-text",
+						"label": "Phone Number:",
+						"name": "phone",
+						"required": true,
+						"mode": "horizontal"
+					},
+					{
+						"type": "input-password",
+						"label": "Account Password:",
+						"name": "pwd",
+						"visible": {{ visible }},
+						"required": {{ visible }},
+						"mode": "horizontal"
+					},
+					{
+						"type": "input-password",
+						"label": "Confirm Password:",
+						"name": "confirm_password",
+						"visible": {{ visible }},
+						"required": {{ visible }},
+						"mode": "horizontal",
+						"validations": {
+							"equalsField": "{{ validation }}"
+						},
+						"validationErrors": {
+							"equalsField": "password doesn't match!"
 						}
-					]
-				}
-			]
-		}
-	]
-}
+					}
+				]
+			},
+			{
+				"horizontal": { "justify": true },
+				"body": [
+					{
+						"type": "input-text",
+						"label": "First Name:",
+						"name": "fname",
+						"required": true,
+						"mode": "horizontal"
+					},
+					{
+						"type": "input-text",
+						"label": "Last Name:",
+						"name": "lname",
+						"required": true,
+						"mode": "horizontal"
+					},
+					{
+						"type": "select",
+						"label": "Relationship to Student:",
+						"name": "relationship",
+						"required": true,
+						"mode": "horizontal",
+						"options": [
+							{
+								"label": "Mother",
+								"value": "Mother"
+							},
+							{
+								"label": "Father",
+								"value": "Father"
+							},
+							{
+								"label": "Grandparent",
+								"value": "Grandparent"
+							},
+							{
+								"label": "Guardian",
+								"value": "Guardian"
+							},
+							{
+								"label": "Other",
+								"value": "Other"
+							}
+						]
+					},
+					{
+						"type": "select",
+						"label": "Preferred Check-in/out Method",
+						"name": "check_in_method",
+						"value": "barcode",
+						"required": true,
+						"multiple": false,
+						"mode": "horizontal",
+						"options": [
+							// {
+							//   "label": "Face ID",
+							//   "value": "face"
+							// },
+							{
+								"label": "Barcode",
+								"value": "barcode"
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
 {%- endmacro %}

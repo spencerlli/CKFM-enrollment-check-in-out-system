@@ -1,4 +1,8 @@
 {% extends "layout.html" %}
+{% from 'flask_templates/schema/guardian.json' import guardian_form %}
+{% from 'flask_templates/schema/student.json' import student_form %}
+{% from 'flask_templates/schema/family.json' import family_form %}
+
 {% block title %}Enrollment Management{% endblock %}
 
 {% block body %}
@@ -118,52 +122,12 @@
                   "actionType": "drawer",
                   "level": "link",
                   "drawer": {
-                    "title": "编辑",
+                    "title": "Edit",
+                    "size": "lg",
                     "body": {
                       "type": "form",
                       "api": "put:{{ url_for('adminManage', object='guardian', id='${id}') }}",
-                      "body": [
-                        {
-                          "name": "fname",
-                          "label": "FIRST NAME",
-                          "type": "input-text"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "lname",
-                          "label": "LAST NAME"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "phone",
-                          "label": "PHONE NUMBER"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "pwd",
-                          "label": "PASSWORD"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "email",
-                          "label": "EMAIL"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "relationship",
-                          "label": "relationship"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "check_in_method",
-                          "label": "check_in_method"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "barcode",
-                          "label": "barcode"
-                        }
-                      ]
+                      "body": {{ guardian_form() }}
                     }
                   }
                 },
@@ -330,90 +294,15 @@
                 {
                   "label": "Edit",
                   "type": "button",
-                  "actionType": "drawer",
+                  "actionType": "dialog",
                   "level": "link",
-                  "drawer": {
-                    "title": "编辑",
+                  "dialog": {
+                    "title": "Edit",
+                    "size": "lg",
                     "body": {
                       "type": "form",
                       "api": "put:{{ url_for('adminManage', object='student', id='${id}') }}",
-                      "body": [
-                        {
-                          "name": "id",
-                          "label": "ID",
-                          "type": "input-text"
-                        },
-                        {
-                          "name": "fname",
-                          "label": "FIRST NAME",
-                          "type": "input-text"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "lname",
-                          "label": "LAST NAME"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "birthdate",
-                          "label": "BIRTH DATE"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "gender",
-                          "label": "GENDER"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "grade",
-                          "label": "GRADE"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "check_in_method",
-                          "label": "check_in_method"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "allergies",
-                          "label": "ALLERGIES"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "sunday_school",
-                          "label": "SUNDAY SCHOOL"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "cm_lounge",
-                          "label": "CM LOUNGE"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "kid_choir",
-                          "label": "KID CHOIR"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "u3_friday",
-                          "label": "U3 FRIDAY"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "friday_lounge",
-                          "label": "FRIDAY LOUNGE"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "friday_night",
-                          "label": "FRIDAY NIGHT"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "barcode",
-                          "label": "barcode"
-                        }
-                      ]
+                      "body": {{ student_form() }}
                     }
                   }
                 },
@@ -678,105 +567,12 @@
                   "actionType": "drawer",
                   "level": "link",
                   "drawer": {
-                    "title": "编辑",
+                    "title": "Edit",
+                    "size": "lg",
                     "body": {
                       "type": "form",
                       "api": "put:{{ url_for('adminManage', object='familyInfo', id='${id}') }}",
-                      "body": [
-                        {
-                          "name": "id",
-                          "label": "ID",
-                          "type": "input-text"
-                        },
-                        {
-                          "name": "street",
-                          "label": "STREET",
-                          "type": "input-text"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "city",
-                          "label": "CITY"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "state",
-                          "label": "STATE"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "zip",
-                          "label": "ZIP"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "physician",
-                          "label": "PHYSICIAN"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "physician_phone",
-                          "label": "PHYSICIAN PHONE"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "insurance",
-                          "label": "INSURANCE"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "insurance_phone",
-                          "label": "INSURANCE PHONE"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "insurance_policy",
-                          "label": "INSURANCE POLICY"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "group",
-                          "label": "GROUP"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "sunday_school",
-                          "label": "SUNDAY SCHOOL"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "friday_night",
-                          "label": "FRIDAY NIGHT"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "special_events",
-                          "label": "SPECIAL EVENTS"
-                        },
-                        {
-                          "type": "input-text",
-                          "name": "pay",
-                          "label": "PAY"
-                        },
-                        {
-                          "type": "select",
-                          "label": "CHECKBOX",
-                          "name": "checkbox",
-                          "value": "true",
-                          "multiple": false,
-                          "mode": "horizontal",
-                          "options": [
-                            {
-                              "label": "false",
-                              "value": true
-                            },
-                            {
-                              "label": "false",
-                              "value": false
-                            }
-                          ]
-                        }
-                      ]
+                      "body": {{ family_form() }}
                     }
                   }
                 },

@@ -1,242 +1,244 @@
 {% macro family_form() -%}
-{
-	"type": "collapse",
-	"title": "Family Address",
-	"headingClassName": "text-lg",
-	"body": [
-		{
-			"type": "input-text",
-			"label": "Street:",
-			"name": "street",
-			"mode": "horizontal"
-		},
-		{
-			"type": "input-text",
-			"label": "City:",
-			"name": "city",
-			"mode": "horizontal"
-		},
-		{
-			"type": "input-text",
-			"label": "State:",
-			"name": "state",
-			"mode": "horizontal"
-		},
-		{
-			"type": "input-text",
-			"label": "Zip Code:",
-			"name": "zip",
-			"mode": "horizontal"
-		}
-	]
-},
-{"type": "divider"},
-{
-	"type": "collapse",
-	"title": "Insurance",
-	"headingClassName": "text-lg",
-	"body": [
-		{
-			"type": "grid",
-			"columns": [
-				{
-					"body": [
-						{
-							"type": "input-text",
-							"label": "Primary Family Physician:",
-							"name": "physician",
-							"mode": "horizontal"
-						},
-						{
-							"type": "input-text",
-							"label": "Name of Medical Insurance:",
-							"name": "insurance",
-							"mode": "horizontal"
-						},
-						{
-							"type": "input-text",
-							"label": "Medical Insurance Policy:",
-							"name": "insurance_policy",
-							"mode": "horizontal"
-						}
-					]
-				},
-				{
-					"body": [
-						{
-							"type": "input-text",
-							"label": "Physician Phone:",
-							"name": "physician_phone",
-							"mode": "horizontal"
-						},
-						{
-							"type": "input-text",
-							"label": "Insurance Phone:",
-							"name": "insurance_phone",
-							"mode": "horizontal"
-						},
-						{
-							"type": "input-text",
-							"label": "Group Number:",
-							"name": "group",
-							"mode": "horizontal"
-						}
-					]
-				}
-			]
-		}
-	]
-},
-{"type": "divider"},
-{
-	"type": "collapse",
-	"title": "*Volunteer",
-	"headingClassName": "text-lg",
-	"body": [
-		{
-			"type": "tpl",
-			"tpl": "<div class='text-center'>\
-							<p style='text-align: center;'><span style='font-size: 14pt;'><strong><span style='font-family: 'times new roman', times, serif;'>2022-2023 PARENT VOLUNTEERING POSTS</span></strong> 家长义工岗位</span></p>\
-							<p style='text-align: center;'><span style='background-color: #ecf0f1; font-size: 10pt;'><strong><em>*Mandatory 3 months per family per year / </em></strong>每家庭每年有义务作义工服务三个月&nbsp;</span></p>\
-							<p style='text-align: center;'><span style='background-color: #ecf0f1; font-size: 10pt;'><strong><em>*Parents, be sure to add yourselves in &ldquo;ICCCC Parents&rdquo; WeChat Group for further communication / &nbsp;</em></strong>家长们，请务必加入&ldquo;<strong><em>ICCCC </em></strong>家长&rdquo;微信群以便沟通&nbsp;&nbsp;</span></p>\
-						</div>"
-		},
-		{
-			"type": "grid",
-			"columns": [
-				{
-					"type": "flex",
-					"direction": "column",
-					"items": [
-						{
-							"type": "tpl",
-							"tpl": "<span style='font-size: 10pt;'><strong><span style='font-family: \"times new roman\", times, serif; color: red;'>*</span><span style='font-weight:bold;font-family: \"times new roman\", times, serif;'>SUNDAY SCHOOL</span></strong></span> <strong>主日学</strong>"
-						},
-						{
-							"type": "checkboxes",
-							"name": "sunday_school",
-							"required": true,
-							"inline": false,
-							"joinValues": true,
-							"options": [
-								{
-									"label": "Welcome Table 前台接待",
-									"value": "table"
-								},
-								{
-									"label": "Class Teacher 教师",
-									"value": "teacher"
-								},
-								{
-									"label": "Class Assistant 助教",
-									"value": "assistant"
-								},
-								{
-									"label": "Yard Supervisor 操场监督",
-									"value": "supervisor"
-								}
-							]
-						}
-					]
-				},
-				{
-					"type": "flex",
-					"direction": "column",
-					"items": [
-						{
-							"type": "tpl",
-							"tpl": "<span style=\"font-size: 10pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\">FRIDAY NIGHT</span></strong> <strong>周五晚</strong></span>"
-						},
-						{
-							"type": "checkboxes",
-							"name": "friday_night",
-							"inline": false,
-							"joinValues": true,
-							"options": [
-								{
-									"label": "Welcome Table 前台接待",
-									"value": "table"
-								},
-								{
-									"label": "Regular Snacks 平时点心",
-									"value": "snack"
-								},
-								{
-									"label": "Club Teacher 教师",
-									"value": "teacher"
-								},
-								{
-									"label": "Club Assistant 助教",
-									"value": "assistant"
-								},
-								{
-									"label": "Game Leader 游戏领导者",
-									"value": "leader"
-								},
-								{
-									"label": "Bible Store 圣经商店",
-									"value": "store"
-								}
-							]
-						}
-					]
-				},
-				{
-					"type": "flex",
-					"direction": "column",
-					"items": [
-						{
-							"type": "tpl",
-							"tpl": "<span style=\"font-size: 10pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\">SPECIAL EVENTS</span></strong> <strong>特别活动</strong></span>"
-						},
-						{
-							"type": "tpl",
-							"tpl": "<span style=\"font-size: 10pt; font-family: 'times new roman', times, serif;\">(4 days count as one month of service / 4天计为一个月的服务)</span>",
-						},
-						{
-							"type": "checkboxes",
-							"name": "special_events",
-							"inline": false,
-							"joinValues": true,
-							"options": [
-								{
-									"label": "Sat. – Church Picnic 野餐",
-									"value": "picnic"
-								},
-								{
-									"label": "Sat. – Evangelical Weekend 布道会-周六",
-									"value": "evangelical"
-								},
-								{
-									"label": "10/31/22 Mon. – Harvest 丰收节",
-									"value": "harvest"
-								},
-								{
-									"label": "Fri. – Christmas Musical 圣诞音乐剧",
-									"value": "christmas"
-								},
-								{
-									"label": "Fri.-- Chinese New Year 春节特别 节目",
-									"value": "chinese"
-								},
-								{
-									"label": "Sat. --  Mission Week 宣教周- 周六",
-									"value": "mission"
-								},
-								{
-									"label": "Sat. – Pray and Plan",
-									"value": "pray"
-								},
-								{
-									"label": "Summer, Fri. – Sun. Church Retreat 退休会",
-									"value": "retreat"
-								}
-							]
-						}
-					]
-				}
-			]
-		}
-	]
-}
+[
+	{
+		"type": "collapse",
+		"title": "Family Address",
+		"headingClassName": "text-lg",
+		"body": [
+			{
+				"type": "input-text",
+				"label": "Street:",
+				"name": "street",
+				"mode": "horizontal"
+			},
+			{
+				"type": "input-text",
+				"label": "City:",
+				"name": "city",
+				"mode": "horizontal"
+			},
+			{
+				"type": "input-text",
+				"label": "State:",
+				"name": "state",
+				"mode": "horizontal"
+			},
+			{
+				"type": "input-text",
+				"label": "Zip Code:",
+				"name": "zip",
+				"mode": "horizontal"
+			}
+		]
+	},
+	{"type": "divider"},
+	{
+		"type": "collapse",
+		"title": "Insurance",
+		"headingClassName": "text-lg",
+		"body": [
+			{
+				"type": "grid",
+				"columns": [
+					{
+						"body": [
+							{
+								"type": "input-text",
+								"label": "Primary Family Physician:",
+								"name": "physician",
+								"mode": "horizontal"
+							},
+							{
+								"type": "input-text",
+								"label": "Name of Medical Insurance:",
+								"name": "insurance",
+								"mode": "horizontal"
+							},
+							{
+								"type": "input-text",
+								"label": "Medical Insurance Policy:",
+								"name": "insurance_policy",
+								"mode": "horizontal"
+							}
+						]
+					},
+					{
+						"body": [
+							{
+								"type": "input-text",
+								"label": "Physician Phone:",
+								"name": "physician_phone",
+								"mode": "horizontal"
+							},
+							{
+								"type": "input-text",
+								"label": "Insurance Phone:",
+								"name": "insurance_phone",
+								"mode": "horizontal"
+							},
+							{
+								"type": "input-text",
+								"label": "Group Number:",
+								"name": "group",
+								"mode": "horizontal"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{"type": "divider"},
+	{
+		"type": "collapse",
+		"title": "*Volunteer",
+		"headingClassName": "text-lg",
+		"body": [
+			{
+				"type": "tpl",
+				"tpl": "<div class='text-center'>\
+								<p style='text-align: center;'><span style='font-size: 14pt;'><strong><span style='font-family: 'times new roman', times, serif;'>2022-2023 PARENT VOLUNTEERING POSTS</span></strong> 家长义工岗位</span></p>\
+								<p style='text-align: center;'><span style='background-color: #ecf0f1; font-size: 10pt;'><strong><em>*Mandatory 3 months per family per year / </em></strong>每家庭每年有义务作义工服务三个月&nbsp;</span></p>\
+								<p style='text-align: center;'><span style='background-color: #ecf0f1; font-size: 10pt;'><strong><em>*Parents, be sure to add yourselves in &ldquo;ICCCC Parents&rdquo; WeChat Group for further communication / &nbsp;</em></strong>家长们，请务必加入&ldquo;<strong><em>ICCCC </em></strong>家长&rdquo;微信群以便沟通&nbsp;&nbsp;</span></p>\
+							</div>"
+			},
+			{
+				"type": "grid",
+				"columns": [
+					{
+						"type": "flex",
+						"direction": "column",
+						"items": [
+							{
+								"type": "tpl",
+								"tpl": "<span style='font-size: 10pt;'><strong><span style='font-family: \"times new roman\", times, serif; color: red;'>*</span><span style='font-weight:bold;font-family: \"times new roman\", times, serif;'>SUNDAY SCHOOL</span></strong></span> <strong>主日学</strong>"
+							},
+							{
+								"type": "checkboxes",
+								"name": "sunday_school",
+								"required": true,
+								"inline": false,
+								"joinValues": true,
+								"options": [
+									{
+										"label": "Welcome Table 前台接待",
+										"value": "table"
+									},
+									{
+										"label": "Class Teacher 教师",
+										"value": "teacher"
+									},
+									{
+										"label": "Class Assistant 助教",
+										"value": "assistant"
+									},
+									{
+										"label": "Yard Supervisor 操场监督",
+										"value": "supervisor"
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "flex",
+						"direction": "column",
+						"items": [
+							{
+								"type": "tpl",
+								"tpl": "<span style=\"font-size: 10pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\">FRIDAY NIGHT</span></strong> <strong>周五晚</strong></span>"
+							},
+							{
+								"type": "checkboxes",
+								"name": "friday_night",
+								"inline": false,
+								"joinValues": true,
+								"options": [
+									{
+										"label": "Welcome Table 前台接待",
+										"value": "table"
+									},
+									{
+										"label": "Regular Snacks 平时点心",
+										"value": "snack"
+									},
+									{
+										"label": "Club Teacher 教师",
+										"value": "teacher"
+									},
+									{
+										"label": "Club Assistant 助教",
+										"value": "assistant"
+									},
+									{
+										"label": "Game Leader 游戏领导者",
+										"value": "leader"
+									},
+									{
+										"label": "Bible Store 圣经商店",
+										"value": "store"
+									}
+								]
+							}
+						]
+					},
+					{
+						"type": "flex",
+						"direction": "column",
+						"items": [
+							{
+								"type": "tpl",
+								"tpl": "<span style=\"font-size: 10pt;\"><strong><span style=\"font-family: 'times new roman', times, serif;\">SPECIAL EVENTS</span></strong> <strong>特别活动</strong></span>"
+							},
+							{
+								"type": "tpl",
+								"tpl": "<span style=\"font-size: 10pt; font-family: 'times new roman', times, serif;\">(4 days count as one month of service / 4天计为一个月的服务)</span>",
+							},
+							{
+								"type": "checkboxes",
+								"name": "special_events",
+								"inline": false,
+								"joinValues": true,
+								"options": [
+									{
+										"label": "Sat. – Church Picnic 野餐",
+										"value": "picnic"
+									},
+									{
+										"label": "Sat. – Evangelical Weekend 布道会-周六",
+										"value": "evangelical"
+									},
+									{
+										"label": "10/31/22 Mon. – Harvest 丰收节",
+										"value": "harvest"
+									},
+									{
+										"label": "Fri. – Christmas Musical 圣诞音乐剧",
+										"value": "christmas"
+									},
+									{
+										"label": "Fri.-- Chinese New Year 春节特别 节目",
+										"value": "chinese"
+									},
+									{
+										"label": "Sat. --  Mission Week 宣教周- 周六",
+										"value": "mission"
+									},
+									{
+										"label": "Sat. – Pray and Plan",
+										"value": "pray"
+									},
+									{
+										"label": "Summer, Fri. – Sun. Church Retreat 退休会",
+										"value": "retreat"
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
 {%- endmacro %}

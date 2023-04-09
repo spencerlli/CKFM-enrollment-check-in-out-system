@@ -23,9 +23,7 @@
             "tabsStyle": "radio",
             "tabsLabelTpl": "Guardian ${index | plus}",
             "value": [{}],
-            "items": [
-              {{ guardian_form() }}
-            ]
+            "items": {{ guardian_form(visible='true', validation='pwd') }}
           }
         ]
       },
@@ -41,17 +39,13 @@
             "tabsStyle": "radio",
             "tabsLabelTpl": "Student ${index | plus}",
             "value": [{}],
-            "items": [
-              {{ student_form() }}
-            ]
+            "items": {{ student_form() }}
           }
         ]
       },
       {
         "title": "Step 3 Family Enrollment",
-        "body": [
-          {{ family_form() }}
-        ]
+        "body": {{ family_form() }}
       },
       {
         "title": "Step 4 Acknowledgment",
