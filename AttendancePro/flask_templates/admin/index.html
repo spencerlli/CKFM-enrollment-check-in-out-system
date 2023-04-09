@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% from 'flask_templates/schema/form.json' import form %}
+
 {% block title %}Administrator's Homepage{% endblock %}
 
 {% block body %}
@@ -16,12 +18,17 @@
           {
             "type": "button",
             "label": "Enrollment / 注册",
-            "actionType": "link",
-            "link": "{{url_for('enrollPage')}}",
             "icon": "fa-solid fa-user-plus",
             "size": "lg",
             "block": true,
-            "level": "light"
+            "level": "light",
+            "actionType": "dialog",
+            "dialog": {
+            "title": "Enrollment",
+            "size": "full",
+            "actions": [],
+            "body": {{ form() }}
+            } 
           },
           {
             "type": "button",

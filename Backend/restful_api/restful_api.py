@@ -29,8 +29,7 @@ class GuardianListResource(Resource):
             barcode=request.json.get('barcode'),
             relationship=request.json.get('relationship'),
             check_in_method=request.json.get('check_in_method'),
-            is_primary=request.json.get('is_primary'),
-            is_guest=request.json.get('is_guest')
+            is_guest=request.json.get('is_guest', 0)
         )
         db.session.add(new_guardian)
         db.session.flush()
@@ -237,7 +236,7 @@ class FamilyInfoListResource(Resource):
 
             pay=request.json.get('pay'),
             checkbox=request.json.get('checkbox'), 
-            is_guest=request.json.get('is_guest')
+            is_guest=request.json.get('is_guest', 0)
         )
         db.session.add(new_family_info)
         db.session.flush()
