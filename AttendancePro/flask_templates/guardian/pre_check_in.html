@@ -81,7 +81,18 @@
                     "title": "Thank You!",
                     "level": "success",
                     "showIcon": true,
-                    "body": "Congratulations, pre-check-in process completed successfully."
+                    "body": {
+                      "type": "tpl",
+                      "tpl": "<p>You've completed the pre-check-in process! A barcode has been generated for your upcoming <strong>check-out</strong>. Please take a screenshot or retrieve it from the <strong>Show Barcode</strong> button on the homepage.</p>"
+                    }
+                  },
+                  {
+                    "type": "service",
+                    "api": "get:{{ url_for('barcode', object='guardian') }}",
+                    "body": {
+                      "type": "barcode",
+                      "name": "barcode"
+                    }
                   }
                 ],
                 "actions": [
@@ -89,7 +100,7 @@
                     "type": "button",
                     "label": "OK",
                     "actionType": "link",
-                    "link": "{{url_for('index')}}",
+                    "link": "{{ url_for('index') }}",
                     "primary": true
                   }
                 ]
