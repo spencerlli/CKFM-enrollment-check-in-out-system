@@ -880,23 +880,33 @@ def log():
 
         logs_json = requests.get(REST_API + '/log').json()
         logs = []
+
+        guardians_json = requests.get(REST_API + '/guardian').json()
+        guardian_id_to_json = {}
+        for guardian_json in guardians_json:
+            if guardian_json['fname'] and guardian_json['lname']:
+                guardian_json['name'] = guardian_json['fname'] + ' ' + guardian_json['lname']
+                guardian_id_to_json[guardian_json['id']] = guardian_json
+        students_json = requests.get(REST_API + '/student').json()
+        student_id_to_json = {}
+        for student_json in students_json:
+            if student_json['fname'] and student_json['lname']:
+                student_json['name'] = student_json['fname'] + ' ' + student_json['lname']
+                student_id_to_json[student_json['id']] = student_json
+
         for log in logs_json:
             student_id = log.pop('student_id')
             if request.cookies.get('user_group') == 'teacher' and student_id not in student_id_set:
                 continue
-            student_json = requests.get(REST_API + '/student/%d' % student_id).json()
-            log['student_name'] = student_json['fname'] + ' ' + student_json['lname']
-            log['check_in_method'] = student_json['check_in_method']
+            log['student_name'] = student_id_to_json[student_id]['name']
             if log['check_in']:
-                guardian_json = requests.get(REST_API + '/guardian/%s' % log['check_in']).json()
-                log['check_in'] = guardian_json['fname'] + ' ' + guardian_json['lname']
+                log['check_in'] = guardian_id_to_json[log['check_in']]['name']
             elif log['check_out']:
-                guardian_json = requests.get(REST_API + '/guardian/%s' % log['check_out']).json()
-                log['check_out'] = guardian_json['fname'] + ' ' + guardian_json['lname']
+                log['check_out'] = guardian_id_to_json[log['check_out']]['name']
         
             log['programs'] = []
             for _, program in enumerate(PROGRAMS):
-                if student_json[program] == 1:
+                if student_id_to_json[student_id][program] == 1:
                     log['programs'].append(program)
             if log['daily_progress']:
                 log['daily_progress'] = log['daily_progress'].split(',')
