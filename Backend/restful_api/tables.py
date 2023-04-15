@@ -12,7 +12,8 @@ app = Flask(__name__)
 app.secret_key = '654321'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s:%s/%s' % (
     restful_config.MYSQL_USER, restful_config.MYSQL_PASSWORD, restful_config.MYSQL_HOST, restful_config.MYSQL_PORT, restful_config.MYSQL_DB)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
+# silence the deprecation warning
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 CORS(app, resources=r'/*', supports_credentials=True)
@@ -21,7 +22,7 @@ ma = Marshmallow(app)
 
 class GuardianSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'pwd', 'fname', 'lname', 'phone',
+        fields = ('id', 'pwd', 'pwd_hash', 'fname', 'lname', 'phone',
                   'email', 'relationship', 'check_in_method', 'barcode', 'is_primary', 'is_guest')
 
 
@@ -29,6 +30,7 @@ class Guardian(db.Model):
     __tablename__ = "guardian"
     id = db.Column(db.Integer, primary_key=True)
     pwd = db.Column(db.String(256))
+    pwd_hash = db.Column(db.String(256))
     fname = db.Column(db.String(256))
     lname = db.Column(db.String(256))
     phone = db.Column(db.String(256), unique=True)
@@ -121,7 +123,7 @@ class MsgBoard(db.Model):
     sender_id = db.Column(db.Integer)
     receiver_id = db.Column(db.Integer)
     content = db.Column(db.String(256))
-    time = db.Column(db.String(256)) 
+    time = db.Column(db.String(256))
     about_student = db.Column(db.Integer)
     sender_group = db.Column(db.String(256))
     been_read = db.Column(db.Boolean)
@@ -136,13 +138,15 @@ class MsgBoard(db.Model):
 
 class TeacherSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'pwd', 'fname', 'lname', 'phone', 'email', 'classes_id', 'privilege')
+        fields = ('id', 'pwd', 'pwd_hash', 'fname', 'lname', 'phone',
+                  'email', 'classes_id', 'privilege')
 
 
 class Teacher(db.Model):
     __tablename__ = "teacher"
     id = db.Column(db.Integer, primary_key=True)
     pwd = db.Column(db.String(256))
+    pwd_hash = db.Column(db.String(256))
     fname = db.Column(db.String(256))
     lname = db.Column(db.String(256))
     phone = db.Column(db.String(256), unique=True)
@@ -162,7 +166,7 @@ class Teacher(db.Model):
 
 class LogSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'student_id', 'status', 'check_in_method', 'check_in', 
+        fields = ('id', 'student_id', 'status', 'check_in_method', 'check_in',
                   'check_in_time', 'check_out', 'check_out_time', 'daily_progress')
 
 

@@ -1,10 +1,12 @@
 from flask import request
+from flask_bcrypt import Bcrypt
 from flask_restful import Resource, Api
 from tables import Guardian, GuardianSchema, Student, StudentSchema, \
     FamilyInfo, FamilyInfoSchema, MsgBoard, MsgBoardSchema, app, db, ma
 from tables import Teacher, TeacherSchema, Log, LogSchema
 
 api = Api(app)
+bcrypt = Bcrypt(app)
 
 
 ###### Guardian ######
@@ -20,8 +22,10 @@ class GuardianListResource(Resource):
 
     def post(self):
         # create a new one
+        plain_pwd = request.json.get('password', '123456')
         new_guardian = Guardian(
             pwd=request.json.get('password', '123456'),
+            pwd_hash=bcrypt.generate_password_hash(plain_pwd).decode('utf-8'),
             fname=request.json.get('fname'),
             lname=request.json.get('lname'),
             phone=request.json.get('phone'),
@@ -53,6 +57,9 @@ class GuardianResource(Resource):
         guardian = Guardian.query.filter_by(id=id).first_or_404()
         if 'pwd' in request.json:
             guardian.pwd = request.json['pwd']
+            plain_pwd = request.json['pwd']
+            guardian.pwd_hash = bcrypt.generate_password_hash(
+                plain_pwd).decode('utf-8')
         if 'fname' in request.json:
             guardian.fname = request.json['fname']
         if 'lname' in request.json:
@@ -235,7 +242,7 @@ class FamilyInfoListResource(Resource):
             special_events=request.json.get('special_events'),
 
             pay=request.json.get('pay'),
-            checkbox=request.json.get('checkbox'), 
+            checkbox=request.json.get('checkbox'),
             is_guest=request.json.get('is_guest', 0)
         )
         db.session.add(new_family_info)
@@ -344,7 +351,7 @@ class FamilyResource(Resource):
         # get one by id
         families_got = Family.query.filter_by(id=id).all()
         return families_schema.dump(families_got)
-    
+
     def delete(self, id):
         # delete all records with matched id
         Family.query.filter_by(id=id).delete()
@@ -355,11 +362,13 @@ class FamilyResource(Resource):
 class FamilySingleResource(Resource):
     def get(self, id, guardian_id, student_id):
         # get one by id
-        family_got = Family.query.filter_by(id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
+        family_got = Family.query.filter_by(
+            id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
         return family_schema.dump(family_got)
 
     def put(self, id, guardian_id, student_id):
-        family_got = Family.query.filter_by(id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
+        family_got = Family.query.filter_by(
+            id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
 
         if 'guardian_id' in request.json:
             family_got.guardian_id = request.json['guardian_id']
@@ -370,7 +379,8 @@ class FamilySingleResource(Resource):
         return family_schema.dump(family_got)
 
     def delete(self, id, guardian_id, student_id):
-        family_got = Family.query.filter_by(id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
+        family_got = Family.query.filter_by(
+            id=id, guardian_id=guardian_id, student_id=student_id).first_or_404()
         db.session.delete(family_got)
         db.session.commit()
         return '', 204
@@ -459,7 +469,8 @@ class MsgBoardGuardianResource(Resource):
         # get one by id
         msg_record = MsgBoard.query.filter(
             ((MsgBoard.sender_group == 'teacher') & (MsgBoard.receiver_id == guardian_id)) |
-            ((MsgBoard.sender_id == guardian_id) & (MsgBoard.sender_group == 'guardian'))
+            ((MsgBoard.sender_id == guardian_id) &
+             (MsgBoard.sender_group == 'guardian'))
         ).all()
         return msg_records_schema.dump(msg_record)
 
@@ -469,7 +480,8 @@ class MsgBoardTeacherResource(Resource):
         # get one by id
         msg_record = MsgBoard.query.filter(
             ((MsgBoard.sender_group == 'guardian') & (MsgBoard.receiver_id == teacher_id)) |
-            ((MsgBoard.sender_id == teacher_id) & (MsgBoard.sender_group == 'teacher'))
+            ((MsgBoard.sender_id == teacher_id) &
+             (MsgBoard.sender_group == 'teacher'))
         ).all()
         return msg_records_schema.dump(msg_record)
 ###### MsgBoard ######
@@ -488,8 +500,10 @@ class TeacherListResource(Resource):
 
     def post(self):
         # create a new one
+        plain_pwd = request.json['pwd']
         new_teacher = Teacher(
             pwd=request.json['pwd'],
+            pwd_hash=bcrypt.generate_password_hash(plain_pwd).decode('utf-8'),
             fname=request.json['fname'],
             lname=request.json['lname'],
             phone=request.json['phone'],
@@ -513,7 +527,10 @@ class TeacherResource(Resource):
         # update one by id
         teacher = Teacher.query.filter_by(id=id).first_or_404()
         if 'pwd' in request.json:
-            teacher.pwd = request.json['pwd']
+            pwd = request.json['pwd']
+            plain_pwd = request.json['pwd']
+            teacher.pwd_hash = bcrypt.generate_password_hash(
+                plain_pwd).decode('utf-8')
         if 'fname' in request.json:
             teacher.fname = request.json['fname']
         if 'lname' in request.json:
@@ -539,13 +556,14 @@ class TeacherPhoneResource(Resource):
     def get(self, phone):
         teacher = Teacher.query.filter_by(phone=phone).first_or_404()
         return teacher_schema.dump(teacher)
-    
+
 
 class TeacherNameResource(Resource):
     def get(self, fname, lname):
-        teacher = Teacher.query.filter_by(fname=fname, lname=lname).first_or_404()
+        teacher = Teacher.query.filter_by(
+            fname=fname, lname=lname).first_or_404()
         return teacher_schema.dump(teacher)
-    
+
 
 class TeacherClassesResource(Resource):
     def get(self, classes_id):
@@ -567,7 +585,8 @@ class ClassesSchema(ma.Schema):
         fields = ('id', 'teacher_id', 'student_id')
 
 
-classes_schema = ClassesSchema()    # named classes in case of confliction with preserve keyword 'class'
+# named classes in case of confliction with preserve keyword 'class'
+classes_schema = ClassesSchema()
 classess_schema = ClassesSchema(many=True)  # one more 's' for multiple records
 
 
@@ -594,7 +613,7 @@ class ClassesResource(Resource):
         # get one by id
         classess_got = Classes.query.filter_by(id=id).all()
         return classess_schema.dump(classess_got)
-    
+
     def delete(self, id):
         # delete one by id
         classes_got = Classes.query.filter_by(id=id).first_or_404()
@@ -605,12 +624,14 @@ class ClassesResource(Resource):
 
 class ClassesSingleResource(Resource):
     def get(self, id, teacher_id, student_id):
-        classes_got = Classes.query.filter_by(id=id, teacher_id=teacher_id, student_id=student_id).first_or_404()
+        classes_got = Classes.query.filter_by(
+            id=id, teacher_id=teacher_id, student_id=student_id).first_or_404()
         return classes_schema.dump(classes_got)
 
     def put(self, id, teacher_id, student_id):
         # update one by id
-        classes_got = Classes.query.filter_by(id=id, teacher_id=teacher_id, student_id=student_id).first_or_404()
+        classes_got = Classes.query.filter_by(
+            id=id, teacher_id=teacher_id, student_id=student_id).first_or_404()
 
         if 'teacher_id' in request.json:
             classes_got.teacher_id = request.json['teacher_id']
@@ -622,7 +643,8 @@ class ClassesSingleResource(Resource):
 
     def delete(self, id, teacher_id, student_id):
         # delete one by id
-        classes_got = Classes.query.filter_by(id=id, teacher_id=teacher_id, student_id=student_id).first_or_404()
+        classes_got = Classes.query.filter_by(
+            id=id, teacher_id=teacher_id, student_id=student_id).first_or_404()
         db.session.delete(classes_got)
         db.session.commit()
         return '', 204
@@ -732,7 +754,7 @@ class LogGuardianResource(Resource):
             db.session.delete(log)
         db.session.commit()
         return '', 204
-    
+
 
 class LogStudentResource(Resource):
     def get(self, student_id):
@@ -763,7 +785,8 @@ api.add_resource(FamilyListResource, '/family')
 api.add_resource(FamilyResource, '/family/<int:id>')
 api.add_resource(FamilyGuardianResource, '/family/guardian/<int:guardian_id>')
 api.add_resource(FamilyStudentResource, '/family/student/<int:student_id>')
-api.add_resource(FamilySingleResource, '/family/single/<int:id>/<int:guardian_id>/<int:student_id>')
+api.add_resource(FamilySingleResource,
+                 '/family/single/<int:id>/<int:guardian_id>/<int:student_id>')
 
 api.add_resource(MsgBoardListResource, '/msgBoard')
 api.add_resource(MsgBoardResource, '/msgBoard/<int:id>')
@@ -782,7 +805,8 @@ api.add_resource(ClassesListResource, '/classes')
 api.add_resource(ClassesResource, '/classes/<id>')
 api.add_resource(ClassesTeacherResource, '/classes/teacher/<int:teacher_id>')
 api.add_resource(ClassesStudentResource, '/classes/student/<int:student_id>')
-api.add_resource(ClassesSingleResource, '/classes/<id>/<int:teacher_id>/<int:student_id>')
+api.add_resource(ClassesSingleResource,
+                 '/classes/<id>/<int:teacher_id>/<int:student_id>')
 
 api.add_resource(LogListResource, '/log')
 api.add_resource(LogResource, '/log/<int:id>')
