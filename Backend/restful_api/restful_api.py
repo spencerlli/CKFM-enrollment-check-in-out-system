@@ -652,21 +652,24 @@ class ClassesSingleResource(Resource):
 
 class ClassesTeacherResource(Resource):
     def get(self, teacher_id):
-        # get one by id
         classess_got = Classes.query.filter_by(teacher_id=teacher_id).all()
         return classess_schema.dump(classess_got)
 
+    def delete(self, teacher_id):
+        classess_got = Classes.query.filter_by(teacher_id=teacher_id).all()
+        for class_got in classess_got:
+            db.session.delete(class_got)
+        db.session.commit()
+        return '', 204
 
 class ClassesStudentResource(Resource):
     def get(self, student_id):
-        # get one by id
-        classes_got = Classes.query.filter_by(student_id=student_id).all()
-        return classes_schema.dump(classes_got)
+        classess_got = Classes.query.filter_by(student_id=student_id).all()
+        return classess_schema.dump(classess_got)
 
     def delete(self, student_id):
-        # delete one by id
-        classes_got = Classes.query.filter_by(student_id=student_id).all()
-        for class_got in classes_got:
+        classess_got = Classes.query.filter_by(student_id=student_id).all()
+        for class_got in classess_got:
             db.session.delete(class_got)
         db.session.commit()
         return '', 204

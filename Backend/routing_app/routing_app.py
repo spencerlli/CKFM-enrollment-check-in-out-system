@@ -871,14 +871,27 @@ def msgBoard():
         if user_group == 'guardian':
             student_id_list = list(
                 map(int, request.json.get('student_id').split(',')))
+            
+            error_student_id_list = []
             for student_id in student_id_list:
                 # query teacher corresponding to student
-                teacher_id = requests.get(
-                    REST_API + '/classes/student/%d' % student_id).json()[0].get('teacher_id')
+                classes_json = requests.get(
+                    REST_API + '/classes/student/%d' % student_id).json()
+                if classes_json is None or len(classes_json) == 0:
+                    error_student_id_list.append(student_id)
+                    continue
+                
+                teacher_id = classes_json[0].get('teacher_id')
                 msg_json = {'sender_id': user_id, 'receiver_id': teacher_id, 'sender_group': user_group,
                             'about_student': student_id, 'content': request.json['msg'],
                             'time': int(datetime.datetime.now().timestamp()), 'been_read': False}
                 requests.post(REST_API + '/msgBoard', json=msg_json)
+
+            if len(error_student_id_list) > 0:
+                res['status'] = 1
+                res['msg'] = "Student ID: " + \
+                    ', '.join(map(str, error_student_id_list)) + " not assigned to any class!"
+                return jsonify(res)
         else:   # teacher send
             if 'reply_msg_id' in request.json.keys():
                 reply_msg_id_list = list(
