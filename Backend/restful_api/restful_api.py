@@ -169,18 +169,7 @@ class StudentResource(Resource):
         if 'check_in_method' in request.json:
             student.check_in_method = request.json['check_in_method']
 
-        if 'sunday_school' in request.json:
-            student.sunday_school = request.json['sunday_school']
-        if 'cm_lounge' in request.json:
-            student.cm_lounge = request.json['cm_lounge']
-        if 'kid_choir' in request.json:
-            student.kid_choir = request.json['kid_choir']
-        if 'u3_friday' in request.json:
-            student.u3_friday = request.json['u3_friday']
-        if 'friday_lounge' in request.json:
-            student.friday_lounge = request.json['friday_lounge']
-        if 'friday_night' in request.json:
-            student.friday_night = request.json['friday_night']
+        student.programs = request.json.get('programs')
 
         if 'check_in' in request.json:
             student.check_in = request.json['check_in']
