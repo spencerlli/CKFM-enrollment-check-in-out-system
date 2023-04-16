@@ -100,7 +100,9 @@ def login():
 
             if guardian_query.status_code == 200:
                 guardian_json = guardian_query.json()
-                if 'phone' in guardian_json.keys() and guardian_json['pwd'] == pwd and bcrypt.check_password_hash(guardian_json['pwd_hash'], pwd):
+                # if hash password is set, check it; otherwise check the plain text password
+                if 'phone' in guardian_json.keys() and guardian_json['pwd'] == pwd and (not guardian_json['pwd_hash'] \
+                        or (guardian_json['pwd_hash'] and bcrypt.check_password_hash(guardian_json['pwd_hash'], pwd))):
                     res_json['msg'] = 'Logged in successfully!'
 
                     if guardian_json['pwd'] == DEFAULT_PWD:
@@ -141,7 +143,9 @@ def login():
                     res_json['msg'] = 'Incorrect phone number or password!'
             elif teacher_query.status_code == 200:
                 teacher_json = teacher_query.json()
-                if 'phone' in teacher_json.keys() and teacher_json['pwd'] == pwd and bcrypt.check_password_hash(teacher_json['pwd_hash'], pwd):
+                # if hash password is set, check it; otherwise check the plain text password
+                if 'phone' in teacher_json.keys() and (not teacher_json['pwd_hash'] \
+                        or (teacher_json['pwd_hash'] and bcrypt.check_password_hash(teacher_json['pwd_hash'], pwd))):
                     res_json['msg'] = 'Logged in successfully!'
                     res = jsonify(res_json)
                     res.set_cookie(key='login', value="1",
