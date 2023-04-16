@@ -281,46 +281,13 @@
           "type": "crud",
           "syncLocation": false,
           "loadDataOnce": true,
-          "source": "${items | filter:id:match:id\
-                              | filter:programs:match:programs}",
+          "source": "${items | filter:id:match:id}",
           "filter": {
             "body": [
               {
                 "type": "input-text",
                 "name": "id",
                 "label": "ID"
-              },
-              {
-                "type": "select",
-                "name": "programs",
-                "label": "Program(s):",
-                "multiple": true,
-                "options": [
-                  {
-                    "label": "Sunday School",
-                    "value": "sunday_school"
-                  },
-                  {
-                    "label": "CM Parent and Child Lounge",
-                    "value": "cm_lounge"
-                  },
-                  {
-                    "label": "Canaan Kid's Choir/Art",
-                    "value": "kid_choir"
-                  },
-                  {
-                    "label": "U3 Friday Night",
-                    "value": "u3_friday"
-                  },
-                  {
-                    "label": "Friday Night CKFM and Chlid Lounge",
-                    "value": "friday_lounge"
-                  },
-                  {
-                    "label": "Friday Night",
-                    "value": "friday_night"
-                  }
-                ]
               }
             ]
           },
@@ -336,77 +303,43 @@
             },
             {
               "name": "street",
-              "label": "STREET",
+              "label": "Street",
               "type": "text"
             },
             {
               "type": "text",
-              "name": "city",
-              "label": "CITY"
+              "label": "City",
+              "name": "city"
             },
             {
               "type": "text",
-              "name": "state",
-              "label": "STATE"
+              "label": "State",
+              "name": "state"
             },
             {
               "type": "text",
-              "name": "zip",
-              "label": "ZIP"
+              "label": "Zip",
+              "name": "zip"
             },
             {
               "type": "text",
-              "name": "physician",
-              "label": "PHYSICIAN"
+              "label": "Sunday School",
+              "name": "sunday_school",
             },
             {
               "type": "text",
-              "name": "physician_phone",
-              "label": "PHYSICIAN PHONE"
+              "label": "Friday Night",
+              "name": "friday_night",
             },
             {
               "type": "text",
-              "name": "insurance",
-              "label": "INSURANCE"
+              "name": "friday_night",
+              "label": "Friday Night"
             },
             {
               "type": "text",
-              "name": "insurance_phone",
-              "label": "INSURANCE PHONE"
-            },
-            {
-              "type": "text",
-              "name": "insurance_policy",
-              "label": "INSURANCE POLICY"
-            },
-            {
-              "type": "text",
-              "name": "group",
-              "label": "GROUP"
-            },
-            {
-              "name": "programs",
-              "type": "mapping",
-              "label": "Program(s)",
-              "sortable": true,
-              "map": {
-                "sunday_school": "<span class='label label-default'>Sunday School</span>",
-                "cm_lounge": "<span class='label label-default'>CM Parent and Child Lounge</span>",
-                "kid_choir": "<span class='label label-default'>Canaan Kid's Choir/Art</span>",
-                "u3_friday": "<span class='label label-default'>U3 Friday Night</span>",
-                "friday_lounge": "<span class='label label-default'>Friday Night CKFM and Chlid Lounge</span>",
-                "friday_night": "<span class='label label-default'>Friday Night</span>",
-              }
-            },
-            {
-              "type": "text",
-              "name": "pay",
-              "label": "PAY"
-            },
-            {
-              "type": "text",
-              "name": "checkbox",
-              "label": "CHECKBOX"
+              "label": "Special Events",
+              "name": "special_events"
             },
             {
               "type": "operation",
