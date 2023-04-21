@@ -15,6 +15,7 @@
       "tab": [
         {
           "type": "crud",
+          "name": "guardian",
           "syncLocation": false,
           "source": "${items | filter:fname:match:keywords}",
           "filter": {
@@ -32,44 +33,36 @@
           },
           "columns": [
             {
-              "name": "id",
               "label": "ID",
-              "type": "text"
+              "name": "id"
             },
             {
-              "name": "fname",
-              "label": "FIRST NAME",
-              "type": "text"
+              "label": "First Name",
+              "name": "fname"
             },
             {
-              "type": "text",
-              "name": "lname",
-              "label": "LAST NAME"
+              "label": "Last Name",
+              "name": "lname"
             },
             {
-              "type": "text",
-              "name": "phone",
-              "label": "PHONE NUMBER"
+              "label": "Phone Number",
+              "name": "phone"
             },
             {
-              "type": "text",
-              "name": "pwd",
-              "label": "PASSWORD"
+              "label": "Password",
+              "name": "pwd"
             },
             {
-              "type": "text",
-              "name": "email",
-              "label": "EMAIL"
+              "label": "Email",
+              "name": "email"
             },
             {
-              "type": "text",
-              "name": "relationship",
-              "label": "relationship"
+              "label": "Relationship",
+              "name": "relationship"
             },
             {
-              "type": "text",
-              "name": "check_in_method",
-              "label": "check_in_method"
+              "label": "Check-in Method",
+              "name": "check_in_method"
             },
             {
               "type": "operation",
@@ -150,6 +143,7 @@
       "tab": [
         {
           "type": "crud",
+          "name": "student",
           "syncLocation": false,
           "source": "${items | filter:fname:match:keywords}",
           "filter": {
@@ -167,44 +161,36 @@
           },
           "columns": [
             {
-              "name": "id",
               "label": "ID",
-              "type": "text"
+              "name": "id"
             },
             {
-              "name": "fname",
-              "label": "FIRST NAME",
-              "type": "text"
+              "label": "First Name",
+              "name": "fname"
             },
             {
-              "type": "text",
-              "name": "lname",
-              "label": "LAST NAME"
+              "label": "Last Name",
+              "name": "lname"
             },
             {
-              "type": "text",
-              "name": "birthdate",
-              "label": "BIRTH DATE"
+              "label": "Birth Date",
+              "name": "birthdate"
             },
             {
-              "type": "text",
-              "name": "gender",
-              "label": "GENDER"
+              "label": "Gender",
+              "name": "gender"
             },
             {
-              "type": "text",
-              "name": "grade",
-              "label": "GRADE"
+              "label": "Grade",
+              "name": "grade"
             },
             {
-              "type": "text",
-              "name": "check_in_method",
-              "label": "check_in_method"
+              "label": "Check-in Method",
+              "name": "check_in_method"
             },
             {
-              "type": "text",
-              "name": "allergies",
-              "label": "ALLERGIES"
+              "label": "Allergies",
+              "name": "allergies"
             },
             {
               "type": "mapping",
@@ -279,8 +265,9 @@
       "tab": [
         {
           "type": "crud",
+          "name": "family_info",
           "syncLocation": false,
-          "loadDataOnce": true,
+          "api": "get:{{ url_for('adminManage', object='familyInfo') }}",
           "source": "${items | filter:id:match:id}",
           "filter": {
             "body": [
@@ -291,53 +278,40 @@
               }
             ]
           },
-          "api": {
-            "method": "get",
-            "url": "{{url_for('adminManage', object='familyInfo')}}"
-          },
           "columns": [
             {
-              "name": "id",
               "label": "ID",
-              "type": "text"
+              "name": "id"
             },
             {
-              "name": "street",
               "label": "Street",
-              "type": "text"
+              "name": "street",
             },
             {
-              "type": "text",
               "label": "City",
               "name": "city"
             },
             {
-              "type": "text",
               "label": "State",
               "name": "state"
             },
             {
-              "type": "text",
               "label": "Zip",
               "name": "zip"
             },
             {
-              "type": "text",
               "label": "Sunday School",
               "name": "sunday_school",
             },
             {
-              "type": "text",
               "label": "Friday Night",
               "name": "friday_night",
             },
             {
-              "type": "text",
               "name": "friday_night",
               "label": "Friday Night"
             },
             {
-              "type": "text",
               "label": "Special Events",
               "name": "special_events"
             },
@@ -365,8 +339,9 @@
                   "actionType": "ajax",
                   "label": "Delete",
                   "level": "link",
-                  "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='familyInfo', id='${id}') }}"
+                  "confirmText": "Confirm deletion of entire family and associated information? This action cannot be undone.",
+                  "api": "delete:{{ url_for('adminManage', object='familyInfo', id='${id}') }}",
+                  "reload": "family_info, guardian, student, family, class"
                 }
               ]
             }
@@ -379,7 +354,11 @@
       "tab": [
         {
           "type": "crud",
+          "name": "family",
           "syncLocation": false,
+          "api": "get:{{ url_for('adminManage', object='family') }}",
+          "loadDataOnce": true,
+          "loadDataOnceFetchOnFilter": false,
           "source": "${items | filter:id:match:keywords}",
           "filter": {
             "body": [
@@ -390,57 +369,33 @@
               }
             ]
           },
-          "api": {
-            "method": "get",
-            "url": "{{url_for('adminManage', object='family')}}"
-          },
           "columns": [
             {
-              "name": "id",
-              "label": "FAMILY ID",
-              "type": "text"
+              "label": "Family ID",
+              "name": "id"
             },
             {
-              "type": "text",
+              "label": "Student Name",
               "name": "student_name",
-              "label": "STUDENT NAME",
               "sortable": true
             },
             {
+              "label": "Guardian Name",
               "name": "guardian_name",
-              "label": "GUARDIAN NAME",
-              "type": "text",
               "sortable": true
             },
             {
-              "name": "guardian_phone",
-              "label": "GUARDIAN PHONE",
-              "type": "text"
+              "label": "Guardian Phone",
+              "name": "guardian_phone"
             },
             {
-              "name": "guardian_email",
-              "label": "GUARDIAN EMAIL",
-              "type": "text"
+              "label": "Guardian Email",
+              "name": "guardian_email"
             },
             {
-              "name": "guardian_relationship",
-              "label": "GUARDIAN RELATIONSHIP",
-              "type": "text"
-            },
-            // {
-            //   "type": "operation",
-            //   "label": "Operation",
-            //   "buttons": [
-            //     {
-            //       "type": "button",
-            //       "actionType": "ajax",
-            //       "label": "Delete",
-            //       "level": "link",
-            //       "confirmText": "确定要删除？",
-            //       "api": "delete:{{ url_for('adminManage', object='family', id='${id}') }}"
-            //     }
-            //   ]
-            // }
+              "label": "Guardian Relationship",
+              "name": "guardian_relationship"
+            }
           ]
         }
       ]
@@ -450,9 +405,11 @@
       "tab": [
         {
           "type": "crud",
+          "name": "class",
           "syncLocation": false,
-          "api": "{{url_for('adminManage', object='student')}}",
+          "api": "{{ url_for('adminManage', object='student') }}",
           "loadDataOnce": true,
+          "loadDataOnceFetchOnFilter": false,
           "source": "${items | filter:fname:match:fname\
                               | filter:lname:match:lname\
                               | filter:grade:match:grade\
@@ -623,6 +580,7 @@
           "syncLocation": false,
           "api": "{{ url_for('adminManage', object='teacher') }}",
           "loadDataOnce": true,
+          "loadDataOnceFetchOnFilter": false,
           "source": "${items | filter:fname:match:fname\
                              | filter:lname:match:lname}",
           "filter": {
