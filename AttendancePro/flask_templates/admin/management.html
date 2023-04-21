@@ -17,20 +17,10 @@
           "type": "crud",
           "name": "guardian",
           "syncLocation": false,
-          "source": "${items | filter:fname:match:keywords}",
-          "filter": {
-            "body": [
-              {
-                "type": "input-text",
-                "name": "keywords",
-                "label": "First Name"
-              }
-            ]
-          },
-          "api": {
-            "method": "get",
-            "url": "{{url_for('adminManage', object='guardian')}}"
-          },
+          "api": "get:{{ url_for('adminManage', object='guardian') }}",
+          "loadDataOnce": true,
+          "loadDataOnceFetchOnFilter": false,
+          "autoGenerateFilter": true,
           "columns": [
             {
               "label": "ID",
@@ -38,11 +28,13 @@
             },
             {
               "label": "First Name",
-              "name": "fname"
+              "name": "fname",
+              "searchable": true
             },
             {
               "label": "Last Name",
-              "name": "lname"
+              "name": "lname",
+              "searchable": true
             },
             {
               "label": "Phone Number",
@@ -145,20 +137,10 @@
           "type": "crud",
           "name": "student",
           "syncLocation": false,
-          "source": "${items | filter:fname:match:keywords}",
-          "filter": {
-            "body": [
-              {
-                "type": "input-text",
-                "name": "keywords",
-                "label": "First Name"
-              }
-            ]
-          },
-          "api": {
-            "method": "get",
-            "url": "{{url_for('adminManage', object='student')}}"
-          },
+          "api": "get:{{ url_for('adminManage', object='student') }}",
+          "loadDataOnce": true,
+          "loadDataOnceFetchOnFilter": false,
+          "autoGenerateFilter": true,
           "columns": [
             {
               "label": "ID",
@@ -166,11 +148,13 @@
             },
             {
               "label": "First Name",
-              "name": "fname"
+              "name": "fname",
+              "searchable": true
             },
             {
               "label": "Last Name",
-              "name": "lname"
+              "name": "lname",
+              "searchable": true
             },
             {
               "type": "date",
@@ -274,16 +258,9 @@
           "name": "family_info",
           "syncLocation": false,
           "api": "get:{{ url_for('adminManage', object='familyInfo') }}",
-          "source": "${items | filter:id:match:id}",
-          "filter": {
-            "body": [
-              {
-                "type": "input-text",
-                "name": "id",
-                "label": "ID"
-              }
-            ]
-          },
+          "loadDataOnce": true,
+          "loadDataOnceFetchOnFilter": false,
+          "autoGenerateFilter": true,
           "columns": [
             {
               "label": "ID",
@@ -292,14 +269,17 @@
             {
               "label": "Street",
               "name": "street",
+              "searchable": true
             },
             {
               "label": "City",
-              "name": "city"
+              "name": "city",
+              "searchable": true
             },
             {
               "label": "State",
-              "name": "state"
+              "name": "state",
+              "searchable": true
             },
             {
               "label": "Zip",
@@ -308,10 +288,6 @@
             {
               "label": "Sunday School",
               "name": "sunday_school",
-            },
-            {
-              "label": "Friday Night",
-              "name": "friday_night",
             },
             {
               "name": "friday_night",
@@ -365,16 +341,7 @@
           "api": "get:{{ url_for('adminManage', object='family') }}",
           "loadDataOnce": true,
           "loadDataOnceFetchOnFilter": false,
-          "source": "${items | filter:id:match:keywords}",
-          "filter": {
-            "body": [
-              {
-                "type": "input-text",
-                "name": "keywords",
-                "label": "ID"
-              }
-            ]
-          },
+          "autoGenerateFilter": true,
           "columns": [
             {
               "label": "Family ID",
@@ -383,12 +350,14 @@
             {
               "label": "Student Name",
               "name": "student_name",
-              "sortable": true
+              "sortable": true,
+              "searchable": true
             },
             {
               "label": "Guardian Name",
               "name": "guardian_name",
-              "sortable": true
+              "sortable": true,
+              "searchable": true
             },
             {
               "label": "Guardian Phone",
