@@ -269,11 +269,14 @@ def adminManage(object):
             object_json = requests.get(REST_API + '/' + object).json()
 
             if object == 'family':
+                guardians_json = requests.get(REST_API + '/guardian').json()
+                students_json = requests.get(REST_API + '/student').json()
+                guardian_id_to_json = {guardian['id']: guardian for guardian in guardians_json}
+                student_id_to_json = {student['id']: student for student in students_json}
+
                 for i, family in enumerate(object_json):
-                    guardian_json = requests.get(
-                        REST_API + '/guardian/%s' % family.get('guardian_id')).json()
-                    student_json = requests.get(
-                        REST_API + '/student/%s' % family.get('student_id')).json()
+                    guardian_json = guardian_id_to_json[family['guardian_id']]
+                    student_json = student_id_to_json[family['student_id']]
                     object_json[i]['guardian_name'] = guardian_json['fname'] + \
                         ' ' + guardian_json['lname']
                     object_json[i]['guardian_phone'] = guardian_json['phone']
