@@ -34,7 +34,7 @@ class Guardian(db.Model):
     fname = db.Column(db.String(256))
     lname = db.Column(db.String(256))
     phone = db.Column(db.String(256), unique=True)
-    email = db.Column(db.String(256), unique=True)
+    email = db.Column(db.String(256))
     relationship = db.Column(db.String(256))
     check_in_method = db.Column(db.String(256))
     barcode = db.Column(db.String(256))
@@ -45,14 +45,15 @@ class Guardian(db.Model):
 
 class StudentSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'fname', 'lname', 'birthdate', 'gender', 'grade', 'allergies', 'check_in_method',
-                  'programs', 'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday', 'friday_lounge', 'friday_night',
-                  'check_in', 'check_in_time', 'check_out', 'check_out_time', 'barcode', 'classes_id', 'is_guest')
+        fields = ('id', 'status', 'fname', 'lname', 'birthdate', 'gender', 'grade', 'allergies', 
+                  'check_in_method','programs', 'sunday_school', 'cm_lounge', 'kid_choir', 'u3_friday',
+                  'friday_lounge', 'friday_night', 'barcode', 'classes_id', 'is_guest')
 
 
 class Student(db.Model):
     __tablename__ = "student"
     id = db.Column(db.Integer, primary_key=True)
+    status = db.Column(db.Integer)
     fname = db.Column(db.String(256))
     lname = db.Column(db.String(256))
     birthdate = db.Column(db.String(256))
@@ -68,11 +69,6 @@ class Student(db.Model):
     u3_friday = db.Column(db.Boolean)
     friday_lounge = db.Column(db.Boolean)
     friday_night = db.Column(db.Boolean)
-
-    check_in = db.Column(db.Integer, default=0)
-    check_in_time = db.Column(db.String(256), default='0')
-    check_out = db.Column(db.Integer, default=0)
-    check_out_time = db.Column(db.String(256), default='0')
 
     barcode = db.Column(db.String(256))
     classes_id = db.Column(db.String(256))
@@ -166,20 +162,17 @@ class Teacher(db.Model):
 
 class LogSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'student_id', 'status', 'check_in_method', 'check_in',
-                  'check_in_time', 'check_out', 'check_out_time', 'daily_progress')
+        fields = ('id', 'student_id', 'status', 'check_in_method', 'check_by', 'check_time', 'daily_progress')
 
 
 class Log(db.Model):
     __tablename__ = "log"
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer)
-    status = db.Column(db.Integer, default=0)
+    status = db.Column(db.Integer, default=0)   # 0: check out, 1: pre check in, 2: check in
     check_in_method = db.Column(db.String(256))
-    check_in = db.Column(db.Integer)
-    check_in_time = db.Column(db.String(256))
-    check_out = db.Column(db.Integer)
-    check_out_time = db.Column(db.String(256))
+    check_by = db.Column(db.Integer)
+    check_time = db.Column(db.String(256))
     daily_progress = db.Column(db.String(256))
 
 

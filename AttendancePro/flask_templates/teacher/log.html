@@ -15,31 +15,17 @@
         return true;
       };
 
-      // Filter for check-in time
-      if (exist(api.query.check_in_time)) {
-        let time = api.query.check_in_time.split(',');
+      // Filter for check time
+      if (exist(api.query.check_time)) {
+        let time = api.query.check_time.split(',');
         let start = parseInt(time[0]);
         if (start && exist(payload.data.items)) {
-          payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) > start);
+          payload.data.items = payload.data.items.filter(t => parseInt(t.check_time) > start);
         }
 
         let end = parseInt(time[1]);
         if (end && exist(payload.data.items)) {
-          payload.data.items = payload.data.items.filter(t => parseInt(t.check_in_time) < end);
-        }
-      }
-
-      // Filter for check-out time
-      if (exist(api.query.check_out_time)) {
-        let time = api.query.check_out_time.split(',');
-        let start = parseInt(time[0]);
-        if (start && exist(payload.data.items)) {
-          payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) > start);
-        }
-
-        let end = parseInt(time[1]);
-        if (end && exist(payload.data.items)) {
-          payload.data.items = payload.data.items.filter(t => parseInt(t.check_out_time) < end);
+          payload.data.items = payload.data.items.filter(t => parseInt(t.check_time) < end);
         }
       }
 
@@ -51,8 +37,7 @@
   "source": "${items | filter:student_name:match:student_name\
                       | filter:status:match:status\
                       | filter:check_in_method:match:check_in_method\
-                      | filter:check_in:match:check_in\
-                      | filter:check_out:match:check_out\
+                      | filter:check_by:match:check_by\
                       | filter:programs:match:programs}",
   "filter": {
     "body": [
@@ -68,15 +53,15 @@
         "size": "sm",
         "options": [
           {
-            "label": "Not checked in",
+            "label": "Checked out",
             "value": "0"
           },
           {
-            "label": "Checked in",
+            "label": "Pre-checked in",
             "value": "1"
           },
           {
-            "label": "Checked out",
+            "label": "Checked in",
             "value": "2"
           }
         ]
@@ -94,24 +79,13 @@
       },
       {
         "type": "input-text",
-        "name": "check_in",
+        "name": "check_by",
         "label": "Checked in by:"
       },
       {
         "type": "input-datetime-range",
-        "name": "check_in_time",
-        "label": "Checked in time range:",
-        "inputFormat": "M/D/YYYY HH:mm"
-      },
-      {
-        "type": "input-text",
-        "name": "check_out",
-        "label": "Checked out by:"
-      },
-      {
-        "type": "input-datetime-range",
-        "name": "check_out_time",
-        "label": "Checked out time range:",
+        "name": "check_time",
+        "label": "Checked time range:",
         "inputFormat": "M/D/YYYY HH:mm"
       },
       {
@@ -214,10 +188,8 @@
         "student_name",
         "status",
         "check_in_method",
-        "check_in",
-        "check_in_time",
-        "check_out",
-        "check_out_time",
+        "check_by",
+        "check_time",
         "programs"
       ]
     }
@@ -238,9 +210,9 @@
       "label": "Status",
       "sortable": true,
       "map": {
-        "0": "<span class='label label-warning'>Not checked in</span>",
-        "1": "<span class='label label-info'>Checked in</span>",
-        "2": "<span class='label label-success'>Checked out</span>",
+        "0": "<span class='label label-warning'>Checked out</span>",
+        "1": "<span class='label label-info'>Pre-checked in</span>",
+        "2": "<span class='label label-success'>Checked in</span>",
         "*":  "<span class='label label-default'>Other</span>"
       }
     },
@@ -250,26 +222,14 @@
       "sortable": true
     },
     {
-      "name": "check_in",
-      "label": "Checked in by",
+      "name": "check_by",
+      "label": "Checked by",
       "sortable": true
     },
     {
       "type": "date",
-      "name": "check_in_time",
-      "label": "Check-in Time",
-      "format": "M/D/YYYY HH:mm",
-      "sortable": true
-    },
-    {
-      "name": "check_out",
-      "label": "Checked out by",
-      "sortable": true
-    },
-    {
-      "type": "date",
-      "name": "check_out_time",
-      "label": "Check-out Time",
+      "name": "check_time",
+      "label": "Check Time",
       "format": "M/D/YYYY HH:mm",
       "sortable": true
     },

@@ -129,9 +129,8 @@ class StudentListResource(Resource):
             friday_night=request.json.get('friday_night'),
 
             barcode=request.json.get('barcode'),
-            check_in=request.json.get('check_in', 0)
             # TODO: add classes_id when post student
-            # classes_id=request.json['classes_id']
+            classes_id=request.json.get('classes_id')
         )
         db.session.add(new_student)
         db.session.flush()
@@ -154,6 +153,8 @@ class StudentResource(Resource):
     def put(self, id):
         # update by id
         student = Student.query.filter_by(id=id).first_or_404()
+        if 'status' in request.json:
+            student.status = request.json['status']
         if 'fname' in request.json:
             student.fname = request.json['fname']
         if 'lname' in request.json:
@@ -171,14 +172,18 @@ class StudentResource(Resource):
 
         student.programs = request.json.get('programs')
 
-        if 'check_in' in request.json:
-            student.check_in = request.json['check_in']
-        if 'check_in_time' in request.json:
-            student.check_in_time = request.json['check_in_time']
-        if 'check_out' in request.json:
-            student.check_out = request.json['check_out']
-        if 'check_out_time' in request.json:
-            student.check_out_time = request.json['check_out_time']
+        if 'sunday_school' in request.json:
+            student.sunday_school = request.json['sunday_school']
+        if 'cm_lounge' in request.json:
+            student.cm_lounge = request.json['cm_lounge']
+        if 'kid_choir' in request.json:
+            student.kid_choir = request.json['kid_choir']
+        if 'u3_friday' in request.json:
+            student.u3_friday = request.json['u3_friday']
+        if 'friday_lounge' in request.json:
+            student.friday_lounge = request.json['friday_lounge']
+        if 'friday_night' in request.json:
+            student.friday_night = request.json['friday_night']
 
         if 'classes_id' in request.json:
             student.classes_id = request.json['classes_id']
@@ -188,7 +193,7 @@ class StudentResource(Resource):
 
     def delete(self, id):
         # delete by id
-        student = Student.query.filter_by(id=id).delete()
+        Student.query.filter_by(id=id).delete()
         db.session.commit()
         return '', 204
 
@@ -682,11 +687,10 @@ class LogListResource(Resource):
             student_id=request.json['student_id'],
             status=request.json['status'],
             check_in_method=request.json['check_in_method'],
-            check_in=request.json['check_in'],
-            check_in_time=request.json['check_in_time'],
-            check_out=request.json['check_out'],
-            check_out_time=request.json['check_out_time'],
-            daily_progress=request.json['daily_progress']
+            check_by=request.json['check_by'],
+            check_time=request.json['check_time'],
+            daily_progress=request.json['daily_progress'] if 
+                'daily_progress' in request.json else None,
         )
         db.session.add(new_log)
         db.session.flush()
@@ -709,14 +713,10 @@ class LogResource(Resource):
             log.status = request.json['status']
         if 'check_in_method' in request.json:
             log.check_in_method = request.json['check_in_method']
-        if 'check_in' in request.json:
-            log.check_in = request.json['check_in_by']
-        if 'check_in_time' in request.json:
-            log.check_in_time = request.json['check_in_time']
-        if 'check_out' in request.json:
-            log.check_out = request.json['check_out']
-        if 'check_out_time' in request.json:
-            log.check_out_time = request.json['check_out_time']
+        if 'check_by' in request.json:
+            log.check_in = request.json['check_by']
+        if 'check_time' in request.json:
+            log.check_in_time = request.json['check_time']
         if 'daily_progress' in request.json:
             log.daily_progress = request.json['daily_progress']
 

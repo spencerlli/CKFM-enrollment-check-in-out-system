@@ -562,13 +562,13 @@ def preCheckIn():
         # filter repeat to be unique
         guardian_id_set, student_id_set = set(), set()
         # list of json objects
-        object_list = []
-
+        family_list = []
+          
         for family in family_json:
             if family['guardian_id'] not in guardian_id_set:    # filter repeat
                 guardian_json = requests.get(
                     REST_API + '/guardian/%d' % family['guardian_id']).json()
-                object_list.append({
+                family_list.append({
                     'object': 'guardian',
                     'id': guardian_json['id'],
                     'fname': guardian_json['fname'],
@@ -579,18 +579,20 @@ def preCheckIn():
             if family['student_id'] not in student_id_set:  # filter repeat
                 student_json = requests.get(
                     REST_API + '/student/%d' % family['student_id']).json()
-                if student_json.get('check_in', 0) == 0 and student_json.get('check_in_time', '0') == '0':
-                    object_list.append({
+
+                if student_json['status'] == 0:
+                    family_list.append({
                         'object': 'student',
                         'id': student_json['id'],
                         'fname': student_json['fname'],
                         'lname': student_json['lname']
                     })
                     student_id_set.add(family['student_id'])
-        object_list = sorted(object_list, key=lambda d: d['object'])
-        res['data']['items'] = object_list
+
+        family_list = sorted(family_list, key=lambda d: d['object'])
+        res['data']['items'] = family_list
         res['msg'] = 'Successfully get guardians and students!'
-    else:   # POST
+    elif request.method == 'POST':
         guardian_id = 0
         student_list = []
         for object_json in request.json.get('items'):
@@ -600,23 +602,24 @@ def preCheckIn():
                 student_id = object_json['id']
                 student_json = requests.get(
                     REST_API + '/student/%d' % student_id).json()
-
-                # if student_json['check_in'] != 0:
-                #     res['status'] = 1
-                #     res['msg'] = 'This student has already checked in!'
-                # else:
                 student_list.append(student_json)
 
         for student_json in student_list:
-            student_json['check_out'] = 0
-            student_json['check_in'] = guardian_id
-            requests.put(REST_API + '/student/%d' %
-                         student_json['id'], json=student_json)
+            log_json = {
+                'student_id': student_json['id'],
+                'status': 1,
+                'check_in_method': student_json['check_in_method'],
+                'check_by': guardian_id,
+                'check_time': int(datetime.datetime.now().timestamp())
+            }
+            student_json['status'] = 1
+            requests.post(REST_API + '/log', json=log_json)
+            requests.put(REST_API + '/student/%s' % student_json['id'], json=student_json)
 
         # generate barcode for all guardians
         barcode = request.cookies.get('fname')[0].upper() + \
-            request.cookies.get('lname')[0].upper() + \
-            generate_random_str(5)
+                  request.cookies.get('lname')[0].upper() + \
+                  generate_random_str(5)
         family_id = int(request.cookies.get('family_id'))
         family_json = requests.get(REST_API + '/family/%d' % family_id).json()
         for family in family_json:
@@ -647,22 +650,28 @@ def checkIn():
             res['msg'] = "Barcode doesn't match!"
         else:
             student_json = query_res.json()
-            if student_json['check_in'] == 0:
+            if student_json['status'] != 1:
                 res['status'] = 1
-                res['msg'] = "Student has not been pre-checked in!"
+                res['msg'] = "Student is not on pre-checked in status!"
             else:
-                # once checked in, set last check out time to 0
-                student_json['check_out_time'] = 0
-                student_json['check_in_time'] = int(
-                    datetime.datetime.now().timestamp())
-                if os.path.exists('/.dockerenv'):    # running in docker
-                    requests.post('http://routing_app:5000/log',
-                                  json=student_json)
-                else:
-                    requests.post(request.root_url + 'log', json=student_json)
+                last_log_json = requests.get(
+                    REST_API + '/log/student/%s' % student_json['id']).json()
+                last_log_json = sorted(last_log_json, key=lambda d: d['id'])[-1]
+                check_by = int(last_log_json['check_by'])
+
+                new_log_json = {
+                    'student_id': student_json['id'],
+                    'status': 2,
+                    'check_in_method': student_json['check_in_method'],
+                    'check_by': check_by,
+                    'check_time': int(datetime.datetime.now().timestamp()),
+                }
+
+                student_json['status'] = 2                
                 res['msg'] = "Successfully check in!"
-                requests.put(REST_API + '/student/%d' %
-                             student_json['id'], json=student_json)
+
+                requests.post(REST_API + '/log', json=new_log_json)
+                requests.put(REST_API + '/student/%s' % student_json['id'], json=student_json)
         return jsonify(res)
 
     return render_template('flask_templates/teacher/check_in.html')
@@ -706,21 +715,21 @@ def checkOut():
                 res['msg'] = "Barcode doesn't match!"
             else:
                 student_json = student_query.json()
-                # once checked out, set last check in time to 0
-                student_json['check_in_time'] = 0
-                student_json['check_out'] = int(
-                    request.cookies.get('guardian_id'))
-                student_json['check_out_time'] = int(
-                    datetime.datetime.now().timestamp())
-                if os.path.exists('/.dockerenv'):    # running in docker
-                    requests.post('http://routing_app:5000/log',
-                                  json=student_json)
-                else:
-                    requests.post(request.root_url + 'log', json=student_json)
+                # once checked out, set student status to 0
+                student_json['status'] = 0
+
+                log_json = {
+                    'student_id': student_json['id'],
+                    'status': 0,
+                    'check_in_method': student_json['check_in_method'],
+                    'check_by': int(request.cookies.get('guardian_id')),
+                    'check_time': int(datetime.datetime.now().timestamp())
+                }
+                res['msg'] = "Successfully check out!"                    
                 requests.put(REST_API + '/student/%d' %
                              student_json['id'], json=student_json)
-                res['msg'] = "Successfully check out!"
-    else:   # GET
+                requests.post(REST_API + '/log', json=log_json)
+    elif request.method == 'GET':
         family_id = int(request.cookies.get('family_id'))
         family_json = requests.get(REST_API + '/family/%d' % family_id).json()
         # filter repeat to be unique
@@ -732,7 +741,7 @@ def checkOut():
             if family['student_id'] not in student_id_set:  # filter repeat
                 student_json = requests.get(
                     REST_API + '/student/%d' % family['student_id']).json()
-                if student_json['check_in'] != 0 and student_json['check_in_time'] != '0':
+                if student_json['status'] == 2:
                     student_info_list.append({
                         'id': student_json['id'],
                         'fname': student_json['fname'],
@@ -939,7 +948,7 @@ def logPage():
     return render_template('flask_templates/teacher/log.html')
 
 
-@app.route('/log', methods=['GET', 'POST', 'PUT'])
+@app.route('/log', methods=['GET', 'PUT'])
 def log():
     res = deepcopy(AMIS_RES_TEMPLATE)
     if request.method == 'GET':
@@ -969,13 +978,12 @@ def log():
 
         for log in logs_json:
             student_id = log.pop('student_id')
+
             if request.cookies.get('user_group') == 'teacher' and student_id not in student_id_set:
-                continue
+                continue    # filter student not in the teacher's class
+
             log['student_name'] = student_id_to_json[student_id]['name']
-            if log['check_in']:
-                log['check_in'] = guardian_id_to_json[log['check_in']]['name']
-            elif log['check_out']:
-                log['check_out'] = guardian_id_to_json[log['check_out']]['name']
+            log['check_by'] = guardian_id_to_json[log['check_by']]['name']
 
             log['programs'] = []
             for _, program in enumerate(PROGRAMS):
@@ -984,26 +992,8 @@ def log():
             if log['daily_progress']:
                 log['daily_progress'] = log['daily_progress'].split(',')
             logs.append(log)
-        res['data']['items'] = logs
+        res['data']['items'] = logs[::-1]
         res['msg'] = 'Successfully get logs!'
-    elif request.method == 'POST':
-        student_json = request.json
-        log_json = {'check_in_method': student_json['check_in_method']}
-        log_json['student_id'] = student_json['id']
-        log_json['status'] = 1 if int(student_json['check_in']) != 0 else 2
-
-        if log_json['status'] == 1:
-            log_json['check_in'] = student_json['check_in']
-            log_json['check_in_time'] = student_json['check_in_time']
-            log_json['check_out'], log_json['check_out_time'] = None, None
-        else:
-            log_json['check_out'] = student_json['check_out']
-            log_json['check_out_time'] = student_json['check_out_time']
-            log_json['check_in'], log_json['check_in_time'] = None, None
-
-        log_json['daily_progress'] = None
-        requests.post(REST_API + '/log', json=log_json)
-        res['msg'] = 'Successfully post a log!'
     elif request.method == 'PUT':   # only for update daily progress
         log_id = int(request.args.get('id'))
         requests.put(REST_API + '/log/%d' % log_id, json=request.json)
