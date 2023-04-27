@@ -77,6 +77,27 @@
 								"value": "barcode"
 							}
 						]
+					},
+					{
+						"type": "select",
+						"label": "Status:",
+						"name": "status",
+						"required": true,
+						"mode": "horizontal",
+						"options": [
+							{
+								"label": "Checked out",
+								"value": "0"
+							},
+							{
+								"label": "Pre-checked in",
+								"value": "1"
+							},
+							{
+								"label": "Checked in",
+								"value": "2"
+							}
+						]
 					}
 				]
 			}
