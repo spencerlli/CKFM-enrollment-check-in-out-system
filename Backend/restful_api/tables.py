@@ -29,15 +29,15 @@ class GuardianSchema(ma.Schema):
 class Guardian(db.Model):
     __tablename__ = "guardian"
     id = db.Column(db.Integer, primary_key=True)
-    pwd = db.Column(db.String(256))
-    pwd_hash = db.Column(db.String(256))
-    fname = db.Column(db.String(256))
-    lname = db.Column(db.String(256))
-    phone = db.Column(db.String(256), unique=True)
-    email = db.Column(db.String(256))
-    relationship = db.Column(db.String(256))
-    check_in_method = db.Column(db.String(256))
-    barcode = db.Column(db.String(256))
+    pwd = db.Column(db.String(255))
+    pwd_hash = db.Column(db.String(255))
+    fname = db.Column(db.String(255))
+    lname = db.Column(db.String(255))
+    phone = db.Column(db.String(255), unique=True)
+    email = db.Column(db.String(255))
+    relationship = db.Column(db.String(255))
+    check_in_method = db.Column(db.String(255))
+    barcode = db.Column(db.String(255))
 
     is_primary = db.Column(db.Boolean, default=False)
     is_guest = db.Column(db.Boolean, default=False)
@@ -54,15 +54,15 @@ class Student(db.Model):
     __tablename__ = "student"
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.Integer)
-    fname = db.Column(db.String(256))
-    lname = db.Column(db.String(256))
-    birthdate = db.Column(db.String(256))
-    gender = db.Column(db.String(256))
-    grade = db.Column(db.String(256))
-    allergies = db.Column(db.String(256))
-    check_in_method = db.Column(db.String(256))
+    fname = db.Column(db.String(255))
+    lname = db.Column(db.String(255))
+    birthdate = db.Column(db.String(255))
+    gender = db.Column(db.String(255))
+    grade = db.Column(db.String(255))
+    allergies = db.Column(db.String(255))
+    check_in_method = db.Column(db.String(255))
 
-    programs = db.Column(db.String(256))
+    programs = db.Column(db.String(255))
     sunday_school = db.Column(db.Boolean)
     cm_lounge = db.Column(db.Boolean)
     kid_choir = db.Column(db.Boolean)
@@ -70,8 +70,8 @@ class Student(db.Model):
     friday_lounge = db.Column(db.Boolean)
     friday_night = db.Column(db.Boolean)
 
-    barcode = db.Column(db.String(256))
-    classes_id = db.Column(db.String(256))
+    barcode = db.Column(db.String(255))
+    classes_id = db.Column(db.String(255))
 
     is_guest = db.Column(db.Boolean, default=False)
 
@@ -85,21 +85,21 @@ class FamilyInfoSchema(ma.Schema):
 class FamilyInfo(db.Model):
     __tablename__ = "familyInfo"
     id = db.Column(db.Integer, primary_key=True)
-    street = db.Column(db.String(256))
-    city = db.Column(db.String(256))
-    state = db.Column(db.String(256))
-    zip = db.Column(db.String(256))
+    street = db.Column(db.String(255))
+    city = db.Column(db.String(255))
+    state = db.Column(db.String(255))
+    zip = db.Column(db.String(255))
 
-    physician = db.Column(db.String(256))
-    physician_phone = db.Column(db.String(256))
-    insurance = db.Column(db.String(256))
-    insurance_phone = db.Column(db.String(256))
-    insurance_policy = db.Column(db.String(256))
-    group = db.Column(db.String(256))
+    physician = db.Column(db.String(255))
+    physician_phone = db.Column(db.String(255))
+    insurance = db.Column(db.String(255))
+    insurance_phone = db.Column(db.String(255))
+    insurance_policy = db.Column(db.String(255))
+    group = db.Column(db.String(255))
 
-    sunday_school = db.Column(db.String(256))
-    friday_night = db.Column(db.String(256))
-    special_events = db.Column(db.String(256))
+    sunday_school = db.Column(db.String(255))
+    friday_night = db.Column(db.String(255))
+    special_events = db.Column(db.String(255))
 
     pay = db.Column(db.Integer)
     checkbox = db.Column(db.Boolean, default=False)
@@ -118,10 +118,10 @@ class MsgBoard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer)
     receiver_id = db.Column(db.Integer)
-    content = db.Column(db.String(256))
-    time = db.Column(db.String(256))
+    content = db.Column(db.String(255))
+    time = db.Column(db.String(255))
     about_student = db.Column(db.Integer)
-    sender_group = db.Column(db.String(256))
+    sender_group = db.Column(db.String(255))
     been_read = db.Column(db.Boolean)
 
 
@@ -141,20 +141,20 @@ class TeacherSchema(ma.Schema):
 class Teacher(db.Model):
     __tablename__ = "teacher"
     id = db.Column(db.Integer, primary_key=True)
-    pwd = db.Column(db.String(256))
-    pwd_hash = db.Column(db.String(256))
-    fname = db.Column(db.String(256))
-    lname = db.Column(db.String(256))
-    phone = db.Column(db.String(256), unique=True)
-    email = db.Column(db.String(256), unique=True)
-    classes_id = db.Column(db.String(256))
+    pwd = db.Column(db.String(255))
+    pwd_hash = db.Column(db.String(255))
+    fname = db.Column(db.String(255))
+    lname = db.Column(db.String(255))
+    phone = db.Column(db.String(255), unique=True)
+    email = db.Column(db.String(255), unique=True)
+    classes_id = db.Column(db.String(255))
 
     # for now there are only teacher and scanner, no normal teacher
     privilege = db.Column(db.Integer)   # 0: scanner, 1: teacher, 2: teacher
 
 
 # classes = db.Table('classes',
-#     db.Column('id', db.String(256), primary_key=True),
+#     db.Column('id', db.String(255), primary_key=True),
 #     db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id'), primary_key=True),
 #     db.Column('student_id', db.Integer, db.ForeignKey('student.id'), primary_key=True),
 # )
@@ -170,10 +170,10 @@ class Log(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer)
     status = db.Column(db.Integer, default=0)   # 0: check out, 1: pre check in, 2: check in
-    check_in_method = db.Column(db.String(256))
+    check_in_method = db.Column(db.String(255))
     check_by = db.Column(db.Integer)
-    check_time = db.Column(db.String(256))
-    daily_progress = db.Column(db.String(256))
+    check_time = db.Column(db.String(255))
+    daily_progress = db.Column(db.String(255))
 
 
 # if __name__ == '__main__':

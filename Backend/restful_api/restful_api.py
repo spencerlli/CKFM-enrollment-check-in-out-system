@@ -569,7 +569,7 @@ class TeacherClassesResource(Resource):
 ###### Classes ######
 class Classes(db.Model):
     __tablename__ = "classes"
-    id = db.Column(db.String(256), primary_key=True)
+    id = db.Column(db.String(255), primary_key=True)
     teacher_id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, primary_key=True)
 
