@@ -37,8 +37,7 @@
   "source": "${items | filter:student_name:match:student_name\
                       | filter:status:match:status\
                       | filter:check_in_method:match:check_in_method\
-                      | filter:check_by:match:check_by\
-                      | filter:programs:match:programs}",
+                      | filter:check_by:match:check_by}",
   "filter": {
     "body": [
       {
@@ -88,39 +87,39 @@
         "label": "Checked time range:",
         "inputFormat": "M/D/YYYY HH:mm"
       },
-      {
-        "type": "select",
-        "name": "programs",
-        "label": "Program(s):",
-        "multiple": true,
-        "size": "lg",
-        "options": [
-          {
-            "label": "Sunday School",
-            "value": "sunday_school"
-          },
-          {
-            "label": "CM Parent and Child Lounge",
-            "value": "cm_lounge"
-          },
-          {
-            "label": "Canaan Kid's Choir/Art",
-            "value": "kid_choir"
-          },
-          {
-            "label": "U3 Friday Night",
-            "value": "u3_friday"
-          },
-          {
-            "label": "Friday Night CKFM and Chlid Lounge",
-            "value": "friday_lounge"
-          },
-          {
-            "label": "Friday Night",
-            "value": "friday_night"
-          }
-        ]
-      }
+      //{
+      //  "type": "select",
+      //  "name": "programs",
+      //  "label": "Program(s):",
+      //  "multiple": true,
+      //  "size": "lg",
+      //  "options": [
+      //    {
+      //      "label": "Sunday School",
+      //      "value": "sunday_school"
+      //    },
+      //    {
+      //      "label": "CM Parent and Child Lounge",
+      //      "value": "cm_lounge"
+      //    },
+      //    {
+      //      "label": "Canaan Kid's Choir/Art",
+      //      "value": "kid_choir"
+      //    },
+      //    {
+      //      "label": "U3 Friday Night",
+      //      "value": "u3_friday"
+      //    },
+      //    {
+      //      "label": "Friday Night CKFM and Chlid Lounge",
+      //      "value": "friday_lounge"
+      //    },
+      //    {
+      //      "label": "Friday Night",
+      //      "value": "friday_night"
+      //    }
+      //  ]
+      //}
     ],
     "actions": [
       {
