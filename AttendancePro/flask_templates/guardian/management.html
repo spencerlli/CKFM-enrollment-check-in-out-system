@@ -30,19 +30,19 @@
             {
               "type": "form",
               "visibleOn": "this.object == 'guardian'",
-              "api": "put:{{ url_for('userManage', object='guardian', id='${id}') }}",
+              "api": "put:{{ url_for('userManage', object='guardian', id='${id}') | safe }}",
               "body": {{ guardian_form() }}
             },
             {
               "type": "form",
               "visibleOn": "this.object == 'student'",
-              "api": "put:{{ url_for('userManage', object='student', id='${id}') }}",
+              "api": "put:{{ url_for('userManage', object='student', id='${id}') | safe }}",
               "body": {{ student_form() }}
             },
             {
               "type": "form",
               "visibleOn": "this.object == 'familyInfo'",
-              "api": "put:{{ url_for('userManage', object='familyInfo', id='${id}') }}",
+              "api": "put:{{ url_for('userManage', object='familyInfo', id='${id}') | safe }}",
               "body": {{ family_form() }}
             }
           ]
@@ -61,7 +61,7 @@
         "size": "lg",
         "body": {
           "type": "form",
-          "api": "put:{{ url_for('userManage', object='guardian', id='${id}') }}",
+          "api": "post:{{ url_for('userManage', object='guardian', id='${id}') | safe }}",
           "body": {{ guardian_form(visible='true', validation='pwd') }}
         }
       }
@@ -76,7 +76,7 @@
         "size": "lg",
         "body": {
           "type": "form",
-          "api": "put:{{ url_for('userManage', object='student', id='${id}') }}",
+          "api": "post:{{ url_for('userManage', object='student', id='${id}') | safe }}",
           "body": {{ student_form() }}
         }
       }

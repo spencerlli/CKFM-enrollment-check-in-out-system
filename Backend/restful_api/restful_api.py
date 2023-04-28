@@ -22,9 +22,9 @@ class GuardianListResource(Resource):
 
     def post(self):
         # create a new one
-        plain_pwd = request.json.get('password', '123456')
+        plain_pwd = request.json.get('pwd', '123456')
         new_guardian = Guardian(
-            pwd=request.json.get('password', '123456'),
+            pwd=request.json.get('pwd', '123456'),
             pwd_hash=bcrypt.generate_password_hash(plain_pwd).decode('utf-8'),
             fname=request.json.get('fname'),
             lname=request.json.get('lname'),

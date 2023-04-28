@@ -31,9 +31,6 @@ AMIS_RES_TEMPLATE = {
 COOKIE_EXPIRE_TIME = int(
     (datetime.datetime.now() + datetime.timedelta(days=7)).timestamp())
 
-PROGRAMS = ['sunday_school', 'cm_lounge', 'kid_choir',
-            'u3_friday', 'friday_lounge', 'friday_night']
-
 '''
 COOKIES: {
     'login': ('1', '0'),
@@ -479,14 +476,11 @@ def userManage():
                     requests.get(REST_API + '/phone/%s' % object_json['phone']).status_code == 200:
                 res['status'] = 1
                 res['msg'] = 'Guardian phone number cannot be duplicated!'
+
             else:
-                if object == 'guardian':
-                    object_json['pwd'] = object_json['phone']
-                else:   # object == student
+                if object == 'student':
                     object_json['barcode'] = object_json['fname'][0].upper(
                     ) + object_json['lname'][0].upper() + generate_random_str(5)
-                    for i, program in enumerate(PROGRAMS):
-                        object_json[program] = object_json['program'][0][i]['checked']
 
                 object_id = requests.post(
                     REST_API + '/%s' % object, json=object_json).json()['id']
@@ -494,6 +488,7 @@ def userManage():
                 family_id = int(request.cookies.get('family_id'))
                 family_json = requests.get(
                     REST_API + '/family/%d' % family_id).json()
+
                 guardian_ids, student_ids = set(), set()
                 for family in family_json:
                     guardian_ids.add(family['guardian_id'])
@@ -522,8 +517,6 @@ def userManage():
                 # TODO: notice, when edit student, a new barcode will be generated and need to reprint.
                 object_json['barcode'] = object_json['fname'][0].upper(
                 ) + object_json['lname'][0].upper() + generate_random_str(5)
-                for i, program in enumerate(PROGRAMS):
-                    object_json[program] = object_json['program'][0][i]['checked']
 
             # change password
             elif 'new_pwd' in object_json:
@@ -548,8 +541,9 @@ def userManage():
                 res['msg'] = 'Successfully change password! Please login with new password next time.'
                 return jsonify(res)
 
-            requests.put(REST_API + '/%s/%s' %
-                         (object, object_id), json=object_json)
+            requests.put(REST_API + '/' + object + '/' +
+                         object_id, json=request.json)
+
             res['msg'] = 'Successfully update %s!' % object
 
         else:   # DELETE
@@ -1005,15 +999,12 @@ def log():
             log['student_name'] = student_id_to_json[student_id]['name']
             log['check_by'] = guardian_id_to_json[log['check_by']]['name']
 
-            log['programs'] = []
-            for _, program in enumerate(PROGRAMS):
-                if student_id_to_json[student_id][program] == 1:
-                    log['programs'].append(program)
             if log['daily_progress']:
                 log['daily_progress'] = log['daily_progress'].split(',')
             logs.append(log)
         res['data']['items'] = logs[::-1]
         res['msg'] = 'Successfully get logs!'
+
     elif request.method == 'PUT':   # only for update daily progress
         log_id = int(request.args.get('id'))
         requests.put(REST_API + '/log/%d' % log_id, json=request.json)
