@@ -520,11 +520,6 @@ def userManage():
 
             # change password
             elif 'new_pwd' in object_json:
-                if object_json['current_pwd'] == object_json['new_pwd']:
-                    res['status'] = 1
-                    res['msg'] = 'New password cannot be the same as current password!'
-                    return jsonify(res)
-
                 if object == 'admin' or object == 'scanner':
                     object = 'teacher'
                 query_res = requests.get(
@@ -538,6 +533,7 @@ def userManage():
                 object_json['pwd'] = object_json['new_pwd']
                 requests.put(REST_API + '/%s/%s' %
                              (object, object_id), json=object_json)
+
                 res['msg'] = 'Successfully change password! Please login with new password next time.'
                 return jsonify(res)
 

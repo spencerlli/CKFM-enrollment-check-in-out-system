@@ -422,7 +422,6 @@ class MsgBoardListResource(Resource):
 
     def post(self):
         # create a new msg record
-        print(request.json)
         new_msg = MsgBoard(
             sender_id=request.json['sender_id'],
             receiver_id=request.json['receiver_id'],
@@ -521,7 +520,7 @@ class TeacherResource(Resource):
         # update one by id
         teacher = Teacher.query.filter_by(id=id).first_or_404()
         if 'pwd' in request.json:
-            pwd = request.json['pwd']
+            teacher.pwd = request.json['pwd']
             plain_pwd = request.json['pwd']
             teacher.pwd_hash = bcrypt.generate_password_hash(
                 plain_pwd).decode('utf-8')

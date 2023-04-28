@@ -62,40 +62,36 @@
               "buttons": [
                 {
                   "type": "button",
-                  "label": "改密码",
+                  "label": "Change password",
                   "level": "link",
                   "actionType": "dialog",
                   "dialog": {
-                    "title": "改密码",
+                    "title": "Change password",
                     "body": {
-                    "type": "form",
-                    "api": "put:{{ url_for('adminManage', object='guardian', id='${id}') }}", 
-                    "body": [
+                      "type": "form",
+                      "api": "put:{{ url_for('adminManage', object='guardian', id='${id}') | safe }}",
+                      "mode": "horizontal",
+                      "horizontal": { "justify": true },
+                      "rules": [
                         {
-                          "type": "input-text",
-                          "name": "phone",
-                          "label": false
-                        },
+                          "rule": "${pwd == confirm_pwd}",
+                          "message": "New password doesn't match!",
+                          "name": ["confirm_pwd"]
+                        }
+                      ],
+                      "body": [
                         {
                           "type": "input-password",
-                          "name": "password",
-                          "label": false,
-                          "placeholder": "Password",
+                          "label": "New password:",
+                          "name": "pwd",
+                          "value": "${''}",
                           "required": true
                         },
                         {
                           "type": "input-password",
-                          "name": "confirm_password",
-                          "label": false,
-                          "placeholder": "Confirm password",
-                          "required": true,
-                          "validations": {
-                            "equalsField": "password"
-                          },
-                          "validationErrors": {
-                            "equalsField": "passord doesn't match!"
-                          },
-                          "validateOnChange": true
+                          "label": "Confirm new password:",
+                          "name": "confirm_pwd",
+                          "required": true
                         }
                       ]
                     }

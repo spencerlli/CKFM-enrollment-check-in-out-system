@@ -65,6 +65,18 @@
                           "api": "put:{{ url_for('userManage', object='${cookie:user_group}', id='${cookie:user_id}') | safe }}",
                           "mode": "horizontal",
                           "horizontal": { "justify": true },
+                          "rules": [
+                            {
+                              "rule": "${current_pwd != new_pwd}",
+                              "message": "New password must be different from current password!",
+                              "name": ["new_pwd"]
+                            },
+                            {
+                              "rule": "${new_pwd == confirm_pwd}",
+                              "message": "New password doesn't match!",
+                              "name": ["confirm_pwd"]
+                            }
+                          ],
                           "body": [
                             {
                               "type": "input-password",
@@ -82,13 +94,7 @@
                               "type": "input-password",
                               "name": "confirm_pwd",
                               "label": "Confirm new password:",
-                              "required": true,
-                              "validations": {
-                                "equalsField": "new_pwd"
-                              },
-                              "validationErrors": {
-                                "equalsField": "new password doesn't match!"
-                              }
+                              "required": true
                             }
                           ]
                         }
