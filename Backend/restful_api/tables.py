@@ -129,6 +129,7 @@ class MsgBoard(db.Model):
 #     db.Column('id', db.Integer, db.ForeignKey('familyInfo.id'), primary_key=True),
 #     db.Column('guardian_id', db.Integer, db.ForeignKey('guardian.id'), primary_key=True),
 #     db.Column('student_id', db.Integer, db.ForeignKey('student.id'), primary_key=True),
+#     db.Column('is_guest', db.Boolean, default=False)
 # )
 
 
@@ -177,4 +178,5 @@ class Log(db.Model):
 
 
 # if __name__ == '__main__':
-#     db.create_all()
+#     with app.app_context():
+#         db.create_all()
