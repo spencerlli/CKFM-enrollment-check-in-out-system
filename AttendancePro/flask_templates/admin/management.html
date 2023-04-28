@@ -147,8 +147,16 @@
               "name": "id"
             },
             {
+              "name": "status",
+              "type": "mapping",
               "label": "Status",
-              "name": "status"
+              "sortable": true,
+              "map": {
+                0: "<span class='label label-warning'>Checked out</span>",
+                1: "<span class='label label-info'>Pre-checked in</span>",
+                2: "<span class='label label-success'>Checked in</span>",
+                "*":  "<span class='label label-default'>Other</span>"
+              }
             },
             {
               "label": "First Name",
