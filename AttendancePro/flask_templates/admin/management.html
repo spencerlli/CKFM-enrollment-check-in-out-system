@@ -122,7 +122,8 @@
                   "label": "Delete",
                   "level": "link",
                   "confirmText": "确定要删除？",
-                  "api": "delete:{{url_for('adminManage', object='guardian', id='${id}')}}"
+                  "api": "delete:{{ url_for('adminManage', object='guardian', id='${id}') }}",
+                  "reload": "guardian, family"
                 }
               ]
             }
@@ -254,7 +255,8 @@
                   "level": "link",
                   "className": "bg-danger",
                   "confirmText": "确定要删除？",
-                  "api": "delete:{{ url_for('adminManage', object='student', id='${id}') }}"
+                  "api": "delete:{{ url_for('adminManage', object='student', id='${id}') }}",
+                  "reload": "student, family, class"
                 }
               ]
             }
