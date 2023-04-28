@@ -805,7 +805,7 @@ def msgBoard():
                     msg_show.append({'id': msg['id'], 'fname': fname, 'lname': lname,
                                     'msg': msg['content'], 'timestamp': msg['time']})
 
-            res['data'] = {'items': msg_show}
+            res['data'] = {'items': msg_show[::-1]}
             res["msg"] = "Successfully get historical messages!"
         else:   # teacher
             teacher_json = requests.get(
@@ -825,7 +825,7 @@ def msgBoard():
                     msg_show.append({'id': msg['id'], 'fname': fname, 'lname': lname,
                                     'msg': msg['content'], 'timestamp': msg['time'], 'read': 'Yes' if msg['been_read'] else 'No'})
 
-            res['data'] = {'items': msg_show}
+            res['data'] = {'items': msg_show[::-1]}
             res["msg"] = "Successfully get historical messages!"
     else:   # POST
         if user_group == 'guardian':
