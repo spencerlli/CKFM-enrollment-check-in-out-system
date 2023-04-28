@@ -290,15 +290,15 @@ def adminManage(object):
                 object_json.pop(0)
                 status_to_str = {0: 'Checked out', 1: 'Pre-checked in', 2: 'Checked in'}
                 for i, student in enumerate(object_json):
-                    student['status'] = status_to_str[student['status']]
+                    student['status'] = status_to_str[int(student['status'])]
 
             res['data']['items'] = object_json
             res['msg'] = 'Successfully get data!'
         elif request.method == 'PUT' or request.method == 'POST':
             if request.method == 'PUT':
                 if object == 'student':
-                    old_status = requests.get(REST_API + '/student/%d' % int(request.args.get('id'))).json()['status']
-                    new_status = request.json.get('status')
+                    old_status = int(requests.get(REST_API + '/student/%d' % int(request.args.get('id'))).json()['status'])
+                    new_status = int(request.json.get('status'))
                     if old_status != new_status:
                         log_json = {
                             'student_id': int(request.args.get('id')),
@@ -603,7 +603,7 @@ def preCheckIn():
                 student_json = requests.get(
                     REST_API + '/student/%d' % family['student_id']).json()
 
-                if student_json['status'] == 0:
+                if int(student_json['status']) == 0:
                     family_list.append({
                         'object': 'student',
                         'id': student_json['id'],
@@ -673,7 +673,7 @@ def checkIn():
             res['msg'] = "Barcode doesn't match!"
         else:
             student_json = query_res.json()
-            if student_json['status'] != 1:
+            if int(student_json['status']) != 1:
                 res['status'] = 1
                 res['msg'] = "Student is not on pre-checked in status!"
             else:
@@ -764,7 +764,7 @@ def checkOut():
             if family['student_id'] not in student_id_set:  # filter repeat
                 student_json = requests.get(
                     REST_API + '/student/%d' % family['student_id']).json()
-                if student_json['status'] == 2:
+                if int(student_json['status']) == 2:
                     student_info_list.append({
                         'id': student_json['id'],
                         'fname': student_json['fname'],
