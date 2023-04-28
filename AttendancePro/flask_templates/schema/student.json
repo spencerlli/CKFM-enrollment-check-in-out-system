@@ -1,4 +1,4 @@
-{% macro student_form() -%}
+{% macro student_form(visible='false') -%}
 [
 	{
 		"type": "grid",
@@ -22,7 +22,7 @@
 					},
 					{
 						"type": "input-date",
-						"label": "Date of Birth:",
+						"label": "Birthdate:",
 						"name": "birthdate",
 						"required": true,
 						"mode": "horizontal"
@@ -82,20 +82,21 @@
 						"type": "select",
 						"label": "Status:",
 						"name": "status",
-						"required": true,
+						"visible": {{ visible }},
+						"required": {{ visible }},
 						"mode": "horizontal",
 						"options": [
 							{
 								"label": "Checked out",
-								"value": "0"
+								"value": 0
 							},
 							{
 								"label": "Pre-checked in",
-								"value": "1"
+								"value": 1
 							},
 							{
 								"label": "Checked in",
-								"value": "2"
+								"value": 2
 							}
 						]
 					}

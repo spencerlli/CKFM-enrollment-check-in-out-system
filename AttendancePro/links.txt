@@ -1,11 +1,8 @@
 前端框架：amis
   文档：https://baidu.github.io/amis/zh-CN/docs/index
-  可视化编辑器 - 在线体验：https://aisuda.github.io/amis-editor-demo
 
 
-
-Require following items for printing:
-1. b-PAC component: https://support.brother.com/g/s/es/dev/en/bpac/download/index.html?c=eu_ot&lang=en&navi=offall&comple=on&redirect=on
-2. Printer driver of target printer: https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=lpql800eus
-3. label template: lib/badge_template.lbx
-4. web extension: https://chrome.google.com/webstore/detail/brother-b-pac-extension/ilpghlfadkjifilabejhhijpfphfcfhb
+Required for printing:
+1. Printer Driver: https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=lpql800eus
+2. b-PAC Client Component: https://support.brother.com/g/s/es/dev/en/bpac/download/index.html?c=eu_ot&lang=en&navi=offall&comple=on&redirect=on
+3. b-PAC Web Extension: https://chrome.google.com/webstore/detail/brother-b-pac-extension/ilpghlfadkjifilabejhhijpfphfcfhb

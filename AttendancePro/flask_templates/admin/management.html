@@ -162,7 +162,7 @@
             },
             {
               "type": "date",
-              "label": "Birth Date",
+              "label": "Birthdate",
               "name": "birthdate",
               "format": "MM/DD/YYYY"
             },
@@ -219,7 +219,7 @@
                     "body": {
                       "type": "form",
                       "api": "put:{{ url_for('adminManage', object='student', id='${id}') }}",
-                      "body": {{ student_form() }}
+                      "body": {{ student_form(visible='true') }}
                     }
                   }
                 },
@@ -414,8 +414,7 @@
                 "type": "select",
                 "name": "class",
                 "label": "Class:",
-                "source": "{{url_for('adminManage', object='classes')}}" // use REST api for getting class names
-                // https://baidu.github.io/amis/zh-CN/components/form/options#%E8%BF%9C%E7%A8%8B%E6%8B%89%E5%8F%96
+                "source": "get:{{ url_for('adminManage', object='classes') }}"
               }
             ],
             "actions": [

@@ -288,9 +288,6 @@ def adminManage(object):
             if object == 'student':
                 object_json = sorted(object_json, key=lambda x: x['id'])
                 object_json.pop(0)
-                status_to_str = {0: 'Checked out', 1: 'Pre-checked in', 2: 'Checked in'}
-                for i, student in enumerate(object_json):
-                    student['status'] = status_to_str[int(student['status'])]
 
             res['data']['items'] = object_json
             res['msg'] = 'Successfully get data!'
@@ -298,7 +295,7 @@ def adminManage(object):
             if request.method == 'PUT':
                 if object == 'student':
                     old_status = int(requests.get(REST_API + '/student/%d' % int(request.args.get('id'))).json()['status'])
-                    new_status = int(request.json.get('status'))
+                    new_status = request.json.get('status')
                     if old_status != new_status:
                         log_json = {
                             'student_id': int(request.args.get('id')),
