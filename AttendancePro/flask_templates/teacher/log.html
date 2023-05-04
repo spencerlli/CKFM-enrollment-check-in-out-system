@@ -191,6 +191,25 @@
         "check_time",
         "programs"
       ]
+    },
+    "bulkActions",
+  ],
+  "keepItemSelectionOnPageChange": true,
+  "checkOnItemClick": true,
+  "bulkActions": [
+    {
+      "type": "button",
+      "label": "Delete logs",
+      "level": "danger",
+      "actionType": "ajax",
+      "confirmText": "Do you want to delete selected logs?",
+      "api": {
+        "method": "delete",
+        "url": "{{ url_for('log') }}",
+        "data": {
+          "log": "${selectedItems}"
+        }
+      }
     }
   ],
   "columns": [

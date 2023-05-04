@@ -958,7 +958,7 @@ def logPage():
     return render_template('flask_templates/teacher/log.html')
 
 
-@app.route('/log', methods=['GET', 'PUT'])
+@app.route('/log', methods=['GET', 'PUT', 'DELETE'])
 def log():
     res = deepcopy(AMIS_RES_TEMPLATE)
     if request.method == 'GET':
@@ -1005,6 +1005,13 @@ def log():
         log_id = int(request.args.get('id'))
         requests.put(REST_API + '/log/%d' % log_id, json=request.json)
         res['msg'] = 'Successfully update daily progress!'
+
+    elif request.method == 'DELETE':
+        for log in request.json['log']:
+            log_id = int(log['id'])
+            requests.delete(REST_API + '/log/%d' % log_id)
+            res['msg'] = 'Successfully delete log!'
+
     return jsonify(res)
 
 
