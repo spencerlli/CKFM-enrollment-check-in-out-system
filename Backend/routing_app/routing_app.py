@@ -283,6 +283,16 @@ def adminManage(object):
                         ' ' + student_json['lname']
             
             if object == 'student':
+                teachers_json = requests.get(REST_API + '/teacher').json()
+                classes_teacher_name = {}
+                for teacher in teachers_json:
+                    if teacher['classes_id'] not in classes_teacher_name:
+                        classes_teacher_name[teacher['classes_id']] = []
+                    classes_teacher_name[teacher['classes_id']].append(teacher['fname'] + ' ' + teacher['lname'])
+
+                for i, student in enumerate(object_json):
+                    object_json[i]['teacher_name'] = classes_teacher_name[student['classes_id']]
+                
                 object_json = sorted(object_json, key=lambda x: x['id'])
                 object_json.pop(0)
 
