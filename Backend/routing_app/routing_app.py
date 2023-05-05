@@ -281,6 +281,33 @@ def adminManage(object):
                     object_json[i]['guardian_relationship'] = guardian_json['relationship']
                     object_json[i]['student_name'] = student_json['fname'] + \
                         ' ' + student_json['lname']
+                    
+            if object == 'familyInfo':
+                guardians_json = requests.get(REST_API + '/guardian').json()
+                students_json = requests.get(REST_API + '/student').json()
+                family_json = requests.get(REST_API + '/family').json()
+                guardian_id_to_json = {guardian['id']: guardian for guardian in guardians_json}
+                student_id_to_json = {student['id']: student for student in students_json}
+            
+                for i, _ in enumerate(object_json):
+                    object_json[i]['guardian_names'], object_json[i]['student_names'] = set(), set()
+
+                id_familyInfo = {familyInfo['id']: familyInfo for familyInfo in object_json}
+                
+                for family in family_json:
+                    family_id = family['id']
+                    guardian_json = guardian_id_to_json[family['guardian_id']]
+                    student_json = student_id_to_json[family['student_id']]
+                    guardian_name = guardian_json['fname'] + ' ' + guardian_json['lname']
+                    student_name = student_json['fname'] + ' ' + student_json['lname']
+                    id_familyInfo[family_id]['guardian_names'].add(guardian_name)
+                    id_familyInfo[family_id]['student_names'].add(student_name)
+
+                for id, _ in id_familyInfo.items():
+                    id_familyInfo[id]['guardian_names'] = ', '.join(list(id_familyInfo[id]['guardian_names']))
+                    id_familyInfo[id]['student_names'] = ', '.join(list(id_familyInfo[id]['student_names']))
+                
+                object_json = list(id_familyInfo.values())
             
             if object == 'student':
                 teachers_json = requests.get(REST_API + '/teacher').json()
