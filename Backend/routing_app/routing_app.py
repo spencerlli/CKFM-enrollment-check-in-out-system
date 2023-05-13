@@ -318,7 +318,8 @@ def adminManage(object):
                     classes_teacher_name[teacher['classes_id']].append(teacher['fname'] + ' ' + teacher['lname'])
 
                 for i, student in enumerate(object_json):
-                    object_json[i]['teacher_name'] = classes_teacher_name[student['classes_id']]
+                    if student['classes_id']:
+                        object_json[i]['teacher_name'] = classes_teacher_name[student['classes_id']]
                 
                 object_json = sorted(object_json, key=lambda x: x['id'])
                 object_json.pop(0)
