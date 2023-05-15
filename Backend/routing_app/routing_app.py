@@ -329,17 +329,15 @@ def adminManage(object):
         elif request.method == 'PUT' or request.method == 'POST':
             if request.method == 'PUT':
                 if object == 'student':
-                    old_status = int(requests.get(REST_API + '/student/%d' % int(request.args.get('id'))).json()['status'])
-                    new_status = request.json.get('status')
-                    if old_status != new_status:
-                        log_json = {
-                            'student_id': int(request.args.get('id')),
-                            'status': new_status,
-                            'check_in_method': request.json.get('check_in_method'),
-                            'check_by': 0,
-                            'check_time': int(datetime.datetime.now().timestamp())
-                        }
-                        requests.post(REST_API + '/log', json=log_json)
+                    status = int(request.json.get('status'))
+                    log_json = {
+                        'student_id': int(request.args.get('id')),
+                        'status': status,
+                        'check_in_method': request.json.get('check_in_method'),
+                        'check_by': 0,
+                        'check_time': int(datetime.datetime.now().timestamp())
+                    }
+                    requests.post(REST_API + '/log', json=log_json)
 
                 requests.put(REST_API + '/' + object + '/' +
                              request.args.get('id'), json=request.json)
