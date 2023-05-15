@@ -111,6 +111,8 @@ class StudentListResource(Resource):
     def post(self):
         # create a new one
         new_student = Student(
+            status=request.json.get('status'),
+
             fname=request.json.get('fname'),
             lname=request.json.get('lname'),
             birthdate=request.json.get('birthdate'),

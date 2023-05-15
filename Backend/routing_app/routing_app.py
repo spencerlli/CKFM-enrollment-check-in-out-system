@@ -1079,10 +1079,19 @@ def guestEnroll():
         for student in request.json['students']:
             student['barcode'] = student['fname'][0].upper(
             ) + student['lname'][0].upper() + generate_random_str(5)
-            student['check_in'] = guardian_list[0]['id']
+            student['status'] = 1
             student_res = requests.post(
                 REST_API + '/student', json=student)
             student_list.append(student_res.json())
+
+            log_json = {
+                'student_id': student_res.json()['id'],
+                'status': 1,
+                'check_in_method': request.json.get('check_in_method'),
+                'check_by': int(guardian_list[0]['id']),
+                'check_time': int(datetime.datetime.now().timestamp())
+            }
+            requests.post(REST_API + '/log', json=log_json)
 
         # familyInfo
         familyInfo_json = {'is_guest': True}
