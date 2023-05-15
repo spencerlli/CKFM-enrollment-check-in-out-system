@@ -53,7 +53,7 @@ class StudentSchema(ma.Schema):
 class Student(db.Model):
     __tablename__ = "student"
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.Integer)
+    status = db.Column(db.Integer, default=0)
     fname = db.Column(db.String(255))
     lname = db.Column(db.String(255))
     birthdate = db.Column(db.String(255))
