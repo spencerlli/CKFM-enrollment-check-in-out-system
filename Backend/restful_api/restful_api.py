@@ -463,7 +463,8 @@ class MsgBoardGuardianResource(Resource):
     def get(self, guardian_id):
         # get one by id
         msg_record = MsgBoard.query.filter(
-            ((MsgBoard.sender_group == 'teacher') & (MsgBoard.receiver_id == guardian_id)) |
+            ((MsgBoard.sender_group == 'teacher' or MsgBoard.sender_group == 'admin') & 
+             (MsgBoard.receiver_id == guardian_id)) |
             ((MsgBoard.sender_id == guardian_id) &
              (MsgBoard.sender_group == 'guardian'))
         ).all()
@@ -474,9 +475,10 @@ class MsgBoardTeacherResource(Resource):
     def get(self, teacher_id):
         # get one by id
         msg_record = MsgBoard.query.filter(
-            ((MsgBoard.sender_group == 'guardian') & (MsgBoard.receiver_id == teacher_id)) |
+            ((MsgBoard.sender_group == 'guardian') & 
+             (MsgBoard.receiver_id == teacher_id)) |
             ((MsgBoard.sender_id == teacher_id) &
-             (MsgBoard.sender_group == 'teacher'))
+             (MsgBoard.sender_group == 'teacher' or MsgBoard.sender_group == 'admin'))
         ).all()
         return msg_records_schema.dump(msg_record)
 ###### MsgBoard ######
