@@ -1122,6 +1122,24 @@ def printBagePage():
     return render_template('static/lib/print_badge.html')
 
 
+@app.route('/upload', methods=['POST'])
+def upload():
+    res = deepcopy(AMIS_RES_TEMPLATE)
+
+    import pandas as pd
+    f = request.files.get('file')
+
+    # pip install openpyxl
+    if f.filename.endswith('.xlsx'):
+        data = pd.read_excel(f)
+        print(data)
+    elif f.filename.endswith('.csv'):
+        data = pd.read_csv(f)
+        print(data)
+
+    return jsonify(res)
+
+
 def generate_random_str(randomLength=8):
     random_str = ''
     base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789'

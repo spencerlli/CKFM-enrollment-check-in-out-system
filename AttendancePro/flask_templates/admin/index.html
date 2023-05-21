@@ -95,6 +95,35 @@
             "size": "lg",
             "block": true,
             "level": "light"
+          },
+          {
+            "type": "button",
+            "label": "Enroll from Excel / 从Excel注册",
+            "size": "lg",
+            "block": true,
+            "level": "light",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "Enroll from Excel",
+              "body": [
+                {
+                  "type": "form",
+                  "title": "Enroll from Excel",
+                  "api": "post:{{ url_for('upload') }}",
+                  "body": [
+                    {
+                      "type": "input-file",
+                      "label": "File",
+                      "name": "file",
+                      "accept": ".csv,.xlsx",
+                      "maxLength": 1,
+                      "asBlob": true,
+                      "required": true
+                    }
+                  ]
+                }
+              ]
+            }
           }
           // {
           //   "type": "button",
@@ -103,16 +132,6 @@
           //   "link": "{{url_for('logPage')}}",
           //   "icon" : "fa-solid fa-pen-to-square",
           //   "size": "lg",
-          //   "level": "light",
-          //   "block": true
-          // },
-          // {
-          //   "type": "button",
-          //   "label": "Customize / 自定义",
-          //   "actionType": "link",
-          //   "size": "lg",
-          //   "link": "",
-          //   "icon": "fa-solid fa-screwdriver-wrench",
           //   "level": "light",
           //   "block": true
           // }
