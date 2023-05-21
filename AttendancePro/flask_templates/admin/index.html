@@ -99,6 +99,7 @@
           {
             "type": "button",
             "label": "Enroll from Excel / 从Excel注册",
+            "icon": "fa-solid fa-file-arrow-up",
             "size": "lg",
             "block": true,
             "level": "light",
@@ -108,14 +109,13 @@
               "body": [
                 {
                   "type": "form",
-                  "title": "Enroll from Excel",
                   "api": "post:{{ url_for('upload') }}",
                   "body": [
                     {
                       "type": "input-file",
                       "label": "File",
                       "name": "file",
-                      "accept": ".csv,.xlsx",
+                      "accept": ".xlsx,.csv",
                       "maxLength": 1,
                       "asBlob": true,
                       "required": true

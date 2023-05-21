@@ -1124,18 +1124,18 @@ def printBagePage():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    res = deepcopy(AMIS_RES_TEMPLATE)
-
     import pandas as pd
-    f = request.files.get('file')
 
-    # pip install openpyxl
+    res = deepcopy(AMIS_RES_TEMPLATE)
+    f = request.files['file']
+
     if f.filename.endswith('.xlsx'):
-        data = pd.read_excel(f)
-        print(data)
-    elif f.filename.endswith('.csv'):
+        data = pd.read_excel(f)     # pip install openpyxl
+    else:
         data = pd.read_csv(f)
-        print(data)
+
+    print(data)
+    res['msg'] = f'Upload {f.filename} successfully!'
 
     return jsonify(res)
 
