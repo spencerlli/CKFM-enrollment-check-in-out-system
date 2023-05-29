@@ -345,7 +345,7 @@ def adminManage(object):
 
             elif request.method == 'POST':
                 # TODO: when add guardian, required to input 'is_primary'
-                requests.post(REST_API + '/' + object, json=object_json)
+                requests.post(REST_API + '/' + object, json=request.json)
                 res['msg'] = 'Successfully add new %s!' % object
         elif request.method == 'DELETE':
             if object == 'guardian' or object == 'student':
