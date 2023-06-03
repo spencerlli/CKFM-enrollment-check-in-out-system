@@ -11,7 +11,8 @@ AttendancePro/.DS_Store
 Backend/restful_api/restful_config.py
 flask-crud-application-with-mysql-master/config.py
 Backend/*.json
-Backend/data
+Backend/data/*.ipynb
+Backend/data/*.xlsx
 __pycache__
 .ipynb_checkpoints
 .vscode
