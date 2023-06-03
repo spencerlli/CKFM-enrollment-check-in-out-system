@@ -37,13 +37,18 @@
           "body": {
             "type": "flex",
             "direction": "column",
+            "isFixedWidth": true,
+            "style": {
+              "width": "300px",
+              "overflowX": "visible",
+              "margin": "auto"
+            },
             "items": [
               {
                 "type": "form",
                 "title": "Sign in",
                 "submitText": "Sign in",
                 "api": "{{ url_for('login') }}",
-                "className": "w-lg",
                 "body": [
                   {
                     "type": "input-text",
