@@ -78,7 +78,7 @@ class GuardianResource(Resource):
         return guardian_schema.dump(guardian)
 
     def delete(self, id):
-        # delete one by id
+        # delete by id
         Guardian.query.filter_by(id=id).delete()
         db.session.commit()
         return '', 204
@@ -295,7 +295,7 @@ class FamilyInfoResource(Resource):
         return family_info_schema.dump(family_info)
 
     def delete(self, id):
-        # delete one by id
+        # delete by id
         FamilyInfo.query.filter_by(id=id).delete()
         db.session.commit()
         return '', 204
@@ -388,9 +388,7 @@ class FamilyGuardianResource(Resource):
         return families_schema.dump(families_got)
 
     def delete(self, guardian_id):
-        families_got = Family.query.filter_by(guardian_id=guardian_id).all()
-        for family_got in families_got:
-            db.session.delete(family_got)
+        Family.query.filter_by(guardian_id=guardian_id).delete()
         db.session.commit()
         return '', 204
 
@@ -402,10 +400,8 @@ class FamilyStudentResource(Resource):
         return families_schema.dump(families_got)
 
     def delete(self, student_id):
-        # delete one by id
-        families_got = Family.query.filter_by(student_id=student_id).all()
-        for family_got in families_got:
-            db.session.delete(family_got)
+        # delete by id
+        Family.query.filter_by(student_id=student_id).delete()
         db.session.commit()
         return '', 204
 ###### Family ######
@@ -452,7 +448,7 @@ class MsgBoardResource(Resource):
         return msg_record_schema.dump(msg_record)
 
     def delete(self, id):
-        # delete one by id
+        # delete by id
         msg_got = MsgBoard.query.filter_by(id=id).first_or_404()
         db.session.delete(msg_got)
         db.session.commit()
@@ -542,7 +538,7 @@ class TeacherResource(Resource):
         return teacher_schema.dump(teacher)
 
     def delete(self, id):
-        # delete one by id
+        # delete by id
         teacher = Teacher.query.filter_by(id=id).first_or_404()
         db.session.delete(teacher)
         db.session.commit()
@@ -653,9 +649,7 @@ class ClassesTeacherResource(Resource):
         return classess_schema.dump(classess_got)
 
     def delete(self, teacher_id):
-        classess_got = Classes.query.filter_by(teacher_id=teacher_id).all()
-        for class_got in classess_got:
-            db.session.delete(class_got)
+        Classes.query.filter_by(teacher_id=teacher_id).delete()
         db.session.commit()
         return '', 204
 
@@ -665,9 +659,7 @@ class ClassesStudentResource(Resource):
         return classess_schema.dump(classess_got)
 
     def delete(self, student_id):
-        classess_got = Classes.query.filter_by(student_id=student_id).all()
-        for class_got in classess_got:
-            db.session.delete(class_got)
+        Classes.query.filter_by(student_id=student_id).delete()
         db.session.commit()
         return '', 204
 ###### Classes ######
@@ -717,9 +709,9 @@ class LogResource(Resource):
         if 'check_in_method' in request.json:
             log.check_in_method = request.json['check_in_method']
         if 'check_by' in request.json:
-            log.check_in = request.json['check_by']
+            log.check_by = request.json['check_by']
         if 'check_time' in request.json:
-            log.check_in_time = request.json['check_time']
+            log.check_time = request.json['check_time']
         if 'daily_progress' in request.json:
             log.daily_progress = request.json['daily_progress']
 
@@ -736,17 +728,11 @@ class LogResource(Resource):
 
 class LogGuardianResource(Resource):
     def get(self, guardian_id):
-        check_in_logs = Log.query.filter_by(check_in=guardian_id).all()
-        check_out_logs = Log.query.filter_by(check_out=guardian_id).all()
-        logs = check_in_logs + check_out_logs
+        logs = Log.query.filter_by(check_by=guardian_id).all()
         return logs_schema.dump(logs)
 
     def delete(self, guardian_id):
-        check_in_logs = Log.query.filter_by(check_in=guardian_id).all()
-        check_out_logs = Log.query.filter_by(check_out=guardian_id).all()
-        logs = check_in_logs + check_out_logs
-        for log in logs:
-            db.session.delete(log)
+        Log.query.filter_by(check_by=guardian_id).delete()  # delete all
         db.session.commit()
         return '', 204
 
@@ -757,9 +743,7 @@ class LogStudentResource(Resource):
         return logs_schema.dump(logs)
 
     def delete(self, student_id):
-        logs = Log.query.filter_by(student_id=student_id).all()
-        for log in logs:
-            db.session.delete(log)
+        Log.query.filter_by(student_id=student_id).delete()
         db.session.commit()
         return '', 204
 ###### Logs ######
