@@ -359,20 +359,23 @@ def adminManage(object):
             if object == 'familyInfo':
                 family_json = requests.get(
                     REST_API + '/family/' + request.args.get('id')).json()
+
                 guardian_id_set = {family['guardian_id']
                                    for family in family_json}
                 student_id_set = {family['student_id']
                                   for family in family_json}
 
-                requests.delete(REST_API + '/family/%d' %
-                                family_json[0].get('id'))
-                for guardian_id in guardian_id_set:
-                    requests.delete(REST_API + '/guardian/%d' % guardian_id)
-                    requests.delete(
-                        REST_API + '/log/guardian/%d' % guardian_id)
-                for student_id in student_id_set:
-                    requests.delete(REST_API + '/student/%d' % student_id)
-                    requests.delete(REST_API + '/log/student/%d' % student_id)
+                if family_json:
+                    requests.delete(REST_API + '/family/%d' %
+                                    family_json[0].get('id'))
+
+                    for guardian_id in guardian_id_set:
+                        requests.delete(REST_API + '/guardian/%d' % guardian_id)
+                        requests.delete(
+                            REST_API + '/log/guardian/%d' % guardian_id)
+                    for student_id in student_id_set:
+                        requests.delete(REST_API + '/student/%d' % student_id)
+                        requests.delete(REST_API + '/log/student/%d' % student_id)
 
             requests.delete(REST_API + '/' + object +
                             '/' + request.args.get('id'))
