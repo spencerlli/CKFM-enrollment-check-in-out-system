@@ -774,9 +774,24 @@
                       "required": true
                     },
                     {
-                      "type": "hidden",
+                      "type": "select",
                       "name": "privilege",
-                      "value": "1"
+                      "label": "Privilege",
+                      "required": true,
+                      "options": [
+                        {
+                          "label": "Teacher",
+                          "value": 1
+                        },
+                        {
+                          "label": "Admin",
+                          "value": 2
+                        },
+                        {
+                          "label": "Scanner",
+                          "value": 0
+                        }
+                      ]
                     }
                   ]
                 }
