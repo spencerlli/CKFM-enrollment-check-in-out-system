@@ -24,6 +24,7 @@
 						"type": "input-date",
 						"label": "Birthdate:",
 						"name": "birthdate",
+						"value": "1262336818",
 						"required": true,
 						"mode": "horizontal"
 					},
