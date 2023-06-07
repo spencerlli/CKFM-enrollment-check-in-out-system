@@ -151,7 +151,7 @@ class Teacher(db.Model):
     classes_id = db.Column(db.String(255))
 
     # for now there are only teacher and scanner, no normal teacher
-    privilege = db.Column(db.Integer)   # 0: scanner, 1: teacher, 2: teacher
+    privilege = db.Column(db.Integer)   # 0: scanner, 1: teacher, 2: admin
 
 
 # classes = db.Table('classes',

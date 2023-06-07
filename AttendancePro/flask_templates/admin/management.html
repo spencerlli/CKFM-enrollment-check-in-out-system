@@ -100,11 +100,11 @@
                 {
                   "label": "Edit",
                   "type": "button",
-                  "actionType": "drawer",
+                  "actionType": "dialog",
                   "level": "link",
-                  "drawer": {
+                  "dialog": {
                     "title": "Edit",
-                    "size": "lg",
+                    "size": "md",
                     "body": {
                       "type": "form",
                       "api": "put:{{ url_for('adminManage', object='guardian', id='${id}') }}",
@@ -323,9 +323,9 @@
                 {
                   "label": "Edit",
                   "type": "button",
-                  "actionType": "drawer",
+                  "actionType": "dialog",
                   "level": "link",
-                  "drawer": {
+                  "dialog": {
                     "title": "Edit",
                     "size": "lg",
                     "body": {
@@ -576,6 +576,7 @@
       "tab": [
         {
           "type": "crud",
+          "name": "teacher",
           "syncLocation": false,
           "api": "{{ url_for('adminManage', object='teacher') }}",
           "loadDataOnce": true,
@@ -629,8 +630,15 @@
             },
             {
               "name": "privilege",
+              "type": "mapping",
               "label": "Privilege",
-              "sortable": true
+              "sortable": true,
+              "map": {
+                0: "Scanner",
+                1: "Teacher",
+                2: "Admin",
+                "*": "NaN"
+              }
             },
             {
               "type": "operation",
@@ -640,8 +648,8 @@
                   "label": "Edit",
                   "type": "button",
                   "level": "link",
-                  "actionType": "drawer",
-                  "drawer": {
+                  "actionType": "dialog",
+                  "dialog": {
                     "title": "Edit",
                     "body": {
                       "type": "form",
@@ -660,17 +668,20 @@
                         {
                           "type": "input-text",
                           "name": "phone",
-                          "label": "Phone"
+                          "label": "Phone",
+                          "required": true
                         },
                         {
                           "type": "input-text",
                           "name": "pwd",
-                          "label": "Password"
+                          "label": "Password",
+                          "required": true
                         },
                         {
                           "type": "input-text",
                           "name": "email",
-                          "label": "Email"
+                          "label": "Email",
+                          "required": true
                         },
                         {
                           "type": "input-text",
@@ -678,9 +689,24 @@
                           "label": "Class"
                         },
                         {
-                          "type": "input-text",
+                          "type": "select",
                           "name": "privilege",
-                          "label": "Privilege"
+                          "label": "Privilege",
+                          "required": true,
+                          "options": [
+                            {
+                              "label": "Teacher",
+                              "value": 1
+                            },
+                            {
+                              "label": "Admin",
+                              "value": 2
+                            },
+                            {
+                              "label": "Scanner",
+                              "value": 0
+                            }
+                          ]
                         }
                       ]
                     }

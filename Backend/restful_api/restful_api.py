@@ -519,23 +519,27 @@ class TeacherResource(Resource):
     def put(self, id):
         # update one by id
         teacher = Teacher.query.filter_by(id=id).first_or_404()
-        if 'pwd' in request.json:
-            teacher.pwd = request.json['pwd']
-            plain_pwd = request.json['pwd']
+
+        # Avoid duplicate entries
+        if teacher.phone == request.json.get('phone'):
+            del request.json['phone']
+        if teacher.email == request.json.get('email'):
+            del request.json['email']
+
+        try:
+            for key, value in request.json.items():
+                setattr(teacher, key, value)
+
             teacher.pwd_hash = bcrypt.generate_password_hash(
-                plain_pwd).decode('utf-8')
-        if 'fname' in request.json:
-            teacher.fname = request.json['fname']
-        if 'lname' in request.json:
-            teacher.lname = request.json['lname']
-        if 'phone' in request.json:
-            teacher.phone = request.json['phone']
-        if 'email' in request.json:
-            teacher.email = request.json['email']
-        if 'classes_id' in request.json:
-            teacher.classes_id = request.json['classes_id']
-        db.session.commit()
-        return teacher_schema.dump(teacher)
+                request.json['pwd']).decode('utf-8')
+
+            db.session.commit()
+            return {"msg": "Teacher updated successfully.", "status": 0}
+
+        except IntegrityError as e:
+            db.session.rollback()
+            return {"msg": "An error occurred: {}".format(e), "status": -1}
+
 
     def delete(self, id):
         # delete by id
