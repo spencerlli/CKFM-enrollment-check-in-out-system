@@ -4,6 +4,7 @@ from flask_restful import Resource, Api
 from tables import Guardian, GuardianSchema, Student, StudentSchema, \
     FamilyInfo, FamilyInfoSchema, MsgBoard, MsgBoardSchema, app, db, ma
 from tables import Teacher, TeacherSchema, Log, LogSchema
+from sqlalchemy.exc import IntegrityError
 
 api = Api(app)
 bcrypt = Bcrypt(app)
