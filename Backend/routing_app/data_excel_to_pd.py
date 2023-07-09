@@ -35,7 +35,7 @@ def read_spreadsheet(spreadsheet_path):
     return {'status': 0, 'data': (guardian_df, student_df, familyInfo_df)}
 
 
-def create_family(familyInfo_df):
+def create_familyInfo(familyInfo_df):
     # FamilyInfo table
     try:
         family_df = familyInfo_df[['guardian_Names', 'student_Names']]
@@ -185,10 +185,22 @@ def create_family_list(family_df, guardian_dict, student_dict):
     return {'status': 0, 'data': family_list}
 
 
-def check_result(result_dict):
-    if result_dict['status'] == 1:
-        print(result_dict['error_msg'])
-        exit(1)
+def load_data(spreadsheet_path):
+    res_dict = read_spreadsheet(spreadsheet_path)
+    if (res_dict['status'] != 0): return res_dict
+    guardian_df, student_df, familyInfo_df = res_dict['data']
+    res_dict = create_familyInfo(familyInfo_df)
+    if (res_dict['status'] != 0): return res_dict
+    family_df, familyInfo_df = res_dict['data']
+    res_dict = create_guardian(family_df, guardian_df)
+    if (res_dict['status'] != 0): return res_dict
+    guardian_df = res_dict['data']
+    res_dict = create_student(student_df)
+    if (res_dict['status'] != 0): return res_dict
+    student_df = res_dict['data']
+    res_dict = create_guardian_student_dict(guardian_df, student_df)
+    if (res_dict['status'] != 0): return res_dict
+    return {'status': 0, 'data': (guardian_df, student_df, familyInfo_df)}
 
 
 # def create_teacher():
@@ -238,29 +250,6 @@ def check_result(result_dict):
 #                 {'id': classes_id, 'teacher_id': teacher_id, 'student_id': student_id})
 
 #     return {'status': 0, 'data': classes_list}
-
-
-if __name__ == '__main__':
-    result_dict = read_spreadsheet('./Database_Spreadsheet_Test.xlsx')
-    check_result(result_dict)
-    guardian_df, student_df, familyInfo_df = result_dict['data']
-    result_dict = create_family(familyInfo_df)
-    check_result(result_dict)
-    family_df, familyInfo_df = result_dict['data']
-    result_dict = create_guardian(family_df, guardian_df)
-    check_result(result_dict)
-    guardian_df = result_dict['data']
-    result_dict = create_student(student_df)
-    check_result(result_dict)
-    student_df = result_dict['data']
-    result_dict = create_guardian_student_dict(
-        guardian_df, student_df)
-    check_result(result_dict)
-    guardian_dict, student_dict = result_dict['data']
-    result_dict = create_family_list(family_df, guardian_dict, student_dict)
-    check_result(result_dict)
-    family_list = result_dict['data']
-    print('Load data successfully!')
 
 
 # Post to database

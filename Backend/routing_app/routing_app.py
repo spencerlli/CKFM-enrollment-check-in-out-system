@@ -10,6 +10,8 @@ from routing_config import REST_API, DEFAULT_PWD
 from copy import deepcopy
 from flask_bcrypt import Bcrypt
 import datetime
+import pandas as pd
+import data_excel_to_pd
 
 # pymysql.install_as_MySQLdb()
 
@@ -370,13 +372,12 @@ def adminManage(object):
                                     family_json[0].get('id'))
 
                     for guardian_id in guardian_id_set:
-                        requests.delete(REST_API + '/guardian/%d' % guardian_id)
                         requests.delete(
                             REST_API + '/log/guardian/%d' % guardian_id)
+                        requests.delete(REST_API + '/guardian/%d' % guardian_id)
                     for student_id in student_id_set:
-                        requests.delete(REST_API + '/student/%d' % student_id)
                         requests.delete(REST_API + '/log/student/%d' % student_id)
-
+                        requests.delete(REST_API + '/student/%d' % student_id)
             requests.delete(REST_API + '/' + object +
                             '/' + request.args.get('id'))
             res['msg'] = 'Successfully delete!'
@@ -1127,18 +1128,70 @@ def printBagePage():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    import pandas as pd
-
     res = deepcopy(AMIS_RES_TEMPLATE)
     f = request.files['file']
 
     if f.filename.endswith('.xlsx'):
-        data = pd.read_excel(f)     # pip install openpyxl
-    else:
-        data = pd.read_csv(f)
+        res_dict = data_excel_to_pd.load_data(f)
+        if res_dict['status'] == 0:
+            guardian_df, student_df, familyInfo_df = res_dict['data']
+            # guardian
+            guardian_list = []
+            guardian_df['pwd'] = guardian_df['pwd'].apply(lambda x: str(x))
+            guardian_df['phone'] = guardian_df['phone'].apply(lambda x: str(x))
+            for _, row in guardian_df.iterrows():
+                guardian_json = row.to_dict()
+                guardian_json['barcode'] = guardian_json['fname'][0].upper(
+                ) + guardian_json['lname'][0].upper() + generate_random_str(5)
+                guardian_res = requests.post(
+                    REST_API + '/guardian', json=guardian_json)
+                guardian_list.append(guardian_res.json())
 
-    print(data)
-    res['msg'] = f'Upload {f.filename} successfully!'
+            # student
+            student_list = []
+            student_df['birthdate'] = pd.to_datetime(student_df['birthdate'])
+            student_df['birthdate'] = student_df['birthdate'].apply(lambda x: int(datetime.datetime.timestamp(x)))
+            student_df.replace({'Yes': True, 'No': False}, inplace=True)
+            for _, row in student_df.iterrows():
+                student_json = row.to_dict()
+                student_json['barcode'] = student_json['fname'][0].upper(
+                ) + student_json['lname'][0].upper() + generate_random_str(5)
+                student_json['status'] = 1
+                student_res = requests.post(
+                    REST_API + '/student', json=student_json)
+                student_list.append(student_res.json())
+
+            # familyInfo
+            familyInfo_df.replace({'Yes': True, 'No': False}, inplace=True)
+            for _, row in familyInfo_df.iterrows():
+                familyInfo_json = row.to_dict()
+                familyInfo_json['is_guest'] = False
+                familyInfo_res = requests.post(
+                    REST_API + '/familyInfo', json=familyInfo_json)
+                familyInfo_json = familyInfo_res.json()
+
+            family = {'id': familyInfo_json['id']}
+            for guardian in guardian_list:
+                for student in student_list:
+                    family['guardian_id'] = guardian['id']
+                    family['student_id'] = student['id']
+                    family['is_guest'] = False
+
+                    family_res = requests.post(
+                        REST_API + '/family', json=family)
+                    family = family_res.json()
+
+            res['data'] = {'guardians': guardian_list, 'students': student_list}
+            res['msg'] = 'Successfully uploaded file!'
+
+        else:
+            res['status'] = 1
+            res['msg'] = res_dict['error_msg']
+            return jsonify(res)
+    else:
+        res['status'] = 1
+        res['msg'] = 'File format not supported!'
+        return jsonify(res)
 
     return jsonify(res)
 
