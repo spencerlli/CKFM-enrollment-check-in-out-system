@@ -22,29 +22,45 @@ class GuardianListResource(Resource):
         return guardians_schema.dump(guardians)
 
     def post(self):
-        # create a new one
-        plain_pwd = str(request.json.get('pwd', '123456'))
-        new_guardian = Guardian(
-            pwd=request.json.get('pwd', '123456'),
-            pwd_hash=bcrypt.generate_password_hash(plain_pwd).decode('utf-8'),
-            fname=request.json.get('fname'),
-            lname=request.json.get('lname'),
-            phone=request.json.get('phone'),
-            email=request.json.get('email'),
-            barcode=request.json.get('barcode'),
-            relationship=request.json.get('relationship'),
-            check_in_method=request.json.get('check_in_method'),
-            is_guest=request.json.get('is_guest', 0)
-        )
-        db.session.add(new_guardian)
-        db.session.flush()
-        db.session.commit()
-        return {
-            'id': new_guardian.id,
-            'lname': new_guardian.lname,
-            'fname': new_guardian.fname,
-            'barcode': new_guardian.barcode
-        }
+        try:
+            db.session.begin()
+            guardians_data = request.json if isinstance(request.json, list) else [request.json]
+            new_guardians = []
+            for guardian_data in guardians_data:
+                plain_pwd = str(guardian_data.get('pwd', '123456'))
+                new_guardian = Guardian(
+                    pwd=guardian_data.get('pwd', '123456'),
+                    pwd_hash=bcrypt.generate_password_hash(plain_pwd).decode('utf-8'),
+                    fname=guardian_data.get('fname'),
+                    lname=guardian_data.get('lname'),
+                    phone=guardian_data.get('phone'),
+                    email=guardian_data.get('email'),
+                    barcode=guardian_data.get('barcode'),
+                    relationship=guardian_data.get('relationship'),
+                    check_in_method=guardian_data.get('check_in_method'),
+                    is_guest=guardian_data.get('is_guest', 0)
+                )
+                db.session.add(new_guardian)
+                db.session.flush()
+                new_guardians.append(new_guardian)
+
+            db.session.commit()
+
+            return {
+                'guardians': [
+                    {
+                        'id': guardian.id,
+                        'lname': guardian.lname,
+                        'fname': guardian.fname,
+                        'barcode': guardian.barcode
+                    }
+                    for guardian in new_guardians
+                ]
+            }
+
+        except Exception as e:
+            db.session.rollback()
+            return 'Transaction failed, error: {}'.format(str(e)), 400
 
 
 class GuardianResource(Resource):
@@ -110,41 +126,53 @@ class StudentListResource(Resource):
         return students_schema.dump(students)
 
     def post(self):
-        # create a new one
-        new_student = Student(
-            status=request.json.get('status'),
+        try:
+            db.session.begin()
+            new_students = []
 
-            fname=request.json.get('fname'),
-            lname=request.json.get('lname'),
-            birthdate=request.json.get('birthdate'),
-            gender=request.json.get('gender'),
-            grade=request.json.get('grade'),
-            allergies=request.json.get('allergies'),
-            check_in_method=request.json.get('check_in_method'),
-            is_guest=request.json.get('is_guest'),
+            for student_data in request.json:
+                new_student = Student(
+                    status=student_data.get('status'),
+                    fname=student_data.get('fname'),
+                    lname=student_data.get('lname'),
+                    birthdate=student_data.get('birthdate'),
+                    gender=student_data.get('gender'),
+                    grade=student_data.get('grade'),
+                    allergies=student_data.get('allergies'),
+                    check_in_method=student_data.get('check_in_method'),
+                    is_guest=student_data.get('is_guest'),
+                    programs=student_data.get('programs'),
+                    sunday_school=student_data.get('sunday_school'),
+                    cm_lounge=student_data.get('cm_lounge'),
+                    kid_choir=student_data.get('kid_choir'),
+                    u3_friday=student_data.get('u3_friday'),
+                    friday_lounge=student_data.get('friday_lounge'),
+                    friday_night=student_data.get('friday_night'),
+                    barcode=student_data.get('barcode'),
+                    classes_id=student_data.get('classes_id')
+                )
+                db.session.add(new_student)
+                db.session.flush()
+                new_students.append(new_student)
 
-            programs=request.json.get('programs'),
-            sunday_school=request.json.get('sunday_school'),
-            cm_lounge=request.json.get('cm_lounge'),
-            kid_choir=request.json.get('kid_choir'),
-            u3_friday=request.json.get('u3_friday'),
-            friday_lounge=request.json.get('friday_lounge'),
-            friday_night=request.json.get('friday_night'),
+            db.session.commit()
 
-            barcode=request.json.get('barcode'),
-            # TODO: add classes_id when post student
-            classes_id=request.json.get('classes_id')
-        )
-        db.session.add(new_student)
-        db.session.flush()
-        db.session.commit()
-        return {
-            'id': new_student.id,
-            'fname': new_student.fname,
-            'lname': new_student.lname,
-            'grade': new_student.grade,
-            'barcode': new_student.barcode
-        }
+            return {
+                'students': [
+                    {
+                        'id': student.id,
+                        'fname': student.fname,
+                        'lname': student.lname,
+                        'grade': student.grade,
+                        'barcode': student.barcode
+                    }
+                    for student in new_students
+                ]
+            }
+
+        except Exception as e:
+            db.session.rollback()
+            return 'Transaction failed, error: {}'.format(str(e)), 400
 
 
 class StudentResource(Resource):
@@ -220,32 +248,45 @@ class FamilyInfoListResource(Resource):
         return families_info_schema.dump(families_info)
 
     def post(self):
-        # create a new one
-        new_family_info = FamilyInfo(
-            street=request.json.get('street'),
-            city=request.json.get('city'),
-            state=request.json.get('state'),
-            zip=request.json.get('zip'),
+        try:
+            db.session.begin()
+            family_info_data = request.json
+            if isinstance(family_info_data, dict):
+                family_info_data = [family_info_data]
 
-            physician=request.json.get('physician'),
-            physician_phone=request.json.get('physician_phone'),
-            insurance=request.json.get('insurance'),
-            insurance_phone=request.json.get('insurance_phone'),
-            insurance_policy=request.json.get('insurance_policy'),
-            group=request.json.get('group'),
+            new_family_infos = []
+            for info_data in family_info_data:
+                new_family_info = FamilyInfo(
+                    street=info_data.get('street'),
+                    city=info_data.get('city'),
+                    state=info_data.get('state'),
+                    zip=info_data.get('zip'),
+                    physician=info_data.get('physician'),
+                    physician_phone=info_data.get('physician_phone'),
+                    insurance=info_data.get('insurance'),
+                    insurance_phone=info_data.get('insurance_phone'),
+                    insurance_policy=info_data.get('insurance_policy'),
+                    group=info_data.get('group'),
+                    sunday_school=info_data.get('sunday_school'),
+                    friday_night=info_data.get('friday_night'),
+                    special_events=info_data.get('special_events'),
+                    pay=info_data.get('pay'),
+                    checkbox=info_data.get('checkbox'),
+                    is_guest=info_data.get('is_guest', 0)
+                )
+                db.session.add(new_family_info)
+                db.session.flush()
+                new_family_infos.append(new_family_info)
 
-            sunday_school=request.json.get('sunday_school'),
-            friday_night=request.json.get('friday_night'),
-            special_events=request.json.get('special_events'),
+            db.session.commit()
 
-            pay=request.json.get('pay'),
-            checkbox=request.json.get('checkbox'),
-            is_guest=request.json.get('is_guest', 0)
-        )
-        db.session.add(new_family_info)
-        db.session.flush()
-        db.session.commit()
-        return family_info_schema.dump(new_family_info)
+            return {
+                'family_infos': family_info_schema.dump(new_family_infos)
+            }
+
+        except Exception as e:
+            db.session.rollback()
+            return 'Transaction failed, error: {}'.format(str(e)), 400
 
 
 class FamilyInfoResource(Resource):
@@ -331,16 +372,29 @@ class FamilyListResource(Resource):
         return families_schema.dump(families_got)
 
     def post(self):
-        # create a new family
-        new_family = Family(
-            id=request.json['id'],
-            guardian_id=request.json['guardian_id'],
-            student_id=request.json['student_id'],
-            is_guest=request.json.get('is_guest')
-        )
-        db.session.add(new_family)
-        db.session.commit()
-        return family_schema.dump(new_family)
+        try:
+            db.session.begin()
+            family_data = request.json
+            if isinstance(family_data, dict):
+                family_data = [family_data]
+
+            new_families = []
+            for data in family_data:
+                new_family = Family(
+                    id=data['id'],
+                    guardian_id=data['guardian_id'],
+                    student_id=data['student_id'],
+                    is_guest=data.get('is_guest')
+                )
+                db.session.add(new_family)
+                db.session.flush()
+                new_families.append(new_family)
+            db.session.commit()
+            return { 'families': family_schema.dump(new_families) }
+
+        except Exception as e:
+            db.session.rollback()
+            return 'Transaction failed, error: {}'.format(str(e)), 400
 
 
 class FamilyResource(Resource):
@@ -420,19 +474,34 @@ class MsgBoardListResource(Resource):
         return msg_records_schema.dump(msg_records)
 
     def post(self):
-        # create a new msg record
-        new_msg = MsgBoard(
-            sender_id=request.json['sender_id'],
-            receiver_id=request.json['receiver_id'],
-            content=request.json['content'],
-            time=request.json['time'],
-            about_student=request.json['about_student'],
-            sender_group=request.json['sender_group'],
-            been_read=request.json['been_read'],
-        )
-        db.session.add(new_msg)
-        db.session.commit()
-        return msg_record_schema.dump(new_msg)
+        try:
+            db.session.begin()
+            msg_data = request.json
+            if isinstance(msg_data, dict):
+                msg_data = [msg_data]
+
+            new_msgs = []
+            for data in msg_data:
+                new_msg = MsgBoard(
+                    sender_id=data['sender_id'],
+                    receiver_id=data['receiver_id'],
+                    content=data['content'],
+                    time=data['time'],
+                    about_student=data['about_student'],
+                    sender_group=data['sender_group'],
+                    been_read=data['been_read'],
+                )
+
+                db.session.add(new_msg)
+                db.session.flush()
+                new_msgs.append(new_msg)
+
+            db.session.commit()
+            return { 'msgs': msg_record_schema.dump(new_msgs) }
+
+        except Exception as e:
+            db.session.rollback()
+            return 'Transaction failed, error: {}'.format(str(e)), 400
 
 
 class MsgBoardResource(Resource):
@@ -493,22 +562,35 @@ class TeacherListResource(Resource):
         return teachers_schema.dump(teachers)
 
     def post(self):
-        # create a new one
-        plain_pwd = request.json['pwd']
-        new_teacher = Teacher(
-            pwd=request.json['pwd'],
-            pwd_hash=bcrypt.generate_password_hash(plain_pwd).decode('utf-8'),
-            fname=request.json['fname'],
-            lname=request.json['lname'],
-            phone=request.json['phone'],
-            email=request.json['email'],
-            classes_id=request.json['classes_id'],
-            privilege=request.json['privilege']
-        )
-        db.session.add(new_teacher)
-        db.session.flush()
-        db.session.commit()
-        return teacher_schema.dump(new_teacher)
+        try:
+            db.session.begin()
+            teacher_data = request.json
+            if isinstance(teacher_data, dict):
+                teacher_data = [teacher_data]
+
+            new_teachers = []
+            for data in teacher_data:
+                plain_pwd = data['pwd']
+                new_teacher = Teacher(
+                    pwd=data['pwd'],
+                    pwd_hash=bcrypt.generate_password_hash(plain_pwd).decode('utf-8'),
+                    fname=data['fname'],
+                    lname=data['lname'],
+                    phone=data['phone'],
+                    email=data['email'],
+                    classes_id=data['classes_id'],
+                    privilege=data['privilege']
+                )
+                db.session.add(new_teacher)
+                db.session.flush()
+                new_teachers.append(new_teacher)
+
+            db.session.commit()
+            return { 'teachers': teacher_schema.dump(new_teachers) }
+
+        except Exception as e:
+            db.session.rollback()
+            return 'Transaction failed, error: {}'.format(str(e)), 400
 
 
 class TeacherResource(Resource):
@@ -595,15 +677,29 @@ class ClassesListResource(Resource):
         return classess_schema.dump(classess)
 
     def post(self):
-        # create a new classes
-        new_classes = Classes(
-            id=request.json['id'],
-            teacher_id=request.json['teacher_id'],
-            student_id=request.json['student_id'],
-        )
-        db.session.add(new_classes)
-        db.session.commit()
-        return classes_schema.dump(new_classes)
+        try:
+            db.session.begin()
+            classes_data = request.json
+            if isinstance(classes_data, dict):
+                classes_data = [classes_data]
+
+            new_classes_list = []
+            for data in classes_data:
+                new_classes = Classes(
+                    id=data['id'],
+                    teacher_id=data['teacher_id'],
+                    student_id=data['student_id'],
+                )
+                db.session.add(new_classes)
+                db.session.flush()
+                new_classes_list.append(new_classes)
+
+            db.session.commit()
+            return { 'classes': classes_schema.dump(new_classes_list) }
+
+        except Exception as e:
+            db.session.rollback()
+            return 'Transaction failed, error: {}'.format(str(e)), 400
 
 
 class ClassesResource(Resource):
@@ -682,20 +778,32 @@ class LogListResource(Resource):
         return logs_schema.dump(logs)
 
     def post(self):
-        # create a new one
-        new_log = Log(
-            student_id=request.json['student_id'],
-            status=request.json['status'],
-            check_in_method=request.json['check_in_method'],
-            check_by=request.json['check_by'],
-            check_time=request.json['check_time'],
-            daily_progress=request.json['daily_progress'] if 
-                'daily_progress' in request.json else None,
-        )
-        db.session.add(new_log)
-        db.session.flush()
-        db.session.commit()
-        return log_schema.dump(new_log)
+        try:
+            db.session.begin()
+            log_data = request.json
+            if isinstance(log_data, dict):
+                log_data = [log_data]
+
+            new_logs_list = []
+            for data in log_data:
+                new_log = Log(
+                    student_id=data['student_id'],
+                    status=data['status'],
+                    check_in_method=data['check_in_method'],
+                    check_by=data['check_by'],
+                    check_time=data['check_time'],
+                    daily_progress=data.get('daily_progress')
+                )
+                db.session.add(new_log)
+                db.session.flush()
+                new_logs_list.append(new_log)
+
+            db.session.commit()
+            return { 'logs': log_schema.dump(new_logs_list) }
+
+        except Exception as e:
+            db.session.rollback()
+            return 'Transaction failed, error: {}'.format(str(e)), 400
 
 
 class LogResource(Resource):
