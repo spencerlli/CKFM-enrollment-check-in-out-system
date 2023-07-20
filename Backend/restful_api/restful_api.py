@@ -37,6 +37,7 @@ class GuardianListResource(Resource):
                     email=guardian_data.get('email'),
                     barcode=guardian_data.get('barcode'),
                     relationship=guardian_data.get('relationship'),
+                    fellow_group=guardian_data.get('fellow_group', ''),
                     check_in_method=guardian_data.get('check_in_method'),
                     is_guest=guardian_data.get('is_guest', 0)
                 )

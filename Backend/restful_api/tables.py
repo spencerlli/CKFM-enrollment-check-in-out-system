@@ -22,8 +22,8 @@ ma = Marshmallow(app)
 
 class GuardianSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'pwd', 'pwd_hash', 'fname', 'lname', 'phone',
-                  'email', 'relationship', 'check_in_method', 'barcode', 'is_primary', 'is_guest')
+        fields = ('id', 'pwd', 'pwd_hash', 'fname', 'lname', 'phone', 'email', 'relationship', 
+                  'fellow_group', 'check_in_method', 'barcode', 'is_primary', 'is_guest')
 
 
 class Guardian(db.Model):
@@ -36,6 +36,7 @@ class Guardian(db.Model):
     phone = db.Column(db.String(255), unique=True)
     email = db.Column(db.String(255))
     relationship = db.Column(db.String(255))
+    fellow_group = db.Column(db.String(255))
     check_in_method = db.Column(db.String(255))
     barcode = db.Column(db.String(255))
 
