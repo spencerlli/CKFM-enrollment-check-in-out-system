@@ -211,45 +211,61 @@ def logout():
 def enrollFamily():
     res = deepcopy(AMIS_RES_TEMPLATE)
 
-    # TODO: fault tolerant: what if user exit during enrollment process
     # guardian
-    guardian_list = []
-    for guardian in request.json['guardians']:
-        guardian_res = requests.post(REST_API + '/guardian', json=guardian)
-        guardian_list.append(guardian_res.json())
-
+    guardian_res = requests.post(REST_API + '/guardian', json=request.json['guardians'])
+    if guardian_res.status_code != 200:
+        res['status'] = 1
+        res['msg'] = 'Error when enroll guardian!'
+        return jsonify(res)
+    guardian_list = guardian_res.json()['guardians']
+    
     # student
-    student_list = []
-    for student in request.json['students']:
-        student['barcode'] = student['fname'][0].upper(
-        ) + student['lname'][0].upper() + generate_random_str(5)
-
-        student_res = requests.post(
-            REST_API + '/student', json=student)
-        student_list.append(student_res.json())
+    student_res = requests.post(REST_API + '/student', json=request.json['students'])
+    if student_res.status_code != 200:
+        res['status'] = 1
+        res['msg'] = 'Error when enroll student!'
+        for guardian in guardian_list:
+            requests.delete(REST_API + '/guardian/%d' % guardian['id'])
+        return jsonify(res)
+    student_list = student_res.json()['students']
 
     # familyInfo
-    familyInfo_res = requests.post(
-        REST_API + '/familyInfo', json=request.json)
-    familyInfo_json = familyInfo_res.json()
+    familyInfo_res = requests.post(REST_API + '/familyInfo', json=request.json)
+    if familyInfo_res.status_code != 200:
+        res['status'] = 1
+        res['msg'] = 'Error when enroll familyInfo!'
+        for guardian in guardian_list:
+            requests.delete(REST_API + '/guardian/%d' % guardian['id'])
+        for student in student_list:
+            requests.delete(REST_API + '/student/%d' % student['id'])
+        return jsonify(res)
+    familyInfo_json = familyInfo_res.json()['familyInfos'][0]
 
     # family
-    family_json = {}
-    family_json['id'] = familyInfo_json['id']
+    family_json = []
     for guardian in guardian_list:
         for student in student_list:
+            family_dict = {'id': familyInfo_json['id'], 
+                           'guardian_id': guardian['id'],
+                           'student_id': student['id']}
+            family_json.append(family_dict)
 
-            family_json['guardian_id'] = guardian['id']
-            family_json['student_id'] = student['id']
-
-            family_res = requests.post(
-                REST_API + '/family', json=family_json)
-            family_json = family_res.json()
-
+    family_res = requests.post(REST_API + '/family', json=family_json)
+    if family_res.status_code != 200:
+        res['status'] = 1
+        res['msg'] = 'Error when enroll family!'
+        for guardian in guardian_list:
+            requests.delete(REST_API + '/guardian/%d' % guardian['id'])
+        for student in student_list:
+            requests.delete(REST_API + '/student/%d' % student['id'])
+        requests.delete(REST_API + '/familyInfo/%d' % familyInfo_json['id'])
+        return jsonify(res)
+    
     res['msg'] = 'Successfully enrolled family!'
     res = jsonify(res)
     # add id cookie for later checkings
-    res.set_cookie(key='family_id', value=str(family_json['id']))
+    if request.cookies.get('user_group') == 'guardian':
+        res.set_cookie(key='family_id', value=str(family_dict['id']))
     return res
 
 

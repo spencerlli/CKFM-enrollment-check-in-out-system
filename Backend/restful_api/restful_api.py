@@ -281,7 +281,26 @@ class FamilyInfoListResource(Resource):
             db.session.commit()
 
             return {
-                'family_infos': family_info_schema.dump(new_family_infos)
+                'familyInfos': [
+                    {
+                        'id': family_info.id,
+                        'street': family_info.street,
+                        'city': family_info.city,
+                        'state': family_info.state,
+                        'zip': family_info.zip,
+                        'physician': family_info.physician,
+                        'physician_phone': family_info.physician_phone,
+                        'insurance': family_info.insurance,
+                        'insurance_phone': family_info.insurance_phone,
+                        'insurance_policy': family_info.insurance_policy,
+                        'group': family_info.group,
+                        'sunday_school': family_info.sunday_school,
+                        'friday_night': family_info.friday_night,
+                        'special_events': family_info.special_events,
+                        'pay': family_info.pay,
+                        'checkbox': family_info.checkbox
+                    } for family_info in new_family_infos
+                ]
             }
 
         except Exception as e:
@@ -390,7 +409,16 @@ class FamilyListResource(Resource):
                 db.session.flush()
                 new_families.append(new_family)
             db.session.commit()
-            return { 'families': family_schema.dump(new_families) }
+            return { 
+                'families': [
+                    {
+                        'id': family.id,
+                        'guardian_id': family.guardian_id,
+                        'student_id': family.student_id,
+                        'is_guest': family.is_guest
+                    } for family in new_families
+                ] 
+            }
 
         except Exception as e:
             db.session.rollback()
@@ -497,7 +525,20 @@ class MsgBoardListResource(Resource):
                 new_msgs.append(new_msg)
 
             db.session.commit()
-            return { 'msgs': msg_record_schema.dump(new_msgs) }
+            return { 
+                'msg_records': [
+                    {
+                        'id': msg_record.id,
+                        'sender_id': msg_record.sender_id,
+                        'receiver_id': msg_record.receiver_id,
+                        'content': msg_record.content,
+                        'time': msg_record.time,
+                        'about_student': msg_record.about_student,
+                        'sender_group': msg_record.sender_group,
+                        'been_read': msg_record.been_read
+                    } for msg_record in new_msgs
+                ] 
+            }
 
         except Exception as e:
             db.session.rollback()
@@ -586,7 +627,19 @@ class TeacherListResource(Resource):
                 new_teachers.append(new_teacher)
 
             db.session.commit()
-            return { 'teachers': teacher_schema.dump(new_teachers) }
+            return { 
+                'teachers': [
+                    {
+                        'id': teacher.id,
+                        'fname': teacher.fname,
+                        'lname': teacher.lname,
+                        'phone': teacher.phone,
+                        'email': teacher.email,
+                        'classes_id': teacher.classes_id,
+                        'privilege': teacher.privilege
+                    } for teacher in new_teachers
+                ]
+            }
 
         except Exception as e:
             db.session.rollback()
@@ -695,7 +748,15 @@ class ClassesListResource(Resource):
                 new_classes_list.append(new_classes)
 
             db.session.commit()
-            return { 'classes': classes_schema.dump(new_classes_list) }
+            return { 
+                'classess': [
+                    {
+                        'id': classes.id,
+                        'teacher_id': classes.teacher_id,
+                        'student_id': classes.student_id
+                    } for classes in new_classes_list
+                ]
+            }
 
         except Exception as e:
             db.session.rollback()
@@ -799,7 +860,19 @@ class LogListResource(Resource):
                 new_logs_list.append(new_log)
 
             db.session.commit()
-            return { 'logs': log_schema.dump(new_logs_list) }
+            return {
+                'logs': [
+                    {
+                        'id': log.id,
+                        'student_id': log.student_id,
+                        'status': log.status,
+                        'check_in_method': log.check_in_method,
+                        'check_by': log.check_by,
+                        'check_time': log.check_time,
+                        'daily_progress': log.daily_progress
+                    } for log in new_logs_list
+                ]
+            }
 
         except Exception as e:
             db.session.rollback()
