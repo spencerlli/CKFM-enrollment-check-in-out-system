@@ -34,14 +34,15 @@
         let amis = amisRequire('amis/embed');
         let amisJSON = {
           "type": "page",
+          "style": {
+            "background": "url('static/background.png') center no-repeat"
+          },
           "body": {
             "type": "flex",
             "direction": "column",
-            "isFixedWidth": true,
             "style": {
-              "width": "300px",
-              "overflowX": "visible",
-              "margin": "auto"
+              "align-items": "center",
+              "height": "100%"
             },
             "items": [
               {
@@ -49,6 +50,7 @@
                 "title": "Sign in",
                 "submitText": "Sign in",
                 "api": "{{ url_for('login') }}",
+                "panelClassName": "w-lg",
                 "body": [
                   {
                     "type": "input-text",
