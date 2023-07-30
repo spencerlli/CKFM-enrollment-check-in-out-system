@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% from 'flask_templates/schema/form.json' import form %}
+{% from 'flask_templates/forms/enrollment.json' import enrollment %}
 
 {% block title %}Administrator's Homepage{% endblock %}
 
@@ -28,7 +28,7 @@
               "size": "full",
               "actions": [],
               "closeOnEsc": true,
-              "body": {{ form() }}
+              "body": {{ enrollment() }}
             } 
           },
           {

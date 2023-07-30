@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% from 'flask_templates/schema/form.json' import form %}
+{% from 'flask_templates/forms/enrollment.json' import enrollment %}
 
 {% block title %}Teacher's Homepage{% endblock %}
 
@@ -27,7 +27,7 @@
             "title": "Enrollment",
             "size": "full",
             "actions": [],
-            "body": {{ form() }}
+            "body": {{ enrollment() }}
             } 
           },
           {
