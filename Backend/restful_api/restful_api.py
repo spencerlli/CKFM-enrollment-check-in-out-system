@@ -271,7 +271,7 @@ class FamilyInfoListResource(Resource):
                     sunday_school=info_data.get('sunday_school'),
                     friday_night=info_data.get('friday_night'),
                     special_events=info_data.get('special_events'),
-                    paid=info_data.get('paid'),
+                    amount_paid=info_data.get('amount_paid'),
                     checkbox=info_data.get('checkbox'),
                     is_guest=info_data.get('is_guest', 0)
                 )
@@ -298,7 +298,7 @@ class FamilyInfoListResource(Resource):
                         'sunday_school': family_info.sunday_school,
                         'friday_night': family_info.friday_night,
                         'special_events': family_info.special_events,
-                        'paid': family_info.paid,
+                        'amount_paid': family_info.amount_paid,
                         'checkbox': family_info.checkbox
                     } for family_info in new_family_infos
                 ]
@@ -348,8 +348,8 @@ class FamilyInfoResource(Resource):
         if 'special_events' in request.json:
             family_info.special_events = request.json['special_events']
 
-        if 'paid' in request.json:
-            family_info.paid = request.json['paid']
+        if 'amount_paid' in request.json:
+            family_info.amount_paid = request.json['amount_paid']
         if 'checkbox' in request.json:
             family_info.checkbox = request.json['checkbox']
 

@@ -80,7 +80,7 @@ class Student(db.Model):
 class FamilyInfoSchema(ma.Schema):
     class Meta:
         fields = ('id', 'street', 'city', 'state', 'zip', 'physician', 'physician_phone', 'insurance', 'insurance_phone',
-                  'insurance_policy', 'group', 'sunday_school', 'friday_night', 'special_events', 'paid', 'checkbox', 'is_guest')
+                  'insurance_policy', 'group', 'sunday_school', 'friday_night', 'special_events', 'amount_paid', 'checkbox', 'is_guest')
 
 
 class FamilyInfo(db.Model):
@@ -102,7 +102,7 @@ class FamilyInfo(db.Model):
     friday_night = db.Column(db.String(255))
     special_events = db.Column(db.String(255))
 
-    paid = db.Column(db.Float)
+    amount_paid = db.Column(db.Float)
     checkbox = db.Column(db.Boolean, default=False)
 
     is_guest = db.Column(db.Boolean, default=False)

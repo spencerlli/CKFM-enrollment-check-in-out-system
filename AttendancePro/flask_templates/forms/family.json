@@ -2,8 +2,8 @@
 [
 	{
 		"type": "input-text",
-		"label": "Paid:",
-		"name": "paid",
+		"label": "Amount Paid:",
+		"name": "amount_paid",
 		"prefix": "$",
 		"validations": {"isNumeric": true, "maximum": 10000},
 		"visible": {{ visible }},

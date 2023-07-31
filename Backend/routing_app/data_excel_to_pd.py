@@ -47,13 +47,13 @@ def create_familyInfo(familyInfo_df):
     try:
         familyInfo_df = familyInfo_df[['street', 'city', 'state', 'zip', 'physician', 'physician_phone',
                                        'insurance', 'insurance_phone', 'insurance_policy#', 'group',
-                                       'Sunday_school', 'Friday_night', 'special_events', 'paid', 'checkbox']]
+                                       'Sunday_school', 'Friday_night', 'special_events', 'amount_paid', 'checkbox']]
     except KeyError as _:
         return {'status': 1, 'error_msg': ERRORS['header_error']}
 
     familyInfo_df.columns = ['street', 'city', 'state', 'zip', 'physician', 'physician_phone',
                              'insurance', 'insurance_phone', 'insurance_policy#', 'group',
-                             'sunday_school', 'friday_night', 'special_events', 'paid', 'checkbox']
+                             'sunday_school', 'friday_night', 'special_events', 'amount_paid', 'checkbox']
 
     error_family_guardians = family_df[familyInfo_df.isna().sum(
         axis=1) > 0]['guardian_names']
