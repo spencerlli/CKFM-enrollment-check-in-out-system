@@ -290,6 +290,10 @@
               "name": "student_names",
             },
             {
+              "label": "Paid",
+              "name": "paid"
+            },
+            {
               "label": "Street",
               "name": "street",
               "searchable": true
@@ -335,7 +339,7 @@
                     "body": {
                       "type": "form",
                       "api": "put:{{ url_for('adminManage', object='familyInfo', id='${id}') }}",
-                      "body": {{ family_form() }}
+                      "body": {{ family_form(visible='true') }}
                     }
                   }
                 },

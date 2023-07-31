@@ -1,5 +1,14 @@
-{% macro family_form() -%}
+{% macro family_form(visible='false') -%}
 [
+	{
+		"type": "input-text",
+		"label": "Paid:",
+		"name": "paid",
+		"prefix": "$",
+		"validations": {"isNumeric": true, "maximum": 10000},
+		"visible": {{ visible }},
+		"required": {{ visible }}
+	},
 	{
 		"type": "collapse",
 		"title": "Family Address",
