@@ -220,7 +220,10 @@ def enrollFamily():
     guardian_list = guardian_res.json()['guardians']
     
     # student
-    student_res = requests.post(REST_API + '/student', json=request.json['students'])
+    student_json = request.json['students']
+    for i, student in enumerate(student_json):
+        student_json[i]['barcode'] = 's' + student['fname'][0].upper() + student['lname'][0].upper() + generate_random_str(5)
+    student_res = requests.post(REST_API + '/student', json=student_json)
     if student_res.status_code != 200:
         res['status'] = 1
         res['msg'] = 'Error when enroll student!'
