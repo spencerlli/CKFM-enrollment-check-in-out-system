@@ -1464,7 +1464,7 @@ def export():
         familyInfo_df = db_to_excel.get_familyInfo_df()
         teacher_df = db_to_excel.get_teacher_df()
 
-        with pd.ExcelWriter("../data/Database_Spreadsheet_Export.xlsx") as writer:
+        with pd.ExcelWriter("~/Desktop/Database_Spreadsheet_Export.xlsx") as writer:
             guardian_df.to_excel(writer, sheet_name="guardian", index=False)
             student_df.to_excel(writer, sheet_name="student", index=False)
             familyInfo_df.to_excel(writer, sheet_name="familyInfo", index=False)
