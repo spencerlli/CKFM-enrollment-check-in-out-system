@@ -1469,7 +1469,6 @@ def export():
             student_df.to_excel(writer, sheet_name="student", index=False)
             familyInfo_df.to_excel(writer, sheet_name="familyInfo", index=False)
             teacher_df.to_excel(writer, sheet_name="teacher", index=False)
-            writer.save()
 
         res["msg"] = "Successfully exported file!"
 

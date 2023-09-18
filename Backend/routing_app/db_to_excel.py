@@ -115,20 +115,20 @@ def get_familyInfo_df():
 
     family_names_dict = {}
     for _, row in familyInfo_df.iterrows():
-        family_names_dict[row["id"]] = {"guardian_names": [], "student_names": []}
+        family_names_dict[row["id"]] = {"guardian_names": set(), "student_names": set()}
 
     for family in family_json:
         guardian_id = family["guardian_id"]
         guardian_fname = guardian_df[guardian_df["id"] == guardian_id]["first_name"].values[0]
         guardian_lname = guardian_df[guardian_df["id"] == guardian_id]["last_name"].values[0]
-        family_names_dict[family["id"]]["guardian_names"].append(
+        family_names_dict[family["id"]]["guardian_names"].add(
             guardian_fname + " " + guardian_lname
         )
 
         student_id = family["student_id"]
         student_fname = student_df[student_df["id"] == student_id]["first_name"].values[0]
         student_lname = student_df[student_df["id"] == student_id]["last_name"].values[0]
-        family_names_dict[family["id"]]["student_names"].append(
+        family_names_dict[family["id"]]["student_names"].add(
             student_fname + " " + student_lname
         )
 

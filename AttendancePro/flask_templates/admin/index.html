@@ -124,6 +124,24 @@
                 }
               ]
             }
+          },
+          {
+            "type": "button",
+            "label": "Export Database To Excel / 导出数据库到Excel",
+            "icon": "fa-solid fa-file-arrow-up",
+            "size": "lg",
+            "block": true,
+            "level": "light",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "Export Database To Excel",
+              "body": [
+                {
+                  "type": "form",
+                  "api": "get:{{ url_for('export') }}"
+                }
+              ]
+            }
           }
           // {
           //   "type": "button",
