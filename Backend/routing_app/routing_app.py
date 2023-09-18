@@ -22,6 +22,7 @@ from flask_bcrypt import Bcrypt
 import datetime
 import pandas as pd
 import data_excel_to_pd
+import db_to_excel
 
 # pymysql.install_as_MySQLdb()
 
@@ -1450,6 +1451,31 @@ def upload():
         res["status"] = 1
         res["msg"] = "File format not supported!"
         return jsonify(res)
+
+    return jsonify(res)
+
+
+@app.route("/export", methods=["GET"])
+def export():
+    res = deepcopy(AMIS_RES_TEMPLATE)
+    try:
+        guardian_df = db_to_excel.get_guardian_df()
+        student_df = db_to_excel.get_student_df()
+        familyInfo_df = db_to_excel.get_familyInfo_df()
+        teacher_df = db_to_excel.get_teacher_df()
+
+        with pd.ExcelWriter("../data/Database_Spreadsheet_Export.xlsx") as writer:
+            guardian_df.to_excel(writer, sheet_name="guardian", index=False)
+            student_df.to_excel(writer, sheet_name="student", index=False)
+            familyInfo_df.to_excel(writer, sheet_name="familyInfo", index=False)
+            teacher_df.to_excel(writer, sheet_name="teacher", index=False)
+            writer.save()
+
+        res["msg"] = "Successfully exported file!"
+
+    except Exception as e:
+        res["status"] = 1
+        res["msg"] = str(e)
 
     return jsonify(res)
 
