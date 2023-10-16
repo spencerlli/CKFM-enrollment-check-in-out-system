@@ -53,6 +53,7 @@
             "dialog": {
               "title": "Failure",
               "showCloseButton": false,
+              "actions": [],
               "body": [
                 {
                   "type": "alert",
@@ -61,15 +62,12 @@
                   "level": "danger",
                   "showIcon": true
                 }
-              ],
-              "actions": [
-                {
-                  "type": "button",
-                  "label": "OK",
-                  "actionType": "link"
-                }
               ]
             }
+          },
+          {
+            "actionType": "custom",
+            "script": "setTimeout(function(){location.reload();}, 2000);"
           }
         ]
       }
