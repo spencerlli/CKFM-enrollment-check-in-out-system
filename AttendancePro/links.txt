@@ -1,8 +1,0 @@
-前端框架：amis
-  文档：https://baidu.github.io/amis/zh-CN/docs/index
-
-
-Required for printing:
-1. Printer Driver: https://support.brother.com/g/b/downloadtop.aspx?c=us&lang=en&prod=lpql800eus
-2. b-PAC Client Component: https://support.brother.com/g/s/es/dev/en/bpac/download/index.html?c=eu_ot&lang=en&navi=offall&comple=on&redirect=on
-3. b-PAC Web Extension: https://chrome.google.com/webstore/detail/brother-b-pac-extension/ilpghlfadkjifilabejhhijpfphfcfhb

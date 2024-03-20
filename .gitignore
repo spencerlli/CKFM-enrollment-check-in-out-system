@@ -3,19 +3,17 @@ Backend/app.py
 
 # Folders
 AttendancePro/dev/
+__pycache__/
 
 # Files
-.DS_Store
-AttendancePro/.DS_Store
-
+**/.DS_Store
 Backend/restful_api/restful_config.py
 flask-crud-application-with-mysql-master/config.py
 Backend/*.json
 Backend/data/*.ipynb
 Backend/data/*.xlsx
-__pycache__
 .ipynb_checkpoints
 .vscode
 .github/workflows
-
-# AttendancePro/flask_templates/*
+AttendancePro/static/lib/react-webcam.js
+AttendancePro/static/lib/webcam.html
