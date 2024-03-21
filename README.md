@@ -4,13 +4,9 @@
 ```
 .
 ├── AttendancePro
+│   ├── backup
 │   ├── flask_templates             # Front-end web pages
-│   │   ├── admin
-│   │   ├── forms
-│   │   ├── general
-│   │   ├── guardian
-│   │   ├── scanner
-│   │   └── teacher
+│   ├── layout.html                 # Layout template for most pages
 │   └── static
 │       ├── amis                    # amis SDK
 │       └── lib            
