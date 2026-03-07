@@ -104,6 +104,8 @@ class GuardianResource(Resource):
             guardian.check_in_method = request.json["check_in_method"]
         if "barcode" in request.json:
             guardian.barcode = request.json["barcode"]
+        if "fellow_group" in request.json:
+            guardian.fellow_group = request.json["fellow_group"]
         db.session.commit()
         return guardian_schema.dump(guardian)
 
